@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class BanYanActivity extends NBaseActivity {
-
+    //1111
     @BindView(R.id.status_bar)
     View statusBar;
     @BindView(R.id.iv_public_titlebar_left_1)
