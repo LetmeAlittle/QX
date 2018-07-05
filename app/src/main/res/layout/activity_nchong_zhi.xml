@@ -1,0 +1,420 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorBackground"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/public_titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <com.ysxsoft.qxerkai.view.widget.MultipleStatusView
+            android:id="@+id/multipleStatusView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:emptyView="@layout/custom_empty_view"
+            app:errorView="@layout/custom_error_view"
+            app:loadingView="@layout/custom_loading_view"
+            app:noNetworkView="@layout/custom_no_network_view">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="15dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/pengpengdou_big"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:text="我的余额："
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/middle_size"/>
+
+                        <TextView
+                            android:id="@+id/tv_yue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/big_lager_size"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/_666666"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="砰砰豆充值"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/middle_size"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/ll_chongzhi_item_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:tag="0"
+                            android:background="@drawable/activity_chongzhi_bg_select"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp">
+
+                            <TextView
+                                android:id="@+id/tv_chongzhi_item_douzi_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:text="100砰砰豆"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="@dimen/middle_size"/>
+
+                            <TextView
+                                android:id="@+id/tv_chongzhi_item_money_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="¥10"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="@dimen/middle_size"
+                                />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="15dp"
+                            android:layout_height="1dp"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/ll_chongzhi_item_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:tag="1"
+                            android:background="@drawable/activity_chongzhi_bg_unselect"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp">
+
+                            <TextView
+                                android:id="@+id/tv_chongzhi_item_douzi_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:text="200砰砰豆"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"/>
+
+
+                            <TextView
+                                android:id="@+id/tv_chongzhi_item_money_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="¥20"
+                                android:textColor="@color/loginUsernameColor"
+                                android:textSize="@dimen/middle_size"
+                                />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="15dp"
+                            android:layout_height="1dp"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/ll_chongzhi_item_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:tag="2"
+                            android:background="@drawable/activity_chongzhi_bg_unselect"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp">
+
+                            <TextView
+                                android:id="@+id/tv_chongzhi_item_douzi_3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:text="300砰砰豆"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"/>
+
+
+                            <TextView
+                                android:id="@+id/tv_chongzhi_item_money_3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="¥30"
+                                android:textColor="@color/loginUsernameColor"
+                                android:textSize="@dimen/middle_size"
+                                />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/ll_chongzhi_item_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:tag="3"
+                            android:layout_weight="1"
+                            android:background="@drawable/activity_chongzhi_bg_unselect"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp">
+
+                            <TextView
+                                android:id="@+id/tv_chongzhi_item_douzi_4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:text="1000砰砰豆"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"/>
+
+
+                            <TextView
+                                android:id="@+id/tv_chongzhi_item_money_4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="¥100"
+                                android:textColor="@color/loginUsernameColor"
+                                android:textSize="@dimen/middle_size"
+                                />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="15dp"
+                            android:layout_height="1dp"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/ll_chongzhi_item_5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:tag="4"
+                            android:background="@drawable/activity_chongzhi_bg_unselect"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp">
+
+                            <TextView
+                                android:id="@+id/tv_chongzhi_item_douzi_5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:text="2000砰砰豆"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"/>
+
+
+                            <TextView
+                                android:id="@+id/tv_chongzhi_item_money_5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="¥200"
+                                android:textColor="@color/loginUsernameColor"
+                                android:textSize="@dimen/middle_size"
+                                />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="15dp"
+                            android:layout_height="1dp"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/ll_chongzhi_item_6"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:tag="5"
+                            android:background="@drawable/activity_chongzhi_bg_unselect"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp">
+
+                            <TextView
+                                android:id="@+id/tv_chongzhi_item_douzi_6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:text="其他金额"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"/>
+
+                            <TextView
+                                android:id="@+id/tv_chongzhi_item_money_6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="¥10"
+                                android:textColor="@color/loginUsernameColor"
+                                android:textSize="@dimen/middle_size"
+                                android:visibility="gone"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/_666666"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"
+                        android:text="支付方式"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/middle_size"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_zhifubao"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:tag="0">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableLeft="@mipmap/activity_zhifu_zhifubao"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            android:text="支付宝支付"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/middle_size"/>
+
+                        <ImageView
+                            android:id="@+id/iv_zhifubao"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:src="@mipmap/duihao_bai"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/_666666"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/ll_weixin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:tag="1">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableLeft="@mipmap/activity_zhifu_weixin"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            android:text="微信支付"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/middle_size"/>
+
+                        <ImageView
+                            android:id="@+id/iv_weixin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:src="@mipmap/duihao_bai"
+                            android:visibility="gone"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/_666666"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/activity_register_button_click"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:onClick="onChongZhi"
+                        android:paddingBottom="8dp"
+                        android:paddingTop="8dp"
+                        android:text="立即充值"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/middle_size"/>
+
+                </LinearLayout>
+            </ScrollView>
+            /
+        </com.ysxsoft.qxerkai.view.widget.MultipleStatusView>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="permissions">
+        <item>音频</item>
+        <item>联系人</item>
+        <item>读取手机状态</item>
+        <item>电话</item>
+        <item>相机</item>
+        <item>位置</item>
+        <item>位置</item>
+        <item>读取存储卡</item>
+        <item>写入存储卡</item>
+        <item>日历</item>
+        <item>传感器</item>
+        <item>信息</item>
+        <item>网络状态</item>
+    </string-array>
+    <string-array name="home_tab_item_arrays">
+        <item>精选</item>
+        <item>在线</item>
+        <item>知性御姐</item>
+        <item>情感聊天</item>
+        <item>哄你睡觉</item>
+        <item>可爱萝莉</item>
+
+    </string-array>
+    <string-array name="user_tag">
+        <item>精选 #00FA9A</item>
+        <item>在线 #98FB98</item>
+        <item>知性御姐 #FFFF00</item>
+        <item>情感聊天 #DAA520</item>
+        <item>哄你睡觉 #F08080</item>
+        <item>可爱萝莉 #A52A2A</item>
+
+    </string-array>
+    <string-array name="audio_call_price">
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>35</item>
+        <item>40</item>
+        <item>55</item>
+        <item>65</item>
+        <item>75</item>
+        <item>85</item>
+        <item>100</item>
+
+    </string-array>
+    <string-array name="find_tab_item_arrays">
+        <item>全部</item>
+        <item>好友动态</item>
+        <item>礼物榜</item>
+    </string-array>
+    <!--所有的国家地区-->
+    <string-array name="GJDQ_CH">
+        <item>全部</item>
+        <item>中国</item>
+        <item>美国</item>
+
+        <item>德国</item>
+        <item>法国</item>
+        <item>日本</item>
+
+        <item>意大利</item>
+        <item>瑞士</item>
+        <item>英国</item>
+
+        <item>西班牙</item>
+        <item>加拿大</item>
+        <item>巴西</item>
+
+        <item>新西兰</item>
+        <item>澳大利亚</item>
+        <item>韩国</item>
+
+        <item>台湾地区</item>
+        <item>印度</item>
+        <item>香港地区</item>
+
+    </string-array>
+    <string-array name="GJDQ_EN">
+        <item>quanbu</item>
+        <item>zhongguo</item>
+        <item>meiguo</item>
+
+        <item>deguo</item>
+        <item>faguo</item>
+        <item>riben</item>
+
+        <item>yidali</item>
+        <item>ruishi</item>
+        <item>yingguo</item>
+
+        <item>xibanya</item>
+        <item>jianada</item>
+        <item>baxi</item>
+
+        <item>xinxilan</item>
+        <item>aodaliya</item>
+        <item>hanguo</item>
+
+        <item>taiwandiqu</item>
+        <item>yindu</item>
+        <item>xianggangdiqu</item>
+    </string-array>
+</resources>

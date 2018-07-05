@@ -1,0 +1,404 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorBackground"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/public_titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <com.ysxsoft.qxerkai.view.widget.MultipleStatusView
+            android:id="@+id/multipleStatusView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:emptyView="@layout/custom_empty_view"
+            app:errorView="@layout/custom_error_view"
+            app:loadingView="@layout/custom_loading_view"
+            app:noNetworkView="@layout/custom_no_network_view">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="购买贵族"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/middle_size"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="1dp"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/ll_vip_item1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:tag="0"
+                            android:background="@drawable/activity_goumai_vip_bg_select"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingBottom="15dp"
+                            android:paddingTop="15dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:drawableRight="@mipmap/activity_zhiliao_vip"
+                                android:text="1天"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"/>
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="¥10"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="1dp"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/ll_vip_item2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:tag="1"
+                            android:background="@drawable/activity_goumai_vip_bg_unselect"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingBottom="15dp"
+                            android:paddingTop="15dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:drawableRight="@mipmap/activity_zhiliao_vip"
+                                android:text="2天"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"/>
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="¥20"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="1dp"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="1dp"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/ll_vip_item3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:tag="2"
+                            android:background="@drawable/activity_goumai_vip_bg_unselect"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingBottom="15dp"
+                            android:paddingTop="15dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:drawableRight="@mipmap/activity_zhiliao_vip"
+                                android:text="1天"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"/>
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="¥10"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="1dp"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/ll_vip_item4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:tag="3"
+                            android:background="@drawable/activity_goumai_vip_bg_unselect"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingBottom="15dp"
+                            android:paddingTop="15dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:drawableRight="@mipmap/activity_zhiliao_vip"
+                                android:text="1天"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"/>
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="¥10"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="1dp"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="1dp"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/ll_vip_item5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:tag="4"
+                            android:background="@drawable/activity_goumai_vip_bg_unselect"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingBottom="15dp"
+                            android:paddingTop="15dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:drawableRight="@mipmap/activity_zhiliao_vip"
+                                android:text="1天"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"/>
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="¥10"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="1dp"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/ll_vip_item6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/activity_goumai_vip_bg_unselect"
+                            android:gravity="center"
+                            android:tag="5"
+                            android:orientation="vertical"
+                            android:paddingBottom="15dp"
+                            android:paddingTop="15dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:drawableRight="@mipmap/activity_zhiliao_vip"
+                                android:text="1天"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"/>
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="¥10"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="1dp"
+                            />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"
+                        android:text="支付方式"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/middle_size"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_zhifubao"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableLeft="@mipmap/activity_zhifu_zhifubao"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            android:text="支付宝支付"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/middle_size"/>
+
+                        <ImageView
+                            android:id="@+id/iv_zhifubao"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:src="@mipmap/duihao_bai"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/_666666"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/ll_weixin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableLeft="@mipmap/activity_zhifu_weixin"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            android:text="微信支付"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/middle_size"/>
+
+                        <ImageView
+                            android:id="@+id/iv_weixin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:src="@mipmap/duihao_bai"
+                            android:visibility="gone"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/_666666"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:onClick="onPay"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/activity_register_button_click"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:paddingBottom="8dp"
+                        android:paddingTop="8dp"
+                        android:text="立即购买"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/middle_size"/>
+
+                </LinearLayout>
+            </ScrollView>
+            /
+        </com.ysxsoft.qxerkai.view.widget.MultipleStatusView>
+    </LinearLayout>
+</LinearLayout>

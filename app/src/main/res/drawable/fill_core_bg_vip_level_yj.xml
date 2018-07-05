@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<item>-->
+    <!--<shape android:shape="rectangle">-->
+    <!--<solid android:color="@color/_d33a31"></solid>-->
+    <!--<corners-->
+    <!--android:bottomLeftRadius="@dimen/_60px"-->
+    <!--android:bottomRightRadius="@dimen/_60px"-->
+    <!--android:topLeftRadius="@dimen/_60px"-->
+    <!--android:topRightRadius="@dimen/_60px">-->
+    <!--</corners>-->
+
+    <!--</shape>-->
+    <!--</item>-->
+    <!--<item android:top="2px" android:bottom="2px" android:left="2px" android:right="2px">-->
+    <!--<shape android:shape="rectangle">-->
+    <!--<solid android:color="@color/_d33a31"></solid>-->
+    <!--<corners-->
+    <!--android:bottomLeftRadius="@dimen/_60px"-->
+    <!--android:bottomRightRadius="@dimen/_60px"-->
+    <!--android:topLeftRadius="@dimen/_60px"-->
+    <!--android:topRightRadius="@dimen/_60px">-->
+    <!--</corners>-->
+    <!--</shape>-->
+    <!--</item>-->
+        
+    <item
+        android:id="@android:id/background"
+        android:bottom="2px"
+        android:left="2px"
+        android:right="2px"
+        android:top="2px">  
+        <shape> 
+            <corners
+                android:bottomLeftRadius="@dimen/_18px"
+                android:bottomRightRadius="@dimen/_18px"
+                android:topLeftRadius="@dimen/_18px"
+                android:topRightRadius="@dimen/_18px">  
+            </corners>
+             <solid android:color="@color/_cdcdcd" />  
+        </shape>
+          
+    </item>
+    <item
+        android:id="@android:id/secondaryProgress"
+        android:bottom="2px"
+        android:left="2px"
+        android:right="2px"
+        android:top="2px">  
+           
+        <clip>      
+            <shape>
+                <corners
+                    android:bottomLeftRadius="@dimen/_18px"
+                    android:bottomRightRadius="@dimen/_18px"
+                    android:topLeftRadius="@dimen/_18px"
+                    android:topRightRadius="@dimen/_18px">  
+                </corners>
+                <solid android:color="@color/_cdcdcd" />   
+            </shape>
+               
+        </clip>
+          
+            
+    </item>
+    <item
+        android:id="@android:id/progress"
+        android:bottom="2px"
+        android:left="2px"
+        android:right="2px"
+        android:top="2px">       
+        <clip>              
+            <shape> 
+                <corners
+                    android:bottomLeftRadius="@dimen/_18px"
+                    android:bottomRightRadius="@dimen/_18px"
+                    android:topLeftRadius="@dimen/_18px"
+                    android:topRightRadius="@dimen/_18px">  
+                </corners>
+                <solid android:color="@color/_8C6CB7" />           
+            </shape>
+                
+        </clip>
+    </item>
+      
+</layer-list>
+

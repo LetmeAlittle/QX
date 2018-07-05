@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/_45px"
+    android:paddingRight="@dimen/_45px">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/_45px">
+
+
+        <TextView
+            android:id="@+id/vip_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_35px"
+            android:text="特权一：每日免费偷听"
+            android:textColor="@color/_ffb141"
+            android:textSize="@dimen/_45px"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/vip_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_35px"
+            android:layout_marginTop="@dimen/_15px"
+            android:text="每日均有2分钟免费通厅时间"
+            android:textColor="@color/_a8a8a8"
+            android:textSize="@dimen/_40px"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1px"
+        android:background="@color/_ededed" />
+</LinearLayout>

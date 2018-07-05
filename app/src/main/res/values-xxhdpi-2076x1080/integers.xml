@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="_42">46</integer>
+    <integer name="i10">11</integer>
+    <integer name="_32">35</integer>
+    <integer name="i1080">1080</integer>
+    <integer name="_60">66</integer>
+    <integer name="_i180">198</integer>
+    <integer name="_i900">990</integer>
+    <integer name="fm_anim_i10">11</integer>
+    <integer name="fm_anim_i5">6</integer>
+    <integer name="fm_anim_i12">13</integer>
+    <integer name="fm_anim_i6">7</integer>
+    <integer name="i600">660</integer>
+    <integer name="i151">166</integer>
+    <integer name="i120">132</integer>
+    <integer name="i80">88</integer>
+    <integer name="i6">7</integer>
+    <integer name="i30">33</integer>
+    <integer name="i38">42</integer>
+    <integer name="i36">40</integer>
+    <integer name="i5">6</integer>
+    <integer name="i16">18</integer>
+    <integer name="i200">200</integer>
+</resources>

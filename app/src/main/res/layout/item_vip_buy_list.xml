@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/_45px"
+    android:paddingRight="@dimen/_45px">
+
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/_60px">
+
+
+        <TextView
+            android:id="@+id/vip_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_35px"
+            android:text="1天VIP"
+            android:textColor="@color/_a8a8a8"
+            android:textSize="@dimen/_42px" />
+
+        <TextView
+            android:id="@+id/now_pay_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_80px"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_35px"
+            android:background="@drawable/fill_bg_ffb141_yj"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_35px"
+            android:paddingRight="@dimen/_35px"
+            android:text="立即支付"
+            android:textColor="@color/_ffffff"
+            android:textSize="@dimen/_45px" />
+
+        <TextView
+            android:id="@+id/vip_money_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/now_pay_tv"
+            android:text="￥1.00"
+            android:textColor="@color/_000000"
+            android:textSize="@dimen/_45px" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1px"
+        android:background="@color/_ededed" />
+</LinearLayout>

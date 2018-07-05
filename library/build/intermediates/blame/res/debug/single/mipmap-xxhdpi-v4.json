@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/bga_pp_ic_camera.png",
+        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/src/main/res/mipmap-xxhdpi/bga_pp_ic_camera.png"
+    },
+    {
+        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/bga_pp_ic_holder_light.png",
+        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/src/main/res/mipmap-xxhdpi/bga_pp_ic_holder_light.png"
+    },
+    {
+        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/bga_pp_ic_holder_dark.png",
+        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/src/main/res/mipmap-xxhdpi/bga_pp_ic_holder_dark.png"
+    },
+    {
+        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/bga_pp_ic_delete.png",
+        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/src/main/res/mipmap-xxhdpi/bga_pp_ic_delete.png"
+    },
+    {
+        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/bga_pp_ic_arrow_down.png",
+        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/src/main/res/mipmap-xxhdpi/bga_pp_ic_arrow_down.png"
+    },
+    {
+        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/bga_pp_ic_download.png",
+        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/src/main/res/mipmap-xxhdpi/bga_pp_ic_download.png"
+    },
+    {
+        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/bga_pp_ic_plus.png",
+        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/src/main/res/mipmap-xxhdpi/bga_pp_ic_plus.png"
+    }
+]

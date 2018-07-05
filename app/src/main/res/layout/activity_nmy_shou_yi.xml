@@ -1,0 +1,228 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorBackground"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.ysxsoft.qxerkai.view.widget.MultipleStatusView
+            android:id="@+id/multipleStatusView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:emptyView="@layout/custom_empty_view"
+            app:errorView="@layout/custom_error_view"
+            app:loadingView="@layout/custom_loading_view"
+            app:noNetworkView="@layout/custom_no_network_view">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <View
+                                android:id="@+id/status_bar2"
+                                android:layout_width="match_parent"
+                                android:layout_height="20dp"
+                                android:visibility="gone"
+                                />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@mipmap/activity_wodeshouyi_top_bg"
+                                android:orientation="vertical">
+
+                                <include
+                                    layout="@layout/public_titlebar_no_bg"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:orientation="horizontal">
+
+                                        <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@mipmap/activity_wodeshouyi_douzi"/>
+
+                                        <TextView
+                                            android:id="@+id/tv_pengpengdou"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="186"
+                                            android:paddingLeft="5dp"
+                                            android:textColor="@color/white"
+                                            android:textSize="20sp"/>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="bottom"
+                                            android:text="（10砰砰豆=1元）"
+                                            android:textColor="@color/white"
+                                            android:textSize="@dimen/middle_size"/>
+
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:id="@+id/tv_ketixian"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:text="可提现金：18元"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/middle_size"/>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/white"
+                                    />
+
+                                <LinearLayout
+                                    android:id="@+id/ll_tixian"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="?attr/selectableItemBackground"
+                                    android:clickable="true"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:drawableLeft="@mipmap/activity_wodeshouyi_tixian"
+                                        android:drawablePadding="10dp"
+                                        android:gravity="center"
+                                        android:paddingBottom="8dp"
+                                        android:paddingTop="8dp"
+                                        android:text="提现"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/middle_size"/>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginTop="15dp"
+                        android:src="@mipmap/activity_wodeshouyi_baodian_top"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_35px"
+                        android:layout_marginRight="@dimen/_35px"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_60px"
+                            android:text="一、语音聊天赚取钻石"
+                            android:textColor="@color/_ffffff"
+                            android:textSize="@dimen/_40px"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_35px"
+                            android:text="用户通过提供语音聊天的服务来赚取钻石,一旦建立语音通话连接,主叫方每分钟将被扣掉相应的钻石,接听方则每分钟可赚取钻石."
+                            android:textColor="@color/_ffffff"
+                            android:textSize="@dimen/_35px"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_60px"
+                            android:text="二、偷听聊天"
+                            android:textColor="@color/_ffffff"
+                            android:textSize="@dimen/_40px"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_35px"
+                            android:text="在双方听说开关都打开的情况下,双方的语音通话将会出现在听·说列表中,别人通过听取你们的对话每分钟将被扣掉相应钻石数,而通话的双方每分钟可赚取相应的钻石."
+                            android:textColor="@color/_ffffff"
+                            android:textSize="@dimen/_35px"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_15px"
+                            android:text="备注:只要有一方没打开听说开关,通话将不会出现在听·说列表中."
+                            android:textColor="@color/_ffffff"
+                            android:textSize="@dimen/_35px"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_60px"
+                            android:text="三、礼物赠送"
+                            android:textColor="@color/_ffffff"
+                            android:textSize="@dimen/_40px"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_35px"
+                            android:text="获取别人的礼物可赚取相应的钻石."
+                            android:paddingBottom="20dp"
+                            android:textColor="@color/_ffffff"
+                            android:textSize="@dimen/_35px"/>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:src="@mipmap/activity_wodeshouyi_baodian_bottom"/>
+
+                </LinearLayout>
+            </ScrollView>
+        </com.ysxsoft.qxerkai.view.widget.MultipleStatusView>
+    </LinearLayout>
+</LinearLayout>

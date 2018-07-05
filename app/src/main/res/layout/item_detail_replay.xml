@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/_2A273C"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/to_replay_show_content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text=""
+        android:textColor="@color/_ffffff"
+        android:textSize="@dimen/_35px" />
+
+    <TextView
+        android:id="@+id/replay_show_content_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text=""
+        android:textColor="@color/_a5a5a5"
+        android:textSize="@dimen/_35px" />
+</LinearLayout>

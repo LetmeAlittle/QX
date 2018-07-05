@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorBackground"
+              android:orientation="vertical">
+
+
+    <include
+        layout="@layout/public_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150px"
+        android:background="@drawable/app_top_title_bg"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/sex_select_rl"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/sex_select_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/select_icon"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/message_text"
+                android:textColor="@color/_ffffff"
+                android:textSize="@dimen/_52px"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/id_select_rl"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/id_select_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/select_icon"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/sys_notify_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBackground"
+        android:padding="@dimen/_35px">
+
+        <ImageView
+            android:id="@+id/icon_iv"
+            android:layout_width="@dimen/_120px"
+            android:layout_height="@dimen/_120px"
+            android:src="@mipmap/fragment_message_xiaoxi"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/icon_iv"
+            android:text="系统通知"
+            android:textColor="@color/_ffffff"
+            android:textSize="@dimen/_45px"/>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/right_arrow_iv"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/_666666"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="会话消息"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="@color/loginUsernameColor"
+        android:textSize="@dimen/normal_size"/>
+
+    <fragment
+        android:id="@+id/recent_contacts_fragment"
+        android:name="com.ttt.qx.qxcall.function.message.view.RecentContactsFragmentParent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></fragment>
+
+    <!--<fragment-->
+    <!--android:id="@+id/contact_list_fragment"-->
+    <!--android:name="com.netease.nim.uikit.contact.ContactsFragment"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+    <!--</fragment>-->
+</LinearLayout>

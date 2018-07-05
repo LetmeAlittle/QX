@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/_2A273C"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150px"
+        android:background="@drawable/app_top_title_bg"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/top_back_rl"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/sex_select_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_35px"
+                android:src="@mipmap/top_back_iv" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="赚钱宝典"
+                android:textColor="@color/_ffffff"
+                android:textSize="@dimen/_52px" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/id_select_rl"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/id_select_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/_35px"
+                android:src="@mipmap/more_iv" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/_35px"
+        android:layout_marginRight="@dimen/_35px"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_60px"
+            android:text="一、语音聊天赚取钻石"
+            android:textColor="@color/_ffffff"
+            android:textSize="@dimen/_40px"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_35px"
+            android:text="用户通过提供语音聊天的服务来赚取钻石,一旦建立语音通话连接,主叫方每分钟将被扣掉相应的钻石,接听方则每分钟可赚取钻石."
+            android:textColor="@color/_ffffff"
+            android:textSize="@dimen/_35px" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_60px"
+            android:text="二、偷听聊天"
+            android:textColor="@color/_ffffff"
+            android:textSize="@dimen/_40px"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_35px"
+            android:text="在双方听说开关都打开的情况下,双方的语音通话将会出现在听·说列表中,别人通过听取你们的对话每分钟将被扣掉相应钻石数,而通话的双方每分钟可赚取相应的钻石."
+            android:textColor="@color/_ffffff"
+            android:textSize="@dimen/_35px" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15px"
+            android:text="备注:只要有一方没打开听说开关,通话将不会出现在听·说列表中."
+            android:textColor="@color/_ffffff"
+            android:textSize="@dimen/_35px" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_60px"
+            android:text="三、礼物赠送"
+            android:textColor="@color/_ffffff"
+            android:textSize="@dimen/_40px"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_35px"
+            android:text="获取别人的礼物可赚取相应的钻石."
+            android:textColor="@color/_ffffff"
+            android:textSize="@dimen/_35px" />
+
+    </LinearLayout>
+</LinearLayout>

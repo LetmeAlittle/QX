@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- layout background -->
+    <item>
+        <!-- show rectangle area -->
+        <shape android:shape="rectangle">
+            <gradient
+                android:endColor="#fefefe"
+                android:startColor="#dcdcdc" />
+
+            <corners
+                android:bottomLeftRadius="@dimen/_15px"
+                android:bottomRightRadius="@dimen/_15px"
+                android:topLeftRadius="@dimen/_15px"
+                android:topRightRadius="@dimen/_15px" />
+        </shape>
+    </item>
+    <!-- layout foreground -->
+    <item
+        android:bottom="@dimen/_35px"
+        android:left="@dimen/_35px"
+        android:right="@dimen/_35px"
+        android:top="@dimen/_35px">
+        <!-- show rectangle area -->
+        <shape android:shape="rectangle">
+            <gradient
+                android:endColor="#FFFFFF"
+                android:startColor="#FFFFFF" />
+
+            <corners
+                android:bottomLeftRadius="@dimen/_10px"
+                android:bottomRightRadius="@dimen/_10px"
+                android:topLeftRadius="@dimen/_10px"
+                android:topRightRadius="@dimen/_10px" />
+        </shape>
+    </item>
+</layer-list>

@@ -1,0 +1,179 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@mipmap/activity_nregister_bg"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.ysxsoft.qxerkai.view.widget.MultipleStatusView
+            android:id="@+id/multipleStatusView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:emptyView="@layout/custom_empty_view"
+            app:errorView="@layout/custom_error_view"
+            app:loadingView="@layout/custom_loading_view"
+            app:noNetworkView="@layout/custom_no_network_view">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:gravity="center">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/civ_head"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:clickable="true"
+                        android:layout_marginTop="20dp"
+                        android:src="@mipmap/activity_nuser_head"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginRight="60dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/activity_nuser_nickname"/>
+
+                        <EditText
+                            android:id="@+id/et_activity_nuser_username"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:hint="请输入昵称"
+                            android:maxLength="11"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:textColor="@color/loginUsernameColor"
+                            android:textColorHint="@color/loginUsernameColor"
+                            android:textSize="@dimen/normal_size"
+                            />
+
+                        <ImageView
+                            android:id="@+id/username_clear_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/del_white_bg_del"
+                            android:visibility="invisible"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginRight="60dp"
+                        android:background="@color/white"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginRight="60dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/rb_nan"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/activity_nuser_sex_nan"
+                                android:button="@null"
+                                android:drawableLeft="@mipmap/activity_nuser_nan"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="男生"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"/>
+
+                            <RadioButton
+                                android:id="@+id/rb_nv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/activity_nuser_sex_nv"
+                                android:button="@null"
+                                android:drawableLeft="@mipmap/activity_nuser_nv"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="女生"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"/>
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="性别一旦设置后期无法修改！"
+                        android:paddingLeft="60dp"
+                        android:paddingTop="4dp"
+                        android:textColor="@color/loginUsernameColor"
+                        android:textSize="@dimen/small_size"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_activity_nuser_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginRight="60dp"
+                        android:background="@drawable/activity_register_button_click"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="提交"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/lager_size"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </com.ysxsoft.qxerkai.view.widget.MultipleStatusView>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fill_bg_white_yj"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/title_ll"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="@dimen/_30px"
+                android:paddingTop="@dimen/_30px"
+                android:text=""
+                android:textStyle="bold"
+                android:textColor="@color/_bbbbbb"
+                android:textSize="@dimen/_45px" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_2px"
+                android:background="@color/_ebebeb" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/top_select_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="@dimen/_30px"
+            android:paddingTop="@dimen/_30px"
+            android:text="拍照"
+            android:textColor="@color/_007aff"
+            android:textSize="@dimen/_45px" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_2px"
+            android:background="@color/_ebebeb" />
+
+        <TextView
+            android:id="@+id/botttom_select_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="@dimen/_30px"
+            android:paddingTop="@dimen/_30px"
+            android:text="从相册中选择"
+            android:textColor="@color/_007aff"
+            android:textSize="@dimen/_45px" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_20px"
+        />
+
+    <LinearLayout
+        android:id="@+id/cancel_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fill_bg_white_yj"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/_25px"
+        android:paddingTop="@dimen/_25px">
+
+        <TextView
+            android:id="@+id/cancel_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/cancel_text"
+            android:textColor="@color/_007aff"
+            android:textSize="@dimen/_50px"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

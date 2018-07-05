@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/_30px"
+              android:paddingLeft="@dimen/_60px"
+              android:paddingRight="@dimen/_60px"
+              android:paddingTop="@dimen/_30px">
+
+    <TextView
+        android:id="@+id/money_type_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_90px"
+        android:background="@mipmap/money_type_black_iv"
+        android:gravity="center"
+        android:paddingLeft="@dimen/_35px"
+        android:paddingRight="@dimen/_35px"
+        android:text="1000元"
+        android:textColor="@color/_ffffff"
+        android:textSize="@dimen/_55px"/>
+</LinearLayout>

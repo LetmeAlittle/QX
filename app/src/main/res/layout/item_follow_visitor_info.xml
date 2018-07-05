@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/_2A273C"
+              android:gravity="center_vertical"
+              android:orientation="vertical"
+              android:paddingLeft="@dimen/_15px"
+              android:paddingRight="@dimen/_15px">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/_35px">
+
+        <com.ttt.qx.qxcall.widget.ZQImageViewRoundOval
+            android:id="@+id/user_head_icon_iv"
+            android:layout_width="@dimen/_150px"
+            android:layout_height="@dimen/_150px"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_45px"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/user_nick_name_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_15px"
+                            android:text="水电费很卡"
+                            android:textColor="@color/_ffffff"
+                            android:textSize="@dimen/_45px"/>
+
+                        <LinearLayout
+                            android:id="@+id/sex_ll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_45px"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/user_nick_name_tv"
+                            android:background="@drawable/fill_bg_ff79a7_yj"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            >
+
+                            <ImageView
+                                android:id="@+id/sex_iv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_20px"/>
+
+                            <TextView
+                                android:id="@+id/age_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_10px"
+                                android:layout_marginRight="@dimen/_20px"
+                                android:gravity="center_vertical"
+                                android:text="18"
+                                android:textColor="@color/_ffffff"
+                                android:textSize="@dimen/_35px"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/create_time_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_15px"
+                            android:text="18:60"
+                            android:textColor="@color/_909aa4"
+                            android:textSize="@dimen/_35px"/>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/signature_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_35px"
+                            android:text="你不是我的"
+                            android:textColor="@color/_909aa4"
+                            android:textSize="@dimen/_40px"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/v1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1px"
+        android:layout_marginTop="@dimen/_35px"
+        android:background="@color/_666666"/>
+</LinearLayout>

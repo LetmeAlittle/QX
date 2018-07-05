@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/_ffffff"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_500px"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/audio_record_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/nim_message_input_voice_normal" />
+
+        <TextView
+            android:id="@+id/audio_status_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/audio_record_iv"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/_15px"
+            android:text="@string/hold_press_audio_record_text"
+            android:textColor="@color/_333333"
+            android:textSize="@dimen/_40px" />
+
+        <TextView
+            android:id="@+id/close_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/_35px"
+            android:text="关闭"
+            android:textColor="@color/_333333"
+            android:textSize="@dimen/_45px" />
+    </RelativeLayout>
+</LinearLayout>

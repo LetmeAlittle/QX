@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_120px"
+        android:layout_marginTop="@dimen/_100px"
+        android:background="@drawable/fill_bg_f4f8f9_yj"
+        android:padding="@dimen/_35px">
+
+
+        <ImageView
+            android:id="@+id/phone_clear_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/del_white_bg_del"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/phone_num_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:layout_marginRight="@dimen/_35px"
+            android:layout_toLeftOf="@id/phone_clear_iv"
+            android:background="@null"
+            android:hint="请输入手机号"
+            android:inputType="number"
+            android:maxLength="11"
+            android:textColor="@color/_576066"
+            android:textColorHint="@color/_dbdfe1"
+            android:textSize="@dimen/_45px" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/confirm_tv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_120px"
+        android:layout_marginTop="@dimen/_120px"
+        android:background="@drawable/fill_bg_9b5ada_yj"
+        android:gravity="center"
+        android:text="下一步"
+        android:textColor="@color/_ffffff"
+        android:textSize="@dimen/_55px" />
+</LinearLayout>

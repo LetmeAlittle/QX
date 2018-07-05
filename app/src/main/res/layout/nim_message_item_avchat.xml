@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/message_item_avchat_content"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/_12px">
+
+    <ImageView
+        android:id="@+id/message_item_avchat_type_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/_6px"
+        android:layout_marginRight="@dimen/_18px"
+        android:contentDescription="@string/empty"
+        android:src="@drawable/avchat_left_type_audio"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/call_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/_15px"
+        android:text="通话时长:"
+        android:textColor="@color/_363636"
+        android:textSize="@dimen/_40px"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/message_item_avchat_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/_15px"
+        android:text="无人接听"
+        android:textColor="@color/_363636"
+        android:textSize="@dimen/_40px" />
+</LinearLayout>

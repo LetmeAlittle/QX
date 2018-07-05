@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/_f8f8f8"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150px"
+        android:background="@drawable/app_top_title_bg"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/top_back_rl"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/sex_select_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_35px"
+                android:src="@mipmap/top_back_iv" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID搜索"
+                android:textColor="@color/_ffffff"
+                android:textSize="@dimen/_52px" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/id_select_rl"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/id_select_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/_35px"
+                android:src="@mipmap/more_iv" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_35px"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/search_tv"
+            android:layout_width="@dimen/_150px"
+            android:layout_height="@dimen/_120px"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/_30px"
+            android:background="@drawable/fill_bg_cdcdcd_yj"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_30px"
+            android:paddingRight="@dimen/_30px"
+            android:text="查找"
+            android:textColor="@color/_f8f8f8"
+            android:textSize="@dimen/_45px" />
+
+        <EditText
+            android:id="@+id/id_et"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_120px"
+            android:layout_centerVertical="true"
+            android:textColorHint="@color/_cccbd6"
+            android:textColor="@color/_333333"
+            android:hint="请输入对方的ID号"
+            android:inputType="number"
+            android:paddingLeft="@dimen/_30px"
+            android:textSize="@dimen/_45px"
+            android:layout_marginLeft="@dimen/_45px"
+            android:layout_marginRight="@dimen/_40px"
+            android:layout_toLeftOf="@id/search_tv"
+            android:background="@drawable/fill_bg_fefefe_yj" />
+
+
+    </RelativeLayout>
+</LinearLayout>

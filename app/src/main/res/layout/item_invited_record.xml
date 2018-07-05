@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/_2A273C"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/_60px"
+    android:paddingRight="@dimen/_60px">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/invited_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="李晨"
+                android:textColor="@color/_a1a1a1"
+                android:textSize="@dimen/_40px" />
+
+            <TextView
+                android:id="@+id/invited_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_60px"
+                android:gravity="center"
+                android:text="2017-10-08 16:40"
+                android:textColor="@color/_a1a1a1"
+                android:textSize="@dimen/_40px" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

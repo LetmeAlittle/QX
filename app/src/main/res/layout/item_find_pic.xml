@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/_15px"
+    android:paddingRight="@dimen/_15px"
+    android:paddingTop="@dimen/_35px">
+
+    <RelativeLayout
+        android:id="@+id/rl_1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_600px">
+
+        <com.ttt.qx.qxcall.widget.ZQImageViewRoundOval
+            android:id="@+id/user_head_icon_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/shen_fen_pic_add_iv" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_318px"
+        android:visibility="gone">
+
+        <com.ttt.qx.qxcall.widget.ZQImageViewRoundOval
+            android:id="@+id/user_head_icon_iv2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/shen_fen_pic_add_iv" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_230px"
+        android:visibility="gone">
+
+        <com.ttt.qx.qxcall.widget.ZQImageViewRoundOval
+            android:id="@+id/user_head_icon_iv3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/shen_fen_pic_add_iv" />
+
+    </RelativeLayout>
+
+</LinearLayout>

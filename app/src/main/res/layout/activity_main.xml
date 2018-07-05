@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.ttt.qx.qxcall.pager.FragmentViewPager
+            android:id="@+id/fragmentview_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_line_1px"
+            android:background="@color/_483E4D"/>
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_telegram"
+                style="@style/main_tab_bottom"
+                android:layout_marginLeft="@dimen/margin_left_10"
+                android:layout_marginRight="@dimen/margin_right_10"
+                android:drawableTop="@drawable/icon_navative1"
+                android:text="首页"
+                android:textColor="@color/radiobutton_textcolor"/>
+
+            <RadioButton
+                android:id="@+id/rb_listen"
+                style="@style/main_tab_bottom"
+                android:layout_marginLeft="@dimen/margin_left_10"
+                android:layout_marginRight="@dimen/margin_right_10"
+                android:drawableTop="@drawable/icon_navative2"
+                android:text="小情趣"
+                android:textColor="@color/radiobutton_textcolor"/>
+
+
+            <RadioButton
+                android:id="@+id/rb_find"
+                style="@style/main_tab_bottom"
+                android:layout_marginLeft="@dimen/margin_left_10"
+                android:layout_marginRight="@dimen/margin_right_10"
+                android:drawableTop="@drawable/icon_navative3"
+                android:text="私人订制"
+                android:textColor="@color/radiobutton_textcolor"/>
+
+            <RadioButton
+                android:id="@+id/rb_message"
+                style="@style/main_tab_bottom"
+                android:layout_marginLeft="@dimen/margin_left_10"
+                android:layout_marginRight="@dimen/margin_right_10"
+                android:drawableTop="@drawable/icon_navative4"
+                android:text="消息"
+                android:textColor="@color/radiobutton_textcolor"/>
+
+            <RadioButton
+                android:id="@+id/rb_mine"
+                style="@style/main_tab_bottom"
+                android:layout_marginLeft="@dimen/margin_left_10"
+                android:layout_marginRight="@dimen/margin_right_10"
+                android:drawableTop="@drawable/icon_navative5"
+                android:text="@string/mine_text"
+                android:textColor="@color/radiobutton_textcolor"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fm_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+</RelativeLayout>

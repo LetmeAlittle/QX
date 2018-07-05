@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/_2A273C"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150px"
+        android:background="@drawable/app_top_title_bg"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/top_back_rl"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/sex_select_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_35px"
+                android:src="@mipmap/top_back_iv" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="邀请好友"
+                android:textColor="@color/_ffffff"
+                android:textSize="@dimen/_52px" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/right_rl"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/id_select_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/_35px"
+                android:src="@mipmap/more_iv" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.ysxsoft.qxerkai.view.widget.ResizableImageView
+                android:id="@+id/yao_qing_banner_iv"
+                android:layout_width="match_parent"
+                android:src="@mipmap/yao_qing_banner_iv"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_15px"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="每成功邀请一位好友注册就可获得现金返利"
+                    android:textColor="@color/_a1a1a1"
+                    android:textSize="@dimen/_40px" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30px"
+                android:layout_marginTop="@dimen/_60px"
+                android:background="@color/_3b3850" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_35px"
+                android:layout_marginRight="@dimen/_35px"
+                android:layout_marginTop="@dimen/_60px"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="「 邀请记录 」"
+                    android:textColor="@color/_ffffff"
+                    android:textSize="@dimen/_55px"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/invited_record_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_60px"
+                android:visibility="gone"></android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/no_invited_record_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_60px"
+                android:text="暂无邀请记录"
+                android:textColor="@color/_a1a1a1"
+                android:textSize="@dimen/_40px"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30px"
+                android:layout_marginTop="@dimen/_60px"
+                android:background="@color/_3b3850" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_35px"
+                android:layout_marginRight="@dimen/_35px"
+                android:layout_marginTop="@dimen/_60px"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="「 活动说明 」"
+                    android:textColor="@color/_ffffff"
+                    android:textSize="@dimen/_55px"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_60px"
+                    android:text="• 成功通过本页面的邀请链接进行注册的\n  用户，就可以获得返现奖励，会有延迟，\n  稍等后刷新页面即可\n• 活动最终解释权归本平台所有。"
+                    android:textColor="@color/_a1a1a1"
+                    android:textSize="@dimen/_40px"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/now_invited_tv"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_120px"
+                android:layout_margin="@dimen/_60px"
+                android:background="@drawable/fill_core_bg_9b5ada_yj"
+                android:gravity="center"
+                android:text="马上邀请"
+                android:textColor="@color/_ffffff"
+                android:textSize="@dimen/_45px" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

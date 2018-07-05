@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fill_bg_white_yj"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/_60px"
+    android:paddingLeft="@dimen/_45px"
+    android:paddingRight="@dimen/_45px"
+    android:paddingTop="@dimen/_45px">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="更多操作"
+        android:textColor="@color/_696969"
+        android:textSize="@dimen/_45px" />
+
+    <TextView
+        android:id="@+id/report_tv"
+        android:layout_width="@dimen/_500px"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_30px"
+        android:background="@drawable/fill_bg_ff5e6e_yj"
+        android:gravity="center"
+        android:paddingBottom="@dimen/_15px"
+        android:paddingTop="@dimen/_15px"
+        android:text="举报"
+        android:textColor="@color/_ffffff"
+        android:textSize="@dimen/_45px" />
+
+    <TextView
+        android:id="@+id/pull_back_tv"
+        android:layout_width="@dimen/_500px"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_30px"
+        android:background="@drawable/fill_bg_7f7f7f_yj"
+        android:gravity="center"
+        android:paddingBottom="@dimen/_15px"
+        android:paddingTop="@dimen/_15px"
+        android:text="拉黑"
+        android:textColor="@color/_ffffff"
+        android:textSize="@dimen/_45px" />
+
+    <TextView
+        android:id="@+id/cancel_tv"
+        android:layout_width="@dimen/_500px"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_30px"
+        android:background="@drawable/fill_bg_bfbfbf_yj"
+        android:gravity="center"
+        android:paddingBottom="@dimen/_15px"
+        android:paddingTop="@dimen/_15px"
+        android:text="取消"
+        android:textColor="@color/_ffffff"
+        android:textSize="@dimen/_45px" />
+
+</LinearLayout>

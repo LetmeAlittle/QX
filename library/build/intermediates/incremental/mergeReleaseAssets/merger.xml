@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/src/main/assets"/><source path="/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/build/generated/assets/shaders/release"/></dataSet><dataSet config="release"><source path="/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/library/src/release/assets"/></dataSet></merger>

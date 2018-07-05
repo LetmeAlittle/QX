@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <com.ttt.qx.qxcall.widget.MatrixImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:src="@mipmap/ic_stub" />
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <!--图片属性信息-->
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_image_info"
+        android:layout_marginBottom="@dimen/_120px"
+        android:orientation="vertical"
+        android:background="@android:color/transparent"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_marginTop="@dimen/_15px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textColor="@android:color/holo_blue_bright"
+                android:text="拍摄时间"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_photo_time"
+                android:layout_weight="1"
+                android:textColor="@android:color/holo_blue_bright"
+                android:text="2017年3月22日 14:04"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/_15px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textColor="@android:color/holo_blue_bright"
+                android:text="拍摄方向"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_photo_angle"
+                android:layout_weight="1"
+                android:textColor="@android:color/holo_blue_bright"
+                android:text="南偏西37.0度"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/_15px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textColor="@android:color/holo_blue_bright"
+                android:text="文件路径"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:paddingRight="@dimen/_10px"
+                android:id="@+id/tv_image_path"
+                android:layout_weight="1"
+                android:textColor="@android:color/holo_blue_bright"
+                android:text="/新建文件夹/123.png"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/_15px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textColor="@android:color/holo_blue_bright"
+                android:text="图片大小"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_image_size"
+                android:layout_weight="1"
+                android:textColor="@android:color/holo_blue_bright"
+                android:text="3.14M"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/_15px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textColor="@android:color/holo_blue_bright"
+                android:text="图片尺寸"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_image_measurement"
+                android:layout_weight="1"
+                android:textColor="@android:color/holo_blue_bright"
+                android:text="1000*3120px"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>
