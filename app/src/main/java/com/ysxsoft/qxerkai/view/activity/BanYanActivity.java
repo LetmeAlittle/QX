@@ -76,8 +76,6 @@ public class BanYanActivity extends NBaseActivity {
         temp.add("");
         temp.add("");
         temp.add("");
-        temp.add("");
-        temp.add("");
         adapter.setNewData(temp);
     }
 

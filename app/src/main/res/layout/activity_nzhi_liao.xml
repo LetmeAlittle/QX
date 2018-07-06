@@ -47,6 +47,7 @@
                             android:orientation="horizontal">
 
                             <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/civ_head"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:layout_gravity="left|bottom"
@@ -54,7 +55,6 @@
                                 android:layout_marginLeft="20dp"
                                 android:layout_marginRight="20dp"
                                 android:layout_marginTop="20dp"
-                                android:src="@mipmap/image5"
                                 app:civ_border_color="#aaffffff"
                                 app:civ_border_width="2dp"/>
 
@@ -71,13 +71,14 @@
                                     android:orientation="horizontal">
 
                                     <TextView
+                                        android:id="@+id/tv_nickname"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="超神的茶叶蛋"
                                         android:textColor="@color/white"
                                         android:textSize="@dimen/middle_size"/>
 
                                     <TextView
+                                        android:id="@+id/tv_vip"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:paddingRight="10dp"
@@ -86,6 +87,7 @@
                                         android:textSize="@dimen/normal_size"/>
 
                                     <ImageView
+                                        android:id="@+id/iv_vip"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:paddingLeft="10dp"
@@ -108,6 +110,7 @@
                                     android:orientation="horizontal">
 
                                     <TextView
+                                        android:id="@+id/tv_age"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:paddingRight="10dp"
@@ -116,9 +119,10 @@
                                         android:textSize="@dimen/normal_size"/>
 
                                     <ImageView
+                                        android:id="@+id/iv_sex"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:src="@mipmap/fragment_one_nan"/>
+                                        />
                                 </LinearLayout>
 
                                 <View
@@ -133,6 +137,7 @@
                                     android:orientation="horizontal">
 
                                     <TextView
+                                        android:id="@+id/tv_id"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:paddingRight="10dp"
@@ -150,6 +155,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/sounds_ll"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
@@ -163,11 +169,13 @@
                                 android:paddingTop="2dp">
 
                                 <ImageView
+                                    android:id="@+id/paly_status_iv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:src="@mipmap/activity_zhiliao_bofang"/>
 
                                 <TextView
+                                    android:id="@+id/audio_time_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="5dp"
@@ -201,6 +209,7 @@
                                 android:paddingTop="10dp">
 
                                 <TextView
+                                    android:id="@+id/tv_fsnum"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="666"
@@ -234,6 +243,7 @@
                                 android:paddingTop="10dp">
 
                                 <TextView
+                                    android:id="@+id/tv_gznum"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="666"
@@ -267,6 +277,7 @@
                                 android:paddingTop="10dp">
 
                                 <TextView
+                                    android:id="@+id/tv_dznum"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="666"
@@ -300,6 +311,7 @@
                                 android:paddingTop="10dp">
 
                                 <TextView
+                                    android:id="@+id/tv_fknum"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="666"
@@ -345,10 +357,11 @@
                                 android:textSize="@dimen/middle_size"/>
 
                             <com.ysxsoft.qxerkai.view.widget.RoundAngleImageView
+                                android:id="@+id/iv_image1"
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:scaleType="centerCrop"
-                                android:src="@mipmap/image1"/>
+                                />
 
                             <View
                                 android:layout_width="10dp"
@@ -356,10 +369,11 @@
                                 />
 
                             <com.ysxsoft.qxerkai.view.widget.RoundAngleImageView
+                                android:id="@+id/iv_image2"
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:scaleType="centerCrop"
-                                android:src="@mipmap/image1"/>
+                                />
 
                             <View
                                 android:layout_width="10dp"
@@ -367,10 +381,11 @@
                                 />
 
                             <com.ysxsoft.qxerkai.view.widget.RoundAngleImageView
+                                android:id="@+id/iv_image3"
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:scaleType="centerCrop"
-                                android:src="@mipmap/image1"/>
+                                />
 
                             <View
                                 android:layout_width="10dp"
@@ -382,10 +397,11 @@
                                 android:layout_height="wrap_content">
 
                                 <com.ysxsoft.qxerkai.view.widget.RoundAngleImageView
+                                    android:id="@+id/iv_image4"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:scaleType="centerCrop"
-                                    android:src="@mipmap/image1"/>
+                                    />
 
                                 <TextView
                                     android:id="@+id/tv_xiangche_more"
@@ -393,6 +409,7 @@
                                     android:layout_height="60dp"
                                     android:background="#55000000"
                                     android:gravity="center"
+                                    android:visibility="gone"
                                     android:text="查看更多>"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/small_size"/>
@@ -666,6 +683,13 @@
                                         android:textColor="@color/loginUsernameColor"
                                         android:textSize="@dimen/middle_size"/>
 
+                                    <com.ttt.qx.qxcall.widget.FlowLayout
+                                        android:id="@+id/flow_tag_layout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginBottom="@dimen/_35px"
+                                        android:visibility="gone"></com.ttt.qx.qxcall.widget.FlowLayout>
+
                                     <ImageView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -708,6 +732,7 @@
                                         android:textSize="@dimen/middle_size"/>
 
                                     <TextView
+                                        android:id="@+id/tv_address"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="河南-郑州"

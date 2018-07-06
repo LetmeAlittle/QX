@@ -19,10 +19,12 @@
             android:id="@+id/iv_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             android:src="@mipmap/splash_pic"
             />
 
         <TextView
+            android:id="@+id/tv_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -31,7 +33,6 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="2dp"
-            android:text="22岁"
             android:textColor="@color/sex_nan"
             android:textSize="@dimen/small_size"/>
 
@@ -54,19 +55,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:text="0砰砰豆/分钟"
                     android:textColor="@color/white"
                     android:textSize="@dimen/normal_size"/>
 
                 <TextView
+                    android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:singleLine="true"
-                    android:text="用户的昵称"
                     android:textColor="@color/loginUsernameColor"
                     android:textSize="@dimen/normal_size"/>
 

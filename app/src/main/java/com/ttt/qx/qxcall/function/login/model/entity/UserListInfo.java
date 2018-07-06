@@ -1,5 +1,6 @@
 package com.ttt.qx.qxcall.function.login.model.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -123,7 +124,7 @@ public class UserListInfo {
             }
         }
 
-        public static class ListBean {
+        public static class ListBean implements Serializable {
             /**
              * id : 41
              * nick_name : a
@@ -212,6 +213,9 @@ public class UserListInfo {
             }
 
             public String getMember_sex() {
+                if (member_sex == null || member_sex.isEmpty()) {
+                    return "0";
+                }
                 return member_sex;
             }
 
@@ -220,7 +224,10 @@ public class UserListInfo {
             }
 
             public String getMember_age() {
-                return member_age;
+                if (member_age == null || member_age.isEmpty()) {
+                    return "未知";
+                }
+                return member_age + "岁";
             }
 
             public void setMember_age(String member_age) {

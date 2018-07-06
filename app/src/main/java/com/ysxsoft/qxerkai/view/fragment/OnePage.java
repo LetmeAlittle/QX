@@ -2,6 +2,10 @@ package com.ysxsoft.qxerkai.view.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -10,13 +14,29 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.ttt.qx.qxcall.QXCallApplication;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.adapter.TabsAdapter;
+import com.ttt.qx.qxcall.constant.CommonConstant;
+import com.ttt.qx.qxcall.database.UserDao;
+import com.ttt.qx.qxcall.dbbean.UserBean;
+import com.ttt.qx.qxcall.eventbus.SetSelectItem;
+import com.ttt.qx.qxcall.function.home.model.HomeModel;
+import com.ttt.qx.qxcall.function.home.model.entity.CommonTagList;
+import com.ttt.qx.qxcall.function.home.view.HomeCategoryFragment;
+import com.ttt.qx.qxcall.function.home.view.MainActivity;
+import com.ttt.qx.qxcall.function.login.model.entity.UserListInfo;
 import com.ttt.qx.qxcall.pager.BasePager;
+import com.ttt.qx.qxcall.utils.IntentUtil;
+import com.ttt.qx.qxcall.widget.viewhelper.TabLayoutHelper;
 import com.ysxsoft.qxerkai.utils.DimenUtils;
+import com.ysxsoft.qxerkai.utils.LogUtils;
 import com.ysxsoft.qxerkai.utils.SystemUtils;
 import com.ysxsoft.qxerkai.view.activity.NHuaLiaoActivity;
+import com.ysxsoft.qxerkai.view.activity.NLoginActivity;
 import com.ysxsoft.qxerkai.view.activity.NOneFragmentMoreActivity;
 import com.ysxsoft.qxerkai.view.activity.NPaoHaTiActivity;
 import com.ysxsoft.qxerkai.view.activity.NPengYouQuanActivity;
@@ -28,10 +48,14 @@ import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 import com.ysxsoft.qxerkai.view.widget.MyScrollView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Subscriber;
+
+import static com.ttt.qx.qxcall.pager.HomePager.sex;
 
 /**
  * Created by zhaozhipeng on 18/5/3.
@@ -97,7 +121,7 @@ public class OnePage extends BasePager implements View.OnClickListener {
     private YongHuAdapter adapter4;
     private YongHuAdapter adapter5;
 
-    private ArrayList<Integer> temp = new ArrayList<>();
+    private String authorization = "";
 
     public OnePage(Context ctx) {
         super(ctx);
@@ -110,6 +134,11 @@ public class OnePage extends BasePager implements View.OnClickListener {
         initStatusBar(statusBar);
         initTitleBar();
         initRv();
+        UserDao userDao = new UserDao();
+        UserBean userBean = userDao.queryFirstData();
+        if (userBean != null) {
+            authorization = "Bearer " + userBean.getToken();
+        }
         llPaohuati.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,44 +182,69 @@ public class OnePage extends BasePager implements View.OnClickListener {
         rvYujie.setAdapter(adapter3);
         rvDashu.setAdapter(adapter4);
         rvShengyou.setAdapter(adapter5);
-        ArrayList<String> temp = new ArrayList<>();
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        adapter1.setNewData(temp);
-        adapter2.setNewData(temp);
-        adapter3.setNewData(temp);
-        adapter4.setNewData(temp);
-        adapter5.setNewData(temp);
         adapter1.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class).putExtra("title", "用户昵称"));
+                if (!QXCallApplication.login) {//如果是没有登录直接跳转至登陆页
+                    IntentUtil.jumpIntent(ctx, NLoginActivity.class);
+                    return;
+                }
+                UserListInfo.DataBean.ListBean data=adapter1.getData().get(position);
+                ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class)
+                        .putExtra("title", data.getNick_name())
+                        .putExtra("data",data));
             }
         });
         adapter2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class).putExtra("title", "用户昵称"));
+                if (!QXCallApplication.login) {//如果是没有登录直接跳转至登陆页
+                    IntentUtil.jumpIntent(ctx, NLoginActivity.class);
+                    return;
+                }
+                UserListInfo.DataBean.ListBean data=adapter2.getData().get(position);
+                ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class)
+                        .putExtra("title", data.getNick_name())
+                        .putExtra("data",data));
             }
         });
         adapter3.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class).putExtra("title", "用户昵称"));
+                if (!QXCallApplication.login) {//如果是没有登录直接跳转至登陆页
+                    IntentUtil.jumpIntent(ctx, NLoginActivity.class);
+                    return;
+                }
+                UserListInfo.DataBean.ListBean data=adapter3.getData().get(position);
+                ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class)
+                        .putExtra("title", data.getNick_name())
+                        .putExtra("data",data));
             }
         });
         adapter4.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class).putExtra("title", "用户昵称"));
+                if (!QXCallApplication.login) {//如果是没有登录直接跳转至登陆页
+                    IntentUtil.jumpIntent(ctx, NLoginActivity.class);
+                    return;
+                }
+                UserListInfo.DataBean.ListBean data=adapter4.getData().get(position);
+                ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class)
+                        .putExtra("title", data.getNick_name())
+                        .putExtra("data",data));
             }
         });
         adapter5.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class).putExtra("title", "用户昵称"));
+                if (!QXCallApplication.login) {//如果是没有登录直接跳转至登陆页
+                    IntentUtil.jumpIntent(ctx, NLoginActivity.class);
+                    return;
+                }
+                UserListInfo.DataBean.ListBean data=adapter5.getData().get(position);
+                ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class)
+                        .putExtra("title", data.getNick_name())
+                        .putExtra("data",data));
             }
         });
     }
@@ -201,13 +255,13 @@ public class OnePage extends BasePager implements View.OnClickListener {
 
     @Override
     public void initData() {
+//        initContent();
+        initItemData("20"); //小姐姐
+        initItemData("19"); //小哥哥
+        initItemData("22"); //御姐
+        initItemData("21"); //大叔
+        initItemData("23"); //声优
         tvGonggao.setSelected(true);
-        temp.clear();
-        temp.add(R.mipmap.image1);
-        temp.add(R.mipmap.image2);
-        temp.add(R.mipmap.image3);
-        temp.add(R.mipmap.image4);
-        temp.add(R.mipmap.image5);
         scrollView.setOnScrollListener(new MyScrollView.OnScrollListener() {
             @Override
             public void onScroll(int scrollY) {
@@ -223,24 +277,32 @@ public class OnePage extends BasePager implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         String title = "";
+        String tag="";
         switch (view.getId()) {
             case R.id.ll_xiaoxiannv:
                 title = "小仙女";
+                tag="20";
                 break;
             case R.id.ll_xiaogege:
                 title = "小哥哥";
+                tag="19";
                 break;
             case R.id.ll_yujie:
                 title = "御姐";
+                tag="22";
                 break;
             case R.id.ll_dashu:
                 title = "大叔";
+                tag="21";
                 break;
             case R.id.ll_shengyou:
                 title = "声优";
+                tag="23";
                 break;
         }
-        ctx.startActivity(new Intent(ctx, NOneFragmentMoreActivity.class).putExtra("title", title));
+        ctx.startActivity(new Intent(ctx, NOneFragmentMoreActivity.class)
+                .putExtra("title", title)
+                .putExtra("tag",tag));
     }
 
     private class ItemClickListener implements View.OnClickListener {
@@ -264,29 +326,112 @@ public class OnePage extends BasePager implements View.OnClickListener {
         }
     }
 
-    private class YongHuAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+    private class YongHuAdapter extends BaseQuickAdapter<UserListInfo.DataBean.ListBean, BaseViewHolder> {
 
         public YongHuAdapter(int layoutResId) {
             super(layoutResId);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, String item) {
+        protected void convert(BaseViewHolder helper, UserListInfo.DataBean.ListBean item) {
             FrameLayout flBg = helper.getView(R.id.fl_bg);
             int bgWidth = (int) SystemUtils.getScreenWidth(activity) / 2 - DimenUtils.dp2px(ctx, 17.5f);
             flBg.setLayoutParams(new LinearLayout.LayoutParams(bgWidth, bgWidth / 34 * 45));
             ImageView ivView = helper.getView(R.id.iv_image);
-            Random rand = new Random();
-            int i = rand.nextInt(5);
-            ivView.setImageResource(temp.get(i));
-            ImageView ivCall=helper.getView(R.id.iv_call);
+            Glide.with(mContext).load(item.getMember_avatar()).into(ivView);
+            ImageView ivCall = helper.getView(R.id.iv_call);
             ivCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ctx.startActivity(new Intent(ctx, NHuaLiaoActivity.class));
                 }
             });
+            TextView name = helper.getView(R.id.tv_name);
+            name.setText(item.getNick_name());
+            TextView age = helper.getView(R.id.tv_age);
+            age.setText(item.getMember_age());
+            if(item.getMember_sex().equals("1")){
+                age.setTextColor(mContext.getResources().getColor(R.color.sex_nan));
+            }else if(item.getMember_sex().equals("2")){
+                age.setTextColor(mContext.getResources().getColor(R.color.sex_nv));
+            }else {
+                age.setTextColor(mContext.getResources().getColor(R.color.black));
+            }
+            TextView price = helper.getView(R.id.tv_price);
+            price.setText(item.getMember_price() + "砰砰豆/分钟");
+
         }
+    }
+
+    /**
+     * 初始tab对应的fragment
+     */
+    private void initContent() {
+        //获取首页标签分类列表
+        HomeModel.getHomeModel().getHomeTagList(new Subscriber<CommonTagList>() {
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(CommonTagList commonTagList) {
+                if (commonTagList.getStatus_code() == 200) {
+                    LogUtils.e(commonTagList.toString());
+                } else {
+                }
+            }
+        });
+    }
+
+    /**
+     * 初始化数据
+     *
+     * @param tag 分类的ID
+     */
+    private void initItemData(String tag) {
+        HomeModel.getHomeModel().getUserList(new Subscriber<UserListInfo>() {
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onNext(UserListInfo userListInfo) {
+                if (userListInfo.getStatus_code() == 200) {
+                    ArrayList<UserListInfo.DataBean.ListBean> temp = new ArrayList<>();
+                    if (userListInfo.getData().getList().size() > 4) {
+                        temp.addAll(userListInfo.getData().getList().subList(0, 4));
+                    } else {
+                        temp.addAll(userListInfo.getData().getList());
+                    }
+                    switch (tag) {
+                        case "20":
+                            adapter1.setNewData(temp);
+                            break;
+                        case "19":
+                            adapter2.setNewData(temp);
+                            break;
+                        case "22":
+                            adapter3.setNewData(temp);
+                            break;
+                        case "21":
+                            adapter4.setNewData(temp);
+                            break;
+                        case "23":
+                            adapter5.setNewData(temp);
+                            break;
+                    }
+                }
+            }
+        }, tag, "0", "1", authorization);
     }
 
 }
