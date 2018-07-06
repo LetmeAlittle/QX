@@ -284,7 +284,39 @@ public class FlowVisitorInfoList {
                 public void setAvatar(String avatar) {
                     this.avatar = avatar;
                 }
+
+                @Override
+                public String toString() {
+                    return "MemberInfoBean{" +
+                            "id=" + id +
+                            ", level=" + level +
+                            ", nick_name='" + nick_name + '\'' +
+                            ", member_signature='" + member_signature + '\'' +
+                            ", sex='" + sex + '\'' +
+                            ", avatar='" + avatar + '\'' +
+                            ", age='" + age + '\'' +
+                            '}';
+                }
+            }
+
+            @Override
+            public String toString() {
+                return "DataBean{" +
+                        "id=" + id +
+                        ", member_id=" + member_id +
+                        ", member_info=" + member_info +
+                        ", create_at='" + create_at + '\'' +
+                        '}';
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "FlowVisitorInfoList{" +
+                "message='" + message + '\'' +
+                ", status_code=" + status_code +
+                ", data=" + data +
+                '}';
     }
 }

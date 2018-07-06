@@ -16,6 +16,7 @@ import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.function.home.model.entity.FlowVisitorInfoList;
 import com.ttt.qx.qxcall.function.login.view.UserMainActivity;
 import com.ttt.qx.qxcall.widget.ZQImageViewRoundOval;
+import com.ysxsoft.qxerkai.view.activity.NZhiLiaoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +89,8 @@ public class FollowVisitorInfoAdapter extends RecyclerView.Adapter<FollowVisitor
             holder.ll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, UserMainActivity.class);
+//                    Intent intent = new Intent(context, UserMainActivity.class);
+                    Intent intent = new Intent(context, NZhiLiaoActivity.class);
                     intent.putExtra("id", bean.getMember_id());//用户id
                     intent.putExtra("accid", bean.getMember_id());
                     context.startActivity(intent);

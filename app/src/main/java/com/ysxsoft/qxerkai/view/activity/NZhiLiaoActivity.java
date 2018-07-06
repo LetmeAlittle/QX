@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,24 +13,35 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.common.util.string.StringUtil;
+import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.avchat.constant.AVChatType;
+import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.ttt.qx.qxcall.R;
-import com.ttt.qx.qxcall.adapter.UserMainPicAdapter;
 import com.ttt.qx.qxcall.database.UserDao;
 import com.ttt.qx.qxcall.dbbean.UserBean;
+import com.ttt.qx.qxcall.dialog.ImgZoomFragment;
 import com.ttt.qx.qxcall.function.base.interfacee.SubScribeOnNextListener;
 import com.ttt.qx.qxcall.function.base.subscribe.ProgressSubscribe;
 import com.ttt.qx.qxcall.function.home.model.HomeModel;
 import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
+import com.ttt.qx.qxcall.function.home.view.FansActivity;
+import com.ttt.qx.qxcall.function.home.view.FollowActivity;
+import com.ttt.qx.qxcall.function.home.view.VisitorActivity;
+import com.ttt.qx.qxcall.function.listen.model.StealListenModel;
 import com.ttt.qx.qxcall.function.login.model.entity.UserListInfo;
+import com.ttt.qx.qxcall.function.login.view.UserMainActivity;
+import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
+import com.ttt.qx.qxcall.function.voice.AVChatActivity;
+import com.ttt.qx.qxcall.function.voice.AVChatProfile;
 import com.ttt.qx.qxcall.function.voice.DemoCache;
 import com.ttt.qx.qxcall.widget.FlowLayout;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 import com.ysxsoft.qxerkai.view.widget.RoundAngleImageView;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +50,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import rx.Subscriber;
 
 /**
  * 获取用户资料
@@ -63,8 +75,6 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
     LinearLayout llShouhu;
     @BindView(R.id.tv_xiangche_more)
     TextView tvXiangcheMore;
-
-    UserListInfo.DataBean.ListBean data;
     @BindView(R.id.civ_head)
     CircleImageView civHead;
     @BindView(R.id.tv_nickname)
@@ -105,8 +115,20 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
     FlowLayout flow_tag_layout;
     @BindView(R.id.tv_address)
     TextView tvAddress;
+    @BindView(R.id.ll_yuyin)
+    LinearLayout llYuyin;
+    @BindView(R.id.ll_liaotian)
+    LinearLayout llLiaotian;
+    @BindView(R.id.ll_price)
+    TextView llPrice;
+    @BindView(R.id.ll_fensi)
+    LinearLayout llFensi;
+    @BindView(R.id.ll_guanzhu)
+    LinearLayout llGuanzhu;
+    @BindView(R.id.ll_fangke)
+    LinearLayout llFangke;
 
-    private Integer id;
+    private int id;
     private String accid;
     private String Authorization;
     private UserDetailInfo.DataBean mInfoData;
@@ -120,9 +142,8 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nzhi_liao);
         ButterKnife.bind(this);
-        data = (UserListInfo.DataBean.ListBean) getIntent().getSerializableExtra("data");
-        id=data.getId();
-        accid=data.getWy_acid();
+        id = getIntent().getIntExtra("id",-1);
+        accid = getIntent().getStringExtra("accid");
         initStatusBar();
         initStatusBar(statusBar);
         initTitleBar();
@@ -139,7 +160,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                 finish();
             }
         });
-        tvPublicTitlebarCenter.setText(getIntent().getStringExtra("title"));
+        tvPublicTitlebarCenter.setText("");
     }
 
     private void initView() {
@@ -148,6 +169,11 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
         llShouhu.setOnClickListener(this);
         tvXiangcheMore.setOnClickListener(this);
         sounds_ll.setOnClickListener(this);
+        llYuyin.setOnClickListener(this);
+        llLiaotian.setOnClickListener(this);
+        llFensi.setOnClickListener(this);
+        llGuanzhu.setOnClickListener(this);
+        llFangke.setOnClickListener(this);
     }
 
     private void initViewData() {
@@ -155,6 +181,8 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
         tagSize = getResources().getInteger(R.integer.fm_anim_i12);
         //初始化相关控件
         if (mInfoData != null) {
+            tvPublicTitlebarCenter.setText(mInfoData.getNick_name());
+            llPrice.setText(mInfoData.getMember_price() + "砰砰豆/分钟");
             Glide.with(this).load(mInfoData.getMember_avatar()).into(civHead);
             if (mInfoData.getLevel() == 0) {
                 ivVip.setVisibility(View.GONE);
@@ -214,21 +242,70 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                 ivSex.setImageResource(R.mipmap.fragment_one_nv);
             }
             String member_age = mInfoData.getMember_age();
-            if (null == member_age || member_age.equals("") || member_age.equals(" ") || member_age.equals("0")) {
+            if (null == member_age || member_age.equals("") || member_age.equals(" ") || member_age.equals("0") || member_age.equals("未知")) {
                 tvAge.setText("未知");
             } else {
-                tvAge.setText(mInfoData.getMember_age()+"岁");
+                tvAge.setText(mInfoData.getMember_age() + "岁");
             }
             Glide.with(this).load(mInfoData.getMember_img_1()).into(ivImage1);
             Glide.with(this).load(mInfoData.getMember_img_2()).into(ivImage2);
             Glide.with(this).load(mInfoData.getMember_img_3()).into(ivImage3);
             Glide.with(this).load(mInfoData.getMember_img_4()).into(ivImage4);
+            ivImage1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openImgLookBig(mInfoData.getMember_img_1());
+                }
+            });
+            ivImage2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openImgLookBig(mInfoData.getMember_img_2());
+                }
+            });
+            ivImage3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openImgLookBig(mInfoData.getMember_img_3());
+                }
+            });
+            ivImage4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openImgLookBig(mInfoData.getMember_img_4());
+                }
+            });
+        }
+    }
+
+    private void openImgLookBig(String avatar) {
+        if (avatar != null && !avatar.equals("")) {
+            ImgZoomFragment imgZoomFragment = new ImgZoomFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("imgUrl", avatar);
+            imgZoomFragment.setArguments(bundle);
+            imgZoomFragment.show((this).getSupportFragmentManager(), "imgZoomFragment");
         }
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.ll_fensi:
+                Intent tenFans = new Intent(this, FansActivity.class);
+                tenFans.putExtra("id", id);
+                startActivity(tenFans);
+                break;
+            case R.id.ll_guanzhu:
+                Intent ten = new Intent(this, FollowActivity.class);
+                ten.putExtra("id", id);
+                startActivity(ten);
+                break;
+            case R.id.ll_fangke:
+                Intent tenVisitor = new Intent(this, VisitorActivity.class);
+                tenVisitor.putExtra("id", id);
+                startActivity(tenVisitor);
+                break;
             case R.id.ll_liwubang:
                 startActivity(new Intent(this, LiWuBangActivity.class));
                 break;
@@ -242,7 +319,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                 startActivity(new Intent(this, NXiangCheActivity.class));
                 break;
             case R.id.sounds_ll:
-                paly_status_iv.setBackgroundResource(R.mipmap.audio_playing_iv);
+                paly_status_iv.setImageResource(R.mipmap.audio_playing_iv);
                 if (mPlayer != null) {
                     mPlayer.start();
                 } else {
@@ -250,7 +327,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                     mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer player) {
-                            paly_status_iv.setBackgroundResource(R.mipmap.audio_pause_iv);
+                            paly_status_iv.setImageResource(R.mipmap.activity_zhiliao_bofang);
                             mPlayer.release();
                             mPlayer = null;
                         }
@@ -269,6 +346,66 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                     });
                 }
                 break;
+            case R.id.ll_yuyin:
+                StealListenModel.getStealListenModel().isAllowTalk(new Subscriber<StandardResponse>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(StandardResponse standardResponse) {
+                        if (standardResponse.getStatus_code() == 200) {
+                            //调起拨打界面。
+                            AVChatProfile.getInstance().setAVChatting(true);
+                            AVChatActivity.launch(getApplication(), accid, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+                        } else {
+                            ToastUtils.showToast(NZhiLiaoActivity.this, standardResponse.getMessage(), 0);
+                        }
+                    }
+                }, String.valueOf(id), Authorization);
+                break;
+            case R.id.ll_liaotian:
+                StealListenModel.getStealListenModel().isAllowTalk(new Subscriber<StandardResponse>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(StandardResponse standardResponse) {
+                        if (standardResponse.getStatus_code() == 200) {
+                            List<String> accounts = new ArrayList<String>();
+                            accounts.add(String.valueOf(id));
+                            NIMClient.getService(UserService.class).fetchUserInfo(accounts).setCallback(new RequestCallback<List<NimUserInfo>>() {
+                                @Override
+                                public void onSuccess(List<NimUserInfo> infos) {
+                                    //点击打开与该用户的聊天界面
+                                    NimUIKit.startP2PSession(NZhiLiaoActivity.this, accid);
+                                }
+
+                                @Override
+                                public void onFailed(int i) {
+                                    Log.i(UserMainActivity.class.getSimpleName(), "拉取用户信息失败");
+                                }
+
+                                @Override
+                                public void onException(Throwable throwable) {
+                                    Log.i(UserMainActivity.class.getSimpleName(), throwable.getMessage());
+                                }
+                            });
+                        } else {
+                            ToastUtils.showToast(NZhiLiaoActivity.this, standardResponse.getMessage(), 0);
+                        }
+                    }
+                }, String.valueOf(id), Authorization);
+                break;
         }
     }
 
@@ -276,13 +413,12 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
      * 初始化数据
      */
     private void initData() {
-        Intent intent = getIntent();
         UserDao userDao = new UserDao();
         UserBean userBean = userDao.queryFirstData();
         if (userBean != null) {
             Authorization = "Bearer " + userBean.getToken();
         }
-        if (id == userBean.getUserId() || userBean.getUserId().equals(id)) {//如果当前点击条目就是登录用户自己 登录NimUIKit 同时缓存账户id
+        if (Integer.valueOf(id) == userBean.getUserId() || userBean.getUserId().equals(id)) {//如果当前点击条目就是登录用户自己 登录NimUIKit 同时缓存账户id
 //            guanzhu_name_tv.setVisibility(View.GONE);
 //            more_rl.setVisibility(View.INVISIBLE);
             NimUIKit.doLogin(new LoginInfo(userBean.getWy_acid(), userBean.getWy_token()), new RequestCallback<LoginInfo>() {
@@ -335,7 +471,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                 mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer player) {
-                        paly_status_iv.setBackgroundResource(R.mipmap.audio_pause_iv);
+                        paly_status_iv.setImageResource(R.mipmap.activity_zhiliao_bofang);
                         mPlayer.release();
                         mPlayer = null;
                     }
@@ -352,6 +488,8 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            sounds_ll.setVisibility(View.GONE);
         }
     }
 

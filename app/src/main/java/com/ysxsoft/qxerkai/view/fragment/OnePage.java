@@ -1,5 +1,6 @@
 package com.ysxsoft.qxerkai.view.fragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -30,6 +31,7 @@ import com.ttt.qx.qxcall.function.home.view.HomeCategoryFragment;
 import com.ttt.qx.qxcall.function.home.view.MainActivity;
 import com.ttt.qx.qxcall.function.login.model.entity.UserListInfo;
 import com.ttt.qx.qxcall.pager.BasePager;
+import com.ttt.qx.qxcall.utils.CustomAlertDialogUtil;
 import com.ttt.qx.qxcall.utils.IntentUtil;
 import com.ttt.qx.qxcall.widget.viewhelper.TabLayoutHelper;
 import com.ysxsoft.qxerkai.utils.DimenUtils;
@@ -191,8 +193,8 @@ public class OnePage extends BasePager implements View.OnClickListener {
                 }
                 UserListInfo.DataBean.ListBean data=adapter1.getData().get(position);
                 ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class)
-                        .putExtra("title", data.getNick_name())
-                        .putExtra("data",data));
+                        .putExtra("id",data.getId())
+                        .putExtra("accid",data.getWy_acid()));
             }
         });
         adapter2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -204,8 +206,8 @@ public class OnePage extends BasePager implements View.OnClickListener {
                 }
                 UserListInfo.DataBean.ListBean data=adapter2.getData().get(position);
                 ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class)
-                        .putExtra("title", data.getNick_name())
-                        .putExtra("data",data));
+                        .putExtra("id",data.getId())
+                        .putExtra("accid",data.getWy_acid()));
             }
         });
         adapter3.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -217,8 +219,8 @@ public class OnePage extends BasePager implements View.OnClickListener {
                 }
                 UserListInfo.DataBean.ListBean data=adapter3.getData().get(position);
                 ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class)
-                        .putExtra("title", data.getNick_name())
-                        .putExtra("data",data));
+                        .putExtra("id",data.getId())
+                        .putExtra("accid",data.getWy_acid()));
             }
         });
         adapter4.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -230,8 +232,8 @@ public class OnePage extends BasePager implements View.OnClickListener {
                 }
                 UserListInfo.DataBean.ListBean data=adapter4.getData().get(position);
                 ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class)
-                        .putExtra("title", data.getNick_name())
-                        .putExtra("data",data));
+                        .putExtra("id",data.getId())
+                        .putExtra("accid",data.getWy_acid()));
             }
         });
         adapter5.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -243,8 +245,8 @@ public class OnePage extends BasePager implements View.OnClickListener {
                 }
                 UserListInfo.DataBean.ListBean data=adapter5.getData().get(position);
                 ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class)
-                        .putExtra("title", data.getNick_name())
-                        .putExtra("data",data));
+                        .putExtra("id",data.getId())
+                        .putExtra("accid",data.getWy_acid()));
             }
         });
     }
@@ -393,13 +395,21 @@ public class OnePage extends BasePager implements View.OnClickListener {
      * @param tag 分类的ID
      */
     private void initItemData(String tag) {
+        Dialog loadingDialog=CustomAlertDialogUtil.createLoadingDialog(ctx, "加载中...", false);
+        loadingDialog.show();
         HomeModel.getHomeModel().getUserList(new Subscriber<UserListInfo>() {
             @Override
             public void onCompleted() {
+                if(loadingDialog!=null){
+                    loadingDialog.dismiss();
+                }
             }
 
             @Override
             public void onError(Throwable e) {
+                if(loadingDialog!=null){
+                    loadingDialog.dismiss();
+                }
             }
 
             @RequiresApi(api = Build.VERSION_CODES.M)
