@@ -1,16 +1,31 @@
 package com.ysxsoft.qxerkai.view.adapter;
 
+import android.content.Intent;
 import android.os.Environment;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.netease.nim.uikit.common.util.string.StringUtil;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.utils.IntentUtil;
+import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
+import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
+import com.ysxsoft.qxerkai.utils.DBUtils;
+import com.ysxsoft.qxerkai.utils.StringUtils;
+import com.ysxsoft.qxerkai.view.activity.NPersonCenterActivity;
+import com.ysxsoft.qxerkai.view.activity.NZhiLiaoActivity;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPreviewActivity;
 import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout;
@@ -19,24 +34,30 @@ import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout;
  * Created by zhaozhipeng on 18/3/19.
  */
 
-public class SGLOneAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-    private ArrayList<String> phones = new ArrayList<>();
+public class SGLOneAdapter extends BaseQuickAdapter<SaGouLiangListResponse.DataBean.ListBean, BaseViewHolder> {
+    private List<SaGouLiangListResponse.DataBean.ListBean> phones = new ArrayList<>();
 
-    public SGLOneAdapter(int layoutResId, List<String> data) {
+    public SGLOneAdapter(int layoutResId, List<SaGouLiangListResponse.DataBean.ListBean> data) {
         super(layoutResId, data);
-        phones.clear();
-        phones.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521440728160&di=460a1693c657c4d40c73caf76688a26d&imgtype=0&src=http%3A%2F%2Fimg5q.duitang.com%2Fuploads%2Fitem%2F201410%2F04%2F20141004212538_SXjWV.jpeg");
-        phones.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521440728160&di=460a1693c657c4d40c73caf76688a26d&imgtype=0&src=http%3A%2F%2Fimg5q.duitang.com%2Fuploads%2Fitem%2F201410%2F04%2F20141004212538_SXjWV.jpeg");
-        phones.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521440728160&di=460a1693c657c4d40c73caf76688a26d&imgtype=0&src=http%3A%2F%2Fimg5q.duitang.com%2Fuploads%2Fitem%2F201410%2F04%2F20141004212538_SXjWV.jpeg");
-        phones.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521440728160&di=460a1693c657c4d40c73caf76688a26d&imgtype=0&src=http%3A%2F%2Fimg5q.duitang.com%2Fuploads%2Fitem%2F201410%2F04%2F20141004212538_SXjWV.jpeg");
+        this.phones.clear();
+        this.phones.addAll(data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
-        TextView tvContent=helper.getView(R.id.tv_sgl_item_content);
+    protected void convert(BaseViewHolder helper, SaGouLiangListResponse.DataBean.ListBean item) {
+        TextView tvContent = helper.getView(R.id.tv_sgl_item_content);
         tvContent.setVisibility(View.GONE);
         BGANinePhotoLayout ninePhotoLayout = helper.getView(R.id.snpl_moment_add_photos);
-        ninePhotoLayout.setData(phones);
+
+        List<SaGouLiangListResponse.DataBean.ListBean.ImgsBeanX> imgs = item.getImgs();
+        if (imgs != null) {
+            int size = imgs.size();
+            ArrayList<String> img = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                img.add(imgs.get(i).getImg());
+            }
+            ninePhotoLayout.setData(img);
+        }
         ninePhotoLayout.setDelegate(new BGANinePhotoLayout.Delegate() {
             @Override
             public void onClickNinePhotoItem(BGANinePhotoLayout ninePhotoLayout, View view, int position, String model, List<String> models) {
@@ -48,5 +69,77 @@ public class SGLOneAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
                 mContext.startActivity(photoPreviewIntentBuilder.build());
             }
         });
+
+        de.hdodenhof.circleimageview.CircleImageView logo = helper.getView(R.id.logo);
+
+        TextView name = helper.getView(R.id.name);
+        TextView time = helper.getView(R.id.time);
+        TextView likeNum = helper.getView(R.id.likeNum);
+
+        time.setText(StringUtils.convert(item.getDates()));
+        name.setText(StringUtils.convert(item.getUsername()));
+        likeNum.setText(StringUtils.convert(item.getLikes()));
+        Glide.with(mContext).load(item.getIcon()).into(logo);
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String suid=""+item.getUid();//发表人id
+                if(suid.equals(DBUtils.getUserId())){//本人
+                    IntentUtil.jumpIntent(mContext, NPersonCenterActivity.class);
+                }else{
+                    mContext.startActivity(new Intent(mContext, NZhiLiaoActivity.class).putExtra("title", "用户昵称").putExtra("uid",suid));//查看好友资料
+                }
+            }
+        });
+        likeNum.setOnClickListener(new OnLikeClickListener(item, item.getSid()));
+    }
+
+    private class OnLikeClickListener implements View.OnClickListener {
+        private int sid;
+        private SaGouLiangListResponse.DataBean.ListBean item;
+
+        public OnLikeClickListener(SaGouLiangListResponse.DataBean.ListBean item, int sid) {
+            this.item = item;
+            this.sid = sid;
+        }
+
+        @Override
+        public void onClick(View v) {
+            like(sid + "");
+        }
+    }
+
+    /**
+     * 点赞
+     *
+     * @param sid
+     */
+    private void like(String sid) {
+        Map<String, String> map = new HashMap<>();
+        map.put("user_id", DBUtils.getUserId());
+        map.put("sid", sid);
+
+        RetrofitTools.likeSaGouLiang(map)
+                .subscribe(new ResponseSubscriber<SaGouLiangLikeResponse>() {
+                    @Override
+                    public void onSuccess(SaGouLiangLikeResponse saGouLiangLikeResponse, int code, String msg) {
+                        if (code == 200) {
+                            ToastUtil.showToast(mContext, msg);
+
+                            refresh();
+                        } else {
+                            ToastUtil.showToast(mContext, msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+
+                    }
+                });
+    }
+
+    private void refresh() {
+        this.notifyDataSetChanged();
     }
 }

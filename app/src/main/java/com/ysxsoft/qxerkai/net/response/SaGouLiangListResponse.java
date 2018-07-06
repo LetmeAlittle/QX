@@ -70,7 +70,16 @@ public class SaGouLiangListResponse extends BaseResponse {
             private int uid;
             private int sid;
             private String content;
+            private String likes;
             private List<ImgsBean> imgs;
+
+            public String getLikes() {
+                return likes;
+            }
+
+            public void setLikes(String likes) {
+                this.likes = likes;
+            }
 
             public String getIcon() {
                 return icon;
@@ -163,6 +172,15 @@ public class SaGouLiangListResponse extends BaseResponse {
             private int sid;
             private String content;
             private List<ImgsBeanX> imgs;
+            private String likes;
+
+            public String getLikes() {
+                return likes;
+            }
+
+            public void setLikes(String likes) {
+                this.likes = likes;
+            }
 
             public String getIcon() {
                 return icon;

@@ -2,10 +2,14 @@ package com.ysxsoft.qxerkai.view.adapter;
 
 import android.os.Environment;
 import android.view.View;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ttt.qx.qxcall.R;
+import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
+import com.ysxsoft.qxerkai.utils.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,20 +22,15 @@ import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout;
  * Created by zhaozhipeng on 18/3/19.
  */
 
-public class SGLTwoAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-    private ArrayList<String> phones = new ArrayList<>();
+public class SGLTwoAdapter extends BaseQuickAdapter<SaGouLiangListResponse.DataBean.ListBean, BaseViewHolder> {
+    private ArrayList<SaGouLiangListResponse.DataBean.ListBean> phones = new ArrayList<>();
 
-    public SGLTwoAdapter(int layoutResId, List<String> data) {
+    public SGLTwoAdapter(int layoutResId, List<SaGouLiangListResponse.DataBean.ListBean> data) {
         super(layoutResId, data);
-        phones.clear();
-        phones.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521440728160&di=460a1693c657c4d40c73caf76688a26d&imgtype=0&src=http%3A%2F%2Fimg5q.duitang.com%2Fuploads%2Fitem%2F201410%2F04%2F20141004212538_SXjWV.jpeg");
-        phones.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521440728160&di=460a1693c657c4d40c73caf76688a26d&imgtype=0&src=http%3A%2F%2Fimg5q.duitang.com%2Fuploads%2Fitem%2F201410%2F04%2F20141004212538_SXjWV.jpeg");
-        phones.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521440728160&di=460a1693c657c4d40c73caf76688a26d&imgtype=0&src=http%3A%2F%2Fimg5q.duitang.com%2Fuploads%2Fitem%2F201410%2F04%2F20141004212538_SXjWV.jpeg");
-        phones.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521440728160&di=460a1693c657c4d40c73caf76688a26d&imgtype=0&src=http%3A%2F%2Fimg5q.duitang.com%2Fuploads%2Fitem%2F201410%2F04%2F20141004212538_SXjWV.jpeg");
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
+    protected void convert(BaseViewHolder helper, SaGouLiangListResponse.DataBean.ListBean item) {
 //        BGANinePhotoLayout ninePhotoLayout = helper.getView(R.id.snpl_moment_add_photos);
 //        ninePhotoLayout.setVisibility(View.GONE);
 //        ninePhotoLayout.setData(phones);
@@ -46,5 +45,16 @@ public class SGLTwoAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 //                mContext.startActivity(photoPreviewIntentBuilder.build());
 //            }
 //        });
+
+        de.hdodenhof.circleimageview.CircleImageView logo = helper.getView(R.id.logo);
+
+        TextView name = helper.getView(R.id.name);
+        TextView time = helper.getView(R.id.time);
+        TextView likeNum = helper.getView(R.id.likeNum);
+
+        time.setText(StringUtils.convert(item.getDates()));
+        name.setText(StringUtils.convert(item.getUsername()));
+        likeNum.setText(StringUtils.convert(item.getLikes()));
+        Glide.with(mContext).load(item.getIcon()).into(logo);
     }
 }
