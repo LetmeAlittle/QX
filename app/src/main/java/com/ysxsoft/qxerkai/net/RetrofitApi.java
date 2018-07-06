@@ -2,6 +2,8 @@ package com.ysxsoft.qxerkai.net;
 
 
 import com.umeng.socialize.sina.message.BaseResponse;
+import com.ysxsoft.qxerkai.net.response.RuleResponse;
+import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangPublishResponse;
 
@@ -15,7 +17,9 @@ import retrofit2.http.POST;
 import retrofit2.http.Url;
 import rx.Observable;
 
+import static com.ttt.qx.qxcall.constant.CommonConstant.RULE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_COMMIT;
+import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIKE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIST;
 
 public interface RetrofitApi {
@@ -31,6 +35,26 @@ public interface RetrofitApi {
     Observable<SaGouLiangListResponse> getSaGouLiangList(@FieldMap Map<String, String> map);
 
     /**
+     * 关于我们/我的收益规则/萨狗粮规则/萨狗粮奖品/使用说明/vip特权
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SA_GOU_LIANG_LIKE)
+    Observable<SaGouLiangLikeResponse> likeSaGouLiang(@FieldMap Map<String, String> map);
+
+    /**
+     * 关于我们/我的收益规则/萨狗粮规则/萨狗粮奖品/使用说明/vip特权
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(RULE)
+    Observable<RuleResponse> getRule(@FieldMap Map<String, String> map);
+
+    /**
      * 发布撒狗粮
      *
      * @param url
@@ -39,6 +63,9 @@ public interface RetrofitApi {
      */
     @POST()
     Observable<SaGouLiangPublishResponse> publishSaGouLiang(@Url() String url, @Body RequestBody Body);
+
+
+
 
 //    /**
 //     * 上传图片

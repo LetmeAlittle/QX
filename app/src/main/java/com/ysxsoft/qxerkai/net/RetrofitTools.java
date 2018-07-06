@@ -1,16 +1,14 @@
 package com.ysxsoft.qxerkai.net;
 
-import com.umeng.socialize.sina.message.BaseResponse;
+import com.ysxsoft.qxerkai.net.response.RuleResponse;
+import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangPublishResponse;
 import com.ysxsoft.qxerkai.utils.LogUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,6 +27,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.ttt.qx.qxcall.constant.CommonConstant.COMMON_BASE_URL;
+import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_COMMIT;
+import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIST;
 
 public class RetrofitTools {
     public static RetrofitTools instance;
@@ -134,12 +134,32 @@ public class RetrofitTools {
     }
 
     /**
+     * 撒狗粮点赞
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<SaGouLiangLikeResponse> likeSaGouLiang(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().likeSaGouLiang(map));
+    }
+
+    /**
+     * 关于我们/我的收益规则/萨狗粮规则/萨狗粮奖品/使用说明/vip特权
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<RuleResponse> getRule(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getRule(map));
+    }
+
+    /**
      * 发布撒狗粮
      *
      * @param map
      * @return
      */
     public static Observable<SaGouLiangPublishResponse> publishSaGouLiang(Map<String, String> map, String[] imageNames, File[] imageFiles) {
-        return subscribe(RetrofitTools.getManager().publishSaGouLiang(COMMON_BASE_URL, builder(map, imageNames, imageFiles).build()));
+        return subscribe(RetrofitTools.getManager().publishSaGouLiang(COMMON_BASE_URL+SA_GOU_LIANG_COMMIT, builder(map, imageNames, imageFiles).build()));
     }
 }

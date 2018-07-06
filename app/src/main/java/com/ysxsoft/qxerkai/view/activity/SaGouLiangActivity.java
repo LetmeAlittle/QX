@@ -13,12 +13,20 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.RuleResponse;
+import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
+import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.view.adapter.MainPageAdapter;
 import com.ysxsoft.qxerkai.view.fragment.SGLOneFragment;
 import com.ysxsoft.qxerkai.view.fragment.SGLTwoFragment;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +45,8 @@ public class SaGouLiangActivity extends NBaseActivity {
     LinearLayout llPublicTitlebarRight;
     @BindView(R.id.tv_public_titlebar_center)
     TextView tvPublicTitlebarCenter;
+    @BindView(R.id.prizeDescription)
+    TextView prizeDescription;
     @BindView(R.id.multipleStatusView)
     MultipleStatusView multipleStatusView;
     @BindView(R.id.vp_activity_sagouliang)
@@ -76,7 +86,7 @@ public class SaGouLiangActivity extends NBaseActivity {
         llPublicTitlebarRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                parseRule("1");
             }
         });
     }
@@ -93,7 +103,12 @@ public class SaGouLiangActivity extends NBaseActivity {
     }
 
     private void initData() {
-
+        prizeDescription.setOnClickListener(new View.OnClickListener() {//奖品规则
+            @Override
+            public void onClick(View v) {
+                parseRule("2");
+            }
+        });
     }
 
     /**
@@ -143,6 +158,49 @@ public class SaGouLiangActivity extends NBaseActivity {
         @Override
         public void onPageScrollStateChanged(int arg0) {
         }
+    }
+
+    /**
+     * 规则  1 规则  2奖品设置
+     *
+     * @param aid
+     */
+    private void parseRule(String aid) {
+        Map<String, String> map = new HashMap<>();
+        map.put("aid", aid);
+
+        RetrofitTools.getRule(map)
+                .subscribe(new ResponseSubscriber<RuleResponse>() {
+                    @Override
+                    public void onSuccess(RuleResponse ruleResponse, int code, String msg) {
+                        if (code == 200) {
+                            ToastUtil.showToast(SaGouLiangActivity.this, msg);
+                            BaseWebViewActivity.startWithContent(SaGouLiangActivity.this, ruleResponse.getData(),parseTitle(aid));
+                        }else{
+                            ToastUtil.showToast(SaGouLiangActivity.this, msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+
+                    }
+                });
+    }
+
+    private String parseTitle(String aid) {
+        String result = "";
+        switch (aid) {
+            case "1":
+                result = "规则";
+                break;
+            case "2":
+                result = "奖品设置";
+                break;
+            default:
+                break;
+        }
+        return result;
     }
 
 }
