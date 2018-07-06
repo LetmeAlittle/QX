@@ -73,4 +73,16 @@ public class CommonConstant {
     public static final String SA_GOU_LIANG_LIST="api/friend/dogList";                     //撒狗粮列表  type[1讲故事 2发图片]   page
     public static final String SA_GOU_LIANG_LIKE="api/friend/dogLike";                     //撒狗粮点赞  user_id  sid
     public static final String SA_GOU_LIANG_COMMIT="api/friend/publishDog";               //发布撒狗粮  user_id  type[1讲故事 2发图片]  content[type为1必填]   file[type为2必填]
+
+
+
+    //朋友圈
+    public static final String FRIEND_Q_LIST="/api/friend/list";// 朋友圈
+    public static final String FRIEND_Q_friend_list="/api/friend/friend_list";// 好友朋友圈
+    public static final String FRIEND_Q_reply="/api/friend/reply";// 评论朋友动态
+    public static final String FRIEND_Q_zan="/api/friend/zan";// 朋友圈点赞
+    public static final String FRIEND_Q_send_gift="/api/friend/send_gift";// 给朋友圈送礼物
+    public static final String FRIEND_Q_backgroundqh="/api/backgroundqh";// 更换朋友圈背景图
+
+
 }
