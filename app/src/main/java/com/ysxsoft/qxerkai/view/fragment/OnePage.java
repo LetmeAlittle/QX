@@ -179,6 +179,11 @@ public class OnePage extends BasePager implements View.OnClickListener {
         rvYujie.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         rvDashu.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         rvShengyou.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        rvXiaoxiannv.setNestedScrollingEnabled(false);
+        rvXiaogege.setNestedScrollingEnabled(false);
+        rvYujie.setNestedScrollingEnabled(false);
+        rvDashu.setNestedScrollingEnabled(false);
+        rvShengyou.setNestedScrollingEnabled(false);
         rvXiaoxiannv.setAdapter(adapter1);
         rvXiaogege.setAdapter(adapter2);
         rvYujie.setAdapter(adapter3);
