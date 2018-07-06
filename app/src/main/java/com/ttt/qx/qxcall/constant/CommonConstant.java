@@ -77,7 +77,7 @@ public class CommonConstant {
 
 
     //朋友圈
-    public static final String FRIEND_Q_LIST="/api/friend/list";// 朋友圈
+    public static final String FRIEND_Q_LIST="/api/friend/list";//朋友圈列表
     public static final String FRIEND_Q_friend_list="/api/friend/friend_list";// 好友朋友圈
     public static final String FRIEND_Q_reply="/api/friend/reply";// 评论朋友动态
     public static final String FRIEND_Q_zan="/api/friend/zan";// 朋友圈点赞
