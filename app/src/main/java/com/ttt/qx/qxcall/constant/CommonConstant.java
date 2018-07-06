@@ -69,4 +69,8 @@ public class CommonConstant {
     public static final String PHONE = "客服电话:18837117311";
     //
     public static final String SHARE = "http://116.62.217.183/share/";
+
+    public static final String SA_GOU_LIANG_LIST="api/friend/dogList";                     //撒狗粮列表  type[1讲故事 2发图片]   page
+    public static final String SA_GOU_LIANG_LIKE="api/friend/dogLike";                     //撒狗粮点赞  user_id  sid
+    public static final String SA_GOU_LIANG_COMMIT="api/friend/publishDog";               //发布撒狗粮  user_id  type[1讲故事 2发图片]  content[type为1必填]   file[type为2必填]
 }
