@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +38,12 @@ public class FollowActivity extends BaseActivity {
     TextView title_tv;
     @BindView(R.id.recycler_view)
     RecyclerView recycler_view;
+    @BindView(R.id.iv_public_titlebar_left_1)
+    ImageView ivPublicTitlebarLeft1;
+    @BindView(R.id.ll_public_titlebar_left)
+    LinearLayout llPublicTitlebarLeft;
+    @BindView(R.id.tv_public_titlebar_center)
+    TextView tvPublicTitlebarCenter;
     //当前用户id
     private int userId;
     private String mAuthorization;
@@ -56,15 +64,26 @@ public class FollowActivity extends BaseActivity {
      * 初始化数据
      */
     private void initData() {
+        ivPublicTitlebarLeft1.setVisibility(View.VISIBLE);
+        ivPublicTitlebarLeft1.setImageResource(R.mipmap.back_left_white);
+        llPublicTitlebarLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         userId = getIntent().getIntExtra("id", -1);
         UserDao dao = new UserDao();
         UserBean userBean = dao.queryFirstData();
         mAuthorization = "Bearer " + userBean.getToken();
         if (userBean.getUserId() == userId) {//如果是用户自己 查看
             title_tv.setText("我的关注");
+            tvPublicTitlebarCenter.setText("我的关注");
             userId = -1;//如果是自己本人 置为-1,member_id值为""
         } else {
             title_tv.setText("关注他的");
+            tvPublicTitlebarCenter.setText("关注他的");
         }
         context = this;
         HomeModel.getHomeModel().getUserFollowList(new ProgressSubscribe<>(new SubScribeOnNextListener<FlowVisitorInfoList>() {

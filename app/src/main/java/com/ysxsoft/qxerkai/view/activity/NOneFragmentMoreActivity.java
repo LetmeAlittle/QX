@@ -1,5 +1,6 @@
 package com.ysxsoft.qxerkai.view.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.ttt.qx.qxcall.database.UserDao;
 import com.ttt.qx.qxcall.dbbean.UserBean;
 import com.ttt.qx.qxcall.function.home.model.HomeModel;
 import com.ttt.qx.qxcall.function.login.model.entity.UserListInfo;
+import com.ttt.qx.qxcall.utils.CustomAlertDialogUtil;
 import com.ttt.qx.qxcall.utils.IntentUtil;
 import com.ysxsoft.qxerkai.utils.DimenUtils;
 import com.ysxsoft.qxerkai.utils.SystemUtils;
@@ -99,8 +101,8 @@ public class NOneFragmentMoreActivity extends NBaseActivity implements BaseQuick
                 }
                 UserListInfo.DataBean.ListBean data= (UserListInfo.DataBean.ListBean) adapter.getData().get(position);
                 startActivity(new Intent(NOneFragmentMoreActivity.this, NZhiLiaoActivity.class)
-                        .putExtra("title", data.getNick_name())
-                        .putExtra("data",data));
+                        .putExtra("id",data.getId())
+                        .putExtra("accid",data.getWy_acid()));
             }
         });
         adapter.setOnLoadMoreListener(this,rvMore);
@@ -163,13 +165,21 @@ public class NOneFragmentMoreActivity extends NBaseActivity implements BaseQuick
      * @param tag 分类的ID
      */
     private void initItemData(String tag) {
+        Dialog loadingDialog=CustomAlertDialogUtil.createLoadingDialog(this, "加载中...", false);
+        loadingDialog.show();
         HomeModel.getHomeModel().getUserList(new Subscriber<UserListInfo>() {
             @Override
             public void onCompleted() {
+                if(loadingDialog!=null){
+                    loadingDialog.dismiss();
+                }
             }
 
             @Override
             public void onError(Throwable e) {
+                if(loadingDialog!=null){
+                    loadingDialog.dismiss();
+                }
             }
 
             @RequiresApi(api = Build.VERSION_CODES.M)

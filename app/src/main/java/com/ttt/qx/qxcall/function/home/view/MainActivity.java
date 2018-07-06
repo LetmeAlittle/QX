@@ -154,7 +154,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         Log.i("Density", DeviceUtil.getDensityDpi(this) + "===" + DeviceUtil.getScreenHeight(this) + "x" + DeviceUtil.getScreenWidth(this));
     }
 
-
     @Override
     public void onBackPressed() {
         if (exit.isExit()) {

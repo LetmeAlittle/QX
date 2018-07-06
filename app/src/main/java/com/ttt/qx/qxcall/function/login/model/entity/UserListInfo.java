@@ -7,7 +7,7 @@ import java.util.List;
  * 首页用户列表
  * Created by wyd on 2017/10/18.
  */
-public class UserListInfo {
+public class UserListInfo implements Serializable{
 
     /**
      * message : success
@@ -43,7 +43,7 @@ public class UserListInfo {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * list : [{"id":41,"nick_name":"a","member_avatar":"http://116.62.217.183/storage/avatar/2017/10/28/avatar_1509120102_41.jpg","level":0,"member_account":0,"member_sex":"0","member_age":"","member_price":0,"fans_num":0,"zan_num":0,"member_signature":"哈喽","member_img_1":"http://116.62.217.183/storage/user/20171027/41_img_1.jpg","member_img_2":"","member_img_3":"","member_img_4":"","birthday":"","member_tag":[{"id":1,"text":"情感聊天","color":"#f59c9e"},{"id":3,"text":"知性御姐","color":"#b483a3"},{"id":4,"text":"热血青年","color":"#56e0cf"},{"id":5,"text":"老司机","color":"#ff4a06"},{"id":6,"text":"可人儿","color":"#ece006"},{"id":7,"text":"文艺范","color":"#86c02e"}],"wy_acid":"41","wy_token":"88f5030d0468a1832e5c75be7592d41d","visitor_num":0,"listen_state":1}]
          * page : {"current_page":3,"last_page":4,"prev_page_url":"http://116.62.217.183/api/home?page=4","next_page_url":"http://116.62.217.183/api/home?page=4","total":33}
@@ -354,7 +354,7 @@ public class UserListInfo {
                 this.member_tag = member_tag;
             }
 
-            public static class MemberTagBean {
+            public static class MemberTagBean implements Serializable{
                 /**
                  * id : 1
                  * text : 情感聊天

@@ -66,5 +66,22 @@ public class CommonTagList {
         public void setId(String id) {
             this.id = id;
         }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "name='" + name + '\'' +
+                    ", id='" + id + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "CommonTagList{" +
+                "message='" + message + '\'' +
+                ", status_code=" + status_code +
+                ", data=" + data +
+                '}';
     }
 }
