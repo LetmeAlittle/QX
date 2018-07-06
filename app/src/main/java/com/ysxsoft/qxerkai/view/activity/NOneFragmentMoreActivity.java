@@ -105,6 +105,8 @@ public class NOneFragmentMoreActivity extends NBaseActivity implements BaseQuick
                         .putExtra("accid",data.getWy_acid()));
             }
         });
+
+
         adapter.setOnLoadMoreListener(this,rvMore);
         adapter.isFirstOnly(true);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
