@@ -42,6 +42,7 @@ import java.util.Random;
 
 /**
  * Created by caizhiming on 2015/10/11.
+ *
  */
 public class XCDanmuView extends RelativeLayout {
     private int mScreenWidth;
