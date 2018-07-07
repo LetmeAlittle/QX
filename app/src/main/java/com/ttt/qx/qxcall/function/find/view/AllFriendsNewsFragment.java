@@ -133,7 +133,7 @@ public class AllFriendsNewsFragment extends Fragment {
                     } else {
                     }
                 }
-            }, context), authorization, "1");
+            }, context), authorization, "1","");
         } else {//好友动态
             if (login) {
                 UserDao userDao = new UserDao();
@@ -179,7 +179,7 @@ public class AllFriendsNewsFragment extends Fragment {
                         } else {
                         }
                     }
-                }, context), authorization, "1");
+                }, context), authorization, "1","");
             }
         }
     }
@@ -205,7 +205,7 @@ public class AllFriendsNewsFragment extends Fragment {
                         allFriendsNewsAdapter.notifyDataSetChanged();
                     }
                 }
-            }, context), authorization, String.valueOf(current_page));
+            }, context), authorization, String.valueOf(current_page),"");
         } else {
             onToast("没有更多了！");
         }
@@ -229,7 +229,7 @@ public class AllFriendsNewsFragment extends Fragment {
                         allFriendsNewsAdapter.notifyDataSetChanged();
                     }
                 }
-            }, context), authorization, String.valueOf(current_page));
+            }, context), authorization, String.valueOf(current_page),"");
         } else {
             onToast("没有更多了！");
         }

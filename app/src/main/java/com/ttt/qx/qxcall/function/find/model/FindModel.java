@@ -16,6 +16,7 @@ import com.ttt.qx.qxcall.function.register.model.entity.ResponseStatus;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 
 import retrofit2.Retrofit;
+import retrofit2.http.Field;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -73,8 +74,8 @@ public class FindModel implements BaseModel {
      * @param page
      * @param Authorization
      */
-    public void getAllDynamic(Subscriber<DynamicResponse> subscriber, String Authorization, String page) {
-        Observable<DynamicResponse> observable = findServiceApi.getAllDynamic(Authorization, page);
+    public void getAllDynamic(Subscriber<DynamicResponse> subscriber, String Authorization, String page,String user_id) {
+        Observable<DynamicResponse> observable = findServiceApi.getAllDynamic(Authorization, page, user_id);
         onToSubscribe889(observable, subscriber);
     }
 
@@ -84,8 +85,8 @@ public class FindModel implements BaseModel {
      * @param subscriber
      * @param Authorization
      */
-    public void getFriendDynamic(Subscriber<DynamicResponse> subscriber, String Authorization, String page) {
-        Observable<DynamicResponse> observable = findServiceApi.getFriendDynamic(Authorization, page);
+    public void getFriendDynamic(Subscriber<DynamicResponse> subscriber, String Authorization, String page,String user_id) {
+        Observable<DynamicResponse> observable = findServiceApi.getFriendDynamic(Authorization, page, user_id);
         onToSubscribe889(observable, subscriber);
     }
 

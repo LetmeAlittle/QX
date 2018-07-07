@@ -89,6 +89,7 @@
                                 android:orientation="horizontal">
 
                                 <RadioButton
+                                    android:id="@+id/rb_all"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/activity_pengyouquan_top_bg"
@@ -102,6 +103,7 @@
                                     android:textSize="@dimen/lager_size"/>
 
                                 <RadioButton
+                                    android:id="@+id/rb_friend"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/activity_pengyouquan_top_right_bg"
