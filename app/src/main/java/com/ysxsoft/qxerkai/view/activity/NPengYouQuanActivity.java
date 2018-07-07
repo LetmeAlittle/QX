@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdapter.RequestLoadMoreListener {
 
@@ -59,12 +58,12 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
         initStatusBar();
         initStatusBar(statusBar);
         initStatusBar(statusBar2);
-        initTieleBar();
+        initTitleBar();
         initView();
         initData();
     }
 
-    private void initTieleBar() {
+    private void initTitleBar() {
         ivPublicTitlebarLeft1.setVisibility(View.VISIBLE);
         ivPublicTitlebarLeft1.setImageResource(R.mipmap.back_left_white);
         llPublicTitlebarLeft.setOnClickListener(new View.OnClickListener() {
