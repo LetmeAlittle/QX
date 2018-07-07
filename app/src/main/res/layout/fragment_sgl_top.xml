@@ -31,12 +31,14 @@
                 android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/logo"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@mipmap/image5"
                     />
 
                 <TextView
+                    android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="10dp"
@@ -56,10 +58,11 @@
                 android:lineSpacingExtra="5dp"
                 android:layout_weight="1"
                 android:textSize="@dimen/middle_size"
-                android:text="ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
+                android:text=""
                 />
 
             <TextView
+                android:id="@+id/likeNum"
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/normal_size"
                 android:textColor="@color/colorAccent"
@@ -72,7 +75,6 @@
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
-
     </FrameLayout>
 
 </LinearLayout>

@@ -162,8 +162,6 @@ public class SGLOneFragment extends BaseFragment implements BaseQuickAdapter.Req
                     @Override
                     public void onFailed(Throwable e) {
                         multipleStatusView.hideLoading();
-
-                        Log.e("tag", e.getMessage());
                         if (pageIndex > 1) {
                             pageIndex--;
                         }
@@ -185,7 +183,7 @@ public class SGLOneFragment extends BaseFragment implements BaseQuickAdapter.Req
             }
             TextView likeNum = (TextView) headView.findViewById(R.id.tv_likeNum);
             likeNum.setText(StringUtils.convert(topBean.getLikes()));
-            likeNum.setTextColor(getResources().getColor(R.color.colorAccent));
+//            likeNum.setTextColor(getResources().getColor(R.color.colorAccent));
             ImageView fabu = (ImageView) headView.findViewById(R.id.iv_fabu);
             fabu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -306,25 +304,5 @@ public class SGLOneFragment extends BaseFragment implements BaseQuickAdapter.Req
                         multipleStatusView.showLoading();
                     }
                 });
-    }
-
-    private void like(String sid) {
-        Map<String, String> map = new HashMap<>();
-        map.put("user_id",DBUtils.getUserId());
-        map.put("sid",sid);
-
-        RetrofitTools.likeSaGouLiang(map)
-                .subscribe(new ResponseSubscriber<SaGouLiangLikeResponse>() {
-                    @Override
-                    public void onSuccess(SaGouLiangLikeResponse saGouLiangLikeResponse, int code, String msg) {
-
-                    }
-
-                    @Override
-                    public void onFailed(Throwable e) {
-
-                    }
-                });
-
     }
 }

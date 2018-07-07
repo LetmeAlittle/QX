@@ -35,7 +35,7 @@ public interface RetrofitApi {
     Observable<SaGouLiangListResponse> getSaGouLiangList(@FieldMap Map<String, String> map);
 
     /**
-     * 关于我们/我的收益规则/萨狗粮规则/萨狗粮奖品/使用说明/vip特权
+     * 撒狗粮点赞
      *
      * @param map
      * @return
@@ -55,7 +55,7 @@ public interface RetrofitApi {
     Observable<RuleResponse> getRule(@FieldMap Map<String, String> map);
 
     /**
-     * 发布撒狗粮
+     * 发布撒狗粮  照片
      *
      * @param url
      * @param Body
@@ -64,14 +64,13 @@ public interface RetrofitApi {
     @POST()
     Observable<SaGouLiangPublishResponse> publishSaGouLiang(@Url() String url, @Body RequestBody Body);
 
-
-
-
-//    /**
-//     * 上传图片
-//     *
-//     * @return
-//     */
-//    @POST()
-//    Observable<UpdateUserInfoResponse> updateLogo(@Url() String url, @Body RequestBody Body);
+    /**
+     * 发布撒狗粮  文本
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SA_GOU_LIANG_COMMIT)
+    Observable<SaGouLiangPublishResponse> publishSaGouLiang(@FieldMap Map<String, String> map);
 }

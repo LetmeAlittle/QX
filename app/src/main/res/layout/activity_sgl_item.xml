@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,19 +27,18 @@
                     android:id="@+id/logo"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/image5"
-                    />
+                    android:src="@mipmap/image5" />
 
                 <TextView
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="10dp"
-                    android:textColor="@color/loginUsernameColor"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp"
                     android:text="在下唐三藏"
-                    android:textSize="@dimen/middle_size"/>
+                    android:textColor="@color/loginUsernameColor"
+                    android:textSize="@dimen/middle_size" />
             </LinearLayout>
 
             <TextView
@@ -48,22 +47,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:lineSpacingExtra="3dp"
-                android:textColor="@color/white"
                 android:text="我是谁，我来自哪里，要往哪里去。我是唐三藏，自东土大唐而来，要往西天拜佛求精。"
-                android:textSize="@dimen/middle_size"/>
+                android:textColor="@color/white"
+                android:textSize="@dimen/middle_size" />
 
-            <cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
+            <cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/snpl_moment_add_photos"
                 style="@style/WrapWrap"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_marginTop="20dp"
                 android:visibility="gone"
                 app:bga_snpl_itemCornerRadius="0dp"
                 app:bga_snpl_itemSpanCount="3"
                 app:bga_snpl_itemWhiteSpacing="4dp"
                 app:bga_snpl_itemWidth="0dp"
-                app:bga_snpl_maxItemCount="9"
-                />
+                app:bga_snpl_maxItemCount="9" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:text="2小时前"
                     android:textColor="@color/loginUsernameColor"
-                    android:textSize="@dimen/normal_size"/>
+                    android:textSize="@dimen/normal_size" />
 
                 <TextView
                     android:id="@+id/delete"
@@ -87,30 +84,36 @@
                     android:layout_marginLeft="20dp"
                     android:text="删除"
                     android:textSize="@dimen/normal_size"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
-                    android:layout_weight="1"
-                    />
+                    android:layout_weight="1" />
 
-                <TextView
-                    android:id="@+id/likeNum"
+                <LinearLayout
+                    android:id="@+id/likeLayout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/gl_gutou_hui"
-                    android:drawablePadding="5dp"
-                    android:gravity="center"
-                    android:text="12"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/normal_size"/>
+                    android:layout_height="wrap_content">
 
+                    <ImageView
+                        android:id="@+id/goutou"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/gl_gutou_hui" />
+
+                    <TextView
+                        android:id="@+id/likeNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/layout_margin_5dp"
+                        android:gravity="center"
+                        android:text="12"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/normal_size" />
+                </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
-
-
     </LinearLayout>
 
     <View
@@ -118,7 +121,6 @@
         android:layout_height="1px"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@color/_666666"
-        />
+        android:background="@color/_666666" />
 
 </LinearLayout>

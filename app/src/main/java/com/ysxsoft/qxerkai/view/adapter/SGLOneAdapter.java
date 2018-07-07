@@ -2,7 +2,10 @@ package com.ysxsoft.qxerkai.view.adapter;
 
 import android.content.Intent;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -36,6 +39,7 @@ import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout;
 
 public class SGLOneAdapter extends BaseQuickAdapter<SaGouLiangListResponse.DataBean.ListBean, BaseViewHolder> {
     private List<SaGouLiangListResponse.DataBean.ListBean> phones = new ArrayList<>();
+    private int realPosition;
 
     public SGLOneAdapter(int layoutResId, List<SaGouLiangListResponse.DataBean.ListBean> data) {
         super(layoutResId, data);
@@ -45,9 +49,16 @@ public class SGLOneAdapter extends BaseQuickAdapter<SaGouLiangListResponse.DataB
 
     @Override
     protected void convert(BaseViewHolder helper, SaGouLiangListResponse.DataBean.ListBean item) {
+
         TextView tvContent = helper.getView(R.id.tv_sgl_item_content);
         tvContent.setVisibility(View.GONE);
         BGANinePhotoLayout ninePhotoLayout = helper.getView(R.id.snpl_moment_add_photos);
+        de.hdodenhof.circleimageview.CircleImageView logo = helper.getView(R.id.logo);
+        LinearLayout gouTouLayout = helper.getView(R.id.likeLayout);
+        ImageView goutou = helper.getView(R.id.goutou);
+        TextView name = helper.getView(R.id.name);
+        TextView time = helper.getView(R.id.time);
+        TextView likeNum = helper.getView(R.id.likeNum);
 
         List<SaGouLiangListResponse.DataBean.ListBean.ImgsBeanX> imgs = item.getImgs();
         if (imgs != null) {
@@ -70,41 +81,47 @@ public class SGLOneAdapter extends BaseQuickAdapter<SaGouLiangListResponse.DataB
             }
         });
 
-        de.hdodenhof.circleimageview.CircleImageView logo = helper.getView(R.id.logo);
-
-        TextView name = helper.getView(R.id.name);
-        TextView time = helper.getView(R.id.time);
-        TextView likeNum = helper.getView(R.id.likeNum);
-
         time.setText(StringUtils.convert(item.getDates()));
         name.setText(StringUtils.convert(item.getUsername()));
         likeNum.setText(StringUtils.convert(item.getLikes()));
         Glide.with(mContext).load(item.getIcon()).into(logo);
+        if (item.isLiked()) {
+            goutou.setImageResource(R.mipmap.gutou_red);
+        } else {
+            goutou.setImageResource(R.mipmap.gl_gutou_hui);
+        }
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String suid=""+item.getUid();//发表人id
-                if(suid.equals(DBUtils.getUserId())){//本人
+                String suid = "" + item.getUid();//发表人id
+                if (suid.equals(DBUtils.getUserId())) {//本人
                     IntentUtil.jumpIntent(mContext, NPersonCenterActivity.class);
-                }else{
-                    mContext.startActivity(new Intent(mContext, NZhiLiaoActivity.class).putExtra("title", "用户昵称").putExtra("uid",suid));//查看好友资料
+                } else {
+                    if ("".equals(suid)) {
+                        return;
+                    }
+                    int id = Integer.parseInt(suid);
+                    mContext.startActivity(new Intent(mContext, NZhiLiaoActivity.class).putExtra("id", id).putExtra("accid", suid));//查看好友资料
                 }
             }
         });
-        likeNum.setOnClickListener(new OnLikeClickListener(item, item.getSid()));
+        gouTouLayout.setOnClickListener(new OnLikeClickListener(item, item.getSid(), helper.getAdapterPosition()));
     }
 
     private class OnLikeClickListener implements View.OnClickListener {
         private int sid;
+        private int position;
         private SaGouLiangListResponse.DataBean.ListBean item;
 
-        public OnLikeClickListener(SaGouLiangListResponse.DataBean.ListBean item, int sid) {
+        public OnLikeClickListener(SaGouLiangListResponse.DataBean.ListBean item, int sid, int position) {
             this.item = item;
             this.sid = sid;
+            this.position = position;
         }
 
         @Override
         public void onClick(View v) {
+            realPosition = position - 1;//去除header
             like(sid + "");
         }
     }
@@ -124,8 +141,6 @@ public class SGLOneAdapter extends BaseQuickAdapter<SaGouLiangListResponse.DataB
                     @Override
                     public void onSuccess(SaGouLiangLikeResponse saGouLiangLikeResponse, int code, String msg) {
                         if (code == 200) {
-                            ToastUtil.showToast(mContext, msg);
-
                             refresh();
                         } else {
                             ToastUtil.showToast(mContext, msg);
@@ -140,6 +155,7 @@ public class SGLOneAdapter extends BaseQuickAdapter<SaGouLiangListResponse.DataB
     }
 
     private void refresh() {
-        this.notifyDataSetChanged();
+        this.mData.get(realPosition).setLiked(true);
+        this.notifyItemChanged(realPosition);
     }
 }

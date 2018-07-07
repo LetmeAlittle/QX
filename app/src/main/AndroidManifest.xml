@@ -586,6 +586,8 @@
         <activity android:name="com.ysxsoft.qxerkai.view.activity.NTiXianActivity"></activity>
         <!-- 网页基类-->
         <activity android:name="com.ysxsoft.qxerkai.view.activity.BaseWebViewActivity"></activity>
+        <!--发布撒狗粮-->
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.PublishSGLActivity"></activity>
     </application>
 
 </manifest>
