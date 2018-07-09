@@ -68,7 +68,9 @@ public interface RetrofitApi {
     @POST()
     Observable<SaGouLiangPublishResponse> publishSaGouLiang(@Url() String url, @Body RequestBody Body);
 
-
+    @FormUrlEncoded
+    @POST(SA_GOU_LIANG_COMMIT)
+    Observable<SaGouLiangPublishResponse> publishSaGouLiang(@FieldMap Map<String, String> map);
 
 
 //    /**
@@ -81,6 +83,7 @@ public interface RetrofitApi {
 
     /**
      * 对某人进行守护
+     *
      * @param map
      * @return
      */
@@ -90,6 +93,7 @@ public interface RetrofitApi {
 
     /**
      * 用户的守护列表/用户守护的列表
+     *
      * @param map
      * @return
      */
