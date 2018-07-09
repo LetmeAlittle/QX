@@ -73,22 +73,25 @@ public class CommonConstant {
     public static final String SHARE = "http://116.62.217.183/share/";
 
     public static final String BASE_PATH = Environment.getExternalStorageDirectory() + "/ttt/pp/";
-    public static final String PHOTO_URL = BASE_PATH+"images";
+    public static final String PHOTO_URL = BASE_PATH + "images";
 
-    public static final String SA_GOU_LIANG_LIST="api/friend/dogList";                     //撒狗粮列表  type[1讲故事 2发图片]   page
-    public static final String SA_GOU_LIANG_LIKE="api/friend/dogLike";                     //撒狗粮点赞  user_id  sid
-    public static final String SA_GOU_LIANG_COMMIT="api/friend/publishDog";               //发布撒狗粮  user_id  type[1讲故事 2发图片]  content[type为1必填]   file[type为2必填]
-    public static final String RULE="/api/lucres";                                            //发布撒狗粮  aid  1关于我们/2我的收益规则3/萨狗粮规则4/萨狗粮奖品5使用说明/6vip特权
-
+    public static final String SA_GOU_LIANG_LIST = "api/friend/dogList";                     //撒狗粮列表  type[1讲故事 2发图片]   page
+    public static final String SA_GOU_LIANG_LIKE = "api/friend/dogLike";                     //撒狗粮点赞  user_id  sid
+    public static final String SA_GOU_LIANG_COMMIT = "api/friend/publishDog";               //发布撒狗粮  user_id  type[1讲故事 2发图片]  content[type为1必填]   file[type为2必填]
+    public static final String RULE = "/api/lucres";                                            //发布撒狗粮  aid  1关于我们/2我的收益规则3/萨狗粮规则4/萨狗粮奖品5使用说明/6vip特权
 
 
     //朋友圈
-    public static final String FRIEND_Q_LIST="/api/friend/list";// 朋友圈
-    public static final String FRIEND_Q_friend_list="/api/friend/friend_list";// 好友朋友圈
-    public static final String FRIEND_Q_reply="/api/friend/reply";// 评论朋友动态
-    public static final String FRIEND_Q_zan="/api/friend/zan";// 朋友圈点赞
-    public static final String FRIEND_Q_send_gift="/api/friend/send_gift";// 给朋友圈送礼物
-    public static final String FRIEND_Q_backgroundqh="/api/backgroundqh";// 更换朋友圈背景图
+    public static final String FRIEND_Q_LIST = "/api/friend/list";// 朋友圈
+    public static final String FRIEND_Q_friend_list = "/api/friend/friend_list";// 好友朋友圈
+    public static final String FRIEND_Q_reply = "/api/friend/reply";// 评论朋友动态
+    public static final String FRIEND_Q_zan = "/api/friend/zan";// 朋友圈点赞
+    public static final String FRIEND_Q_send_gift = "/api/friend/send_gift";// 给朋友圈送礼物
+    public static final String FRIEND_Q_backgroundqh = "/api/backgroundqh";// 更换朋友圈背景图
 
+
+    //用户资料  zhaozhipeng
+    public static final String USER_SHOUHU = "/api/friend/guardsing"; //对某人进行守护
+    public static final String USER_GUARDS_LIST="/api/friend/guards"; //守护列表
 
 }

@@ -129,6 +129,13 @@ public class OnePage extends BasePager implements View.OnClickListener {
         super(ctx);
     }
 
+    //不同分类对应的id，这里写成了死的。
+    private String xiaojiejie="46"; //小姐姐
+    private String xiaogege="45";   //小哥哥
+    private String yujie="48";        //御姐
+    private String dashu="47";        //大叔
+    private String shengyou="49";     //声优
+
     @Override
     public View initView() {
         rootView = View.inflate(ctx, R.layout.fragment_one, null);
@@ -263,11 +270,11 @@ public class OnePage extends BasePager implements View.OnClickListener {
     @Override
     public void initData() {
 //        initContent();
-        initItemData("20"); //小姐姐
-        initItemData("19"); //小哥哥
-        initItemData("22"); //御姐
-        initItemData("21"); //大叔
-        initItemData("23"); //声优
+        initItemData(xiaojiejie); //小姐姐
+        initItemData(xiaogege); //小哥哥
+        initItemData(yujie); //御姐
+        initItemData(dashu); //大叔
+        initItemData(shengyou); //声优
         tvGonggao.setSelected(true);
         scrollView.setOnScrollListener(new MyScrollView.OnScrollListener() {
             @Override
@@ -287,24 +294,24 @@ public class OnePage extends BasePager implements View.OnClickListener {
         String tag="";
         switch (view.getId()) {
             case R.id.ll_xiaoxiannv:
-                title = "小仙女";
-                tag="20";
+                title = "小姐姐";
+                tag=xiaojiejie;
                 break;
             case R.id.ll_xiaogege:
                 title = "小哥哥";
-                tag="19";
+                tag=xiaogege;
                 break;
             case R.id.ll_yujie:
                 title = "御姐";
-                tag="22";
+                tag=yujie;
                 break;
             case R.id.ll_dashu:
                 title = "大叔";
-                tag="21";
+                tag=dashu;
                 break;
             case R.id.ll_shengyou:
                 title = "声优";
-                tag="23";
+                tag=shengyou;
                 break;
         }
         ctx.startActivity(new Intent(ctx, NOneFragmentMoreActivity.class)
@@ -427,22 +434,16 @@ public class OnePage extends BasePager implements View.OnClickListener {
                     } else {
                         temp.addAll(userListInfo.getData().getList());
                     }
-                    switch (tag) {
-                        case "20":
-                            adapter1.setNewData(temp);
-                            break;
-                        case "19":
-                            adapter2.setNewData(temp);
-                            break;
-                        case "22":
-                            adapter3.setNewData(temp);
-                            break;
-                        case "21":
-                            adapter4.setNewData(temp);
-                            break;
-                        case "23":
-                            adapter5.setNewData(temp);
-                            break;
+                    if(tag.equals(xiaojiejie)){
+                        adapter1.setNewData(temp);
+                    }else if(tag.equals(xiaogege)){
+                        adapter2.setNewData(temp);
+                    }else if(tag.equals(yujie)){
+                        adapter3.setNewData(temp);
+                    }else if(tag.equals(dashu)){
+                        adapter4.setNewData(temp);
+                    }else if(tag.equals(shengyou)){
+                        adapter5.setNewData(temp);
                     }
                 }
             }

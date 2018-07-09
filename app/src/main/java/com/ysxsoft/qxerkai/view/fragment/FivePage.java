@@ -1,6 +1,7 @@
 package com.ysxsoft.qxerkai.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,6 +23,9 @@ import com.ttt.qx.qxcall.eventbus.SetSelectItem;
 import com.ttt.qx.qxcall.eventbus.UserInfoModifyed;
 import com.ttt.qx.qxcall.function.home.model.HomeModel;
 import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
+import com.ttt.qx.qxcall.function.home.view.FansActivity;
+import com.ttt.qx.qxcall.function.home.view.FollowActivity;
+import com.ttt.qx.qxcall.function.home.view.VisitorActivity;
 import com.ttt.qx.qxcall.function.login.model.LoginModel;
 import com.ttt.qx.qxcall.function.login.view.InvitedFriendsActivity;
 import com.ttt.qx.qxcall.function.login.view.MineBlacksActivity;
@@ -379,6 +383,8 @@ public class FivePage extends BasePager implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        UserDao userDao = new UserDao();
+        UserBean userBean = userDao.queryFirstData();
         switch (view.getId()) {
             //编辑资料
             case R.id.civ_head:
@@ -443,19 +449,28 @@ public class FivePage extends BasePager implements View.OnClickListener {
                 break;
             //粉丝
             case R.id.ll_fenshi:
-                IntentUtil.jumpIntent(ctx, NFansListActivity.class);
+                Intent tenFans = new Intent(ctx, FansActivity.class);
+                tenFans.putExtra("id", userBean.getUserId());
+                ctx.startActivity(tenFans);
+//                IntentUtil.jumpIntent(ctx, NFansListActivity.class);
                 break;
             //关注
             case R.id.ll_guanzhu:
-                IntentUtil.jumpIntent(ctx, NFansListActivity.class);
+                Intent ten = new Intent(ctx, FollowActivity.class);
+                ten.putExtra("id", userBean.getUserId());
+                ctx.startActivity(ten);
+//                IntentUtil.jumpIntent(ctx, NFansListActivity.class);
                 break;
             //点赞
             case R.id.ll_dianzan:
-                IntentUtil.jumpIntent(ctx, NFansListActivity.class);
+//                IntentUtil.jumpIntent(ctx, NFansListActivity.class);
                 break;
             //访客
             case R.id.ll_fangke:
-                IntentUtil.jumpIntent(ctx, NFansListActivity.class);
+                Intent tenVisitor = new Intent(ctx, VisitorActivity.class);
+                tenVisitor.putExtra("id", userBean.getUserId());
+                ctx.startActivity(tenVisitor);
+//                IntentUtil.jumpIntent(ctx, NFansListActivity.class);
                 break;
         }
     }

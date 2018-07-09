@@ -1,5 +1,7 @@
 package com.ttt.qx.qxcall.function.home.model.entity;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,7 +45,7 @@ public class UserDetailInfo {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean{
         /**
          * id : 24
          * nick_name : 123ceshi
@@ -101,6 +103,33 @@ public class UserDetailInfo {
         private String member_cate_name;
         private String sound_file;
         private List<MemberTagBean> member_tag;
+        private ArrayList<XiangCheBean> xiangce;
+        private String dog;     //狗粮数量
+        private String guard;   //守护数量
+
+        public ArrayList<XiangCheBean> getXiangce() {
+            return xiangce;
+        }
+
+        public void setXiangce(ArrayList<XiangCheBean> xiangce) {
+            this.xiangce = xiangce;
+        }
+
+        public String getDog() {
+            return dog;
+        }
+
+        public void setDog(String dog) {
+            this.dog = dog;
+        }
+
+        public String getGuard() {
+            return guard;
+        }
+
+        public void setGuard(String guard) {
+            this.guard = guard;
+        }
 
         public String getMember_city() {
             if(member_city==null||member_city.isEmpty()||member_city.equals("null")){
@@ -394,5 +423,27 @@ public class UserDetailInfo {
                 this.color = color;
             }
         }
+
+        public static class XiangCheBean implements Serializable {
+            private String icon;
+            private String icon_id;
+
+            public String getIcon() {
+                return icon;
+            }
+
+            public void setIcon(String icon) {
+                this.icon = icon;
+            }
+
+            public String getIcon_id() {
+                return icon_id;
+            }
+
+            public void setIcon_id(String icon_id) {
+                this.icon_id = icon_id;
+            }
+        }
+
     }
 }

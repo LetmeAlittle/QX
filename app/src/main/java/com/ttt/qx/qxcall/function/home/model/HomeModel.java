@@ -161,7 +161,7 @@ public class HomeModel implements BaseModel {
      * @param tag
      */
     public void getUserList(Subscriber<UserListInfo> subscriber, String tag, String sex, String page, String Authorization) {
-        Observable<UserListInfo> observable = homeServiceApi.getUserList(tag, sex,page, Authorization);
+        Observable<UserListInfo> observable = homeServiceApi.getUserList("1",tag, sex,page, Authorization);
         onToSubscribe90(observable, subscriber);
     }
 
