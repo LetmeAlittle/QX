@@ -4,6 +4,7 @@ import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
+import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
@@ -32,7 +33,6 @@ import rx.schedulers.Schedulers;
 
 import static com.ttt.qx.qxcall.constant.CommonConstant.COMMON_BASE_URL;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_COMMIT;
-import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIST;
 
 public class RetrofitTools {
     public static RetrofitTools instance;
@@ -127,7 +127,6 @@ public class RetrofitTools {
     ///////////////////////////////////////////////////////////////////////////
     // 网络请求 Api
     ///////////////////////////////////////////////////////////////////////////
-
     /**
      * 撒狗粮列表
      *
@@ -159,23 +158,33 @@ public class RetrofitTools {
     }
 
     /**
-     * 发布撒狗粮 照片
+     * 发布撒狗粮
      *
      * @param map
      * @return
      */
     public static Observable<SaGouLiangPublishResponse> publishSaGouLiang(Map<String, String> map, String[] imageNames, File[] imageFiles) {
-        return subscribe(RetrofitTools.getManager().publishSaGouLiang(COMMON_BASE_URL + SA_GOU_LIANG_COMMIT, builder(map, imageNames, imageFiles).build()));
+        return subscribe(RetrofitTools.getManager().publishSaGouLiang(COMMON_BASE_URL+SA_GOU_LIANG_COMMIT, builder(map, imageNames, imageFiles).build()));
     }
 
     /**
-     * 发布撒狗粮 文本
+     * 对某人进行守护
      *
      * @param map
      * @return
      */
-    public static Observable<SaGouLiangPublishResponse> publishSaGouLiang(Map<String, String> map) {
-        return subscribe(RetrofitTools.getManager().publishSaGouLiang(map));
+    public static Observable<BaseResponse> getGuardsing(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getGuardsing(map));
+    }
+
+    /**
+     * 用户的守护列表/用户守护的列表
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<GuardsListResponse> getGuardsingList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getGuardsingList(map));
     }
 
     /**

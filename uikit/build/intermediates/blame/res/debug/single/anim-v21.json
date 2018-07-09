@@ -1,14 +1,26 @@
 [
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/anim-v21/design_bottom_sheet_slide_out.xml",
-        "source": "/Users/zhaozhipeng/.android/build-cache/82e3cca767875e1cb58af85c362d2b29dcc4f34d/output/res/anim-v21/design_bottom_sheet_slide_out.xml"
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_in.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\74d52270e4358147cf344cf2e35278743923428f\\output\\res\\anim-v21\\design_bottom_sheet_slide_in.xml"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/anim-v21/design_bottom_sheet_slide_in.xml",
-        "source": "/Users/zhaozhipeng/.android/build-cache/82e3cca767875e1cb58af85c362d2b29dcc4f34d/output/res/anim-v21/design_bottom_sheet_slide_in.xml"
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_appbar_state_list_animator.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\74d52270e4358147cf344cf2e35278743923428f\\output\\res\\anim-v21\\design_appbar_state_list_animator.xml"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/anim-v21/design_appbar_state_list_animator.xml",
-        "source": "/Users/zhaozhipeng/.android/build-cache/82e3cca767875e1cb58af85c362d2b29dcc4f34d/output/res/anim-v21/design_appbar_state_list_animator.xml"
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_out.xml",
+        "source": "D:\\Users\\zhaozhipeng\\.android\\build-cache\\82e3cca767875e1cb58af85c362d2b29dcc4f34d\\output\\res\\anim-v21\\design_bottom_sheet_slide_out.xml"
+    },
+    {
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_out.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\74d52270e4358147cf344cf2e35278743923428f\\output\\res\\anim-v21\\design_bottom_sheet_slide_out.xml"
+    },
+    {
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_appbar_state_list_animator.xml",
+        "source": "D:\\Users\\zhaozhipeng\\.android\\build-cache\\82e3cca767875e1cb58af85c362d2b29dcc4f34d\\output\\res\\anim-v21\\design_appbar_state_list_animator.xml"
+    },
+    {
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_in.xml",
+        "source": "D:\\Users\\zhaozhipeng\\.android\\build-cache\\82e3cca767875e1cb58af85c362d2b29dcc4f34d\\output\\res\\anim-v21\\design_bottom_sheet_slide_in.xml"
     }
 ]

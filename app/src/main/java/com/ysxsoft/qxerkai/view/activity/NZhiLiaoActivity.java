@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.netease.nim.uikit.NimUIKit;
-import com.netease.nim.uikit.common.util.string.StringUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.LoginInfo;
@@ -32,7 +32,6 @@ import com.ttt.qx.qxcall.function.home.view.FansActivity;
 import com.ttt.qx.qxcall.function.home.view.FollowActivity;
 import com.ttt.qx.qxcall.function.home.view.VisitorActivity;
 import com.ttt.qx.qxcall.function.listen.model.StealListenModel;
-import com.ttt.qx.qxcall.function.login.model.entity.UserListInfo;
 import com.ttt.qx.qxcall.function.login.view.UserMainActivity;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 import com.ttt.qx.qxcall.function.voice.AVChatActivity;
@@ -43,12 +42,14 @@ import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 import com.ysxsoft.qxerkai.view.widget.RoundAngleImageView;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.bingoogolapple.photopicker.activity.BGAPhotoPreviewActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 import rx.Subscriber;
 
@@ -127,6 +128,10 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
     LinearLayout llGuanzhu;
     @BindView(R.id.ll_fangke)
     LinearLayout llFangke;
+    @BindView(R.id.tv_shouhunum)
+    TextView tvShouhunum;
+    @BindView(R.id.tv_gouliangnum)
+    TextView tvGouliangnum;
 
     private int id;
     private String accid;
@@ -142,7 +147,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nzhi_liao);
         ButterKnife.bind(this);
-        id = getIntent().getIntExtra("id",-1);
+        id = getIntent().getIntExtra("id", -1);
         accid = getIntent().getStringExtra("accid");
         initStatusBar();
         initStatusBar(statusBar);
@@ -183,6 +188,8 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
         if (mInfoData != null) {
             tvPublicTitlebarCenter.setText(mInfoData.getNick_name());
             llPrice.setText(mInfoData.getMember_price() + "砰砰豆/分钟");
+            tvShouhunum.setText(mInfoData.getGuard());
+            tvGouliangnum.setText(mInfoData.getDog());
             Glide.with(this).load(mInfoData.getMember_avatar()).into(civHead);
             if (mInfoData.getLevel() == 0) {
                 ivVip.setVisibility(View.GONE);
@@ -247,45 +254,87 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
             } else {
                 tvAge.setText(mInfoData.getMember_age() + "岁");
             }
-            Glide.with(this).load(mInfoData.getMember_img_1()).into(ivImage1);
-            Glide.with(this).load(mInfoData.getMember_img_2()).into(ivImage2);
-            Glide.with(this).load(mInfoData.getMember_img_3()).into(ivImage3);
-            Glide.with(this).load(mInfoData.getMember_img_4()).into(ivImage4);
+            ArrayList<RoundAngleImageView> ivImages=new ArrayList<>();
+            ivImages.add(ivImage1);
+            ivImages.add(ivImage2);
+            ivImages.add(ivImage3);
+            ivImages.add(ivImage4);
+            for(int i=0;i<mInfoData.getXiangce().size();i++){
+                if(i<4){
+                    Glide.with(this).load(mInfoData.getXiangce().get(i).getIcon()).into(ivImages.get(i));
+                }
+            }
+            if(mInfoData.getXiangce().size()>4){
+                tvXiangcheMore.setVisibility(View.VISIBLE);
+            }else {
+                tvXiangcheMore.setVisibility(View.GONE);
+            }
             ivImage1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    openImgLookBig(mInfoData.getMember_img_1());
+                    try {
+                        ArrayList<String> photosStr=new ArrayList<>();
+                        for(int i=0;i<mInfoData.getXiangce().size();i++){
+                            photosStr.add(mInfoData.getXiangce().get(i).getIcon());
+                        }
+                        openImgLookBig(photosStr,0);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             ivImage2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    openImgLookBig(mInfoData.getMember_img_2());
+                    try {
+                        ArrayList<String> photosStr=new ArrayList<>();
+                        for(int i=0;i<mInfoData.getXiangce().size();i++){
+                            photosStr.add(mInfoData.getXiangce().get(i).getIcon());
+                        }
+                        openImgLookBig(photosStr,1);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             ivImage3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    openImgLookBig(mInfoData.getMember_img_3());
+                    try {
+                        ArrayList<String> photosStr=new ArrayList<>();
+                        for(int i=0;i<mInfoData.getXiangce().size();i++){
+                            photosStr.add(mInfoData.getXiangce().get(i).getIcon());
+                        }
+                        openImgLookBig(photosStr,2);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             ivImage4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    openImgLookBig(mInfoData.getMember_img_4());
+                    try {
+                        ArrayList<String> photosStr=new ArrayList<>();
+                        for(int i=0;i<mInfoData.getXiangce().size();i++){
+                            photosStr.add(mInfoData.getXiangce().get(i).getIcon());
+                        }
+                        openImgLookBig(photosStr,3);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
     }
 
-    private void openImgLookBig(String avatar) {
-        if (avatar != null && !avatar.equals("")) {
-            ImgZoomFragment imgZoomFragment = new ImgZoomFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("imgUrl", avatar);
-            imgZoomFragment.setArguments(bundle);
-            imgZoomFragment.show((this).getSupportFragmentManager(), "imgZoomFragment");
-        }
+    private void openImgLookBig(ArrayList<String> photosStr,int  position) {
+        File downloadDir = new File(Environment.getExternalStorageDirectory(), "QX");
+        BGAPhotoPreviewActivity.IntentBuilder photoPreviewIntentBuilder = new BGAPhotoPreviewActivity.IntentBuilder(this)
+                .saveImgDir(downloadDir); // 保存图片的目录，如果传 null，则没有保存图片功能
+        photoPreviewIntentBuilder
+                .previewPhotos(photosStr).currentPosition(position); // 当前预览图片的索引
+        startActivity(photoPreviewIntentBuilder.build());
     }
 
     @Override
@@ -313,10 +362,12 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                 startActivity(new Intent(this, NLiaoRenQuActivity.class));
                 break;
             case R.id.ll_shouhu:
-                startActivity(new Intent(this, NShouHuBangActivity.class));
+                startActivity(new Intent(this, NShouHuBangActivity.class)
+                                .putExtra("uid",id)
+                                .putExtra("type",1));
                 break;
             case R.id.tv_xiangche_more:
-                startActivity(new Intent(this, NXiangCheActivity.class));
+                startActivity(new Intent(this, NXiangCheChaKanActivity.class).putExtra("photos",mInfoData.getXiangce()));
                 break;
             case R.id.sounds_ll:
                 paly_status_iv.setImageResource(R.mipmap.audio_playing_iv);

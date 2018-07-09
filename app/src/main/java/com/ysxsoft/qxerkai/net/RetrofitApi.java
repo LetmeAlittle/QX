@@ -1,10 +1,11 @@
 package com.ysxsoft.qxerkai.net;
 
 
-import com.ysxsoft.qxerkai.net.response.BaseResponse;
+import com.umeng.socialize.sina.message.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
+import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
@@ -30,6 +31,8 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.RULE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_COMMIT;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIKE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.USER_GUARDS_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.USER_SHOUHU;
 
 public interface RetrofitApi {
 
@@ -74,12 +77,22 @@ public interface RetrofitApi {
     Observable<SaGouLiangPublishResponse> publishSaGouLiang(@Url() String url, @Body RequestBody Body);
 
     /**
-     * 发布撒狗粮  文本
-     *
+     * 对某人进行守护
      * @param map
      * @return
      */
     @FormUrlEncoded
+    @GET(USER_SHOUHU)
+    Observable<BaseResponse> getGuardsing(@FieldMap Map<String, String> map);
+
+    /**
+     * 用户的守护列表/用户守护的列表
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @GET(USER_GUARDS_LIST)
+    Observable<GuardsListResponse> getGuardsingList(@FieldMap Map<String, String> map);
     @POST(SA_GOU_LIANG_COMMIT)
     Observable<SaGouLiangPublishResponse> publishSaGouLiang(@FieldMap Map<String, String> map);
 

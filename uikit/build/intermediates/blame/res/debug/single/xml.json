@@ -1,6 +1,10 @@
 [
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/xml/provider_paths.xml",
-        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/res/xml/provider_paths.xml"
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\xml\\provider_paths.xml",
+        "source": "D:\\QX\\uikit\\res\\xml\\provider_paths.xml"
+    },
+    {
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\xml\\provider_paths.xml",
+        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\res\\xml\\provider_paths.xml"
     }
 ]

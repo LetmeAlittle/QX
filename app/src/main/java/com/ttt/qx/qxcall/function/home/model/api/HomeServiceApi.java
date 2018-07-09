@@ -79,7 +79,7 @@ public interface HomeServiceApi {
      */
     @FormUrlEncoded
     @POST("api/home")
-    Observable<UserListInfo> getUserList(@Field("tag") String tag, @Field("sex") String sex, @Field("page") String page, @Header("Authorization") String Authorization);
+    Observable<UserListInfo> getUserList(@Field("class") String c,@Field("tag") String tag, @Field("sex") String sex, @Field("page") String page, @Header("Authorization") String Authorization);
 
     /**
      * 首页用户数据筛选

@@ -12,11 +12,17 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
+import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.adapter.LiaoRenQuAdapter;
 import com.ysxsoft.qxerkai.view.adapter.ShouHuBangAdapter;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,11 +45,16 @@ public class NShouHuBangActivity extends NBaseActivity implements BaseQuickAdapt
     private int pageTotal = 1;
     private ShouHuBangAdapter adapter;
 
+    private String uid;
+    private String type;    //1：这个用户的守护列表，2：这个用户守护的列表
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nshou_hu_bang);
         ButterKnife.bind(this);
+        uid=getIntent().getStringExtra("uid");
+        type=getIntent().getStringExtra("type");
         initStatusBar();
         initStatusBar(statusBar);
         initTitleBar();
@@ -75,24 +86,25 @@ public class NShouHuBangActivity extends NBaseActivity implements BaseQuickAdapt
     }
 
     private void initData() {
-        ArrayList<String> temp = new ArrayList<>();
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        adapter.setNewData(temp);
+       multipleStatusView.showLoading();
+        HashMap<String,String> hashMap=new HashMap<>();
+        hashMap.put("user_id",uid);
+        hashMap.put("type",type);
+        RetrofitTools.getGuardsingList(hashMap)
+                .subscribe(new ResponseSubscriber<GuardsListResponse>(){
+
+                    @Override
+                    public void onSuccess(GuardsListResponse guardsListResponse, int code, String msg) {
+                        multipleStatusView.hideLoading();
+                        adapter.setNewData(guardsListResponse.getData());
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+                        multipleStatusView.hideLoading();
+                        ToastUtils.showToast(NShouHuBangActivity.this,e.getMessage(),0);
+                    }
+                });
     }
 
     @Override

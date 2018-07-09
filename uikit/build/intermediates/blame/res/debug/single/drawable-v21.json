@@ -1,26 +1,50 @@
 [
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/drawable-v21/notification_action_background.xml",
-        "source": "/Users/zhaozhipeng/.android/build-cache/ac873a3d83bfe35848b92a9cd02ccb6681de05f1/output/res/drawable-v21/notification_action_background.xml"
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_btn_colored_material.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\c073b91a1fd2e4bd8da3024bb73fa0a97ffd44a9\\output\\res\\drawable-v21\\abc_btn_colored_material.xml"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/drawable-v21/touch_bg.xml",
-        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/res-ptr2/drawable-v21/touch_bg.xml"
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\design_bottom_navigation_item_background.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\74d52270e4358147cf344cf2e35278743923428f\\output\\res\\drawable-v21\\design_bottom_navigation_item_background.xml"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/drawable-v21/abc_btn_colored_material.xml",
-        "source": "/Users/zhaozhipeng/.android/build-cache/ac873a3d83bfe35848b92a9cd02ccb6681de05f1/output/res/drawable-v21/abc_btn_colored_material.xml"
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\notification_action_background.xml",
+        "source": "D:\\Users\\zhaozhipeng\\.android\\build-cache\\ac873a3d83bfe35848b92a9cd02ccb6681de05f1\\output\\res\\drawable-v21\\notification_action_background.xml"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/drawable-v21/abc_edit_text_material.xml",
-        "source": "/Users/zhaozhipeng/.android/build-cache/ac873a3d83bfe35848b92a9cd02ccb6681de05f1/output/res/drawable-v21/abc_edit_text_material.xml"
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\touch_bg.xml",
+        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\res-ptr2\\drawable-v21\\touch_bg.xml"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/drawable-v21/abc_action_bar_item_background_material.xml",
-        "source": "/Users/zhaozhipeng/.android/build-cache/ac873a3d83bfe35848b92a9cd02ccb6681de05f1/output/res/drawable-v21/abc_action_bar_item_background_material.xml"
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\notification_action_background.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\c073b91a1fd2e4bd8da3024bb73fa0a97ffd44a9\\output\\res\\drawable-v21\\notification_action_background.xml"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/drawable-v21/design_bottom_navigation_item_background.xml",
-        "source": "/Users/zhaozhipeng/.android/build-cache/82e3cca767875e1cb58af85c362d2b29dcc4f34d/output/res/drawable-v21/design_bottom_navigation_item_background.xml"
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_edit_text_material.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\c073b91a1fd2e4bd8da3024bb73fa0a97ffd44a9\\output\\res\\drawable-v21\\abc_edit_text_material.xml"
+    },
+    {
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\design_bottom_navigation_item_background.xml",
+        "source": "D:\\Users\\zhaozhipeng\\.android\\build-cache\\82e3cca767875e1cb58af85c362d2b29dcc4f34d\\output\\res\\drawable-v21\\design_bottom_navigation_item_background.xml"
+    },
+    {
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\touch_bg.xml",
+        "source": "D:\\QX\\uikit\\res-ptr2\\drawable-v21\\touch_bg.xml"
+    },
+    {
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_action_bar_item_background_material.xml",
+        "source": "D:\\Users\\zhaozhipeng\\.android\\build-cache\\ac873a3d83bfe35848b92a9cd02ccb6681de05f1\\output\\res\\drawable-v21\\abc_action_bar_item_background_material.xml"
+    },
+    {
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_action_bar_item_background_material.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\c073b91a1fd2e4bd8da3024bb73fa0a97ffd44a9\\output\\res\\drawable-v21\\abc_action_bar_item_background_material.xml"
+    },
+    {
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_btn_colored_material.xml",
+        "source": "D:\\Users\\zhaozhipeng\\.android\\build-cache\\ac873a3d83bfe35848b92a9cd02ccb6681de05f1\\output\\res\\drawable-v21\\abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_edit_text_material.xml",
+        "source": "D:\\Users\\zhaozhipeng\\.android\\build-cache\\ac873a3d83bfe35848b92a9cd02ccb6681de05f1\\output\\res\\drawable-v21\\abc_edit_text_material.xml"
     }
 ]

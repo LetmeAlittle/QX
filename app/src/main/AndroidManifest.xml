@@ -590,6 +590,10 @@
         <activity android:name="com.ysxsoft.qxerkai.view.activity.PublishSGLActivity"></activity>
         <!--小情趣详情-->
         <activity android:name="com.ysxsoft.qxerkai.view.activity.NQingQuDetailActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NKaiTongShouHuActivity">
+        </activity>
+        <!--查看相册-->
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NXiangCheChaKanActivity"/>
     </application>
 
 </manifest>
