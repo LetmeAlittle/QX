@@ -66,6 +66,7 @@
     <string name="feed_back_text">意见反馈</string>
     <string name="importability_text">0/200</string>
     <string name="publish_message_hint_text">说点什么吧...</string>
+    <string name="publish_sgl">请输入您的故事</string>
     <string name="upload_question_pic_text">上传问题图片</string>
     <string name="importability_upload_text">0/6</string>
     <string name="please_input_old_pwd_text">输入旧密码</string>

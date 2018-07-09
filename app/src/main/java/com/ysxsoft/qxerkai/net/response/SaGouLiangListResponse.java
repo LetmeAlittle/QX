@@ -173,6 +173,15 @@ public class SaGouLiangListResponse extends BaseResponse {
             private String content;
             private List<ImgsBeanX> imgs;
             private String likes;
+            private boolean isLiked;
+
+            public boolean isLiked() {
+                return isLiked;
+            }
+
+            public void setLiked(boolean liked) {
+                isLiked = liked;
+            }
 
             public String getLikes() {
                 return likes;

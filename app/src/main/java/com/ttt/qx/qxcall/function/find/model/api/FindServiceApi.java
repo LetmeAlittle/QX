@@ -67,7 +67,7 @@ public interface FindServiceApi {
      */
     @FormUrlEncoded
     @POST("api/friend/list")
-    Observable<DynamicResponse> getAllDynamic(@Header("Authorization") String Authorization, @Field("page") String page);
+    Observable<DynamicResponse> getAllDynamic(@Header("Authorization") String Authorization, @Field("page") String page, @Field("user_id") String user_id);
 
     /**
      * 好友动态数据
@@ -76,7 +76,7 @@ public interface FindServiceApi {
      */
     @FormUrlEncoded
     @POST("api/friend/friend_list")
-    Observable<DynamicResponse> getFriendDynamic(@Header("Authorization") String Authorization, @Field("page") String page);
+    Observable<DynamicResponse> getFriendDynamic(@Header("Authorization") String Authorization, @Field("page") String page,@Field("user_id") String user_id);
 
     /**
      * 说说点赞

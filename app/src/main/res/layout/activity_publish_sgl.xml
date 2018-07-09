@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/_ffffff"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150px"
+        android:background="@drawable/app_top_title_bg"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/top_back_rl"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5">
+
+            <ImageView
+                android:id="@+id/sex_select_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_35px"
+                android:src="@mipmap/top_back_iv" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="编辑故事"
+            android:textColor="@color/_ffffff"
+            android:textSize="@dimen/_52px" />
+
+        <RelativeLayout
+            android:id="@+id/submit"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_22"
+                android:text="提交"
+                android:textColor="@color/_ffffff" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <com.ysxsoft.qxerkai.view.widget.MultipleStatusView
+        android:id="@+id/multipleStatusView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:emptyView="@layout/custom_empty_view"
+        app:errorView="@layout/custom_error_view"
+        app:loadingView="@layout/custom_loading_view"
+        app:noNetworkView="@layout/custom_no_network_view">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/_fcfcfc"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/_45px"
+                android:paddingRight="@dimen/_45px"
+                android:paddingTop="@dimen/_45px">
+
+                <EditText
+                    android:id="@+id/public_content_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_400px"
+                    android:background="@drawable/side_line_bg_white_zj"
+                    android:gravity="top"
+                    android:hint="@string/publish_sgl"
+                    android:padding="@dimen/_20px"
+                    android:text=""
+                    android:textColor="@color/_333333"
+                    android:textColorHint="@color/_d5d5d5"
+                    android:textSize="@dimen/_36px" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/_fcfcfc"></RelativeLayout>
+        </LinearLayout>
+    </com.ysxsoft.qxerkai.view.widget.MultipleStatusView>
+
+</LinearLayout>

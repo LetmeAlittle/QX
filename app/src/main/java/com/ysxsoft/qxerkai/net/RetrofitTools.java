@@ -1,7 +1,5 @@
 package com.ysxsoft.qxerkai.net;
 
-import com.ysxsoft.qxerkai.net.response.BaseResponse;
-import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
@@ -125,7 +123,6 @@ public class RetrofitTools {
     ///////////////////////////////////////////////////////////////////////////
     // 网络请求 Api
     ///////////////////////////////////////////////////////////////////////////
-
     /**
      * 撒狗粮列表
      *
@@ -163,7 +160,7 @@ public class RetrofitTools {
      * @return
      */
     public static Observable<SaGouLiangPublishResponse> publishSaGouLiang(Map<String, String> map, String[] imageNames, File[] imageFiles) {
-        return subscribe(RetrofitTools.getManager().publishSaGouLiang(COMMON_BASE_URL + SA_GOU_LIANG_COMMIT, builder(map, imageNames, imageFiles).build()));
+        return subscribe(RetrofitTools.getManager().publishSaGouLiang(COMMON_BASE_URL+SA_GOU_LIANG_COMMIT, builder(map, imageNames, imageFiles).build()));
     }
 
     /**

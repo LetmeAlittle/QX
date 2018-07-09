@@ -70,6 +70,15 @@ public class DynamicResponse {
         private int to;
         private int total;
         private List<ListBean> list;
+        private String background_pic;
+
+        public String getBackground_pic() {
+            return background_pic;
+        }
+
+        public void setBackground_pic(String background_pic) {
+            this.background_pic = background_pic;
+        }
 
         public int getCurrent_page() {
             return current_page;

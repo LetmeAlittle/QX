@@ -86,7 +86,7 @@ public class SaGouLiangActivity extends NBaseActivity {
         llPublicTitlebarRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parseRule("1");
+                parseRule("3");
             }
         });
     }
@@ -106,7 +106,7 @@ public class SaGouLiangActivity extends NBaseActivity {
         prizeDescription.setOnClickListener(new View.OnClickListener() {//奖品规则
             @Override
             public void onClick(View v) {
-                parseRule("2");
+                parseRule("4");
             }
         });
     }
@@ -161,7 +161,7 @@ public class SaGouLiangActivity extends NBaseActivity {
     }
 
     /**
-     * 规则  1 规则  2奖品设置
+     * 规则  3 规则  4奖品设置
      *
      * @param aid
      */
@@ -174,7 +174,7 @@ public class SaGouLiangActivity extends NBaseActivity {
                     @Override
                     public void onSuccess(RuleResponse ruleResponse, int code, String msg) {
                         if (code == 200) {
-                            ToastUtil.showToast(SaGouLiangActivity.this, msg);
+//                            ToastUtil.showToast(SaGouLiangActivity.this, msg);
                             BaseWebViewActivity.startWithContent(SaGouLiangActivity.this, ruleResponse.getData(),parseTitle(aid));
                         }else{
                             ToastUtil.showToast(SaGouLiangActivity.this, msg);
@@ -191,10 +191,10 @@ public class SaGouLiangActivity extends NBaseActivity {
     private String parseTitle(String aid) {
         String result = "";
         switch (aid) {
-            case "1":
-                result = "规则";
+            case "3":
+                result = "撒狗粮规则";
                 break;
-            case "2":
+            case "4":
                 result = "奖品设置";
                 break;
             default:
