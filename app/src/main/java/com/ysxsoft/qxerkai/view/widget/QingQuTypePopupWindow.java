@@ -2,6 +2,7 @@ package com.ysxsoft.qxerkai.view.widget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.PopupWindow;
 
@@ -30,8 +31,15 @@ public class QingQuTypePopupWindow {
         this.mContext = activity;
         popupWindow = new PopupWindow();
         popupWindow.setWidth((int) SystemUtils.getScreenWidth(activity));
-        View view = View.inflate(activity, R.layout.pop_xiao_qing_qu_select_type, null);
-        popupWindow.setContentView(view);
+        popupWindow.setContentView(initView());
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setAnimationStyle(R.anim.pop_bottom_out);
+        popupWindow.showAtLocation(activity.getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
+    }
+
+    private View initView() {
+        View view = View.inflate(mContext, R.layout.pop_xiao_qing_qu_select_type, null);
+        return view;
     }
 
     public interface OnTypeSelectListener {

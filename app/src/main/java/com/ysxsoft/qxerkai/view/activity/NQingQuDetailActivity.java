@@ -102,6 +102,7 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
     private cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout ninePhotoLayout;
     private boolean isLiked;
     private int tid;//帖子ID
+    private boolean isFirst = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -346,6 +347,9 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
             public void onSuccess(GetCardDetailResponse getCardDetailResponse, int code, String msg) {
                 multipleStatusView.hideLoading();
                 if (code == 200) {
+                    if (isFirst) {
+                        notifyPage();
+                    }
                     if (getCardDetailResponse.getData() == null) return;
                     //填充顶部
                     GetCardDetailResponse.DataBeanX.TopBean topBean = getCardDetailResponse.getData().getTop();
@@ -384,6 +388,14 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
     }
 
     /**
+     * 通知刷新页面
+     */
+    private void notifyPage() {
+        ObserverMap.notifyAllPage();//通知第二页
+        isFirst = false;
+    }
+
+    /**
      * 点赞
      *
      * @param tid
@@ -412,7 +424,6 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
                     }
                 });
     }
-
 
     /**
      * 评论

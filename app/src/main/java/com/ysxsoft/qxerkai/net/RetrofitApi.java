@@ -96,6 +96,12 @@ public interface RetrofitApi {
     @GET(USER_GUARDS_LIST)
     Observable<GuardsListResponse> getGuardsingList(@FieldMap Map<String, String> map);
 
+    /**
+     * 发布撒狗粮  文本
+     *
+     * @param map
+     * @return
+     */
     @FormUrlEncoded
     @POST(SA_GOU_LIANG_COMMIT)
     Observable<SaGouLiangPublishResponse> publishSaGouLiang(@FieldMap Map<String, String> map);
