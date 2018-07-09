@@ -1,7 +1,7 @@
 package com.ysxsoft.qxerkai.net;
 
 
-import com.umeng.socialize.sina.message.BaseResponse;
+import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
@@ -78,6 +78,7 @@ public interface RetrofitApi {
 
     /**
      * 对某人进行守护
+     *
      * @param map
      * @return
      */
@@ -87,12 +88,14 @@ public interface RetrofitApi {
 
     /**
      * 用户的守护列表/用户守护的列表
+     *
      * @param map
      * @return
      */
     @FormUrlEncoded
     @GET(USER_GUARDS_LIST)
     Observable<GuardsListResponse> getGuardsingList(@FieldMap Map<String, String> map);
+
     @POST(SA_GOU_LIANG_COMMIT)
     Observable<SaGouLiangPublishResponse> publishSaGouLiang(@FieldMap Map<String, String> map);
 
