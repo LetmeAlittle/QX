@@ -2,6 +2,9 @@ package com.ysxsoft.qxerkai.net;
 
 
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
+import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
+import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
+import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
@@ -19,6 +22,11 @@ import retrofit2.http.POST;
 import retrofit2.http.Url;
 import rx.Observable;
 
+import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_DETAIL;
+import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIKE;
+import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.NOTICE_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.PUSH_COMMENT;
 import static com.ttt.qx.qxcall.constant.CommonConstant.RULE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_COMMIT;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIKE;
@@ -39,7 +47,7 @@ public interface RetrofitApi {
     Observable<SaGouLiangListResponse> getSaGouLiangList(@FieldMap Map<String, String> map);
 
     /**
-     * 关于我们/我的收益规则/萨狗粮规则/萨狗粮奖品/使用说明/vip特权
+     * 撒狗粮点赞
      *
      * @param map
      * @return
@@ -56,7 +64,7 @@ public interface RetrofitApi {
      */
     @FormUrlEncoded
     @POST(RULE)
-    Observable<RuleResponse> getRule(@FieldMap Map<String, String> map);
+    Observable<RuleResponse> getRule(@FieldMap Map<String, String>  map);
 
     /**
      * 发布撒狗粮
@@ -68,19 +76,13 @@ public interface RetrofitApi {
     @POST()
     Observable<SaGouLiangPublishResponse> publishSaGouLiang(@Url() String url, @Body RequestBody Body);
 
-
-
-
-//    /**
-//     * 上传图片
-//     *
-//     * @return
-//     */
-//    @POST()
-//    Observable<UpdateUserInfoResponse> updateLogo(@Url() String url, @Body RequestBody Body);
+    @FormUrlEncoded
+    @POST(SA_GOU_LIANG_COMMIT)
+    Observable<SaGouLiangPublishResponse> publishSaGouLiang(@FieldMap Map<String, String> map);
 
     /**
      * 对某人进行守护
+     *
      * @param map
      * @return
      */
@@ -96,4 +98,54 @@ public interface RetrofitApi {
     @FormUrlEncoded
     @GET(USER_GUARDS_LIST)
     Observable<GuardsListResponse> getGuardsingList(@FieldMap Map<String, String> map);
+
+    /**
+     * 小情趣列表
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(CARD_LIST)
+    Observable<GetCardListResponse> getCardList(@FieldMap Map<String, String> map);
+
+    /**
+     * 小情趣详情
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(CARD_DETAIL)
+    Observable<GetCardDetailResponse> getCardDetail(@FieldMap Map<String, String> map);
+
+    /**
+     * 小情趣评论
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(PUSH_COMMENT)
+    Observable<BaseResponse> submitCardComment(@FieldMap Map<String, String> map);
+
+    /**
+     * 小情趣公告
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(NOTICE_LIST)
+    Observable<GetNoticeListResponse> getNoticeList(@FieldMap Map<String, String> map);
+
+    /**
+     * 小情趣点赞
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(CARD_LIKE)
+    Observable<BaseResponse> cardLike(@FieldMap Map<String, String> map);
 }

@@ -21,8 +21,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.netease.nim.uikit.common.util.string.StringUtil;
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.utils.IntentUtil;
+import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
 import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
 import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.DimenUtils;
@@ -63,6 +65,7 @@ public class SGLTwoFragment extends BaseFragment implements BaseQuickAdapter.Req
     private List<SaGouLiangListResponse.DataBean.ListBean> data = new ArrayList<>();
     private SaGouLiangListResponse.DataBean.TopBean topBean;
     private TextView tvContent;
+    private TextView likeNum;
     private View headView;
     private static final int ADD_SGL_CODE = 0x01;
 
@@ -104,7 +107,7 @@ public class SGLTwoFragment extends BaseFragment implements BaseQuickAdapter.Req
         llContent.setLayoutParams(lp);
 
         com.ysxsoft.qxerkai.view.widget.ResizableImageView topImage = (ResizableImageView) headView.findViewById(R.id.riv_top);//发布撒狗粮
-        topImage.setOnClickListener(new View.OnClickListener() {
+        topImage.setOnClickListener(new View.OnClickListener() {//顶部大图点击事件
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), PublishSGLActivity.class);
@@ -152,6 +155,7 @@ public class SGLTwoFragment extends BaseFragment implements BaseQuickAdapter.Req
                             List<SaGouLiangListResponse.DataBean.ListBean> list = dataBean.getList();
                             if (pageIndex == 1) {
                                 adapter.setNewData(list);
+                                pageTotal = dataBean.getLast_page();
                             } else {
                                 adapter.addData(list);
                             }
@@ -178,7 +182,7 @@ public class SGLTwoFragment extends BaseFragment implements BaseQuickAdapter.Req
             if (topBean.getImgs() != null && topBean.getImgs().size() > 0) {
                 Glide.with(getActivity()).load(topBean.getImgs().get(0).getImg()).into(image);
             }
-            TextView likeNum = (TextView) headView.findViewById(R.id.likeNum);
+            likeNum = (TextView) headView.findViewById(R.id.likeNum);
             likeNum.setText(StringUtils.convert(topBean.getLikes()));
             TextView name = (TextView) headView.findViewById(R.id.name);
             name.setText(StringUtils.convert(topBean.getUsername()));
@@ -199,6 +203,14 @@ public class SGLTwoFragment extends BaseFragment implements BaseQuickAdapter.Req
                     }
                 }
             });
+            //顶部点赞
+            likeNum.setTag("" + topBean.getSid());
+            likeNum.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    like((String) v.getTag());
+                }
+            });
         }
     }
 
@@ -208,10 +220,46 @@ public class SGLTwoFragment extends BaseFragment implements BaseQuickAdapter.Req
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case ADD_SGL_CODE:
-                    pageIndex=1;
+                    pageIndex = 1;
                     getList();
                     break;
             }
+        }
+    }
+
+    /**
+     * 点赞
+     *
+     * @param sid
+     */
+    private void like(String sid) {
+        Map<String, String> map = new HashMap<>();
+        map.put("user_id", DBUtils.getUserId());
+        map.put("sid", sid);
+
+        RetrofitTools.likeSaGouLiang(map)
+                .subscribe(new ResponseSubscriber<SaGouLiangLikeResponse>() {
+                    @Override
+                    public void onSuccess(SaGouLiangLikeResponse saGouLiangLikeResponse, int code, String msg) {
+                        if (code == 200) {
+                            refresh();
+                        } else {
+                            ToastUtil.showToast(getActivity(), msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
+
+    private void refresh() {
+        String topLike = likeNum.getText().toString();
+        if (!"".equals(topLike)) {
+            int like = Integer.parseInt(topLike);
+            likeNum.setText(StringUtils.convert("" + (like + 1)));
         }
     }
 }
