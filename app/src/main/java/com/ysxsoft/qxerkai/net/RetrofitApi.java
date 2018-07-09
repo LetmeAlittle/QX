@@ -64,7 +64,7 @@ public interface RetrofitApi {
      */
     @FormUrlEncoded
     @POST(RULE)
-    Observable<RuleResponse> getRule(@FieldMap Map<String, String> map);
+    Observable<RuleResponse> getRule(@FieldMap Map<String, String>  map);
 
     /**
      * 发布撒狗粮
