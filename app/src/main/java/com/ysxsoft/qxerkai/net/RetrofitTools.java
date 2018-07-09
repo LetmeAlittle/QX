@@ -1,5 +1,7 @@
 package com.ysxsoft.qxerkai.net;
 
+import com.ysxsoft.qxerkai.net.response.BaseResponse;
+import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
@@ -28,7 +30,6 @@ import rx.schedulers.Schedulers;
 
 import static com.ttt.qx.qxcall.constant.CommonConstant.COMMON_BASE_URL;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_COMMIT;
-import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIST;
 
 public class RetrofitTools {
     public static RetrofitTools instance;

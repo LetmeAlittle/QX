@@ -1,7 +1,8 @@
 package com.ysxsoft.qxerkai.net;
 
 
-import com.umeng.socialize.sina.message.BaseResponse;
+import com.ysxsoft.qxerkai.net.response.BaseResponse;
+import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
@@ -13,6 +14,7 @@ import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Url;
 import rx.Observable;
@@ -21,6 +23,8 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.RULE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_COMMIT;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIKE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.USER_GUARDS_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.USER_SHOUHU;
 
 public interface RetrofitApi {
 
