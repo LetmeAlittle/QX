@@ -3,6 +3,8 @@ package com.ysxsoft.qxerkai.view.adapter;
 import android.content.Intent;
 import android.os.Environment;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -10,6 +12,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.utils.IntentUtil;
+import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
 import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.StringUtils;
@@ -18,7 +24,9 @@ import com.ysxsoft.qxerkai.view.activity.NZhiLiaoActivity;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPreviewActivity;
 import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout;
@@ -29,6 +37,7 @@ import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout;
 
 public class SGLTwoAdapter extends BaseQuickAdapter<SaGouLiangListResponse.DataBean.ListBean, BaseViewHolder> {
     private ArrayList<SaGouLiangListResponse.DataBean.ListBean> phones = new ArrayList<>();
+    private int realPosition;
 
     public SGLTwoAdapter(int layoutResId, List<SaGouLiangListResponse.DataBean.ListBean> data) {
         super(layoutResId, data);
@@ -37,19 +46,19 @@ public class SGLTwoAdapter extends BaseQuickAdapter<SaGouLiangListResponse.DataB
     @Override
     protected void convert(BaseViewHolder helper, SaGouLiangListResponse.DataBean.ListBean item) {
 //        BGANinePhotoLayout ninePhotoLayout = helper.getView(R.id.snpl_moment_add_photos);
-//        ninePhotoLayout.setVisibility(View.GONE);
-//        ninePhotoLayout.setData(phones);
-//        ninePhotoLayout.setDelegate(new BGANinePhotoLayout.Delegate() {
-//            @Override
-//            public void onClickNinePhotoItem(BGANinePhotoLayout ninePhotoLayout, View view, int position, String model, List<String> models) {
-//                File downloadDir = new File(Environment.getExternalStorageDirectory(), "QX");
-//                BGAPhotoPreviewActivity.IntentBuilder photoPreviewIntentBuilder = new BGAPhotoPreviewActivity.IntentBuilder(mContext)
-//                        .saveImgDir(downloadDir); // 保存图片的目录，如果传 null，则没有保存图片功能
-//                photoPreviewIntentBuilder
-//                        .previewPhotos((ArrayList<String>) models).currentPosition(position); // 当前预览图片的索引
-//                mContext.startActivity(photoPreviewIntentBuilder.build());
-//            }
-//        });
+////        ninePhotoLayout.setVisibility(View.GONE);
+////        ninePhotoLayout.setData(phones);
+////        ninePhotoLayout.setDelegate(new BGANinePhotoLayout.Delegate() {
+////            @Override
+////            public void onClickNinePhotoItem(BGANinePhotoLayout ninePhotoLayout, View view, int position, String model, List<String> models) {
+////                File downloadDir = new File(Environment.getExternalStorageDirectory(), "QX");
+////                BGAPhotoPreviewActivity.IntentBuilder photoPreviewIntentBuilder = new BGAPhotoPreviewActivity.IntentBuilder(mContext)
+////                        .saveImgDir(downloadDir); // 保存图片的目录，如果传 null，则没有保存图片功能
+////                photoPreviewIntentBuilder
+////                        .previewPhotos((ArrayList<String>) models).currentPosition(position); // 当前预览图片的索引
+////                mContext.startActivity(photoPreviewIntentBuilder.build());
+////            }
+////        });
 
         de.hdodenhof.circleimageview.CircleImageView logo = helper.getView(R.id.logo);
 
@@ -57,6 +66,8 @@ public class SGLTwoAdapter extends BaseQuickAdapter<SaGouLiangListResponse.DataB
         TextView time = helper.getView(R.id.time);
         TextView likeNum = helper.getView(R.id.likeNum);
         TextView content = helper.getView(R.id.tv_sgl_item_content);
+        LinearLayout gouTouLayout = helper.getView(R.id.likeLayout);
+        ImageView goutou = helper.getView(R.id.goutou);
 
         time.setText(StringUtils.convert(item.getDates()));
         name.setText(StringUtils.convert(item.getUsername()));
@@ -80,5 +91,65 @@ public class SGLTwoAdapter extends BaseQuickAdapter<SaGouLiangListResponse.DataB
                 }
             }
         });
+        gouTouLayout.setOnClickListener(new OnLikeClickListener(item, item.getSid(), helper.getAdapterPosition()));
+    }
+
+    private class OnLikeClickListener implements View.OnClickListener {
+        private int sid;
+        private int position;
+        private SaGouLiangListResponse.DataBean.ListBean item;
+
+        public OnLikeClickListener(SaGouLiangListResponse.DataBean.ListBean item, int sid, int position) {
+            this.item = item;
+            this.sid = sid;
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            realPosition = position - 1;//去除header
+            like(sid + "");
+        }
+    }
+
+    /**
+     * 点赞
+     *
+     * @param sid
+     */
+    private void like(String sid) {
+        Map<String, String> map = new HashMap<>();
+        map.put("user_id", DBUtils.getUserId());
+        map.put("sid", sid);
+
+        RetrofitTools.likeSaGouLiang(map)
+                .subscribe(new ResponseSubscriber<SaGouLiangLikeResponse>() {
+                    @Override
+                    public void onSuccess(SaGouLiangLikeResponse saGouLiangLikeResponse, int code, String msg) {
+                        if (code == 200) {
+                            refresh();
+                        } else {
+                            ToastUtil.showToast(mContext, msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
+
+    /**
+     * 刷新数据源
+     */
+    private void refresh() {
+        String like = mData.get(realPosition).getLikes();
+        if (like != null && !"".equals(like)) {
+            int likeNum = Integer.parseInt(mData.get(realPosition).getLikes());
+            mData.get(realPosition).setLikes("" + (likeNum + 1));
+        }
+
+        this.notifyDataSetChanged();
     }
 }

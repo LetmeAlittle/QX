@@ -42,6 +42,7 @@
                         android:orientation="horizontal">
 
                         <EditText
+                            android:id="@+id/title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -54,6 +55,7 @@
                             android:textSize="@dimen/middle_size"/>
 
                         <TextView
+                            android:id="@+id/titleSize"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -80,6 +82,7 @@
                         android:orientation="horizontal">
 
                         <EditText
+                            android:id="@+id/content"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -94,6 +97,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/contentSize"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="top"
@@ -113,6 +117,7 @@
                         />
 
                     <LinearLayout
+                        android:id="@+id/selectTypeLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -172,6 +177,7 @@
                         app:bga_snpl_sortable="true"/>
 
                     <TextView
+                        android:id="@+id/submit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="50dp"

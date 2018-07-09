@@ -588,6 +588,8 @@
         <activity android:name="com.ysxsoft.qxerkai.view.activity.BaseWebViewActivity"></activity>
         <!--发布撒狗粮-->
         <activity android:name="com.ysxsoft.qxerkai.view.activity.PublishSGLActivity"></activity>
+        <!--小情趣详情-->
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NQingQuDetailActivity"></activity>
     </application>
 
 </manifest>

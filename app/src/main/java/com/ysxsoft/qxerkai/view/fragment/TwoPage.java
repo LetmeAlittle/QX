@@ -3,9 +3,11 @@ package com.ysxsoft.qxerkai.view.fragment;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnticipateOvershootInterpolator;
@@ -14,20 +16,36 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.pager.BasePager;
+import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.BaseResponse;
+import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
+import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
+import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
+import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.DimenUtils;
+import com.ysxsoft.qxerkai.utils.ObserverMap;
+import com.ysxsoft.qxerkai.utils.StringUtils;
 import com.ysxsoft.qxerkai.utils.SystemUtils;
 import com.ysxsoft.qxerkai.view.activity.LiaoHanQuActivity;
 import com.ysxsoft.qxerkai.view.activity.LiaoMeiQuActivity;
 import com.ysxsoft.qxerkai.view.activity.NFaTieActivity;
+import com.ysxsoft.qxerkai.view.activity.NQingQuDetailActivity;
 import com.ysxsoft.qxerkai.view.activity.NQingQuListActivity;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 import com.ysxsoft.qxerkai.view.widget.ResizableImageView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -38,7 +56,7 @@ import butterknife.OnClick;
  * Created by zhaozhipeng on 18/5/3.
  */
 
-public class TwoPage extends BasePager implements View.OnClickListener {
+public class TwoPage extends BasePager implements View.OnClickListener, ObserverMap.IPageDataChangeObserver {
 
     @BindView(R.id.status_bar)
     View statusBar;
@@ -76,6 +94,7 @@ public class TwoPage extends BasePager implements View.OnClickListener {
 
     private QuanZiAdapter quanZiAdapter;
     private YongHuAdapter yongHuAdapter;
+    public static final int GO_DETAIL = 0x02;
 
     public TwoPage(Context ctx) {
         super(ctx);
@@ -83,6 +102,7 @@ public class TwoPage extends BasePager implements View.OnClickListener {
 
     private ArrayList<Integer> loops = new ArrayList<>();
     private ArrayList<Integer> temp = new ArrayList<>();
+    private String type = "1";//1老司机开车 2闺蜜私房话 3两性研究所 4剧本专区 5撩妹区 6撩汉区
 
     @Override
     public View initView() {
@@ -91,6 +111,8 @@ public class TwoPage extends BasePager implements View.OnClickListener {
         initStatusBar(statusBar);
         initTitleBar();
         initRv();
+
+        ObserverMap.reg(activity.getClass().getSimpleName(), this);
         return rootView;
     }
 
@@ -105,6 +127,16 @@ public class TwoPage extends BasePager implements View.OnClickListener {
         rvTuijianyonghu.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         yongHuAdapter = new YongHuAdapter(R.layout.fragment_one_item);
         rvTuijianyonghu.setAdapter(yongHuAdapter);
+
+        quanZiAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                GetCardListResponse.DataBeanX.ListBean.DataBean bean = (GetCardListResponse.DataBeanX.ListBean.DataBean) adapter.getItem(position);
+                if (bean != null) {
+                    NQingQuDetailActivity.start(activity, bean.getTid(), GO_DETAIL);//跳转小情趣详情页
+                }
+            }
+        });
     }
 
     @Override
@@ -124,41 +156,33 @@ public class TwoPage extends BasePager implements View.OnClickListener {
         temp.add(R.mipmap.image5);
     }
 
+    List<GetCardListResponse.DataBeanX.ListBean.DataBean> cardList = new ArrayList<>();
+
     private void initHttpData() {
-        ArrayList<String> temp1 = new ArrayList<>();
         switch (currentTabIndex) {
-            case 0:
-                temp1.clear();
-                temp1.add("");
-                temp1.add("");
-                temp1.add("");
-                quanZiAdapter.setNewData(temp1);
+            case 0://老司机开车
+                type = "1";//1老司机开车 2闺蜜私房话 3两性研究所 4剧本专区 5撩妹区 6撩汉区
                 break;
-            case 1:
-                temp1.clear();
-                temp1.add("");
-                temp1.add("");
-                quanZiAdapter.setNewData(temp1);
+            case 1://闺蜜私房话
+                type = "2";
                 break;
-            case 2:
-                temp1.clear();
-                temp1.add("");
-                quanZiAdapter.setNewData(temp1);
+            case 2://两性研究所
+                type = "3";
                 break;
-            case 3:
-                temp1.clear();
-                temp1.add("");
-                temp1.add("");
-                temp1.add("");
-                quanZiAdapter.setNewData(temp1);
+            case 3://剧本专区
+                type = "4";
                 break;
         }
+        getList();
+        getNotice();
+
+
         ArrayList<String> temp2 = new ArrayList<>();
         temp2.add("");
         temp2.add("");
         temp2.add("");
         temp2.add("");
-        quanZiAdapter.setNewData(temp1);
+//        quanZiAdapter.setNewData(temp1);
         yongHuAdapter.setNewData(temp2);
     }
 
@@ -188,7 +212,7 @@ public class TwoPage extends BasePager implements View.OnClickListener {
 
     @OnClick({R.id.tv_mores})
     public void onMores(View view) {
-        ctx.startActivity(new Intent(ctx, NQingQuListActivity.class));
+        ctx.startActivity(new Intent(ctx, NQingQuListActivity.class).putExtra("type", type));
     }
 
     /**
@@ -217,17 +241,58 @@ public class TwoPage extends BasePager implements View.OnClickListener {
         initHttpData();
     }
 
-    private class QuanZiAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+    @Override
+    public void change() {
+        Log.e("tag","详情页点赞!");
+        getList();
+    }
+
+    /**
+     * 小情趣适配器
+     */
+    private class QuanZiAdapter extends BaseQuickAdapter<GetCardListResponse.DataBeanX.ListBean.DataBean, BaseViewHolder> {
 
         public QuanZiAdapter(int layoutResId) {
             super(layoutResId);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, String item) {
+        protected void convert(BaseViewHolder helper, GetCardListResponse.DataBeanX.ListBean.DataBean item) {
+            helper.setText(R.id.cardTitle, StringUtils.convert(item.getTitle()));
+            com.ysxsoft.qxerkai.view.widget.RoundAngleImageView image = helper.getView(R.id.cardImage);
+            Glide.with(mContext).load(item.getImgss()).diskCacheStrategy(DiskCacheStrategy.ALL).into(image);
+            helper.setText(R.id.cardContent, StringUtils.convert(item.getContent()));
+            helper.setText(R.id.lookNum, StringUtils.convert(item.getLooks() + ""));
+            helper.setText(R.id.goodNum, StringUtils.convert(item.getLikes()));
+            helper.setText(R.id.sayNum, StringUtils.convert(item.getCom_num() + ""));
+            ImageView likeImage = helper.getView(R.id.likeImage);
+            if ("1".equals(item.getIs_like())) {//1 已点赞  0未点赞
+                likeImage.setImageResource(R.mipmap.activity_pengyouquan_detail_zan_r);
+            } else {
+                likeImage.setImageResource(R.mipmap.fragment_two_dianzan);
+            }
+            likeImage.setOnClickListener(new OnLikeClickListener(item.getTid(), helper.getAdapterPosition()));
+        }
 
+        /**
+         * 点赞
+         */
+        private class OnLikeClickListener implements View.OnClickListener {
+            private int tid;
+            private int position;
+
+            public OnLikeClickListener(int tid, int position) {
+                this.tid = tid;
+                this.position = position;
+            }
+
+            @Override
+            public void onClick(View v) {
+                like(tid);
+            }
         }
     }
+
 
     private class YongHuAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
@@ -247,4 +312,135 @@ public class TwoPage extends BasePager implements View.OnClickListener {
         }
     }
 
+    /**
+     * 根据类型获取通知
+     */
+    private void getNotice() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("type", type);//1老司机开车 2闺蜜私房话 3两性研究所 4剧本专区 5撩妹区 6撩汉区
+        RetrofitTools.getNoticeList(map)
+                .subscribe(new ResponseSubscriber<GetNoticeListResponse>() {
+                    @Override
+                    public void onSuccess(GetNoticeListResponse getNoticeListResponse, int code, String msg) {
+                        multipleStatusView.hideLoading();
+                        if (code == 200) {
+                            if (getNoticeListResponse != null && getNoticeListResponse.getData() != null) {
+                                fillData(getNoticeListResponse.getData().getData());
+                            }
+                        } else {
+                            ToastUtil.showToast(activity, msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+                        multipleStatusView.hideLoading();
+                    }
+
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        multipleStatusView.showLoading();
+                    }
+                });
+    }
+
+    /**
+     * 填充通知
+     *
+     * @param data
+     */
+    private void fillData(List<GetNoticeListResponse.DataBeanX.DataBean> data) {
+        if (data == null) {
+            return;
+        }
+        if (data != null && data.size() > 0) {
+            tvGonggao.setText(StringUtils.convert(data.get(0).getContent()));
+        }
+    }
+
+    /**
+     * 获取小情趣列表
+     */
+    private void getList() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("user_id", DBUtils.getUserId());
+        map.put("type", type);//1老司机开车 2闺蜜私房话 3两性研究所 4剧本专区 5撩妹区 6撩汉区
+        map.put("page", "1");
+
+        RetrofitTools.getCardList(map)
+                .subscribe(new ResponseSubscriber<GetCardListResponse>() {
+                    @Override
+                    public void onSuccess(GetCardListResponse getCardListResponse, int code, String msg) {
+                        multipleStatusView.hideLoading();
+                        if (code == 200) {
+                            if (getCardListResponse != null && getCardListResponse.getData() != null && getCardListResponse.getData().getList() != null) {
+                                fillData(getCardListResponse.getData().getList());
+                            }
+                        } else {
+                            ToastUtil.showToast(activity, msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+                        multipleStatusView.hideLoading();
+                    }
+
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        multipleStatusView.showLoading();
+                    }
+                });
+    }
+
+    private void fillData(GetCardListResponse.DataBeanX.ListBean list) {
+        List<GetCardListResponse.DataBeanX.ListBean.DataBean> data = list.getData();
+        if (data == null) {
+            return;
+        }
+        int size = data.size();
+        List<GetCardListResponse.DataBeanX.ListBean.DataBean> temp1 = new ArrayList<>();
+        if (size > 3) {//超过三条取3条
+            for (int i = 0; i < size; i++) {
+                temp1.add(data.get(i));
+                if (temp1.size() > 2) {
+                    break;
+                }
+            }
+        } else {//未超过三条全取
+            temp1.addAll(data);
+        }
+        quanZiAdapter.setNewData(temp1);
+    }
+
+    /**
+     * 点赞
+     *
+     * @param tid
+     */
+    private void like(int tid) {
+        Map<String, String> map = new HashMap<>();
+        map.put("user_id", DBUtils.getUserId());
+        map.put("cid", "" + tid);//列表的id
+        map.put("type", "1");//	1帖子 2评论
+
+        RetrofitTools.cardLike(map)
+                .subscribe(new ResponseSubscriber<BaseResponse>() {
+                    @Override
+                    public void onSuccess(BaseResponse baseResponse, int code, String msg) {
+                        if (code == 200) {
+                            getList();
+                        } else {
+                            ToastUtil.showToast(activity, msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
 }
