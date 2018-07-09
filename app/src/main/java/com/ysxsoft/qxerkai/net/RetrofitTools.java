@@ -168,6 +168,17 @@ public class RetrofitTools {
     }
 
     /**
+     * 发布撒狗粮
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<SaGouLiangPublishResponse> publishSaGouLiang(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().publishSaGouLiang(map));
+    }
+
+
+    /**
      * 对某人进行守护
      *
      * @param map

@@ -3,14 +3,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/cancelLayout"
-        android:layout_margin="@dimen/layout_margin_8dp"
-        android:background="@drawable/rect_white_radius4"
-        android:scrollbars="none" />
 
     <LinearLayout
         android:id="@+id/cancelLayout"
@@ -31,4 +23,12 @@
             android:text="取消" />
     </LinearLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/cancelLayout"
+        android:layout_margin="@dimen/layout_margin_8dp"
+        android:background="@drawable/rect_white_radius4"
+        android:scrollbars="none" />
 </RelativeLayout>
