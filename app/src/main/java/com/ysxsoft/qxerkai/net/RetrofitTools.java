@@ -127,6 +127,7 @@ public class RetrofitTools {
     ///////////////////////////////////////////////////////////////////////////
     // 网络请求 Api
     ///////////////////////////////////////////////////////////////////////////
+
     /**
      * 撒狗粮列表
      *
@@ -158,13 +159,23 @@ public class RetrofitTools {
     }
 
     /**
-     * 发布撒狗粮
+     * 发布撒狗粮    图片
      *
      * @param map
      * @return
      */
     public static Observable<SaGouLiangPublishResponse> publishSaGouLiang(Map<String, String> map, String[] imageNames, File[] imageFiles) {
-        return subscribe(RetrofitTools.getManager().publishSaGouLiang(COMMON_BASE_URL+SA_GOU_LIANG_COMMIT, builder(map, imageNames, imageFiles).build()));
+        return subscribe(RetrofitTools.getManager().publishSaGouLiang(COMMON_BASE_URL + SA_GOU_LIANG_COMMIT, builder(map, imageNames, imageFiles).build()));
+    }
+
+    /**
+     * 发布撒狗粮    文字
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<SaGouLiangPublishResponse> publishSaGouLiang(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().publishSaGouLiang(map));
     }
 
     /**

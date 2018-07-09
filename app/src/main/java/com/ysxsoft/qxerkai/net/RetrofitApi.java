@@ -67,7 +67,7 @@ public interface RetrofitApi {
     Observable<RuleResponse> getRule(@FieldMap Map<String, String> map);
 
     /**
-     * 发布撒狗粮  照片
+     * 发布撒狗粮
      *
      * @param url
      * @param Body
@@ -75,6 +75,10 @@ public interface RetrofitApi {
      */
     @POST()
     Observable<SaGouLiangPublishResponse> publishSaGouLiang(@Url() String url, @Body RequestBody Body);
+
+    @FormUrlEncoded
+    @POST(SA_GOU_LIANG_COMMIT)
+    Observable<SaGouLiangPublishResponse> publishSaGouLiang(@FieldMap Map<String, String> map);
 
     /**
      * 对某人进行守护
@@ -88,23 +92,12 @@ public interface RetrofitApi {
 
     /**
      * 用户的守护列表/用户守护的列表
-     *
      * @param map
      * @return
      */
     @FormUrlEncoded
     @GET(USER_GUARDS_LIST)
     Observable<GuardsListResponse> getGuardsingList(@FieldMap Map<String, String> map);
-
-    /**
-     * 发布撒狗粮  文本
-     *
-     * @param map
-     * @return
-     */
-    @FormUrlEncoded
-    @POST(SA_GOU_LIANG_COMMIT)
-    Observable<SaGouLiangPublishResponse> publishSaGouLiang(@FieldMap Map<String, String> map);
 
     /**
      * 小情趣列表
