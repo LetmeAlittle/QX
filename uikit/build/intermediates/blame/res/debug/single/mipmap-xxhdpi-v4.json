@@ -1,42 +1,82 @@
 [
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/nim_message_plus_gift_normal.png",
-        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/res/mipmap-xxhdpi/nim_message_plus_gift_normal.png"
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\nim_message_plus_phone_normal.png",
+        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\res\\mipmap-xxhdpi\\nim_message_plus_phone_normal.png"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/nim_message_input_plus.png",
-        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/res/mipmap-xxhdpi/nim_message_input_plus.png"
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\nim_message_plus_camera_normal.png",
+        "source": "D:\\QX\\uikit\\res\\mipmap-xxhdpi\\nim_message_plus_camera_normal.png"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/top_back_iv.png",
-        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/res/mipmap-xxhdpi/top_back_iv.png"
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\nim_message_plus_gift_normal.png",
+        "source": "D:\\QX\\uikit\\res\\mipmap-xxhdpi\\nim_message_plus_gift_normal.png"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/more_iv.png",
-        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/res/mipmap-xxhdpi/more_iv.png"
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\nim_message_input_voice_normal.png",
+        "source": "D:\\QX\\uikit\\res\\mipmap-xxhdpi\\nim_message_input_voice_normal.png"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/nim_message_plus_photo_normal.png",
-        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/res/mipmap-xxhdpi/nim_message_plus_photo_normal.png"
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\nim_message_input_emotion.png",
+        "source": "D:\\QX\\uikit\\res\\mipmap-xxhdpi\\nim_message_input_emotion.png"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/nim_message_plus_camera_normal.png",
-        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/res/mipmap-xxhdpi/nim_message_plus_camera_normal.png"
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\top_back_iv.png",
+        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\res\\mipmap-xxhdpi\\top_back_iv.png"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/nim_message_input_emotion.png",
-        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/res/mipmap-xxhdpi/nim_message_input_emotion.png"
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\nim_message_input_plus.png",
+        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\res\\mipmap-xxhdpi\\nim_message_input_plus.png"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/nim_message_plus_phone_normal.png",
-        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/res/mipmap-xxhdpi/nim_message_plus_phone_normal.png"
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\nim_message_input_voice_normal.png",
+        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\res\\mipmap-xxhdpi\\nim_message_input_voice_normal.png"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/chat_bg_iv.png",
-        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/res/mipmap-xxhdpi/chat_bg_iv.png"
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\more_iv.png",
+        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\res\\mipmap-xxhdpi\\more_iv.png"
     },
     {
-        "merged": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/nim_message_input_voice_normal.png",
-        "source": "/Users/zhaozhipeng/Desktop/Android/确幸源码/QX/uikit/res/mipmap-xxhdpi/nim_message_input_voice_normal.png"
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\nim_message_input_emotion.png",
+        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\res\\mipmap-xxhdpi\\nim_message_input_emotion.png"
+    },
+    {
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\nim_message_plus_photo_normal.png",
+        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\res\\mipmap-xxhdpi\\nim_message_plus_photo_normal.png"
+    },
+    {
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\more_iv.png",
+        "source": "D:\\QX\\uikit\\res\\mipmap-xxhdpi\\more_iv.png"
+    },
+    {
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\nim_message_input_plus.png",
+        "source": "D:\\QX\\uikit\\res\\mipmap-xxhdpi\\nim_message_input_plus.png"
+    },
+    {
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\top_back_iv.png",
+        "source": "D:\\QX\\uikit\\res\\mipmap-xxhdpi\\top_back_iv.png"
+    },
+    {
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\nim_message_plus_photo_normal.png",
+        "source": "D:\\QX\\uikit\\res\\mipmap-xxhdpi\\nim_message_plus_photo_normal.png"
+    },
+    {
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\nim_message_plus_camera_normal.png",
+        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\res\\mipmap-xxhdpi\\nim_message_plus_camera_normal.png"
+    },
+    {
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\nim_message_plus_phone_normal.png",
+        "source": "D:\\QX\\uikit\\res\\mipmap-xxhdpi\\nim_message_plus_phone_normal.png"
+    },
+    {
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\chat_bg_iv.png",
+        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\res\\mipmap-xxhdpi\\chat_bg_iv.png"
+    },
+    {
+        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\chat_bg_iv.png",
+        "source": "D:\\QX\\uikit\\res\\mipmap-xxhdpi\\chat_bg_iv.png"
+    },
+    {
+        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\nim_message_plus_gift_normal.png",
+        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\res\\mipmap-xxhdpi\\nim_message_plus_gift_normal.png"
     }
 ]

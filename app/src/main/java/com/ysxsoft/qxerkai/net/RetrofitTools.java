@@ -1,6 +1,9 @@
 package com.ysxsoft.qxerkai.net;
 
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
+import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
+import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
+import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
@@ -176,6 +179,17 @@ public class RetrofitTools {
     }
 
     /**
+     * 发布撒狗粮
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<SaGouLiangPublishResponse> publishSaGouLiang(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().publishSaGouLiang(map));
+    }
+
+
+    /**
      * 对某人进行守护
      *
      * @param map
@@ -193,5 +207,55 @@ public class RetrofitTools {
      */
     public static Observable<GuardsListResponse> getGuardsingList(Map<String, String> map) {
         return subscribe(RetrofitTools.getManager().getGuardsingList(map));
+    }
+
+    /**
+     * 小情趣列表
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<GetCardListResponse> getCardList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getCardList(map));
+    }
+
+    /**
+     * 小情趣帖子详情
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<GetCardDetailResponse> getCardDetail(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getCardDetail(map));
+    }
+
+    /**
+     * 小情趣帖子评论
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<BaseResponse> submitCardComment(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().submitCardComment(map));
+    }
+
+    /**
+     * 小情趣 公告
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<GetNoticeListResponse> getNoticeList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getNoticeList(map));
+    }
+
+    /**
+     * 小情趣点赞
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<BaseResponse> cardLike(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().cardLike(map));
     }
 }

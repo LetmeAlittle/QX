@@ -582,10 +582,14 @@
         <!-- 意见反馈 -->
         <activity android:name="com.ysxsoft.qxerkai.view.activity.NFeedBackActivity"></activity>
         <!-- 小情趣，查看更多 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NQingQuListActivity"/>
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NTiXianActivity"/>
-        <!-- 网页基类 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.BaseWebViewActivity"/>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NQingQuListActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NTiXianActivity"></activity>
+        <!-- 网页基类-->
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.BaseWebViewActivity"></activity>
+        <!--发布撒狗粮-->
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.PublishSGLActivity"></activity>
+        <!--小情趣详情-->
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NQingQuDetailActivity"></activity>
         <activity android:name="com.ysxsoft.qxerkai.view.activity.NKaiTongShouHuActivity">
         </activity>
         <!--查看相册-->

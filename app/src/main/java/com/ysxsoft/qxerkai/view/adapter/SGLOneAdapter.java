@@ -80,7 +80,6 @@ public class SGLOneAdapter extends BaseQuickAdapter<SaGouLiangListResponse.DataB
                 mContext.startActivity(photoPreviewIntentBuilder.build());
             }
         });
-
         time.setText(StringUtils.convert(item.getDates()));
         name.setText(StringUtils.convert(item.getUsername()));
         likeNum.setText(StringUtils.convert(item.getLikes()));
@@ -149,13 +148,18 @@ public class SGLOneAdapter extends BaseQuickAdapter<SaGouLiangListResponse.DataB
 
                     @Override
                     public void onFailed(Throwable e) {
-
+                        e.printStackTrace();
                     }
                 });
     }
 
     private void refresh() {
-        this.mData.get(realPosition).setLiked(true);
-        this.notifyItemChanged(realPosition);
+        String like=mData.get(realPosition).getLikes();
+        if(like!=null&&!"".equals(like)){
+            int likeNum=Integer.parseInt(mData.get(realPosition).getLikes());
+            mData.get(realPosition).setLikes(""+(likeNum+1));
+        }
+
+       this.notifyDataSetChanged();
     }
 }

@@ -72,15 +72,6 @@ public interface RetrofitApi {
     @POST(SA_GOU_LIANG_COMMIT)
     Observable<SaGouLiangPublishResponse> publishSaGouLiang(@FieldMap Map<String, String> map);
 
-
-//    /**
-//     * 上传图片
-//     *
-//     * @return
-//     */
-//    @POST()
-//    Observable<UpdateUserInfoResponse> updateLogo(@Url() String url, @Body RequestBody Body);
-
     /**
      * 对某人进行守护
      *
@@ -93,7 +84,6 @@ public interface RetrofitApi {
 
     /**
      * 用户的守护列表/用户守护的列表
-     *
      * @param map
      * @return
      */

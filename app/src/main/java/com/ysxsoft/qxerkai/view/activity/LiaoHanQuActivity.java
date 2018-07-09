@@ -10,10 +10,18 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
+import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.view.adapter.LiaoRenQuAdapter;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -92,24 +100,7 @@ public class LiaoHanQuActivity extends NBaseActivity implements BaseQuickAdapter
     }
 
     private void initData() {
-        ArrayList<String> temp = new ArrayList<>();
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        adapter.setNewData(temp);
+        getList();
     }
 
     @Override
@@ -119,6 +110,56 @@ public class LiaoHanQuActivity extends NBaseActivity implements BaseQuickAdapter
             initData();
         } else {
             adapter.loadMoreEnd();
+        }
+    }
+
+    /**
+     * 请求撩汉区帖子列表
+     */
+    private void getList() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("user_id", DBUtils.getUserId());
+        map.put("type", "6");//1老司机开车 2闺蜜私房话 3两性研究所 4剧本专区 5撩妹区 6撩汉区
+        map.put("page", pageIndex + "");
+
+        RetrofitTools.getCardList(map).subscribe(new ResponseSubscriber<GetCardListResponse>() {
+            @Override
+            public void onSuccess(GetCardListResponse getCardListResponse, int code, String msg) {
+                multipleStatusView.hideLoading();
+                if (code == 200) {
+                    if (getCardListResponse != null && getCardListResponse.getData() != null && getCardListResponse.getData().getList() != null) {
+                        fillData(getCardListResponse.getData().getList());
+                    }
+                } else {
+                    if (pageIndex > 1) {
+                        pageIndex--;
+                    }
+                    ToastUtil.showToast(LiaoHanQuActivity.this, msg);
+                }
+            }
+
+            @Override
+            public void onFailed(Throwable e) {
+                multipleStatusView.hideLoading();
+            }
+
+            @Override
+            public void onStart() {
+                super.onStart();
+                multipleStatusView.showLoading();
+            }
+        });
+    }
+
+    private void fillData(GetCardListResponse.DataBeanX.ListBean list) {
+        List<GetCardListResponse.DataBeanX.ListBean.DataBean> data = list.getData();
+        if (data == null) {
+            return;
+        }
+        if (pageIndex == 1) {
+            adapter.setNewData(data);
+        } else {
+            adapter.addData(data);
         }
     }
 }

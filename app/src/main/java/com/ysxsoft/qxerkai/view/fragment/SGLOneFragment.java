@@ -15,10 +15,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.netease.nim.uikit.common.util.string.StringUtil;
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.constant.CommonConstant;
 import com.ttt.qx.qxcall.database.UserDao;
 import com.ttt.qx.qxcall.dbbean.UserBean;
+import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
 import com.ysxsoft.qxerkai.net.RetrofitTools;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
@@ -71,6 +73,7 @@ public class SGLOneFragment extends BaseFragment implements BaseQuickAdapter.Req
     private View headView;
     private int size = 0;
     private List<String> lubanPath = new ArrayList<>();
+    private TextView likeNumTextView;
 
     @Nullable
     @Override
@@ -148,6 +151,7 @@ public class SGLOneFragment extends BaseFragment implements BaseQuickAdapter.Req
                             List<SaGouLiangListResponse.DataBean.ListBean> list = dataBean.getList();
                             if (pageIndex == 1) {
                                 adapter.setNewData(list);
+                                pageTotal=dataBean.getLast_page();
                             } else {
                                 adapter.addData(list);
                             }
@@ -178,11 +182,19 @@ public class SGLOneFragment extends BaseFragment implements BaseQuickAdapter.Req
     private void fillHeader() {
         if (topBean != null) {
             com.ysxsoft.qxerkai.view.widget.RoundAngleImageView image = (RoundAngleImageView) headView.findViewById(R.id.ra_imageView);
+            likeNumTextView = (TextView) headView.findViewById(R.id.tv_likeNum);
+
             if (topBean.getImgs() != null && topBean.getImgs().size() > 0) {
                 Glide.with(getActivity()).load(topBean.getImgs().get(0).getImg()).into(image);
+                likeNumTextView.setTag("" + topBean.getSid());
             }
-            TextView likeNum = (TextView) headView.findViewById(R.id.tv_likeNum);
-            likeNum.setText(StringUtils.convert(topBean.getLikes()));
+            likeNumTextView.setText(StringUtils.convert(topBean.getLikes()));
+            likeNumTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    like((String) v.getTag());
+                }
+            });
 //            likeNum.setTextColor(getResources().getColor(R.color.colorAccent));
             ImageView fabu = (ImageView) headView.findViewById(R.id.iv_fabu);
             fabu.setOnClickListener(new View.OnClickListener() {
@@ -304,5 +316,44 @@ public class SGLOneFragment extends BaseFragment implements BaseQuickAdapter.Req
                         multipleStatusView.showLoading();
                     }
                 });
+    }
+
+    /**
+     * 点赞
+     *
+     * @param sid
+     */
+    private void like(String sid) {
+        Map<String, String> map = new HashMap<>();
+        map.put("user_id", DBUtils.getUserId());
+        map.put("sid", sid);
+
+        RetrofitTools.likeSaGouLiang(map)
+                .subscribe(new ResponseSubscriber<SaGouLiangLikeResponse>() {
+                    @Override
+                    public void onSuccess(SaGouLiangLikeResponse saGouLiangLikeResponse, int code, String msg) {
+                        if (code == 200) {
+                            refresh();
+                        } else {
+                            ToastUtil.showToast(getActivity(), msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
+
+    private void refresh() {
+        if (likeNumTextView == null) {
+            return;
+        }
+        String topLike = likeNumTextView.getText().toString();
+        if (!"".equals(topLike)) {
+            int like = Integer.parseInt(topLike);
+            likeNumTextView.setText(StringUtils.convert("" + (like + 1)));
+        }
     }
 }
