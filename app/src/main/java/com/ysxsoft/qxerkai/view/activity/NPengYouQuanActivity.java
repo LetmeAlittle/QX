@@ -1,6 +1,8 @@
 package com.ysxsoft.qxerkai.view.activity;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,29 +16,43 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
+import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.database.UserDao;
 import com.ttt.qx.qxcall.dbbean.UserBean;
+import com.ttt.qx.qxcall.dialog.GiftSendDialog;
+import com.ttt.qx.qxcall.dialog.ShowSelectImgDialog;
+import com.ttt.qx.qxcall.function.base.interfacee.SubScribeOnNextListener;
+import com.ttt.qx.qxcall.function.base.subscribe.ProgressSubscribe;
 import com.ttt.qx.qxcall.function.find.model.FindModel;
 import com.ttt.qx.qxcall.function.find.model.entity.DynamicResponse;
+import com.ttt.qx.qxcall.function.find.model.entity.GiftList;
+import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ttt.qx.qxcall.utils.UriUtil;
 import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.LogUtils;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.adapter.PengYouQuanAdapter;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
+
+import static com.ttt.qx.qxcall.dialog.ShowSelectImgDialog.ALBUM_REQUEST_CODE;
+import static com.ttt.qx.qxcall.dialog.ShowSelectImgDialog.PHOTO_REQUEST_CODE;
+import static com.ttt.qx.qxcall.dialog.ShowSelectImgDialog.photoPath;
 
 public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdapter.RequestLoadMoreListener {
 
@@ -72,11 +88,11 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
     private ImageView ivTou;
     private TextView tvNickname;
 
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 0:
                     String pic = (String) msg.obj;
                     Glide.with(NPengYouQuanActivity.this)
@@ -89,6 +105,7 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
             }
         }
     };
+    private ImageView takePhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +175,7 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
         tvNickname = (TextView) headView.findViewById(R.id.tv_nickname);
         ivTou = (ImageView) headView.findViewById(R.id.iv_tou);
         ivBg = (ImageView) headView.findViewById(R.id.iv_bg);
+        takePhoto = (ImageView) headView.findViewById(R.id.take_photo);
         adapter.addHeaderView(headView);
         swipeTarget.setAdapter(adapter);
 
@@ -180,7 +198,6 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
         }
 
 
-
     }
 
     private void initData() {
@@ -191,11 +208,31 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
 
 
     private void setListener() {
+
+        takePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowSelectImgDialog.showSelectDialog(NPengYouQuanActivity.this);
+            }
+        });
+
+        adapter.setOnIconClickListener(new PengYouQuanAdapter.OnIconClickListener() {
+            @Override
+            public void onZanClick(int position) {
+                postZan(position);
+            }
+
+            @Override
+            public void onGiftClick(int position) {
+                sendGift(position);
+            }
+        });
+
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 startActivity(new Intent(NPengYouQuanActivity.this, PengYouQuanDetailActivity.class)
-                .putExtra("quan_id",list.get(position).getId()+""));
+                        .putExtra("quan_id", list.get(position).getId() + ""));
             }
         });
 
@@ -231,6 +268,75 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
         });
     }
 
+    private void sendGift(int position) {
+        DynamicResponse.DataBean.ListBean listBean = list.get(position);
+
+        FindModel.getFindModel().getGiftList(new ProgressSubscribe<>(new SubScribeOnNextListener<GiftList>() {
+            @Override
+            public void onNext(GiftList giftList) {
+                if (giftList.getStatus_code() == 200) {
+                    GiftSendDialog.showBottomDialog(NPengYouQuanActivity.this, giftList.getData(),
+                            new GiftSendDialog.OnComponentClickListener() {
+                                @Override
+                                public void onCancle() {
+                                }
+
+                                @Override
+                                public void onSend(String gift_id) {
+                                    FindModel.getFindModel().sendGiftList(new ProgressSubscribe<>(
+                                            new SubScribeOnNextListener<StandardResponse>() {
+                                                @Override
+                                                public void onNext(StandardResponse response) {
+                                                    if (response.getStatus_code() == 200) {
+                                                        onToast("赠送成功！");
+                                                        listBean.setGift_num(listBean.getGift_num() + 1);
+                                                        adapter.notifyDataSetChanged();
+                                                    } else {
+                                                        onToast(response.getMessage());
+                                                    }
+                                                }
+                                            }, NPengYouQuanActivity.this), gift_id, String.valueOf(listBean.getId()), authorization);
+                                }
+                            });
+                } else {
+                    onToast(giftList.getMessage());
+                }
+            }
+        }, NPengYouQuanActivity.this));
+    }
+
+
+    private void postZan(int position) {
+        DynamicResponse.DataBean.ListBean listBean = list.get(position);
+        int isZan = listBean.getIs_zan();
+        if (isZan == 0) {
+            FindModel.getFindModel().callDianZan(new Subscriber<StandardResponse>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(StandardResponse standardResponse) {
+                    if (standardResponse.getStatus_code() == 200) {
+
+                        listBean.setIs_zan(1);
+                        listBean.setZan_num(listBean.getZan_num() + 1);
+                        adapter.notifyDataSetChanged();
+                    }
+                    onToast(standardResponse.getMessage());
+                }
+            }, listBean.getId() + "", authorization);
+        } else {
+            onToast("已点过赞！");
+        }
+    }
+
 
     private void getAllData() {
 
@@ -250,11 +356,12 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
 
             @Override
             public void onNext(DynamicResponse dynamicResponse) {
+                LogUtils.e(new Gson().toJson(dynamicResponse));
                 if (dynamicResponse.getStatus_code() == 200) {
                     DynamicResponse.DataBean data = dynamicResponse.getData();
 
-                    if (pageIndex == 1){
-//                        LogUtils.e("------"+data.getBackground_pic());
+                    if (pageIndex == 1) {
+                        //                        LogUtils.e("------"+data.getBackground_pic());
                         Message message = new Message();
                         message.what = 0;
                         message.obj = data.getBackground_pic();
@@ -262,9 +369,9 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
                     }
                     pageTotal = data.getLast_page();
 
-                    if (data.getList().size() <= 0){
+                    if (data.getList().size() <= 0) {
                         multipleStatusView.showEmpty();
-                    }else {
+                    } else {
                         multipleStatusView.showContent();
                     }
                     list.addAll(data.getList());
@@ -296,15 +403,15 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
 
             @Override
             public void onNext(DynamicResponse dynamicResponse) {
-//                LogUtils.e(new Gson().toJson(dynamicResponse) + "");
+                //                LogUtils.e(new Gson().toJson(dynamicResponse) + "");
                 if (dynamicResponse.getStatus_code() == 200) {
                     DynamicResponse.DataBean data = dynamicResponse.getData();
 
                     pageTotal = data.getLast_page();
 
-                    if (data.getList().size() <= 0){
-                       multipleStatusView.showEmpty();
-                    }else {
+                    if (data.getList().size() <= 0) {
+                        multipleStatusView.showEmpty();
+                    } else {
                         multipleStatusView.showContent();
                     }
                     list.addAll(data.getList());
@@ -333,4 +440,47 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
         }
     }
 
+    private void onToast(String s) {
+        ToastUtil.show(this, s, Toast.LENGTH_SHORT);
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case ALBUM_REQUEST_CODE:
+                if (data != null) {
+                    try {
+                        Uri uri = data.getData();
+                        String absolutePath = "";
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            absolutePath = UriUtil.getPath_above19(this, uri);
+                        } else {
+                            absolutePath = UriUtil.getFilePath_below19(this, uri);
+                        }
+                        File file = new File(absolutePath);
+                        upload(file);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case PHOTO_REQUEST_CODE:
+                File photoFile = new File(photoPath);
+                if (photoFile.exists()) {
+                    upload(photoFile);
+                } else {
+                    onToast("图片文件不存在！");
+                }
+                break;
+        }
+    }
+
+    private void upload(File file) {
+        Glide.with(this).load(file).into(ivBg);
+        onToast(file.getAbsolutePath());
+        LogUtils.e("------------"+file.getAbsolutePath());
+    }
 }

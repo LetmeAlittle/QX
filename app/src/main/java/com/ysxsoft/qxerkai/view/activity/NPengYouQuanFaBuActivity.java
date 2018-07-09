@@ -4,13 +4,28 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.database.UserDao;
+import com.ttt.qx.qxcall.dbbean.UserBean;
+import com.ttt.qx.qxcall.function.base.interfacee.SubScribeOnNextListener;
+import com.ttt.qx.qxcall.function.base.subscribe.ProgressSubscribe;
+import com.ttt.qx.qxcall.function.find.model.FindModel;
+import com.ttt.qx.qxcall.function.register.model.RegisterModel;
+import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
+import com.ttt.qx.qxcall.function.register.model.entity.UploadImgResponse;
+import com.ttt.qx.qxcall.utils.CollectionToStringUtil;
+import com.ttt.qx.qxcall.utils.ImageUtil;
+import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
 import java.io.File;
@@ -19,11 +34,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerActivity;
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerPreviewActivity;
 import cn.bingoogolapple.photopicker.widget.BGASortableNinePhotoLayout;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
+import rx.Subscriber;
 
 public class NPengYouQuanFaBuActivity extends NBaseActivity implements EasyPermissions.PermissionCallbacks, BGASortableNinePhotoLayout.Delegate {
 
@@ -31,6 +48,10 @@ public class NPengYouQuanFaBuActivity extends NBaseActivity implements EasyPermi
     View statusBar;
     @BindView(R.id.iv_public_titlebar_left_1)
     ImageView ivPublicTitlebarLeft1;
+    @BindView(R.id.et_public)
+    EditText etPublic;
+    @BindView(R.id.tv_public)
+    TextView tvPublic;
     @BindView(R.id.ll_public_titlebar_left)
     LinearLayout llPublicTitlebarLeft;
     @BindView(R.id.tv_public_titlebar_center)
@@ -44,6 +65,12 @@ public class NPengYouQuanFaBuActivity extends NBaseActivity implements EasyPermi
     private static final int RC_CHOOSE_PHOTO = 1;
     private static final int RC_PHOTO_PREVIEW = 2;
 
+    private String authorization ="";
+
+    private void onToast(String s) {
+        ToastUtil.show(this, s, Toast.LENGTH_SHORT);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +82,32 @@ public class NPengYouQuanFaBuActivity extends NBaseActivity implements EasyPermi
         initView();
         initSnpl();
         initData();
+        setListener();
+    }
+
+    private void setListener() {
+        etPublic.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence sequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence sequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //改变之后 文本内容统计
+                String content = etPublic.getText().toString();
+                if (content.length() <= 500) {
+                    tvPublic.setText(String.valueOf(content.length()) + "/500");
+                } else {
+                    etPublic.setText(content.substring(0, 500));
+                    etPublic.setSelection(500);
+                    onToast("超出文本限制长度！");
+                }
+            }
+        });
     }
 
     private void initTitleBar() {
@@ -90,25 +143,35 @@ public class NPengYouQuanFaBuActivity extends NBaseActivity implements EasyPermi
     }
 
     private void initData() {
+        imgLists = new ArrayList<>();
 
+        UserDao userDao = new UserDao();
+        UserBean userBean = userDao.queryFirstData();
+        if (userBean != null) {
+            String token = userBean.getToken() + "";
+            authorization = "Bearer" + token;
+        }
     }
 
     /**
      * 九宫格控件
      * 点击添加加号按钮执行的方法
+     *
      * @param sortableNinePhotoLayout
      * @param view
      * @param position
      * @param models
      */
     @Override
-    public void onClickAddNinePhotoItem(BGASortableNinePhotoLayout sortableNinePhotoLayout, View view, int position, ArrayList<String> models) {
+    public void onClickAddNinePhotoItem(BGASortableNinePhotoLayout sortableNinePhotoLayout,
+                                        View view, int position, ArrayList<String> models) {
         choicePhotoWrapper();
     }
 
     /**
      * 九宫格控件
      * 点击删除按钮执行的方法
+     *
      * @param sortableNinePhotoLayout
      * @param view
      * @param position
@@ -116,13 +179,16 @@ public class NPengYouQuanFaBuActivity extends NBaseActivity implements EasyPermi
      * @param models
      */
     @Override
-    public void onClickDeleteNinePhotoItem(BGASortableNinePhotoLayout sortableNinePhotoLayout, View view, int position, String model, ArrayList<String> models) {
+    public void onClickDeleteNinePhotoItem(BGASortableNinePhotoLayout sortableNinePhotoLayout,
+                                           View view, int position, String model, ArrayList<String> models) {
         mPhotosSnpl.removeItem(position);
+        imgLists.remove(position);
     }
 
     /**
      * 九宫格控件
      * 点击图片进入预览界面
+     *
      * @param sortableNinePhotoLayout
      * @param view
      * @param position
@@ -144,13 +210,15 @@ public class NPengYouQuanFaBuActivity extends NBaseActivity implements EasyPermi
     /**
      * 九宫格控件
      * 拖拽排序发生变法执行的方法
+     *
      * @param sortableNinePhotoLayout
      * @param fromPosition
      * @param toPosition
      * @param models
      */
     @Override
-    public void onNinePhotoItemExchanged(BGASortableNinePhotoLayout sortableNinePhotoLayout, int fromPosition, int toPosition, ArrayList<String> models) {
+    public void onNinePhotoItemExchanged(BGASortableNinePhotoLayout sortableNinePhotoLayout,
+                                         int fromPosition, int toPosition, ArrayList<String> models) {
         //排序发生变化
     }
 
@@ -179,6 +247,7 @@ public class NPengYouQuanFaBuActivity extends NBaseActivity implements EasyPermi
 
     /**
      * 用户同意授权
+     *
      * @param requestCode
      * @param perms
      */
@@ -189,6 +258,7 @@ public class NPengYouQuanFaBuActivity extends NBaseActivity implements EasyPermi
 
     /**
      * 用户拒绝授权
+     *
      * @param requestCode
      * @param perms
      */
@@ -202,6 +272,7 @@ public class NPengYouQuanFaBuActivity extends NBaseActivity implements EasyPermi
     /**
      * 九宫格控件
      * 图片选择对调
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -216,4 +287,76 @@ public class NPengYouQuanFaBuActivity extends NBaseActivity implements EasyPermi
         }
     }
 
+
+
+
+    @OnClick(R.id.btn_public)
+    public void onViewClicked() {
+        String content = etPublic.getText().toString().trim();
+        if (TextUtils.isEmpty(content)) {
+            onToast("说说内容不能为空！");
+            return;
+        }
+
+        ArrayList<String> mPhotosSnplData = mPhotosSnpl.getData();
+        if (mPhotosSnplData != null && mPhotosSnplData.size() > 0) {
+            for (int i = 0; i < mPhotosSnplData.size(); i++) {
+                String encode = ImageUtil.base64Encode(mPhotosSnplData.get(i), ImageUtil.imgSize);
+                commitPic(encode, i, mPhotosSnplData.size());
+            }
+        } else {
+            onToast("请选择图片！");
+        }
+    }
+
+    private List<String> imgLists;
+    private void commitPic(String encodeString, int position, int size) {
+        multipleStatusView.showLoading();
+        //调用通用上传
+        RegisterModel.getRegisterModel().commonUpload(new Subscriber<UploadImgResponse>() {
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                multipleStatusView.hideLoading();
+            }
+
+            @Override
+            public void onNext(UploadImgResponse uploadImgResponse) {
+                if (uploadImgResponse.getStatus_code() == 200) {
+                    //将文件对象添加至集合中
+                    UploadImgResponse.DataBean data = uploadImgResponse.getData();
+                    String img = data.getImg();
+                    //将图片 对应的url 添加之url集合中
+                    imgLists.add(img);
+                    if (size == position) {
+                        postPublic(etPublic.getText().toString().trim());
+                    }
+                } else {
+                    onToast(uploadImgResponse.getMessage());
+                }
+            }
+        }, encodeString);
+    }
+
+    private void postPublic(String content) {
+        FindModel.getFindModel().publishDynamic(new ProgressSubscribe<>(new SubScribeOnNextListener<StandardResponse>() {
+            @Override
+            public void onNext(StandardResponse standardResponse) {
+                if (standardResponse.getStatus_code() == 200) {
+                    multipleStatusView.hideLoading();
+                    onToast("发表成功！");
+                    finish();
+                } else {
+                    multipleStatusView.hideLoading();
+                    onToast(standardResponse.getMessage());
+                }
+            }
+        }, this), content,
+                CollectionToStringUtil.collToString((ArrayList) imgLists, "|"),
+                authorization);
+
+    }
 }
