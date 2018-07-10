@@ -12,11 +12,14 @@ import com.ttt.qx.qxcall.function.find.model.entity.GiftRankList;
 import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
 import com.ttt.qx.qxcall.function.listen.model.entity.StealDetailResponse;
 import com.ttt.qx.qxcall.function.listen.model.entity.StealListenList;
+import com.ttt.qx.qxcall.function.register.model.entity.CommitPyqBgResponse;
 import com.ttt.qx.qxcall.function.register.model.entity.ResponseStatus;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 
+import okhttp3.MultipartBody;
 import retrofit2.Retrofit;
 import retrofit2.http.Field;
+import retrofit2.http.Part;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -65,6 +68,16 @@ public class FindModel implements BaseModel {
     public void publishDynamic(Subscriber<StandardResponse> subscriber, String content, String imgs, String Authorization) {
         Observable<StandardResponse> observable = findServiceApi.publishDynamic(content, imgs, Authorization);
         onToSubscribe8(observable, subscriber);
+    }
+    /**
+     * 发表说说
+     *
+     * @param subscriber
+     * @param flie
+     */
+    public void commitPyqBg(Subscriber<CommitPyqBgResponse> subscriber,String user_id,MultipartBody.Part flie) {
+        Observable<CommitPyqBgResponse> observable = findServiceApi.commitPyqBg(user_id,flie);
+        onToSubscribe20(observable, subscriber);
     }
 
     /**
@@ -229,6 +242,18 @@ public class FindModel implements BaseModel {
      * @param subscriber 观察者对象
      */
     private void onToSubscribe8(Observable<StandardResponse> observable, Subscriber<StandardResponse> subscriber) {
+        subscription = observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    /**
+     * 将线程切换为一个统一方法
+     *
+     * @param observable 被观察者对象
+     * @param subscriber 观察者对象
+     */
+    private void onToSubscribe20(Observable<CommitPyqBgResponse> observable, Subscriber<CommitPyqBgResponse> subscriber) {
         subscription = observable.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
