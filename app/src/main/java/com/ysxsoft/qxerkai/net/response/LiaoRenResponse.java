@@ -184,6 +184,15 @@ public class LiaoRenResponse  extends BaseResponse{
                 private String imgss;
                 private int com_num;
                 private String looks;
+                private String is_like;
+
+                public String getIs_like() {
+                    return is_like;
+                }
+
+                public void setIs_like(String is_like) {
+                    this.is_like = is_like;
+                }
 
                 public String getLooks() {
                     return looks;

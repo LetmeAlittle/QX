@@ -17,9 +17,11 @@ import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
 import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
 import com.ysxsoft.qxerkai.net.response.LiaoRenResponse;
 import com.ysxsoft.qxerkai.utils.DBUtils;
+import com.ysxsoft.qxerkai.utils.ObserverMap;
 import com.ysxsoft.qxerkai.utils.StringUtils;
 import com.ysxsoft.qxerkai.view.adapter.LiaoRenQuAdapter;
 import com.ysxsoft.qxerkai.view.adapter.PengYouQuanDetailAdapter;
@@ -33,7 +35,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NLiaoRenQuActivity extends NBaseActivity implements BaseQuickAdapter.RequestLoadMoreListener {
+public class NLiaoRenQuActivity extends NBaseActivity implements BaseQuickAdapter.RequestLoadMoreListener, ObserverMap.IPageDataChangeObserver {
 
     @BindView(R.id.status_bar)
     View statusBar;
@@ -58,13 +60,13 @@ public class NLiaoRenQuActivity extends NBaseActivity implements BaseQuickAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nliao_ren_qu);
         userId = getIntent().getIntExtra("userId", -1);
-
         ButterKnife.bind(this);
         initStatusBar();
         initStatusBar(statusBar);
         initTitleBar();
         initView();
         initData();
+        ObserverMap.reg(this.getClass().getSimpleName(),this);
     }
 
     private void initTitleBar() {
@@ -148,8 +150,29 @@ public class NLiaoRenQuActivity extends NBaseActivity implements BaseQuickAdapte
             }
         });
     }
-//
+
+    @Override
+    public void change() {
+
+    }
+
+    @Override
+    public void change(int likeNum, int commonNum, boolean isChanged, int position, int readNum) {
+        if (adapter != null && adapter.getItemCount() > position) {
+//            Log.e("tag", "刷新Item" + " likeNum:" + likeNum + " commonNum:" + commonNum + " isChanged:" + isChanged + " position:" + position + " readNum:" + readNum);
+            LiaoRenResponse.DataBeanX.ListBean.DataBean d = adapter.getItem(position);
+            d.setLikes(likeNum );
+            d.setIs_like(isChanged ? "1" : "0");
+            d.setCom_num(commonNum);
+            d.setLooks(readNum+"");
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    //撩人区适配器
     class LiaoRenQuAdapter extends BaseQuickAdapter<LiaoRenResponse.DataBeanX.ListBean.DataBean, BaseViewHolder> {
+        private int clickPosition;
+
         public LiaoRenQuAdapter(int layoutResId) {
             super(layoutResId);
         }
@@ -161,8 +184,74 @@ public class NLiaoRenQuActivity extends NBaseActivity implements BaseQuickAdapte
             Glide.with(mContext).load(item.getImgss()).diskCacheStrategy(DiskCacheStrategy.ALL).into(image);
             helper.setText(R.id.cardContent, StringUtils.convert(item.getContent()));
             helper.setText(R.id.lookNum, StringUtils.convert(item.getLooks() + ""));
-            helper.setText(R.id.goodNum, StringUtils.convert(item.getLikes()+""));
+            helper.setText(R.id.goodNum, StringUtils.convert(item.getLikes() + ""));
             helper.setText(R.id.sayNum, StringUtils.convert(item.getCom_num() + ""));
+            ImageView likeImage = helper.getView(R.id.likeImage);
+            if ("1".equals(item.getIs_like())) {//1 已点赞  0未点赞
+                likeImage.setImageResource(R.mipmap.activity_pengyouquan_detail_zan_r);
+            } else {
+                likeImage.setImageResource(R.mipmap.fragment_two_dianzan);
+            }
+            likeImage.setOnClickListener(new OnLikeClickListener(item.getTid(), helper.getAdapterPosition()));
+        }
+
+        /**
+         * 点赞
+         */
+        private class OnLikeClickListener implements View.OnClickListener {
+            private int tid;
+            private int position;
+
+            public OnLikeClickListener(int tid, int position) {
+                this.tid = tid;
+                this.position = position;
+            }
+
+            @Override
+            public void onClick(View v) {
+                clickPosition = (position - 1);
+                like(tid);
+            }
+        }
+
+        /**
+         * 点赞
+         *
+         * @param tid
+         */
+        private void like(int tid) {
+            Map<String, String> map = new HashMap<>();
+            map.put("user_id", DBUtils.getUserId());
+            map.put("cid", "" + tid);//列表的id
+            map.put("type", "1");//	1帖子 2评论
+
+            RetrofitTools.cardLike(map)
+                    .subscribe(new ResponseSubscriber<BaseResponse>() {
+                        @Override
+                        public void onSuccess(BaseResponse baseResponse, int code, String msg) {
+                            if (code == 200) {
+                                refresh();
+                            } else {
+                                ToastUtil.showToast(mContext, msg);
+                            }
+                        }
+
+                        @Override
+                        public void onFailed(Throwable e) {
+                            e.printStackTrace();
+                        }
+                    });
+        }
+
+        private void refresh() {
+            String isLike = mData.get(clickPosition).getIs_like();
+            if ("1".equals(isLike)) {//1已点赞  0未点赞
+            } else {
+                int likeNum = mData.get(clickPosition).getLikes();
+                mData.get(clickPosition).setLikes(likeNum + 1);
+                mData.get(clickPosition).setIs_like("1");
+            }
+            notifyDataSetChanged();
         }
     }
 }
