@@ -133,7 +133,7 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 GetCardListResponse.DataBeanX.ListBean.DataBean bean = (GetCardListResponse.DataBeanX.ListBean.DataBean) adapter.getItem(position);
                 if (bean != null) {
-                    NQingQuDetailActivity.start(activity, bean.getTid(), GO_DETAIL);//跳转小情趣详情页
+                    NQingQuDetailActivity.start(activity, activity.getClass().getSimpleName(), bean.getTid(), GO_DETAIL);//跳转小情趣详情页  回调通知
                 }
             }
         });
@@ -222,7 +222,7 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
      */
     @OnClick({R.id.iv_fabu})
     public void onFabu(View view) {
-        ctx.startActivity(new Intent(ctx, NFaTieActivity.class));
+        NFaTieActivity.start(ctx,ctx.getClass().getSimpleName());
     }
 
     @Override
@@ -243,8 +243,12 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
 
     @Override
     public void change() {
-        Log.e("tag","详情页点赞!");
         getList();
+    }
+
+    @Override
+    public void change(int likeNum, int commonNum, boolean isChanged, int position, int readNum) {
+        //返回重新刷新数据
     }
 
     /**

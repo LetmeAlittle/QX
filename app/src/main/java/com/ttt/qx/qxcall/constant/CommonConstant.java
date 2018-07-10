@@ -84,6 +84,8 @@ public class CommonConstant {
     public static final String CARD_LIKE="api/friend/likes";                                 //帖子/评论点赞  user_Id
     public static final String NOTICE_LIST="api/getNotice";                                  //公告  type [0公告 1随机话题 2老司机开车 3闺蜜私房语4两性研究社]
     public static final String PUSH_COMMENT="api/friend/pushComment";                      //帖子评论  user_id content tid
+    public static final String MY_CARD="api/friend/myCard";                                 //撩人区列表  user_id page
+    public static final String CARD_ADD="api/friend/pushcard";                             //发表帖子 user_id content title  type
 
 
 

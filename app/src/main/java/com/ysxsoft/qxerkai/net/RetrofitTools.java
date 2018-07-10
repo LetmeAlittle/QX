@@ -5,6 +5,7 @@ import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
+import com.ysxsoft.qxerkai.net.response.LiaoRenResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
@@ -31,6 +32,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_ADD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.COMMON_BASE_URL;
 import static com.ttt.qx.qxcall.constant.CommonConstant.FRIEND_Q_backgroundqh;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_COMMIT;
@@ -189,7 +191,6 @@ public class RetrofitTools {
         return subscribe(RetrofitTools.getManager().publishSaGouLiang(map));
     }
 
-
     /**
      * 对某人进行守护
      *
@@ -258,5 +259,35 @@ public class RetrofitTools {
      */
     public static Observable<BaseResponse> cardLike(Map<String, String> map) {
         return subscribe(RetrofitTools.getManager().cardLike(map));
+    }
+
+    /**
+     * 发布帖子  标题 文本
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<BaseResponse> publishCard(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().publishCard(map));
+    }
+
+    /**
+     * 发布帖子  标题 文本 图片
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<BaseResponse> publishCard(Map<String, String> map, String[] imageNames, File[] imageFiles) {
+        return subscribe(RetrofitTools.getManager().publishCard(COMMON_BASE_URL + CARD_ADD, builder(map, imageNames, imageFiles).build()));
+    }
+
+    /**
+     * 撩人区列表
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<LiaoRenResponse> getLiaoRenList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getLiaoRenList(map));
     }
 }

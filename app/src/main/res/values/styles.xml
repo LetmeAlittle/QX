@@ -144,6 +144,25 @@
         <item name="android:windowAnimationStyle">@style/ActionSheetDialogAnimation3</item>
     </style>
 
+    <style name="dialogQingQuStyle" parent="@android:style/Theme.Dialog">
+        <!-- 背景透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 浮于Activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- Dialog以外的区域模糊效果 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- Dialog进入及退出动画 -->
+        <item name="android:windowAnimationStyle">@style/popWindowYAnimation</item>
+    </style>
+
     <style name="receiveGiftDialogStyle" parent="@android:style/Theme.Dialog">
         <!-- 背景透明 -->
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -165,6 +184,11 @@
     <style name="popWindowAnimation">
         <item name="android:windowEnterAnimation">@anim/popwindow_pop_anim</item>
         <item name="android:windowExitAnimation">@anim/popwindow_fade_anim</item>
+    </style>
+
+    <style name="popWindowYAnimation">
+        <item name="android:windowEnterAnimation">@anim/pop_bottom_out</item>
+        <item name="android:windowExitAnimation">@anim/pop_bottom_in</item>
     </style>
 
     <style name="progress_dialog" parent="@android:style/Theme.Dialog">

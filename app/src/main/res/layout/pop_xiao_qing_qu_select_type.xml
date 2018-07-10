@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
 
     <LinearLayout
         android:id="@+id/cancelLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/layout_padding_8dp"
-        android:layout_marginRight="@dimen/layout_padding_8dp">
+        android:layout_marginLeft="@dimen/layout_padding_4dp"
+        android:layout_marginRight="@dimen/layout_padding_4dp">
 
         <TextView
             android:id="@+id/cancel"
@@ -20,15 +19,16 @@
             android:background="@drawable/rect_white_radius4"
             android:gravity="center"
             android:padding="@dimen/layout_padding_8dp"
-            android:text="取消" />
+            android:text="取消"
+            android:textColor="@color/qingtong" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/listView"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/cancelLayout"
-        android:layout_margin="@dimen/layout_margin_8dp"
+        android:layout_margin="@dimen/layout_padding_4dp"
         android:background="@drawable/rect_white_radius4"
         android:scrollbars="none" />
 </RelativeLayout>

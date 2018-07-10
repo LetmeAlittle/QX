@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.ysxsoft.qxerkai.utils.SystemUtils;
 import com.ysxsoft.qxerkai.view.layoutback.ParallaxActivityBase;
@@ -31,19 +32,19 @@ public abstract class NBaseActivity extends ParallaxActivityBase {
         MobclickAgent.onPause(this);
     }
 
-    public void initStatusBar(){
-        if(!SystemUtils.checkDeviceHasNavigationBar(this)){
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+    public void initStatusBar() {
+        if (!SystemUtils.checkDeviceHasNavigationBar(this)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 /**
                  * Android 5.0以上，全透明状态栏
                  */
                 SystemUtils.setTranslucentStatus(this);
 
-            }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 /**
                  * Android 4.4以上，半透明状态栏
                  */
-                SystemUtils.setTranslucentStatus(this,true);
+                SystemUtils.setTranslucentStatus(this, true);
             }
         }
     }
@@ -52,10 +53,11 @@ public abstract class NBaseActivity extends ParallaxActivityBase {
      * 初始化自定义的状态栏
      * 4.4以下，系统自带状态栏，隐藏自定义状态栏
      * 4.4以上，设置系统状态栏透明，显示自定义状态栏，并设置状态栏高度
+     *
      * @param mStatusBar
      */
-    public void initStatusBar(View mStatusBar){
-        if(SystemUtils.checkDeviceHasNavigationBar(this)){
+    public void initStatusBar(View mStatusBar) {
+        if (SystemUtils.checkDeviceHasNavigationBar(this)) {
             mStatusBar.setVisibility(View.GONE);
             return;
         }
@@ -82,6 +84,10 @@ public abstract class NBaseActivity extends ParallaxActivityBase {
         } else {
             mStatusBar.setVisibility(View.GONE);
         }
+    }
+
+    public void showToast(String msg) {
+        ToastUtil.showToast(this, msg);
     }
 
 }

@@ -87,7 +87,7 @@ public class NQingQuListActivity extends NBaseActivity implements BaseQuickAdapt
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 GetCardListResponse.DataBeanX.ListBean.DataBean bean = (GetCardListResponse.DataBeanX.ListBean.DataBean) adapter.getItem(position);
                 if (bean != null) {
-                    NQingQuDetailActivity.start(NQingQuListActivity.this, bean.getTid(), GO_DETAIL);
+                    NQingQuDetailActivity.start(NQingQuListActivity.this, NQingQuListActivity.this.getClass().getSimpleName(), bean.getTid(), GO_DETAIL, position);
                 }
             }
         });
