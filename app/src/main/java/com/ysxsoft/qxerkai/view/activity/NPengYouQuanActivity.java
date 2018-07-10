@@ -372,7 +372,7 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
 
             @Override
             public void onNext(DynamicResponse dynamicResponse) {
-                LogUtils.e(new Gson().toJson(dynamicResponse));
+//                LogUtils.e(new Gson().toJson(dynamicResponse));
                 if (dynamicResponse.getStatus_code() == 200) {
                     DynamicResponse.DataBean data = dynamicResponse.getData();
 
