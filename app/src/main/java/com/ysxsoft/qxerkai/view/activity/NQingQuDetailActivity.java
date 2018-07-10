@@ -97,12 +97,19 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
 
     //headerView
     private View headView;
-    private TextView tvNick, tvTime, tvContent, tvLook, tvZan, tvPing, tvReplyNum;
+    private TextView tvNick, tvTitle, tvTime, tvContent, tvLook, tvZan, tvPing, tvReplyNum;
     private de.hdodenhof.circleimageview.CircleImageView logo;
     private cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout ninePhotoLayout;
-    private boolean isLiked;
+    private boolean isLiked;//返回的是否点赞
     private int tid;//帖子ID
+    private String title;
     private boolean isFirst = true;
+    private String clazzName = "";
+    private boolean needReturnResult = false;
+    private int likeNum;//返回的点赞数量
+    private int commonNum;//返回的评论数量
+    private int position;//返回的position
+    private int readNum;//返回的阅读数量
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +118,12 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
         ButterKnife.bind(this);
         if (getIntent() != null) {
             tid = getIntent().getIntExtra("tid", 0);//帖子id
+            title = getIntent().getStringExtra("title");//顶部标题  暂时暂未用到 title固定为  "帖子详情"
+            clazzName = getIntent().getStringExtra("clazzName");//回调通知类
+            //1.如果点赞或评论后  返回上级页面 直接调用getList()  则不需要传下方数据
+            //2.否则 上级页面  单独刷新item  回传操作后的数据
+            needReturnResult = getIntent().getBooleanExtra("needReturnResult", false);//回调通知是否返回  点赞数量 评论数量 是否点赞  需更新的position   //默认返回  重新获取列表
+            position = getIntent().getIntExtra("position", 0);//需要返回是填对应的position
         }
         initStatusBar();
         initStatusBar(statusBar);
@@ -133,6 +146,39 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
         activity.startActivityForResult(intent, requestCode);
     }
 
+    /**
+     * 跳转至帖子详情页  返回时直接请求getList
+     *
+     * @param activity
+     * @param clazzName
+     * @param tid         帖子id
+     * @param requestCode 请求码
+     */
+    public static void start(Activity activity, String clazzName, int tid, int requestCode) {
+        Intent intent = new Intent(activity, NQingQuDetailActivity.class);
+        intent.putExtra("tid", tid);
+        intent.putExtra("clazzName", clazzName);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * 跳转至帖子详情页  返回时单独刷新item
+     *
+     * @param activity
+     * @param clazzName
+     * @param tid         帖子id
+     * @param requestCode 请求码
+     */
+    public static void start(Activity activity, String clazzName, int tid, int requestCode, int position) {
+        Intent intent = new Intent(activity, NQingQuDetailActivity.class);
+        intent.putExtra("tid", tid);
+        intent.putExtra("clazzName", clazzName);
+        intent.putExtra("needReturnResult", true);
+        intent.putExtra("position", position);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+
     private void initTitleBar() {
         ivPublicTitlebarLeft1.setVisibility(View.VISIBLE);
         ivPublicTitlebarLeft1.setImageResource(R.mipmap.back_left_white);
@@ -142,7 +188,7 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
                 finish();
             }
         });
-        tvPublicTitlebarCenter.setText("");
+        tvPublicTitlebarCenter.setText(title != null ? title : "帖子详情");
     }
 
     private void initView() {
@@ -167,6 +213,9 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(logo);
+
+        tvTitle.setVisibility(View.VISIBLE);
+        tvTitle.setText(topBean.getTitle());
         tvNick.setText(topBean.getNick_name());
         tvTime.setText(topBean.getDates());
         tvReplyNum.setText("全部评论：" + topBean.getCom_num());
@@ -174,6 +223,11 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
         tvZan.setText(topBean.getLikes() + "");
         tvLook.setText(topBean.getLooks() + "");
         tvContent.setText(topBean.getContent());
+
+        likeNum = topBean.getLikes();
+        commonNum = topBean.getCom_num();
+        readNum = topBean.getLooks();
+
         if ("1".equals(topBean.getIs_like())) {
             isLiked = true;
         } else {
@@ -228,6 +282,7 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
         tvZan = (TextView) headView.findViewById(R.id.zanNum);
         tvPing = (TextView) headView.findViewById(R.id.pingNum);
         tvReplyNum = (TextView) headView.findViewById(R.id.replyNum);
+        tvTitle = (TextView) headView.findViewById(R.id.title);
         logo = (de.hdodenhof.circleimageview.CircleImageView) headView.findViewById(R.id.logo);
     }
 
@@ -347,14 +402,15 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
             public void onSuccess(GetCardDetailResponse getCardDetailResponse, int code, String msg) {
                 multipleStatusView.hideLoading();
                 if (code == 200) {
-                    if (isFirst) {
-                        notifyPage();
-                    }
+
                     if (getCardDetailResponse.getData() == null) return;
                     //填充顶部
                     GetCardDetailResponse.DataBeanX.TopBean topBean = getCardDetailResponse.getData().getTop();
                     if (topBean != null) {
                         fillHeadView(topBean);
+                    }
+                    if (isFirst) {
+                        notifyPage();//通知刷新阅读量
                     }
                     //填充下方评论列表
                     GetCardDetailResponse.DataBeanX.ListBean commonList = getCardDetailResponse.getData().getList();
@@ -391,7 +447,11 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
      * 通知刷新页面
      */
     private void notifyPage() {
-        ObserverMap.notifyAllPage();//通知第二页
+        if (needReturnResult) {
+            ObserverMap.notify(clazzName, likeNum, commonNum, isLiked, position, readNum);
+        } else {//回调之后直接刷新列表  //通知第二页
+            ObserverMap.notify(clazzName);
+        }
         isFirst = false;
     }
 
@@ -412,7 +472,18 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
                     public void onSuccess(BaseResponse baseResponse, int code, String msg) {
                         if (code == 200) {
                             tvZan.setSelected(true);
-                            ObserverMap.notifyAllPage();//通知第二页
+                            String zanNum = tvZan.getText().toString();
+                            if (zanNum != null && !"".equals(zanNum)) {
+                                int n = Integer.parseInt(zanNum);
+                                tvZan.setText((n + 1) + "");
+                            }
+                            likeNum++;
+                            isLiked=true;
+                            if (needReturnResult) {
+                                ObserverMap.notify(clazzName, likeNum, commonNum, isLiked, position, readNum);
+                            } else {//回调之后直接刷新列表
+                                ObserverMap.notify(clazzName);
+                            }
                         } else {
                             ToastUtil.showToast(NQingQuDetailActivity.this, msg);
                         }
@@ -440,7 +511,12 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
                     public void onSuccess(BaseResponse baseResponse, int code, String msg) {
                         if (code == 200) {
                             getDetail();
-                            ObserverMap.notify("MainActivity");
+                            commonNum++;
+                            if (needReturnResult) {
+                                ObserverMap.notify(clazzName, likeNum, commonNum, isLiked, position, readNum);
+                            } else {//回调之后直接刷新列表
+                                ObserverMap.notify(clazzName);
+                            }
                         } else {
                             ToastUtil.showToast(NQingQuDetailActivity.this, msg);
                         }

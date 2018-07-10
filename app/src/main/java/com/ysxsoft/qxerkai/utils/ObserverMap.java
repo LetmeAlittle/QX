@@ -31,10 +31,26 @@ public class ObserverMap {
         }
     }
 
-    public static void notify(String clazzName){
+    public static void notify(String clazzName) {
         if (pageHashMap == null) return;
         if (pageHashMap.containsKey(clazzName)) {
             pageHashMap.get(clazzName).change();
+        }
+    }
+
+    /**
+     * 更新数据
+     *
+     * @param clazzName 目标名称
+     * @param likeNum   变更后的点赞数量
+     * @param commonNum 变更后的评论数量
+     * @param isChanged 是否发生变化
+     * @param position  变更的position
+     */
+    public static void notify(String clazzName, int likeNum, int commonNum, boolean isChanged, int position, int readNum) {
+        if (pageHashMap == null) return;
+        if (pageHashMap.containsKey(clazzName)) {
+            pageHashMap.get(clazzName).change(likeNum, commonNum, isChanged, position, readNum);
         }
     }
 
@@ -47,5 +63,7 @@ public class ObserverMap {
 
     public interface IPageDataChangeObserver {
         void change();
+
+        void change(int likeNum, int commonNum, boolean isChanged, int position, int readNum);
     }
 }

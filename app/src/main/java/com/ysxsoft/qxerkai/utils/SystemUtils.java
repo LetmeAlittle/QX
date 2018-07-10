@@ -111,6 +111,26 @@ public class SystemUtils {
     }
 
     /**
+     * 获取分辨率宽度
+     *
+     * @param context
+     * @return
+     */
+    public static float getScreenWidth(Context context) {
+        return context.getResources().getDisplayMetrics().widthPixels;// 获取分辨率宽度
+    }
+
+    /**
+     * 获取分辨率宽度
+     *
+     * @param context
+     * @return
+     */
+    public static float getScreenHeight(Context context) {
+        return context.getResources().getDisplayMetrics().heightPixels;// 获取分辨率宽度
+    }
+
+    /**
      * 获取分辨率高度
      *
      * @param activity

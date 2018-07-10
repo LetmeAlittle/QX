@@ -1,16 +1,13 @@
 package com.ysxsoft.qxerkai.view.activity;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.netease.nim.uikit.common.util.string.StringUtil;
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
@@ -28,36 +25,64 @@ import butterknife.OnClick;
 
 public class PublishSGLActivity extends NBaseActivity {
 
-    @BindView(R.id.sex_select_iv)
-    ImageView sexSelectIv;
-    @BindView(R.id.top_back_rl)
-    RelativeLayout topBackRl;
-    @BindView(R.id.submit)
-    RelativeLayout submit;
+
+    @BindView(R.id.status_bar)
+    View statusBar;
+    @BindView(R.id.iv_public_titlebar_left_1)
+    ImageView ivPublicTitlebarLeft1;
+    @BindView(R.id.tv_public_titlebar_left)
+    TextView tvPublicTitlebarLeft;
+    @BindView(R.id.iv_public_titlebar_left_2)
+    ImageView ivPublicTitlebarLeft2;
+    @BindView(R.id.ll_public_titlebar_left)
+    LinearLayout llPublicTitlebarLeft;
+    @BindView(R.id.iv_public_titlebar_right_1)
+    ImageView ivPublicTitlebarRight1;
+    @BindView(R.id.tv_public_titlebar_right)
+    TextView tvPublicTitlebarRight;
+    @BindView(R.id.iv_public_titlebar_right_2)
+    ImageView ivPublicTitlebarRight2;
+    @BindView(R.id.ll_public_titlebar_right)
+    LinearLayout llPublicTitlebarRight;
+    @BindView(R.id.tv_public_titlebar_center)
+    TextView tvPublicTitlebarCenter;
+    @BindView(R.id.ll_public_titlebar)
+    LinearLayout llPublicTitlebar;
     @BindView(R.id.public_content_et)
     EditText publicContentEt;
     @BindView(R.id.multipleStatusView)
     MultipleStatusView multipleStatusView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_sgl);
         ButterKnife.bind(this);
+        initStatusBar();
+        initStatusBar(statusBar);
+        initTitleBar();
     }
 
-    @OnClick({R.id.top_back_rl, R.id.submit})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.top_back_rl:
+    private void initTitleBar() {
+        ivPublicTitlebarLeft1.setVisibility(View.VISIBLE);
+        ivPublicTitlebarLeft1.setImageResource(R.mipmap.back_left_white);
+        llPublicTitlebarLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 finish();
-                break;
-            case R.id.submit://发布撒狗粮
+            }
+        });
+        tvPublicTitlebarCenter.setText("编辑故事");
+        tvPublicTitlebarRight.setVisibility(View.VISIBLE);
+        tvPublicTitlebarRight.setText("提交");
+        llPublicTitlebarRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 submit();
-                break;
-        }
+            }
+        });
     }
+
 
     /**
      * 撒狗粮 发照片

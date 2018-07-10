@@ -6,6 +6,7 @@ import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
+import com.ysxsoft.qxerkai.net.response.LiaoRenResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
@@ -22,9 +23,11 @@ import retrofit2.http.POST;
 import retrofit2.http.Url;
 import rx.Observable;
 
+import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_ADD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_DETAIL;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIKE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.MY_CARD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.NOTICE_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.PUSH_COMMENT;
 import static com.ttt.qx.qxcall.constant.CommonConstant.RULE;
@@ -64,10 +67,10 @@ public interface RetrofitApi {
      */
     @FormUrlEncoded
     @POST(RULE)
-    Observable<RuleResponse> getRule(@FieldMap Map<String, String>  map);
+    Observable<RuleResponse> getRule(@FieldMap Map<String, String> map);
 
     /**
-     * 发布撒狗粮
+     * 发布撒狗粮 图片
      *
      * @param url
      * @param Body
@@ -76,6 +79,12 @@ public interface RetrofitApi {
     @POST()
     Observable<SaGouLiangPublishResponse> publishSaGouLiang(@Url() String url, @Body RequestBody Body);
 
+    /**
+     * 发布撒狗粮 故事
+     *
+     * @param map
+     * @return
+     */
     @FormUrlEncoded
     @POST(SA_GOU_LIANG_COMMIT)
     Observable<SaGouLiangPublishResponse> publishSaGouLiang(@FieldMap Map<String, String> map);
@@ -92,6 +101,7 @@ public interface RetrofitApi {
 
     /**
      * 用户的守护列表/用户守护的列表
+     *
      * @param map
      * @return
      */
@@ -148,4 +158,34 @@ public interface RetrofitApi {
     @FormUrlEncoded
     @POST(CARD_LIKE)
     Observable<BaseResponse> cardLike(@FieldMap Map<String, String> map);
+
+    /**
+     * 发表小情趣/撩人区帖子  文本
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(CARD_ADD)
+    Observable<BaseResponse> publishCard(@FieldMap Map<String, String> map);
+
+    /**
+     * 发表小情趣/撩人区帖子  图片
+     *
+     * @param url
+     * @param Body
+     * @return
+     */
+    @POST()
+    Observable<BaseResponse> publishCard(@Url() String url, @Body RequestBody Body);
+
+    /**
+     * 获取我的撩人区列表
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(MY_CARD)
+    Observable<LiaoRenResponse> getLiaoRenList(@FieldMap Map<String, String> map);
 }

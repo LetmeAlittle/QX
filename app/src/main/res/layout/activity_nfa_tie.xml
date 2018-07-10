@@ -60,7 +60,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="0 / 15"
+                            android:text="0/15"
                             android:textColor="@color/black"
                             android:textSize="@dimen/normal_size"/>
 
@@ -103,7 +103,7 @@
                             android:layout_gravity="top"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="15dp"
-                            android:text="0 / 500"
+                            android:text="0/500"
                             android:textColor="@color/black"
                             android:textSize="@dimen/normal_size"/>
                     </LinearLayout>
@@ -117,64 +117,77 @@
                         />
 
                     <LinearLayout
-                        android:id="@+id/selectTypeLayout"
+                        android:id="@+id/bottomLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:id="@+id/selectTypeLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:padding="15dp"
+                                android:text="选择话题"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/middle_size"/>
+
+                            <TextView
+                                android:id="@+id/typeName"
+                                android:layout_marginRight="15dp"
+                                android:text=""
+                                android:drawablePadding="15dp"
+                                android:textColor="@color/colorLoginColor"
+                                android:layout_width="wrap_content"
+                                android:drawableRight="@mipmap/fragment_five_next"
+                                android:layout_height="wrap_content" />
+
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:background="@color/split_line"
+                            />
 
                         <TextView
+                            android:id="@+id/upload_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:padding="15dp"
-                            android:text="选择话题"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="15dp"
+                            android:text="上传图片："
                             android:textColor="@color/black"
                             android:textSize="@dimen/middle_size"/>
 
-                        <ImageView
-                            android:layout_width="wrap_content"
+                        <cn.bingoogolapple.photopicker.widget.BGASortableNinePhotoLayout
+                            android:id="@+id/snpl_moment_add_photos"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="15dp"
-                            android:src="@mipmap/fragment_five_next"/>
+                            android:layout_margin="15dp"
+                            app:bga_snpl_deleteDrawable="@mipmap/bga_pp_ic_delete"
+                            app:bga_snpl_deleteDrawableOverlapQuarter="false"
+                            app:bga_snpl_editable="true"
+                            app:bga_snpl_itemCornerRadius="0dp"
+                            app:bga_snpl_itemSpanCount="3"
+                            app:bga_snpl_itemWhiteSpacing="10dp"
+                            app:bga_snpl_itemWidth="0dp"
+                            app:bga_snpl_maxItemCount="9"
+                            app:bga_snpl_otherWhiteSpacing="30dp"
+                            app:bga_snpl_placeholderDrawable="@mipmap/activity_fabu_default_img"
+                            app:bga_snpl_plusDrawable="@mipmap/activity_fabu_add_img"
+                            app:bga_snpl_plusEnable="true"
+                            app:bga_snpl_sortable="true"/>
 
                     </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:background="@color/split_line"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="15dp"
-                        android:paddingTop="15dp"
-                        android:text="上传图片："
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/middle_size"/>
-
-                    <cn.bingoogolapple.photopicker.widget.BGASortableNinePhotoLayout
-                        android:id="@+id/snpl_moment_add_photos"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="15dp"
-                        app:bga_snpl_deleteDrawable="@mipmap/bga_pp_ic_delete"
-                        app:bga_snpl_deleteDrawableOverlapQuarter="false"
-                        app:bga_snpl_editable="true"
-                        app:bga_snpl_itemCornerRadius="0dp"
-                        app:bga_snpl_itemSpanCount="3"
-                        app:bga_snpl_itemWhiteSpacing="10dp"
-                        app:bga_snpl_itemWidth="0dp"
-                        app:bga_snpl_maxItemCount="9"
-                        app:bga_snpl_otherWhiteSpacing="30dp"
-                        app:bga_snpl_placeholderDrawable="@mipmap/activity_fabu_default_img"
-                        app:bga_snpl_plusDrawable="@mipmap/activity_fabu_add_img"
-                        app:bga_snpl_plusEnable="true"
-                        app:bga_snpl_sortable="true"/>
 
                     <TextView
                         android:id="@+id/submit"

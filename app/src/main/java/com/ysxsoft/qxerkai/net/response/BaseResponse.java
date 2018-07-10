@@ -1,8 +1,9 @@
 package com.ysxsoft.qxerkai.net.response;
 
 public class BaseResponse {
-    public String message ;
+    public String message;
     public int status_code;
+
 
     public String getMessage() {
         return message;
@@ -19,4 +20,5 @@ public class BaseResponse {
     public void setStatus_code(int status_code) {
         this.status_code = status_code;
     }
+
 }
