@@ -167,7 +167,7 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 totalDy += dy;
-                //                LogUtils.i("--->" + totalDy);
+                //LogUtils.i("--->" + totalDy);
                 if (totalDy > 200) {
                     llPublicTitlebar.setVisibility(View.VISIBLE);
                 } else {
