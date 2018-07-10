@@ -32,6 +32,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.ttt.qx.qxcall.constant.CommonConstant.COMMON_BASE_URL;
+import static com.ttt.qx.qxcall.constant.CommonConstant.FRIEND_Q_backgroundqh;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_COMMIT;
 
 public class RetrofitTools {
@@ -166,6 +167,16 @@ public class RetrofitTools {
      */
     public static Observable<SaGouLiangPublishResponse> publishSaGouLiang(Map<String, String> map, String[] imageNames, File[] imageFiles) {
         return subscribe(RetrofitTools.getManager().publishSaGouLiang(COMMON_BASE_URL + SA_GOU_LIANG_COMMIT, builder(map, imageNames, imageFiles).build()));
+    }
+
+    /**
+     * 更换朋友圈背景    图片
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<SaGouLiangPublishResponse> commitFriendBg(Map<String, String> map, String[] imageNames, File[] imageFiles) {
+        return subscribe(RetrofitTools.getManager().publishSaGouLiang(COMMON_BASE_URL + FRIEND_Q_backgroundqh, builder(map, imageNames, imageFiles).build()));
     }
 
     /**

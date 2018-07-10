@@ -93,7 +93,7 @@ public class CommonConstant {
     public static final String FRIEND_Q_reply = "/api/friend/reply";// 评论朋友动态
     public static final String FRIEND_Q_zan = "/api/friend/zan";// 朋友圈点赞
     public static final String FRIEND_Q_send_gift = "/api/friend/send_gift";// 给朋友圈送礼物
-    public static final String FRIEND_Q_backgroundqh = "/api/backgroundqh";// 更换朋友圈背景图
+    public static final String FRIEND_Q_backgroundqh = "api/backgroundqh";// 更换朋友圈背景图
 
 
     //用户资料  zhaozhipeng

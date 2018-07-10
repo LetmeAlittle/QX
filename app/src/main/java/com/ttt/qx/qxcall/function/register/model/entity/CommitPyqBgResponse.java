@@ -11,7 +11,7 @@ public class CommitPyqBgResponse {
 
     private String message;
     private int status_code;
-    private String data;
+    private Object data;
 
     public String getMessage() {
         return message;
@@ -29,11 +29,11 @@ public class CommitPyqBgResponse {
         this.status_code = status_code;
     }
 
-    public String getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }

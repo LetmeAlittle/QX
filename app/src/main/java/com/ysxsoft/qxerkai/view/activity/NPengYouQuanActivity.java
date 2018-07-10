@@ -35,12 +35,20 @@ import com.ttt.qx.qxcall.function.register.model.entity.CommitPyqBgResponse;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ttt.qx.qxcall.utils.UriUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.SaGouLiangPublishResponse;
+import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.LogUtils;
 import com.ysxsoft.qxerkai.view.adapter.PengYouQuanAdapter;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -96,6 +104,15 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
                     String pic = (String) msg.obj;
                     Glide.with(NPengYouQuanActivity.this)
                             .load(pic)
+                            .skipMemoryCache(true)
+                            .placeholder(R.mipmap.image2)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .into(ivBg);
+                    break;
+                case 1:
+                    File file = (File) msg.obj;
+                    Glide.with(NPengYouQuanActivity.this)
+                            .load(file)
                             .skipMemoryCache(true)
                             .placeholder(R.mipmap.image2)
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -460,7 +477,7 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
                             absolutePath = UriUtil.getFilePath_below19(this, uri);
                         }
                         File file = new File(absolutePath);
-                        upPic(file);
+                        submit(file);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -469,7 +486,7 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
             case PHOTO_REQUEST_CODE:
                 File photoFile = new File(photoPath);
                 if (photoFile.exists()) {
-                    upPic(photoFile);
+                    submit(photoFile);
                 } else {
                     onToast("图片文件不存在！");
                 }
@@ -477,37 +494,44 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
         }
     }
 
-    private void upPic(File file) {
-        LogUtils.e(file.getAbsolutePath());
-        LogUtils.e(file.getName());
-        Glide.with(this).load(file).into(ivBg);
-        multipleStatusView.showLoading();
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part part = MultipartBody.Part.createFormData("flie", file.getName(), requestFile);//flie 后台接收图片流的参数名
+    private void submit(File file) {
 
-        FindModel.getFindModel().commitPyqBg(new Subscriber<CommitPyqBgResponse>() {
-            @Override
-            public void onCompleted() {
-                multipleStatusView.hideLoading();
-            }
+        Map<String, String> params = new HashMap<>();
+        params.put("user_id", DBUtils.getUserId());
 
-            @Override
-            public void onError(Throwable e) {
-                multipleStatusView.hideLoading();
-                LogUtils.e(e.toString());
-            }
+        String[] names = new String[]{"flie"};
+        File[] files = new File[]{file};
 
-            @Override
-            public void onNext(CommitPyqBgResponse commitPyqBgResponse) {
-                LogUtils.e(new Gson().toJson(commitPyqBgResponse));
-                multipleStatusView.hideLoading();
-                if (commitPyqBgResponse.getStatus_code() == 200) {
-                    multipleStatusView.hideLoading();
-                    onToast("上传成功");
-                }else {
-                    onToast(commitPyqBgResponse.getMessage());
-                }
-            }
-        },userId,part);
+        RetrofitTools.commitFriendBg(params, names, files)
+                .subscribe(new ResponseSubscriber<SaGouLiangPublishResponse>() {
+                    @Override
+                    public void onSuccess(SaGouLiangPublishResponse saGouLiangPublishResponse, int code, String msg) {
+                        multipleStatusView.hideLoading();
+                        if (code == 200) {
+                            onToast(msg);
+                            Message message = new Message();
+                            message.what = 1;
+                            message.obj = file;
+                            handler.sendMessage(message);
+                        } else {
+                            onToast(msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+                        multipleStatusView.hideLoading();
+                    }
+
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        multipleStatusView.showLoading();
+                    }
+                });
+
+
     }
+
+
 }
