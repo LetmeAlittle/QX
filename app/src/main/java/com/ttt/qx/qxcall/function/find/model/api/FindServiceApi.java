@@ -7,12 +7,16 @@ import com.ttt.qx.qxcall.function.find.model.entity.GiftList;
 import com.ttt.qx.qxcall.function.find.model.entity.GiftRankList;
 import com.ttt.qx.qxcall.function.listen.model.entity.StealDetailResponse;
 import com.ttt.qx.qxcall.function.listen.model.entity.StealListenList;
+import com.ttt.qx.qxcall.function.register.model.entity.CommitPyqBgResponse;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 
+import okhttp3.MultipartBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import rx.Observable;
 
 /**
@@ -49,6 +53,15 @@ public interface FindServiceApi {
     @POST("api/listen/listen")
     Observable<StandardResponse> stealListenDeduction(@Field("id") String id
             , @Header("Authorization") String Authorization);
+
+    /**
+     * 更换朋友圈背景
+     *
+     * @return
+     */
+    @Multipart
+    @POST("api/backgroundqh")
+    Observable<CommitPyqBgResponse> commitPyqBg(@Part("user_id") String user_id, @Part MultipartBody.Part flie);
 
     /**
      * 发表说说

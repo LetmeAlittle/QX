@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.method.KeyListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,7 +21,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
-import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.database.UserDao;
 import com.ttt.qx.qxcall.dbbean.UserBean;
@@ -33,21 +31,22 @@ import com.ttt.qx.qxcall.function.base.subscribe.ProgressSubscribe;
 import com.ttt.qx.qxcall.function.find.model.FindModel;
 import com.ttt.qx.qxcall.function.find.model.entity.DynamicResponse;
 import com.ttt.qx.qxcall.function.find.model.entity.GiftList;
+import com.ttt.qx.qxcall.function.register.model.entity.CommitPyqBgResponse;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ttt.qx.qxcall.utils.UriUtil;
-import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.LogUtils;
-import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.adapter.PengYouQuanAdapter;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import rx.Subscriber;
 
 import static com.ttt.qx.qxcall.dialog.ShowSelectImgDialog.ALBUM_REQUEST_CODE;
@@ -461,7 +460,7 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
                             absolutePath = UriUtil.getFilePath_below19(this, uri);
                         }
                         File file = new File(absolutePath);
-                        upload(file);
+                        upPic(file);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -470,7 +469,7 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
             case PHOTO_REQUEST_CODE:
                 File photoFile = new File(photoPath);
                 if (photoFile.exists()) {
-                    upload(photoFile);
+                    upPic(photoFile);
                 } else {
                     onToast("图片文件不存在！");
                 }
@@ -478,9 +477,37 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
         }
     }
 
-    private void upload(File file) {
+    private void upPic(File file) {
+        LogUtils.e(file.getAbsolutePath());
+        LogUtils.e(file.getName());
         Glide.with(this).load(file).into(ivBg);
-        onToast(file.getAbsolutePath());
-        LogUtils.e("------------"+file.getAbsolutePath());
+        multipleStatusView.showLoading();
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("flie", file.getName(), requestFile);//flie 后台接收图片流的参数名
+
+        FindModel.getFindModel().commitPyqBg(new Subscriber<CommitPyqBgResponse>() {
+            @Override
+            public void onCompleted() {
+                multipleStatusView.hideLoading();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                multipleStatusView.hideLoading();
+                LogUtils.e(e.toString());
+            }
+
+            @Override
+            public void onNext(CommitPyqBgResponse commitPyqBgResponse) {
+                LogUtils.e(new Gson().toJson(commitPyqBgResponse));
+                multipleStatusView.hideLoading();
+                if (commitPyqBgResponse.getStatus_code() == 200) {
+                    multipleStatusView.hideLoading();
+                    onToast("上传成功");
+                }else {
+                    onToast(commitPyqBgResponse.getMessage());
+                }
+            }
+        },userId,part);
     }
 }

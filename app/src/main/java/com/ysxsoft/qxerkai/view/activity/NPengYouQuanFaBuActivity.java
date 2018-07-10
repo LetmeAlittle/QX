@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.database.UserDao;
 import com.ttt.qx.qxcall.dbbean.UserBean;
@@ -26,6 +27,7 @@ import com.ttt.qx.qxcall.function.register.model.entity.UploadImgResponse;
 import com.ttt.qx.qxcall.utils.CollectionToStringUtil;
 import com.ttt.qx.qxcall.utils.ImageUtil;
 import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.utils.LogUtils;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
 import java.io.File;
@@ -302,7 +304,7 @@ public class NPengYouQuanFaBuActivity extends NBaseActivity implements EasyPermi
         if (mPhotosSnplData != null && mPhotosSnplData.size() > 0) {
             for (int i = 0; i < mPhotosSnplData.size(); i++) {
                 String encode = ImageUtil.base64Encode(mPhotosSnplData.get(i), ImageUtil.imgSize);
-                commitPic(encode, i, mPhotosSnplData.size());
+                commitPic(encode, i, mPhotosSnplData.size()-1);
             }
         } else {
             onToast("请选择图片！");
@@ -328,9 +330,8 @@ public class NPengYouQuanFaBuActivity extends NBaseActivity implements EasyPermi
                 if (uploadImgResponse.getStatus_code() == 200) {
                     //将文件对象添加至集合中
                     UploadImgResponse.DataBean data = uploadImgResponse.getData();
-                    String img = data.getImg();
                     //将图片 对应的url 添加之url集合中
-                    imgLists.add(img);
+                    imgLists.add(data.getImg());
                     if (size == position) {
                         postPublic(etPublic.getText().toString().trim());
                     }
