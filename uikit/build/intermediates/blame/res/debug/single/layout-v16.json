@@ -1,10 +1,6 @@
 [
     {
-        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\layout-v16\\notification_template_custom_big.xml",
-        "source": "D:\\Users\\zhaozhipeng\\.android\\build-cache\\ac873a3d83bfe35848b92a9cd02ccb6681de05f1\\output\\res\\layout-v16\\notification_template_custom_big.xml"
-    },
-    {
-        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\layout-v16\\notification_template_custom_big.xml",
-        "source": "C:\\Users\\Administrator\\.android\\build-cache\\c073b91a1fd2e4bd8da3024bb73fa0a97ffd44a9\\output\\res\\layout-v16\\notification_template_custom_big.xml"
+        "merged": "/Users/zhaozhipeng/Desktop/Android/QX/uikit/build/intermediates/res/merged/debug/layout-v16/notification_template_custom_big.xml",
+        "source": "/Users/zhaozhipeng/.android/build-cache/ac873a3d83bfe35848b92a9cd02ccb6681de05f1/output/res/layout-v16/notification_template_custom_big.xml"
     }
 ]

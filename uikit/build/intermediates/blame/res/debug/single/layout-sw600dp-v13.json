@@ -1,10 +1,6 @@
 [
     {
-        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\layout-sw600dp-v13\\design_layout_snackbar.xml",
-        "source": "D:\\Users\\zhaozhipeng\\.android\\build-cache\\82e3cca767875e1cb58af85c362d2b29dcc4f34d\\output\\res\\layout-sw600dp-v13\\design_layout_snackbar.xml"
-    },
-    {
-        "merged": "D:\\QX\\uikit\\build\\intermediates\\res\\merged\\debug\\layout-sw600dp-v13\\design_layout_snackbar.xml",
-        "source": "C:\\Users\\Administrator\\.android\\build-cache\\74d52270e4358147cf344cf2e35278743923428f\\output\\res\\layout-sw600dp-v13\\design_layout_snackbar.xml"
+        "merged": "/Users/zhaozhipeng/Desktop/Android/QX/uikit/build/intermediates/res/merged/debug/layout-sw600dp-v13/design_layout_snackbar.xml",
+        "source": "/Users/zhaozhipeng/.android/build-cache/82e3cca767875e1cb58af85c362d2b29dcc4f34d/output/res/layout-sw600dp-v13/design_layout_snackbar.xml"
     }
 ]

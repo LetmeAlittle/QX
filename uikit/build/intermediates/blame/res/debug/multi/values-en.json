@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "D:\\QX\\uikit\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en\\values-en.xml",
+        "outputFile": "/Users/zhaozhipeng/Desktop/Android/QX/uikit/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en/values-en.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 100
                 },
                 "from": {
-                    "file": "D:\\QX\\uikit\\res-ptr2\\values-en\\strings.xml",
+                    "file": "/Users/zhaozhipeng/Desktop/Android/QX/uikit/res-ptr2/values-en/strings.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -30,7 +30,7 @@
                     "endOffset": 157
                 },
                 "from": {
-                    "file": "D:\\QX\\uikit\\res-ptr2\\values-en\\strings.xml",
+                    "file": "/Users/zhaozhipeng/Desktop/Android/QX/uikit/res-ptr2/values-en/strings.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -49,69 +49,7 @@
                     "endOffset": 204
                 },
                 "from": {
-                    "file": "D:\\QX\\uikit\\res-ptr2\\values-en\\strings.xml",
-                    "position": {
-                        "startLine": 1,
-                        "startColumn": 4,
-                        "startOffset": 17,
-                        "endColumn": 46,
-                        "endOffset": 59
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en\\values-en.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 49,
-                    "endOffset": 100
-                },
-                "from": {
-                    "file": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\res-ptr2\\values-en\\strings.xml",
-                    "position": {
-                        "startLine": 3,
-                        "startColumn": 4,
-                        "startOffset": 123,
-                        "endColumn": 49,
-                        "endOffset": 168
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 3,
-                    "startColumn": 4,
-                    "startOffset": 105,
-                    "endColumn": 56,
-                    "endOffset": 157
-                },
-                "from": {
-                    "file": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\res-ptr2\\values-en\\strings.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 4,
-                        "startOffset": 65,
-                        "endColumn": 56,
-                        "endOffset": 117
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 4,
-                    "startColumn": 4,
-                    "startOffset": 162,
-                    "endColumn": 46,
-                    "endOffset": 204
-                },
-                "from": {
-                    "file": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\uikit\\res-ptr2\\values-en\\strings.xml",
+                    "file": "/Users/zhaozhipeng/Desktop/Android/QX/uikit/res-ptr2/values-en/strings.xml",
                     "position": {
                         "startLine": 1,
                         "startColumn": 4,

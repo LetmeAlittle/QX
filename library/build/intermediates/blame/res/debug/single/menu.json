@@ -1,26 +1,14 @@
 [
     {
-        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\build\\intermediates\\res\\merged\\debug\\menu\\bga_pp_menu_photo_preview.xml",
-        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\src\\main\\res\\menu\\bga_pp_menu_photo_preview.xml"
+        "merged": "/Users/zhaozhipeng/Desktop/Android/QX/library/build/intermediates/res/merged/debug/menu/bga_pp_menu_photo_picker_preview.xml",
+        "source": "/Users/zhaozhipeng/Desktop/Android/QX/library/src/main/res/menu/bga_pp_menu_photo_picker_preview.xml"
     },
     {
-        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\build\\intermediates\\res\\merged\\debug\\menu\\bga_pp_menu_photo_picker_preview.xml",
-        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\src\\main\\res\\menu\\bga_pp_menu_photo_picker_preview.xml"
+        "merged": "/Users/zhaozhipeng/Desktop/Android/QX/library/build/intermediates/res/merged/debug/menu/bga_pp_menu_photo_preview.xml",
+        "source": "/Users/zhaozhipeng/Desktop/Android/QX/library/src/main/res/menu/bga_pp_menu_photo_preview.xml"
     },
     {
-        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\build\\intermediates\\res\\merged\\debug\\menu\\bga_pp_menu_photo_picker.xml",
-        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\src\\main\\res\\menu\\bga_pp_menu_photo_picker.xml"
-    },
-    {
-        "merged": "D:\\QX\\library\\build\\intermediates\\res\\merged\\debug\\menu\\bga_pp_menu_photo_picker_preview.xml",
-        "source": "D:\\QX\\library\\src\\main\\res\\menu\\bga_pp_menu_photo_picker_preview.xml"
-    },
-    {
-        "merged": "D:\\QX\\library\\build\\intermediates\\res\\merged\\debug\\menu\\bga_pp_menu_photo_picker.xml",
-        "source": "D:\\QX\\library\\src\\main\\res\\menu\\bga_pp_menu_photo_picker.xml"
-    },
-    {
-        "merged": "D:\\QX\\library\\build\\intermediates\\res\\merged\\debug\\menu\\bga_pp_menu_photo_preview.xml",
-        "source": "D:\\QX\\library\\src\\main\\res\\menu\\bga_pp_menu_photo_preview.xml"
+        "merged": "/Users/zhaozhipeng/Desktop/Android/QX/library/build/intermediates/res/merged/debug/menu/bga_pp_menu_photo_picker.xml",
+        "source": "/Users/zhaozhipeng/Desktop/Android/QX/library/src/main/res/menu/bga_pp_menu_photo_picker.xml"
     }
 ]

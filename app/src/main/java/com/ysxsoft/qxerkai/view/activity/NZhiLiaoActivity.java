@@ -1,6 +1,8 @@
 package com.ysxsoft.qxerkai.view.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -183,7 +185,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
 
     private void initViewData() {
         _ffffff = getResources().getColor(R.color._ffffff);
-        tagSize = getResources().getInteger(R.integer.fm_anim_i12);
+        tagSize = getResources().getInteger(R.integer.fm_anim_i10);
         //初始化相关控件
         if (mInfoData != null) {
             tvPublicTitlebarCenter.setText(mInfoData.getNick_name());
@@ -193,7 +195,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
             Glide.with(this).load(mInfoData.getMember_avatar()).into(civHead);
             if (mInfoData.getLevel() == 0) {
                 ivVip.setVisibility(View.GONE);
-                tvVip.setVisibility(View.INVISIBLE);
+                tvVip.setVisibility(View.VISIBLE);
             } else {
                 ivVip.setVisibility(View.VISIBLE);
                 tvVip.setVisibility(View.GONE);
@@ -228,11 +230,18 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
             flow_tag_layout.removeAllViews();
             for (UserDetailInfo.DataBean.MemberTagBean memberTagBean : member_tag) {
                 FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                layoutParams.leftMargin = 35;
+                layoutParams.leftMargin = 25;
+                layoutParams.topMargin=10;
+                layoutParams.bottomMargin=10;
                 TextView textView = new TextView(NZhiLiaoActivity.this);
-                textView.setTextColor(_ffffff);
+                textView.setTextColor(Color.parseColor("#ffffff"));
+                textView.setBackgroundResource(R.drawable.activity_biaoqian_bg);
+                GradientDrawable myGrad = (GradientDrawable)textView.getBackground();
+                myGrad.setColor(Color.parseColor(memberTagBean.getColor()));
                 textView.setTextSize(tagSize);
+                textView.getPaint().setFakeBoldText(true);
                 textView.setText(memberTagBean.getText());
+                textView.setPadding(10,2,10,2);
                 textView.setLayoutParams(layoutParams);
                 flow_tag_layout.addView(textView);
             }

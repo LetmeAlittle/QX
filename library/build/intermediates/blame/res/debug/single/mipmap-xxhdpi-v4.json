@@ -1,58 +1,30 @@
 [
     {
-        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\bga_pp_ic_arrow_down.png",
-        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\src\\main\\res\\mipmap-xxhdpi\\bga_pp_ic_arrow_down.png"
+        "merged": "/Users/zhaozhipeng/Desktop/Android/QX/library/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/bga_pp_ic_arrow_down.png",
+        "source": "/Users/zhaozhipeng/Desktop/Android/QX/library/src/main/res/mipmap-xxhdpi/bga_pp_ic_arrow_down.png"
     },
     {
-        "merged": "D:\\QX\\library\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\bga_pp_ic_arrow_down.png",
-        "source": "D:\\QX\\library\\src\\main\\res\\mipmap-xxhdpi\\bga_pp_ic_arrow_down.png"
+        "merged": "/Users/zhaozhipeng/Desktop/Android/QX/library/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/bga_pp_ic_holder_light.png",
+        "source": "/Users/zhaozhipeng/Desktop/Android/QX/library/src/main/res/mipmap-xxhdpi/bga_pp_ic_holder_light.png"
     },
     {
-        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\bga_pp_ic_camera.png",
-        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\src\\main\\res\\mipmap-xxhdpi\\bga_pp_ic_camera.png"
+        "merged": "/Users/zhaozhipeng/Desktop/Android/QX/library/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/bga_pp_ic_camera.png",
+        "source": "/Users/zhaozhipeng/Desktop/Android/QX/library/src/main/res/mipmap-xxhdpi/bga_pp_ic_camera.png"
     },
     {
-        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\bga_pp_ic_plus.png",
-        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\src\\main\\res\\mipmap-xxhdpi\\bga_pp_ic_plus.png"
+        "merged": "/Users/zhaozhipeng/Desktop/Android/QX/library/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/bga_pp_ic_download.png",
+        "source": "/Users/zhaozhipeng/Desktop/Android/QX/library/src/main/res/mipmap-xxhdpi/bga_pp_ic_download.png"
     },
     {
-        "merged": "D:\\QX\\library\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\bga_pp_ic_holder_light.png",
-        "source": "D:\\QX\\library\\src\\main\\res\\mipmap-xxhdpi\\bga_pp_ic_holder_light.png"
+        "merged": "/Users/zhaozhipeng/Desktop/Android/QX/library/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/bga_pp_ic_delete.png",
+        "source": "/Users/zhaozhipeng/Desktop/Android/QX/library/src/main/res/mipmap-xxhdpi/bga_pp_ic_delete.png"
     },
     {
-        "merged": "D:\\QX\\library\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\bga_pp_ic_delete.png",
-        "source": "D:\\QX\\library\\src\\main\\res\\mipmap-xxhdpi\\bga_pp_ic_delete.png"
+        "merged": "/Users/zhaozhipeng/Desktop/Android/QX/library/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/bga_pp_ic_plus.png",
+        "source": "/Users/zhaozhipeng/Desktop/Android/QX/library/src/main/res/mipmap-xxhdpi/bga_pp_ic_plus.png"
     },
     {
-        "merged": "D:\\QX\\library\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\bga_pp_ic_camera.png",
-        "source": "D:\\QX\\library\\src\\main\\res\\mipmap-xxhdpi\\bga_pp_ic_camera.png"
-    },
-    {
-        "merged": "D:\\QX\\library\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\bga_pp_ic_download.png",
-        "source": "D:\\QX\\library\\src\\main\\res\\mipmap-xxhdpi\\bga_pp_ic_download.png"
-    },
-    {
-        "merged": "D:\\QX\\library\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\bga_pp_ic_plus.png",
-        "source": "D:\\QX\\library\\src\\main\\res\\mipmap-xxhdpi\\bga_pp_ic_plus.png"
-    },
-    {
-        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\bga_pp_ic_delete.png",
-        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\src\\main\\res\\mipmap-xxhdpi\\bga_pp_ic_delete.png"
-    },
-    {
-        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\bga_pp_ic_holder_dark.png",
-        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\src\\main\\res\\mipmap-xxhdpi\\bga_pp_ic_holder_dark.png"
-    },
-    {
-        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\bga_pp_ic_download.png",
-        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\src\\main\\res\\mipmap-xxhdpi\\bga_pp_ic_download.png"
-    },
-    {
-        "merged": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\bga_pp_ic_holder_light.png",
-        "source": "D:\\Users\\zhaozhipeng\\Desktop\\Android\\确幸源码\\QX\\library\\src\\main\\res\\mipmap-xxhdpi\\bga_pp_ic_holder_light.png"
-    },
-    {
-        "merged": "D:\\QX\\library\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\bga_pp_ic_holder_dark.png",
-        "source": "D:\\QX\\library\\src\\main\\res\\mipmap-xxhdpi\\bga_pp_ic_holder_dark.png"
+        "merged": "/Users/zhaozhipeng/Desktop/Android/QX/library/build/intermediates/res/merged/debug/mipmap-xxhdpi-v4/bga_pp_ic_holder_dark.png",
+        "source": "/Users/zhaozhipeng/Desktop/Android/QX/library/src/main/res/mipmap-xxhdpi/bga_pp_ic_holder_dark.png"
     }
 ]

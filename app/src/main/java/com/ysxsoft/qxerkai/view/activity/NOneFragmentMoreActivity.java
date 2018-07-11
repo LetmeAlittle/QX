@@ -25,6 +25,7 @@ import com.ttt.qx.qxcall.function.login.model.entity.UserListInfo;
 import com.ttt.qx.qxcall.utils.CustomAlertDialogUtil;
 import com.ttt.qx.qxcall.utils.IntentUtil;
 import com.ysxsoft.qxerkai.utils.DimenUtils;
+import com.ysxsoft.qxerkai.utils.LogUtils;
 import com.ysxsoft.qxerkai.utils.SystemUtils;
 import com.ysxsoft.qxerkai.view.fragment.OnePage;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
@@ -170,6 +171,7 @@ public class NOneFragmentMoreActivity extends NBaseActivity implements BaseQuick
         HomeModel.getHomeModel().getUserList(new Subscriber<UserListInfo>() {
             @Override
             public void onCompleted() {
+                LogUtils.e("onCompleted");
                 if(loadingDialog!=null){
                     loadingDialog.dismiss();
                 }
@@ -177,6 +179,7 @@ public class NOneFragmentMoreActivity extends NBaseActivity implements BaseQuick
 
             @Override
             public void onError(Throwable e) {
+                LogUtils.e("onError"+e.getMessage());
                 if(loadingDialog!=null){
                     loadingDialog.dismiss();
                 }
@@ -185,9 +188,14 @@ public class NOneFragmentMoreActivity extends NBaseActivity implements BaseQuick
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onNext(UserListInfo userListInfo) {
+                LogUtils.e("onNext");
                 if (userListInfo.getStatus_code() == 200) {
                     pageTotal=userListInfo.getData().getPage().getLast_page();
-                    adapter.setNewData(userListInfo.getData().getList());
+                    if(pageIndex==1){
+                        adapter.setNewData(userListInfo.getData().getList());
+                    }else {
+                        adapter.addData(userListInfo.getData().getList());
+                    }
                 }
             }
         }, tag, "0", ""+pageIndex, authorization);

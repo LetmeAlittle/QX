@@ -76,7 +76,7 @@ public class UserDetailInfo {
         private String nick_name;
         private String member_avatar;
         private int level;
-        private int member_account;
+        private double member_account;
         private String member_sex;
         private String member_age;
         private int member_price;
@@ -233,11 +233,11 @@ public class UserDetailInfo {
             this.level = level;
         }
 
-        public int getMember_account() {
+        public double getMember_account() {
             return member_account;
         }
 
-        public void setMember_account(int member_account) {
+        public void setMember_account(double member_account) {
             this.member_account = member_account;
         }
 
