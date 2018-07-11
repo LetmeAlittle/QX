@@ -92,16 +92,14 @@ public class SGLOneAdapter extends BaseQuickAdapter<SaGouLiangListResponse.DataB
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String suid = "" + item.getUid();//发表人id
-                if (suid.equals(DBUtils.getUserId())) {//本人
-                    IntentUtil.jumpIntent(mContext, NPersonCenterActivity.class);
-                } else {
-                    if ("".equals(suid)) {
-                        return;
-                    }
-                    int id = Integer.parseInt(suid);
-                    mContext.startActivity(new Intent(mContext, NZhiLiaoActivity.class).putExtra("id", id).putExtra("accid", suid));//查看好友资料
-                }
+              //发表人id
+//                if (suid.equals(DBUtils.getUserId())) {//本人
+//                    IntentUtil.jumpIntent(mContext, NPersonCenterActivity.class);
+//                } else {
+//                 }
+
+                int id = item.getUid();//发表人id
+                mContext.startActivity(new Intent(mContext, NZhiLiaoActivity.class).putExtra("id", id).putExtra("accid", id+""));//查看好友资料
             }
         });
         gouTouLayout.setOnClickListener(new OnLikeClickListener(item, item.getSid(), helper.getAdapterPosition()));

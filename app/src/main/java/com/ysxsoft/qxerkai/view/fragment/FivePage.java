@@ -36,6 +36,7 @@ import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 import com.ttt.qx.qxcall.function.voice.DemoCache;
 import com.ttt.qx.qxcall.pager.BasePager;
 import com.ttt.qx.qxcall.utils.IntentUtil;
+import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.activity.NChongZhiActivity;
 import com.ysxsoft.qxerkai.view.activity.NFansListActivity;
@@ -428,7 +429,8 @@ public class FivePage extends BasePager implements View.OnClickListener {
                 break;
             //撩人区
             case R.id.ll_liaorenqu:
-                IntentUtil.jumpIntent(ctx, NLiaoRenQuActivity.class);
+//                IntentUtil.jumpIntent(ctx, NLiaoRenQuActivity.class);
+                NLiaoRenQuActivity.start(ctx, DBUtils.getIntUserId());
                 break;
             //礼物榜
             case R.id.ll_liwubang:

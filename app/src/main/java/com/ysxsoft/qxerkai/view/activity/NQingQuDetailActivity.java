@@ -259,16 +259,19 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String suid = "" + topBean.getUser_id();//发表人id
-                if (suid.equals(DBUtils.getUserId())) {//本人
-                    IntentUtil.jumpIntent(NQingQuDetailActivity.this, NPersonCenterActivity.class);
-                } else {
-                    if ("".equals(suid)) {
-                        return;
-                    }
-                    int id = Integer.parseInt(suid);
-                    NQingQuDetailActivity.this.startActivity(new Intent(NQingQuDetailActivity.this, NZhiLiaoActivity.class).putExtra("id", id).putExtra("accid", suid));//查看好友资料
-                }
+//                String suid = "" + topBean.getUser_id();//发表人id
+//                if (suid.equals(DBUtils.getUserId())) {//本人
+//                    IntentUtil.jumpIntent(NQingQuDetailActivity.this, NPersonCenterActivity.class);
+//                } else {
+//                    if ("".equals(suid)) {
+//                        return;
+//                    }
+//                    int id = Integer.parseInt(suid);
+//                    NQingQuDetailActivity.this.startActivity(new Intent(NQingQuDetailActivity.this, NZhiLiaoActivity.class).putExtra("id", id).putExtra("accid", suid));//查看好友资料
+//                }
+
+                int id = topBean.getUser_id();//发表人id
+                NQingQuDetailActivity.this.startActivity(new Intent(NQingQuDetailActivity.this, NZhiLiaoActivity.class).putExtra("id", id).putExtra("accid", id+""));//查看好友资料
             }
         });
     }
@@ -373,16 +376,19 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
             logo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String suid = "" + item.getUser_id();//发表人id
-                    if (suid.equals(DBUtils.getUserId())) {//本人
-                        IntentUtil.jumpIntent(mContext, NPersonCenterActivity.class);
-                    } else {
-                        if ("".equals(suid)) {
-                            return;
-                        }
-                        int id = Integer.parseInt(suid);
-                        mContext.startActivity(new Intent(mContext, NZhiLiaoActivity.class).putExtra("id", id).putExtra("accid", suid));//查看好友资料
-                    }
+//                    String suid = "" + item.getUser_id();//发表人id
+//                    if (suid.equals(DBUtils.getUserId())) {//本人
+//                        IntentUtil.jumpIntent(mContext, NPersonCenterActivity.class);
+//                    } else {
+//                        if ("".equals(suid)) {
+//                            return;
+//                        }
+//                        int id = Integer.parseInt(suid);
+//                        mContext.startActivity(new Intent(mContext, NZhiLiaoActivity.class).putExtra("id", id).putExtra("accid", suid));//查看好友资料
+//                    }
+
+                    int id = item.getUser_id();//发表人id
+                    mContext.startActivity(new Intent(mContext, NZhiLiaoActivity.class).putExtra("id", id).putExtra("accid", id+""));//查看好友资料
                 }
             });
         }

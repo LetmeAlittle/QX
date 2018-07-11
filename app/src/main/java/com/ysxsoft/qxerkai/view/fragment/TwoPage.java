@@ -3,11 +3,9 @@ package com.ysxsoft.qxerkai.view.fragment;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnticipateOvershootInterpolator;
@@ -20,7 +18,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.function.listen.model.StealListenModel;
+import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
+import com.ttt.qx.qxcall.function.voice.AVChatActivity;
+import com.ttt.qx.qxcall.function.voice.AVChatProfile;
 import com.ttt.qx.qxcall.pager.BasePager;
 import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
@@ -28,17 +31,21 @@ import com.ysxsoft.qxerkai.net.RetrofitTools;
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
-import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
+import com.ysxsoft.qxerkai.net.response.RuleResponse;
+import com.ysxsoft.qxerkai.net.response.TwoPageTuiJianResponse;
 import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.DimenUtils;
 import com.ysxsoft.qxerkai.utils.ObserverMap;
 import com.ysxsoft.qxerkai.utils.StringUtils;
 import com.ysxsoft.qxerkai.utils.SystemUtils;
+import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.activity.LiaoHanQuActivity;
 import com.ysxsoft.qxerkai.view.activity.LiaoMeiQuActivity;
 import com.ysxsoft.qxerkai.view.activity.NFaTieActivity;
+import com.ysxsoft.qxerkai.view.activity.NHuaLiaoActivity;
 import com.ysxsoft.qxerkai.view.activity.NQingQuDetailActivity;
 import com.ysxsoft.qxerkai.view.activity.NQingQuListActivity;
+import com.ysxsoft.qxerkai.view.activity.NZhiLiaoActivity;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 import com.ysxsoft.qxerkai.view.widget.ResizableImageView;
 
@@ -51,6 +58,9 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscriber;
+
+import static com.ttt.qx.qxcall.QXCallApplication.getApplication;
 
 /**
  * Created by zhaozhipeng on 18/5/3.
@@ -137,6 +147,14 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
                 }
             }
         });
+        yongHuAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                TwoPageTuiJianResponse.DataBeanX.DataBean item = (TwoPageTuiJianResponse.DataBeanX.DataBean) adapter.getItem(position);
+                int id = item.getId();//发表人id
+                activity.startActivity(new Intent(activity, NZhiLiaoActivity.class).putExtra("id", id).putExtra("accid", id + ""));//查看好友资料
+            }
+        });
     }
 
     @Override
@@ -175,15 +193,7 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
         }
         getList();
         getNotice();
-
-
-        ArrayList<String> temp2 = new ArrayList<>();
-        temp2.add("");
-        temp2.add("");
-        temp2.add("");
-        temp2.add("");
-//        quanZiAdapter.setNewData(temp1);
-        yongHuAdapter.setNewData(temp2);
+        getTuiJianList();
     }
 
     private void initCurrView() {
@@ -222,7 +232,7 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
      */
     @OnClick({R.id.iv_fabu})
     public void onFabu(View view) {
-        NFaTieActivity.start(ctx,ctx.getClass().getSimpleName());
+        NFaTieActivity.start(ctx, ctx.getClass().getSimpleName());
     }
 
     @Override
@@ -297,22 +307,65 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
         }
     }
 
-
-    private class YongHuAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+    private class YongHuAdapter extends BaseQuickAdapter<TwoPageTuiJianResponse.DataBeanX.DataBean, BaseViewHolder> {
 
         public YongHuAdapter(int layoutResId) {
             super(layoutResId);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, String item) {
+        protected void convert(BaseViewHolder helper, TwoPageTuiJianResponse.DataBeanX.DataBean item) {
             FrameLayout flBg = helper.getView(R.id.fl_bg);
             int bgWidth = (int) SystemUtils.getScreenWidth(activity) / 2 - DimenUtils.dp2px(ctx, 17.5f);
             flBg.setLayoutParams(new LinearLayout.LayoutParams(bgWidth, bgWidth / 34 * 45));
             ImageView ivView = helper.getView(R.id.iv_image);
-            Random rand = new Random();
-            int i = rand.nextInt(5);
-            ivView.setImageResource(temp.get(i));
+            Glide.with(mContext).load(item.getMember_avatar()).into(ivView);
+            ImageView ivCall = helper.getView(R.id.iv_call);
+            ivCall.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    StealListenModel.getStealListenModel().isAllowTalk(new Subscriber<StandardResponse>() {
+                        @Override
+                        public void onCompleted() {
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                        }
+
+                        @Override
+                        public void onNext(StandardResponse standardResponse) {
+                            if (standardResponse.getStatus_code() == 200) {
+                                //调起拨打界面。
+                                AVChatProfile.getInstance().setAVChatting(true);
+                                AVChatActivity.launch(getApplication(), item.getWy_acid(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+                            } else {
+                                ToastUtils.showToast(activity, standardResponse.getMessage(), 0);
+                            }
+                        }
+                    }, String.valueOf(item.getId()),  "Bearer "+DBUtils.getUserToken());
+//                    }, String.valueOf("10195"),  "Bearer "+DBUtils.getUserToken());
+//                    }, String.valueOf("10195"),  "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTE2LjYyLjIxNy4xODMvYXBpL3VzZXIvbG9naW4iLCJpYXQiOjE1MzA3Nzk5NjIsIm5iZiI6MTUzMDc3OTk2MiwianRpIjoiWUx6V2x0MVNUdUZBaTZlVCIsInN1YiI6MTAxOTUsInBydiI6ImFmZDBmZDliZGQ5YWM3MmZmMzk4MzQxZjFkNjI4NDBjYmY0YzcxNjcifQ.TUr5VrjwTtGu74_unrDiiaSatHC42ILiYeK059A76B8");
+                }
+            });
+            TextView name = helper.getView(R.id.tv_name);
+            name.setText(item.getNick_name());
+            TextView age = helper.getView(R.id.tv_age);
+            if (item.getMember_age() == null || "".equals(item.getMember_age())) {
+                age.setText("0岁");
+            } else {
+                age.setText(item.getMember_age() + "岁");
+            }
+            if (item.getMember_sex() == 1) {
+                age.setTextColor(mContext.getResources().getColor(R.color.sex_nan));
+            } else if (item.getMember_sex() == 2) {
+                age.setTextColor(mContext.getResources().getColor(R.color.sex_nv));
+            } else {
+                age.setTextColor(mContext.getResources().getColor(R.color.black));
+            }
+            TextView price = helper.getView(R.id.tv_price);
+            price.setText(item.getMember_price() + "砰砰豆/分钟");
         }
     }
 
@@ -444,6 +497,32 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
                     @Override
                     public void onFailed(Throwable e) {
                         e.printStackTrace();
+                    }
+                });
+    }
+
+    /**
+     * 获取推荐的用户
+     */
+    private void getTuiJianList() {
+        Map<String, String> map = new HashMap<>();
+        map.put("user_id", DBUtils.getUserId());
+
+        RetrofitTools.getTuiJianList(map)
+                .subscribe(new ResponseSubscriber<TwoPageTuiJianResponse>() {
+                    @Override
+                    public void onSuccess(TwoPageTuiJianResponse twoPageTuiJianResponse, int code, String msg) {
+                        if (code == 200) {
+                            if (twoPageTuiJianResponse.getData() != null && twoPageTuiJianResponse.getData().getData() != null) {
+                                yongHuAdapter.setNewData(twoPageTuiJianResponse.getData().getData());
+                            }
+                        } else {
+                            ToastUtil.showToast(activity, msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
                     }
                 });
     }

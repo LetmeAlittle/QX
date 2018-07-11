@@ -1,10 +1,11 @@
 package com.ysxsoft.qxerkai.view.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,16 +19,12 @@ import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
 import com.ysxsoft.qxerkai.net.RetrofitTools;
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
-import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
-import com.ysxsoft.qxerkai.net.response.LiaoRenResponse;
+import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.ObserverMap;
 import com.ysxsoft.qxerkai.utils.StringUtils;
-import com.ysxsoft.qxerkai.view.adapter.LiaoRenQuAdapter;
-import com.ysxsoft.qxerkai.view.adapter.PengYouQuanDetailAdapter;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +34,7 @@ import butterknife.ButterKnife;
 
 public class NLiaoRenQuActivity extends NBaseActivity implements BaseQuickAdapter.RequestLoadMoreListener, ObserverMap.IPageDataChangeObserver {
 
+    private static final int GO_DETAIL = 0x01;
     @BindView(R.id.status_bar)
     View statusBar;
     @BindView(R.id.iv_public_titlebar_left_1)
@@ -55,6 +53,12 @@ public class NLiaoRenQuActivity extends NBaseActivity implements BaseQuickAdapte
     private LiaoRenQuAdapter adapter;
     private int userId;
 
+    public static void start(Context context, int userId) {
+        Intent intent = new Intent(context, NLiaoRenQuActivity.class);
+        intent.putExtra("userId", userId);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +70,7 @@ public class NLiaoRenQuActivity extends NBaseActivity implements BaseQuickAdapte
         initTitleBar();
         initView();
         initData();
-        ObserverMap.reg(this.getClass().getSimpleName(),this);
+        ObserverMap.reg(this.getClass().getSimpleName(), this);
     }
 
     private void initTitleBar() {
@@ -88,6 +92,15 @@ public class NLiaoRenQuActivity extends NBaseActivity implements BaseQuickAdapte
         adapter.isFirstOnly(true);
         adapter.setOnLoadMoreListener(this, swipeTarget);
         swipeTarget.setAdapter(adapter);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                GetLiaoRenListResponse.DataBeanX.ListBean.DataBean bean = (GetLiaoRenListResponse.DataBeanX.ListBean.DataBean) adapter.getItem(position);
+                if (bean != null) {
+                    NQingQuDetailActivity.start(NLiaoRenQuActivity.this, NLiaoRenQuActivity.this.getClass().getSimpleName(), bean.getTid(), GO_DETAIL, position);//跳转小情趣详情页  回调通知
+                }
+            }
+        });
     }
 
     private void initData() {
@@ -109,23 +122,22 @@ public class NLiaoRenQuActivity extends NBaseActivity implements BaseQuickAdapte
      */
     private void getList() {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("user_id", DBUtils.getUserId());
-        map.put("type", "6");//1老司机开车 2闺蜜私房话 3两性研究所 4剧本专区 5撩妹区 6撩汉区  TODO:待修改
+        map.put("user_id", "" + userId);
         map.put("page", pageIndex + "");
 
-        RetrofitTools.getLiaoRenList(map).subscribe(new ResponseSubscriber<LiaoRenResponse>() {
+        RetrofitTools.getLiaoRenList(map).subscribe(new ResponseSubscriber<GetLiaoRenListResponse>() {
             @Override
-            public void onSuccess(LiaoRenResponse liaoRenResponse, int code, String msg) {
+            public void onSuccess(GetLiaoRenListResponse getLiaoRenListResponse, int code, String msg) {
                 multipleStatusView.hideLoading();
                 if (code == 200) {
-                    if (liaoRenResponse != null && liaoRenResponse.getData() != null && liaoRenResponse.getData().getList() != null) {
-                        List<LiaoRenResponse.DataBeanX.ListBean.DataBean> data = liaoRenResponse.getData().getList().getData();
+                    if (getLiaoRenListResponse != null && getLiaoRenListResponse.getData() != null && getLiaoRenListResponse.getData().getList() != null) {
+                        List<GetLiaoRenListResponse.DataBeanX.ListBean.DataBean> data = getLiaoRenListResponse.getData().getList().getData();
                         if (data == null) {
                             return;
                         }
                         if (pageIndex == 1) {
                             adapter.setNewData(data);
-                            pageTotal = liaoRenResponse.getData().getList().getLast_page();
+                            pageTotal = getLiaoRenListResponse.getData().getList().getLast_page();
                         } else {
                             adapter.addData(data);
                         }
@@ -153,24 +165,24 @@ public class NLiaoRenQuActivity extends NBaseActivity implements BaseQuickAdapte
 
     @Override
     public void change() {
-
+        //回调刷新  请求getList时用
     }
 
     @Override
     public void change(int likeNum, int commonNum, boolean isChanged, int position, int readNum) {
         if (adapter != null && adapter.getItemCount() > position) {
 //            Log.e("tag", "刷新Item" + " likeNum:" + likeNum + " commonNum:" + commonNum + " isChanged:" + isChanged + " position:" + position + " readNum:" + readNum);
-            LiaoRenResponse.DataBeanX.ListBean.DataBean d = adapter.getItem(position);
-            d.setLikes(likeNum );
+            GetLiaoRenListResponse.DataBeanX.ListBean.DataBean d = adapter.getItem(position);
+            d.setLikes(likeNum);
             d.setIs_like(isChanged ? "1" : "0");
             d.setCom_num(commonNum);
-            d.setLooks(readNum+"");
+            d.setLooks(readNum);
             adapter.notifyDataSetChanged();
         }
     }
 
     //撩人区适配器
-    class LiaoRenQuAdapter extends BaseQuickAdapter<LiaoRenResponse.DataBeanX.ListBean.DataBean, BaseViewHolder> {
+    class LiaoRenQuAdapter extends BaseQuickAdapter<GetLiaoRenListResponse.DataBeanX.ListBean.DataBean, BaseViewHolder> {
         private int clickPosition;
 
         public LiaoRenQuAdapter(int layoutResId) {
@@ -178,7 +190,7 @@ public class NLiaoRenQuActivity extends NBaseActivity implements BaseQuickAdapte
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, LiaoRenResponse.DataBeanX.ListBean.DataBean item) {
+        protected void convert(BaseViewHolder helper, GetLiaoRenListResponse.DataBeanX.ListBean.DataBean item) {
             helper.setText(R.id.cardTitle, StringUtils.convert(item.getTitle()));
             com.ysxsoft.qxerkai.view.widget.RoundAngleImageView image = helper.getView(R.id.cardImage);
             Glide.with(mContext).load(item.getImgss()).diskCacheStrategy(DiskCacheStrategy.ALL).into(image);

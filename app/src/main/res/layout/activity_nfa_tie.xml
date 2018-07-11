@@ -157,7 +157,7 @@
                             android:layout_marginRight="15dp"
                             android:background="@color/split_line"
                             />
-
+                    </LinearLayout>
                         <TextView
                             android:id="@+id/upload_iv"
                             android:layout_width="wrap_content"
@@ -187,7 +187,7 @@
                             app:bga_snpl_plusEnable="true"
                             app:bga_snpl_sortable="true"/>
 
-                    </LinearLayout>
+
 
                     <TextView
                         android:id="@+id/submit"

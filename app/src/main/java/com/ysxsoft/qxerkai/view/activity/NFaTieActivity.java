@@ -393,8 +393,17 @@ public class NFaTieActivity extends NBaseActivity implements EasyPermissions.Per
             map.put("title", title.getText().toString());
             map.put("type", type);
 
+            ArrayList<String> list = mPhotosSnpl.getData();
+            int size = list.size();
+            String[] names = new String[size];
+            File[] files = new File[size];
+            for (int i = 0; i < size; i++) {
+                File file = new File(list.get(i));
+                names[i] = "file" + i;
+                files[i] = file;
+            }
             RetrofitTools
-                    .publishCard(map)
+                    .publishCard(map, names, files)
                     .subscribe(new ResponseSubscriber<BaseResponse>() {
                         @Override
                         public void onSuccess(BaseResponse baseResponse, int code, String msg) {

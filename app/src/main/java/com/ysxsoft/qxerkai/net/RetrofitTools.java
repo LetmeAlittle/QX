@@ -3,13 +3,14 @@ package com.ysxsoft.qxerkai.net;
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
+import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
-import com.ysxsoft.qxerkai.net.response.LiaoRenResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangPublishResponse;
+import com.ysxsoft.qxerkai.net.response.TwoPageTuiJianResponse;
 import com.ysxsoft.qxerkai.utils.LogUtils;
 
 import java.io.File;
@@ -287,7 +288,17 @@ public class RetrofitTools {
      * @param map
      * @return
      */
-    public static Observable<LiaoRenResponse> getLiaoRenList(Map<String, String> map) {
+    public static Observable<GetLiaoRenListResponse> getLiaoRenList(Map<String, String> map) {
         return subscribe(RetrofitTools.getManager().getLiaoRenList(map));
+    }
+
+    /**
+     * 撩人区列表
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<TwoPageTuiJianResponse> getTuiJianList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getTuiJianList(map));
     }
 }

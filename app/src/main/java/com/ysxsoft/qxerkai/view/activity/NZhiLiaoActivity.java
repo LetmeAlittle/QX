@@ -368,7 +368,8 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                 startActivity(new Intent(this, LiWuBangActivity.class));
                 break;
             case R.id.ll_liaorenqu:
-                startActivity(new Intent(this, NLiaoRenQuActivity.class));
+                NLiaoRenQuActivity.start(NZhiLiaoActivity.this,id);
+//                startActivity(new Intent(this, NLiaoRenQuActivity.class));
                 break;
             case R.id.ll_shouhu:
                 startActivity(new Intent(this, NShouHuBangActivity.class)

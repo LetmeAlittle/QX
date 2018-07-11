@@ -4,13 +4,14 @@ package com.ysxsoft.qxerkai.net;
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
+import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
-import com.ysxsoft.qxerkai.net.response.LiaoRenResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangPublishResponse;
+import com.ysxsoft.qxerkai.net.response.TwoPageTuiJianResponse;
 
 import java.util.Map;
 
@@ -34,6 +35,7 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.RULE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_COMMIT;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIKE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.TWO_PAGE_USER_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_GUARDS_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_SHOUHU;
 
@@ -187,5 +189,15 @@ public interface RetrofitApi {
      */
     @FormUrlEncoded
     @POST(MY_CARD)
-    Observable<LiaoRenResponse> getLiaoRenList(@FieldMap Map<String, String> map);
+    Observable<GetLiaoRenListResponse> getLiaoRenList(@FieldMap Map<String, String> map);
+
+    /**
+     * 获取第二页推荐列表
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(TWO_PAGE_USER_LIST)
+    Observable<TwoPageTuiJianResponse> getTuiJianList(@FieldMap Map<String, String> map);
 }

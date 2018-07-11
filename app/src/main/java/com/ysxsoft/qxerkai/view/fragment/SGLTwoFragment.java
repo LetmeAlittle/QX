@@ -191,16 +191,19 @@ public class SGLTwoFragment extends BaseFragment implements BaseQuickAdapter.Req
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String suid = "" + topBean.getUid();//发表人id
-                    if (suid.equals(DBUtils.getUserId())) {//本人
-                        IntentUtil.jumpIntent(getActivity(), NPersonCenterActivity.class);
-                    } else {
-                        if ("".equals(suid)) {
-                            return;
-                        }
-                        int id = Integer.parseInt(suid);
-                        startActivity(new Intent(getActivity(), NZhiLiaoActivity.class).putExtra("id", id).putExtra("accid", suid));//查看好友资料
-                    }
+//                    String suid = "" + topBean.getUid();//发表人id
+//                    if (suid.equals(DBUtils.getUserId())) {//本人
+//                        IntentUtil.jumpIntent(getActivity(), NPersonCenterActivity.class);
+//                    } else {
+//                        if ("".equals(suid)) {
+//                            return;
+//                        }
+//                        int id = Integer.parseInt(suid);
+//                        startActivity(new Intent(getActivity(), NZhiLiaoActivity.class).putExtra("id", id).putExtra("accid", suid));//查看好友资料
+//                    }
+
+                    int id = topBean.getUid();//发表人id
+                    startActivity(new Intent(getActivity(), NZhiLiaoActivity.class).putExtra("id", id).putExtra("accid", id + ""));//查看好友资料
                 }
             });
             //顶部点赞
