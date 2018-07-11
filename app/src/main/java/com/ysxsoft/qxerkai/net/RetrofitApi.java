@@ -22,6 +22,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
 import rx.Observable;
 
@@ -101,9 +102,8 @@ public interface RetrofitApi {
      * @param map
      * @return
      */
-    @FormUrlEncoded
     @GET(USER_SHOUHU)
-    Observable<BaseResponse> getGuardsing(@FieldMap Map<String, String> map);
+    Observable<BaseResponse> getGuardsing(@QueryMap Map<String, String> map);
 
     /**
      * 用户的守护列表/用户守护的列表
@@ -111,9 +111,8 @@ public interface RetrofitApi {
      * @param map
      * @return
      */
-    @FormUrlEncoded
     @GET(USER_GUARDS_LIST)
-    Observable<GuardsListResponse> getGuardsingList(@FieldMap Map<String, String> map);
+    Observable<GuardsListResponse> getGuardsingList(@QueryMap Map<String, String> map);
 
     /**
      * 小情趣列表

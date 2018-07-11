@@ -151,12 +151,20 @@ public class OnePage extends BasePager implements View.OnClickListener {
         llPaohuati.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!QXCallApplication.login) {//如果是没有登录直接跳转至登陆页
+                    IntentUtil.jumpIntent(ctx, NLoginActivity.class);
+                    return;
+                }
                 ctx.startActivity(new Intent(ctx, NPaoHaTiActivity.class));
             }
         });
         llPipei.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!QXCallApplication.login) {//如果是没有登录直接跳转至登陆页
+                    IntentUtil.jumpIntent(ctx, NLoginActivity.class);
+                    return;
+                }
                 ctx.startActivity(new Intent(ctx, NYiJianPiPeiActivity.class));
                 activity.overridePendingTransition(0, 0);
             }
@@ -326,14 +334,26 @@ public class OnePage extends BasePager implements View.OnClickListener {
             switch (view.getId()) {
                 case R.id.ll_pengyouquan:
                 case R.id.ll_pengyouquan2:
+                    if (!QXCallApplication.login) {//如果是没有登录直接跳转至登陆页
+                        IntentUtil.jumpIntent(ctx, NLoginActivity.class);
+                        return;
+                    }
                     ctx.startActivity(new Intent(ctx, NPengYouQuanActivity.class));
                     break;
                 case R.id.ll_shagouliang:
                 case R.id.ll_shagouliang2:
+                    if (!QXCallApplication.login) {//如果是没有登录直接跳转至登陆页
+                        IntentUtil.jumpIntent(ctx, NLoginActivity.class);
+                        return;
+                    }
                     ctx.startActivity(new Intent(ctx, SaGouLiangActivity.class));
                     break;
                 case R.id.ll_toutingyou:
                 case R.id.ll_toutingyo2:
+                    if (!QXCallApplication.login) {//如果是没有登录直接跳转至登陆页
+                        IntentUtil.jumpIntent(ctx, NLoginActivity.class);
+                        return;
+                    }
                     ctx.startActivity(new Intent(ctx, NTouTingActivity.class));
                     break;
             }

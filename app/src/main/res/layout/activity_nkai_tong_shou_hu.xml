@@ -31,7 +31,6 @@
                 android:orientation="vertical">
 
 
-
             </LinearLayout>
         </com.ysxsoft.qxerkai.view.widget.MultipleStatusView>
     </LinearLayout>

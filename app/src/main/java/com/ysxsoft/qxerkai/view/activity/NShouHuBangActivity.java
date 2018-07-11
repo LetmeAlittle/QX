@@ -1,6 +1,5 @@
 package com.ysxsoft.qxerkai.view.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,16 +11,13 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ttt.qx.qxcall.R;
-import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
 import com.ysxsoft.qxerkai.net.RetrofitTools;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
-import com.ysxsoft.qxerkai.view.adapter.LiaoRenQuAdapter;
 import com.ysxsoft.qxerkai.view.adapter.ShouHuBangAdapter;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -47,6 +43,8 @@ public class NShouHuBangActivity extends NBaseActivity implements BaseQuickAdapt
 
     private String uid;
     private String type;    //1：这个用户的守护列表，2：这个用户守护的列表
+    private String nickname;
+    private String avatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +53,8 @@ public class NShouHuBangActivity extends NBaseActivity implements BaseQuickAdapt
         ButterKnife.bind(this);
         uid=getIntent().getStringExtra("uid");
         type=getIntent().getStringExtra("type");
+        nickname=getIntent().getStringExtra("nickname");
+        avatar=getIntent().getStringExtra("avatar");
         initStatusBar();
         initStatusBar(statusBar);
         initTitleBar();
@@ -76,7 +76,7 @@ public class NShouHuBangActivity extends NBaseActivity implements BaseQuickAdapt
 
     private void initView() {
         swipeTarget.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ShouHuBangAdapter(R.layout.activity_shouhubang_item);
+        adapter = new ShouHuBangAdapter(type,nickname,avatar,R.layout.activity_shouhubang_item);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         adapter.isFirstOnly(true);
         adapter.setOnLoadMoreListener(this,swipeTarget);
@@ -102,7 +102,7 @@ public class NShouHuBangActivity extends NBaseActivity implements BaseQuickAdapt
                     @Override
                     public void onFailed(Throwable e) {
                         multipleStatusView.hideLoading();
-                        ToastUtils.showToast(NShouHuBangActivity.this,e.getMessage(),0);
+//                        ToastUtils.showToast(NShouHuBangActivity.this,e.getMessage(),0);
                     }
                 });
     }

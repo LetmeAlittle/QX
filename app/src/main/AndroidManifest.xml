@@ -594,6 +594,8 @@
         </activity>
         <!--查看相册-->
         <activity android:name="com.ysxsoft.qxerkai.view.activity.NXiangCheChaKanActivity"/>
+        <!--用户协议-->
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NUserProtocolActivity"/>
     </application>
 
 </manifest>

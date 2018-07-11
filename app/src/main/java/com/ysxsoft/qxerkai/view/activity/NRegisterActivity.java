@@ -139,6 +139,7 @@ public class NRegisterActivity extends NBaseActivity implements View.OnClickList
         ivActivityRegisterQq.setOnClickListener(this);
         ivActivityRegisterWeixin.setOnClickListener(this);
         ivActivityRegisterWeibo.setOnClickListener(this);
+        cbYonghuxieyi.setOnClickListener(this);
     }
 
     public void initData() {
@@ -216,6 +217,9 @@ public class NRegisterActivity extends NBaseActivity implements View.OnClickList
                 mUmShareAPI.getPlatformInfo(this, SHARE_MEDIA.WEIXIN, authListener);
                 break;
             case R.id.iv_activity_register_weibo:
+                break;
+            case R.id.cb_yonghuxieyi:
+                startActivity(new Intent(this,NUserProtocolActivity.class));
                 break;
         }
     }

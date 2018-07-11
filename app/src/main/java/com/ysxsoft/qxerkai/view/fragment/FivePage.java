@@ -239,7 +239,7 @@ public class FivePage extends BasePager implements View.OnClickListener {
         setUserInfo(token);
         EventBus.getDefault().post(new NotifyRecentContactRefresh());
     }
-
+    UserDetailInfo.DataBean userDetailInfoData;
     /**
      * 根据当前用户token 获取用户详细信息
      *
@@ -262,7 +262,7 @@ public class FivePage extends BasePager implements View.OnClickListener {
             public void onNext(UserDetailInfo userDetailInfo) {
                 if (userDetailInfo.getStatus_code() == 200) {
                     //获取用户详细信息成功之后 首先赋值给视图控件 然后将必要信息保存到数据中
-                    UserDetailInfo.DataBean userDetailInfoData = userDetailInfo.getData();
+                    userDetailInfoData = userDetailInfo.getData();
                     setUserIcon(userDetailInfoData.getMember_avatar());
                     if (userDetailInfoData.getLevel() == 0) {
                         ivVip.setVisibility(View.GONE);
@@ -400,7 +400,13 @@ public class FivePage extends BasePager implements View.OnClickListener {
                 break;
             //守护榜
             case R.id.ll_shouhu:
-                IntentUtil.jumpIntent(ctx, NShouHuBangActivity.class);
+                if(userDetailInfoData!=null) {
+                    ctx.startActivity(new Intent(ctx, NShouHuBangActivity.class)
+                            .putExtra("uid", "" + userDetailInfoData.getId())
+                            .putExtra("nickname",userDetailInfoData.getNick_name())
+                            .putExtra("avatar",userDetailInfoData.getMember_avatar())
+                            .putExtra("type", "1"));
+                }
                 break;
             //我的朋友圈
             case R.id.ll_pengyouquan:

@@ -373,8 +373,10 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                 break;
             case R.id.ll_shouhu:
                 startActivity(new Intent(this, NShouHuBangActivity.class)
-                                .putExtra("uid",id)
-                                .putExtra("type",1));
+                                .putExtra("uid",""+id)
+                                .putExtra("nickname",mInfoData.getNick_name())
+                                .putExtra("avatar",mInfoData.getMember_avatar())
+                                .putExtra("type","1"));
                 break;
             case R.id.tv_xiangche_more:
                 startActivity(new Intent(this, NXiangCheChaKanActivity.class).putExtra("photos",mInfoData.getXiangce()));
