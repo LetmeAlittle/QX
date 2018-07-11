@@ -39,6 +39,7 @@
                     android:paddingTop="20dp">
 
                     <ImageView
+                        android:id="@+id/iv_left"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/touxiang_dashu"/>
@@ -58,11 +59,13 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
+                            android:id="@+id/iv_right"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@mipmap/touxiang_luoli"/>
 
                         <ImageView
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@mipmap/touxiang_mengban"/>
@@ -76,6 +79,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tv_hy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -86,6 +90,7 @@
                         android:textSize="@dimen/middle_size"/>
 
                     <TextView
+                        android:id="@+id/tv_fj"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -105,6 +110,7 @@
                     android:paddingTop="3dp">
 
                     <LinearLayout
+                        android:id="@+id/ll_hao_you"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_weight="1"
@@ -118,6 +124,8 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_fu_jin"
+                        android:visibility="invisible"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_weight="1"

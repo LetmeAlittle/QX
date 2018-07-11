@@ -6,6 +6,7 @@ import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
 import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
+import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
@@ -300,5 +301,25 @@ public class RetrofitTools {
      */
     public static Observable<TwoPageTuiJianResponse> getTuiJianList(Map<String, String> map) {
         return subscribe(RetrofitTools.getManager().getTuiJianList(map));
+    }
+
+    /**
+     * 获取附近的人列表  私人定制
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<HaoYouListResponse> getFjRenList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getFjRenList(map));
+    }
+
+    /**
+     * 获取好友列表  私人定制
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<HaoYouListResponse> getHaoYouList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getHaoYouList(map));
     }
 }

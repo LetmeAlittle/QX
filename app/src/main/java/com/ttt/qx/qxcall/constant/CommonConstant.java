@@ -98,6 +98,10 @@ public class CommonConstant {
     public static final String FRIEND_Q_send_gift = "/api/friend/send_gift";// 给朋友圈送礼物
     public static final String FRIEND_Q_backgroundqh = "api/backgroundqh";// 更换朋友圈背景图
 
+    //私人定制
+    public static final String SRDZ_fjs = "api/fjs";// 附近的人
+    public static final String SRDZ_guanzhur = "api/guanzhur";// 我的好友（关注的人）
+
 
     //用户资料  zhaozhipeng
     public static final String USER_SHOUHU = "/api/friend/guardsing"; //对某人进行守护

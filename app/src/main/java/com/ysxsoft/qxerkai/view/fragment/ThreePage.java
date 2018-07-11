@@ -87,14 +87,50 @@ public class ThreePage extends BasePager {
         circleWaiwei.startAnimation(animation);//开始动画
     }
 
-    @OnClick({R.id.tv_kaitong1,R.id.tv_kaitong2,R.id.tv_kaitong3})
-    public void onKaitong(View view){
-        ctx.startActivity(new Intent(ctx, XuanZheShouHuActivity.class));
+    @OnClick({R.id.tv_kaitong1, R.id.tv_kaitong2, R.id.tv_kaitong3})
+    public void onKaitong(View view) {
+        Intent intent = null;
+        intent = new Intent(ctx, XuanZheShouHuActivity.class);
+        switch (view.getId()){
+            case R.id.tv_kaitong1:
+                intent.putExtra(XuanZheShouHuActivity.TYPE_JUMP, 0);
+                break;
+            case R.id.tv_kaitong2:
+                intent.putExtra(XuanZheShouHuActivity.TYPE_JUMP, 1);
+                break;
+            case R.id.tv_kaitong3:
+                intent.putExtra(XuanZheShouHuActivity.TYPE_JUMP, 2);
+                break;
+        }
+        ctx.startActivity(intent);
     }
 
-    @OnClick({R.id.riv_banyan1,R.id.riv_banyan2,R.id.riv_banyan3,R.id.riv_banyan4,R.id.riv_banyan5,R.id.riv_banyan6})
-    public void onBanYan(View view){
-        ctx.startActivity(new Intent(ctx, BanYanActivity.class));
+    @OnClick({R.id.riv_banyan1, R.id.riv_banyan2, R.id.riv_banyan3,
+            R.id.riv_banyan4, R.id.riv_banyan5, R.id.riv_banyan6})
+    public void onBanYan(View view) {
+        Intent intent = null;
+        intent = new Intent(ctx, BanYanActivity.class);
+        switch (view.getId()) {
+            case R.id.riv_banyan1://大叔---萝莉
+                intent.putExtra(BanYanActivity.TYPE_BY, 0);
+                break;
+            case R.id.riv_banyan2://教师---学生
+                intent.putExtra(BanYanActivity.TYPE_BY, 1);
+                break;
+            case R.id.riv_banyan3://空姐---乘客
+                intent.putExtra(BanYanActivity.TYPE_BY, 2);
+                break;
+            case R.id.riv_banyan4://老板---秘书
+                intent.putExtra(BanYanActivity.TYPE_BY, 3);
+                break;
+            case R.id.riv_banyan5://护士---病人
+                intent.putExtra(BanYanActivity.TYPE_BY, 4);
+                break;
+            case R.id.riv_banyan6://亲王---宠妃
+                intent.putExtra(BanYanActivity.TYPE_BY, 5);
+                break;
+        }
+        ctx.startActivity(intent);
     }
 
 }

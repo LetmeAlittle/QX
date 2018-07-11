@@ -7,6 +7,7 @@ import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
 import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
+import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
@@ -35,6 +36,8 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.RULE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_COMMIT;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIKE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_fjs;
+import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_guanzhur;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TWO_PAGE_USER_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_GUARDS_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_SHOUHU;
@@ -200,4 +203,26 @@ public interface RetrofitApi {
     @FormUrlEncoded
     @POST(TWO_PAGE_USER_LIST)
     Observable<TwoPageTuiJianResponse> getTuiJianList(@FieldMap Map<String, String> map);
+
+
+
+    /**
+     * 获取附近的人列表  私人定制
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SRDZ_fjs)
+    Observable<HaoYouListResponse> getFjRenList(@FieldMap Map<String, String> map);
+
+    /**
+     * 获取好友列表  私人定制
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SRDZ_guanzhur)
+    Observable<HaoYouListResponse> getHaoYouList(@FieldMap Map<String, String> map);
 }
