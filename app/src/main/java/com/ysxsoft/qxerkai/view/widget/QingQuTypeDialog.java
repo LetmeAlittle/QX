@@ -63,15 +63,12 @@ public class QingQuTypeDialog extends Dialog {
         list.add(new Child("2", "闺蜜私房话"));
         list.add(new Child("3", "两性研究所"));
         list.add(new Child("4", "剧本专区"));
-
-        setCanceledOnTouchOutside(false);
         setCanceledOnTouchOutside(true);
         setContentView(initView());
-
         setOnCancelListener(new OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-                Toast.makeText(context, "cancle", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "cancle", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -80,9 +77,12 @@ public class QingQuTypeDialog extends Dialog {
         this.listener = listener;
         if (!isShowing()) {
             show();
-            WindowManager.LayoutParams params = getWindow().getAttributes();
-            params.width = (int) SystemUtils.getScreenWidth(context);
-            getWindow().setAttributes(params);
+
+            WindowManager.LayoutParams lp = getWindow().getAttributes();
+            lp.width = (int) SystemUtils.getScreenWidth(context);
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            getWindow().setAttributes(lp);
+            getWindow().setGravity(Gravity.BOTTOM);
         }
     }
 
