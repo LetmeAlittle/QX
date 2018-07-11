@@ -38,6 +38,7 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIKE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_fjs;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_guanzhur;
+import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_topList;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TWO_PAGE_USER_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_GUARDS_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_SHOUHU;
@@ -225,4 +226,15 @@ public interface RetrofitApi {
     @FormUrlEncoded
     @POST(SRDZ_guanzhur)
     Observable<HaoYouListResponse> getHaoYouList(@FieldMap Map<String, String> map);
+
+
+    /**
+     * 获取土豪/一姐榜
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SRDZ_topList)
+    Observable<HaoYouListResponse> getTopList(@FieldMap Map<String, String> map);
 }

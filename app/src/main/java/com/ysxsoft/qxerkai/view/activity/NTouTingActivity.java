@@ -55,7 +55,10 @@ public class NTouTingActivity extends NBaseActivity {
         initTitleBar();
         initView();
         initData();
+        setListener();
     }
+
+
 
     private void initTitleBar() {
         ivPublicTitlebarLeft1.setVisibility(View.VISIBLE);
@@ -81,6 +84,11 @@ public class NTouTingActivity extends NBaseActivity {
     }
 
     private void initData() {
+
+    }
+
+
+    private void setListener() {
 
     }
 

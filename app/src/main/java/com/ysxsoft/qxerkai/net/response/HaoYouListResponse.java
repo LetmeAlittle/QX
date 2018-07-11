@@ -205,6 +205,7 @@ public class HaoYouListResponse extends BaseResponse {
              */
 
             private int id;
+            private String cnt;
             private String member_name;
             private String member_age;
             private String member_signature;
@@ -220,6 +221,14 @@ public class HaoYouListResponse extends BaseResponse {
             private int is_vip;
             private Object lat;
             private Object lng;
+
+            public String getCnt() {
+                return cnt;
+            }
+
+            public void setCnt(String cnt) {
+                this.cnt = cnt;
+            }
 
             public String getIcon() {
                 return icon;

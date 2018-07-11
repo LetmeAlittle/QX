@@ -101,6 +101,7 @@ public class CommonConstant {
     //私人定制
     public static final String SRDZ_fjs = "api/fjs";// 附近的人
     public static final String SRDZ_guanzhur = "api/guanzhur";// 我的好友（关注的人）
+    public static final String SRDZ_topList = "api/topList";//获取土豪/一姐榜
 
 
     //用户资料  zhaozhipeng

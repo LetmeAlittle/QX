@@ -322,4 +322,14 @@ public class RetrofitTools {
     public static Observable<HaoYouListResponse> getHaoYouList(Map<String, String> map) {
         return subscribe(RetrofitTools.getManager().getHaoYouList(map));
     }
+
+    /**
+     * 获取好友列表  私人定制
+     *
+     * @param map  type 1土豪2一姐
+     * @return
+     */
+    public static Observable<HaoYouListResponse> getTopList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getTopList(map));
+    }
 }

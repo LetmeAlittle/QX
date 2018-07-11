@@ -71,8 +71,18 @@ public class NTopBangActivity extends NBaseActivity {
     private void initView() {
         lineViews.add(viewTopline1);
         lineViews.add(viewTopline2);
-        fragments.add(new TopBangOneFragment());
-        fragments.add(new TopBangTwoFragment());
+
+        TopBangOneFragment fragment1 = new TopBangOneFragment();
+        Bundle bundle1 = new Bundle();
+        bundle1.putString("type","1");
+        fragment1.setArguments(bundle1);
+        fragments.add(fragment1);
+        TopBangOneFragment fragment2 = new TopBangOneFragment();
+        Bundle bundle2 = new Bundle();
+        bundle2.putString("type","2");
+        fragment2.setArguments(bundle2);
+        fragments.add(fragment2);
+//        fragments.add(new TopBangTwoFragment());
         vpActivityTopBang.setOffscreenPageLimit(fragments.size());
         vpActivityTopBang.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
         vpActivityTopBang.setOnPageChangeListener(new PageChangeListener());
