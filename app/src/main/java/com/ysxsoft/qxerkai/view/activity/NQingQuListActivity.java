@@ -19,6 +19,7 @@ import com.ysxsoft.qxerkai.net.RetrofitTools;
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
 import com.ysxsoft.qxerkai.utils.DBUtils;
+import com.ysxsoft.qxerkai.utils.ObserverMap;
 import com.ysxsoft.qxerkai.utils.StringUtils;
 import com.ysxsoft.qxerkai.view.adapter.LiaoRenQuAdapter;
 import com.ysxsoft.qxerkai.view.fragment.TwoPage;
@@ -31,7 +32,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NQingQuListActivity extends NBaseActivity implements BaseQuickAdapter.RequestLoadMoreListener {
+public class NQingQuListActivity extends NBaseActivity implements BaseQuickAdapter.RequestLoadMoreListener, ObserverMap.IPageDataChangeObserver {
 
     @BindView(R.id.status_bar)
     View statusBar;
@@ -63,6 +64,7 @@ public class NQingQuListActivity extends NBaseActivity implements BaseQuickAdapt
         initTitleBar();
         initView();
         initData();
+        ObserverMap.reg(this.getClass().getSimpleName(), this);
     }
 
     private void initTitleBar() {
@@ -156,6 +158,25 @@ public class NQingQuListActivity extends NBaseActivity implements BaseQuickAdapt
             adapter.setNewData(data);
         } else {
             adapter.addData(data);
+        }
+    }
+
+    @Override
+    public void change() {
+        pageIndex = 1;
+        getList();//点赞后刷新 暂未用到
+    }
+
+    @Override
+    public void change(int likeNum, int commonNum, boolean isChanged, int position, int readNum) {
+        if (adapter != null && adapter.getItemCount() > position) {
+//            Log.e("tag", "刷新Item" + " likeNum:" + likeNum + " commonNum:" + commonNum + " isChanged:" + isChanged + " position:" + position + " readNum:" + readNum);
+            GetCardListResponse.DataBeanX.ListBean.DataBean d = adapter.getItem(position);
+            d.setLikes(likeNum + "");
+            d.setIs_like(isChanged ? "1" : "0");
+            d.setCom_num(commonNum);
+            d.setLooks(readNum);
+            adapter.notifyDataSetChanged();
         }
     }
 
