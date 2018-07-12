@@ -112,11 +112,10 @@
 
         <TextView
             android:id="@+id/tv_public_titlebar_center"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
             android:paddingBottom="12dp"
+            android:layout_gravity="center"
             android:paddingTop="12dp"
             android:text="标题栏"
             android:textColor="@android:color/white"

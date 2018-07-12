@@ -259,7 +259,6 @@ public class UserMainActivity extends BaseActivity {
                 break;
             case R.id.guanzhu_name_tv:
                 if (!follow)
-
                 {
                     HomeModel.getHomeModel().followUser(new ProgressSubscribe<>(new SubScribeOnNextListener<StandardResponse>() {
                         @Override

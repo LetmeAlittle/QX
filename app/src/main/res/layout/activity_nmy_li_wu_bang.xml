@@ -32,6 +32,7 @@
 
                 <com.ysxsoft.qxerkai.view.widget.MyScrollView
                     android:layout_width="match_parent"
+                    android:fillViewport="true"
                     android:layout_height="match_parent">
 
                     <LinearLayout
@@ -53,8 +54,7 @@
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/rv_putongliwu"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_height="match_parent"
                             android:paddingBottom="10dp"
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
@@ -75,6 +75,7 @@
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
                             android:paddingTop="10dp"
+                            android:visibility="gone"
                             android:paddingBottom="10dp"
                             android:text="贵族礼物"
                             android:textColor="@color/white"
@@ -86,6 +87,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingBottom="10dp"
+                            android:visibility="gone"
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
                             android:paddingTop="10dp"

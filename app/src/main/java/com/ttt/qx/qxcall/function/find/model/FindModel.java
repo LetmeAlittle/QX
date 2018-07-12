@@ -154,8 +154,8 @@ public class FindModel implements BaseModel {
     /**
      * 获取礼物排行榜
      */
-    public void getGiftRankList(Subscriber<GiftRankList> subscriber, String page, String authorization) {
-        Observable<GiftRankList> observable = findServiceApi.getGiftRankList(page, authorization);
+    public void getGiftRankList(Subscriber<GiftRankList> subscriber, String page,String user_id, String authorization) {
+        Observable<GiftRankList> observable = findServiceApi.getGiftRankList(page, user_id,authorization);
         onToSubscribe99(observable, subscriber);
     }
 

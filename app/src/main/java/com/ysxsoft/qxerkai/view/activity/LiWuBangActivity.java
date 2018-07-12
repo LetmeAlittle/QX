@@ -10,13 +10,23 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.adapter.GiftListAdapter;
+import com.ttt.qx.qxcall.database.UserDao;
+import com.ttt.qx.qxcall.dbbean.UserBean;
+import com.ttt.qx.qxcall.function.base.interfacee.SubScribeOnNextListener;
+import com.ttt.qx.qxcall.function.base.subscribe.ProgressSubscribe;
+import com.ttt.qx.qxcall.function.find.model.FindModel;
+import com.ttt.qx.qxcall.function.find.model.entity.GiftRankList;
 import com.ysxsoft.qxerkai.view.adapter.LiWuBangAdapter;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.ttt.qx.qxcall.QXCallApplication.login;
 
 public class LiWuBangActivity extends NBaseActivity implements BaseQuickAdapter.RequestLoadMoreListener{
 
@@ -36,11 +46,16 @@ public class LiWuBangActivity extends NBaseActivity implements BaseQuickAdapter.
     private int pageIndex=1;
     private int pageTotal=1;
     private LiWuBangAdapter adapter;
+    private UserDao userDao;
+    private UserBean userBean;
+    private String authorization;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_li_wu_bang);
+        uid=getIntent().getStringExtra("uid");
         ButterKnife.bind(this);
         initStatusBar();
         initStatusBar(statusBar);
@@ -70,25 +85,39 @@ public class LiWuBangActivity extends NBaseActivity implements BaseQuickAdapter.
         swipeTarget.setAdapter(adapter);
     }
 
+    /**
+     * 初始化数据
+     */
     private void initData() {
-        ArrayList<String> temp = new ArrayList<>();
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        temp.add("");
-        adapter.setNewData(temp);
+        if (login) {
+            userDao = new UserDao();
+            userBean = userDao.queryFirstData();
+            authorization = "Bearer " + userBean.getToken();
+            FindModel.getFindModel().getGiftRankList(new ProgressSubscribe<>(new SubScribeOnNextListener<GiftRankList>() {
+                @Override
+                public void onNext(GiftRankList giftRankList) {
+                    if (giftRankList.getStatus_code() == 200) {
+                        GiftRankList.DataBeanX data = giftRankList.getData();
+                        List<GiftRankList.DataBeanX.DataBean> list = data.getData();
+                        if (list == null) {
+                            list = new ArrayList<GiftRankList.DataBeanX.DataBean>();
+                        }
+                        //初始化分页数据
+                        pageTotal = data.getLast_page();
+                        if(pageIndex==1){
+                            adapter.setNewData(list);
+                        }else {
+                            adapter.addData(list);
+                            adapter.loadMoreComplete();
+                        }
+                    }else {
+                        if(pageIndex>1){
+                            pageIndex--;
+                        }
+                    }
+                }
+            }, this), ""+pageIndex,uid, authorization);
+        }
     }
 
     @Override

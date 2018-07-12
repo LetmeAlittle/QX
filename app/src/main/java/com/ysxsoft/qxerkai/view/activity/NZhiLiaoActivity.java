@@ -2,6 +2,7 @@ package com.ysxsoft.qxerkai.view.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -25,7 +26,6 @@ import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.database.UserDao;
 import com.ttt.qx.qxcall.dbbean.UserBean;
-import com.ttt.qx.qxcall.dialog.ImgZoomFragment;
 import com.ttt.qx.qxcall.function.base.interfacee.SubScribeOnNextListener;
 import com.ttt.qx.qxcall.function.base.subscribe.ProgressSubscribe;
 import com.ttt.qx.qxcall.function.home.model.HomeModel;
@@ -134,6 +134,8 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
     TextView tvShouhunum;
     @BindView(R.id.tv_gouliangnum)
     TextView tvGouliangnum;
+    @BindView(R.id.iv_shouhu)
+    ImageView ivShouhu;
 
     private int id;
     private String accid;
@@ -143,6 +145,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
     private MediaPlayer mPlayer = new MediaPlayer();
     private int _ffffff;
     private float tagSize;
+    private boolean follow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +171,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
             }
         });
         tvPublicTitlebarCenter.setText("");
+        tvPublicTitlebarCenter.setCompoundDrawablePadding(10);
     }
 
     private void initView() {
@@ -181,6 +185,8 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
         llFensi.setOnClickListener(this);
         llGuanzhu.setOnClickListener(this);
         llFangke.setOnClickListener(this);
+        ivShouhu.setOnClickListener(this);
+        tvPublicTitlebarCenter.setOnClickListener(this);
     }
 
     private void initViewData() {
@@ -190,7 +196,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
         if (mInfoData != null) {
             tvPublicTitlebarCenter.setText(mInfoData.getNick_name());
             llPrice.setText(mInfoData.getMember_price() + "砰砰豆/分钟");
-            tvShouhunum.setText(mInfoData.getGuard());
+            tvShouhunum.setText("");
             tvGouliangnum.setText(mInfoData.getDog());
             Glide.with(this).load(mInfoData.getMember_avatar()).into(civHead);
             if (mInfoData.getLevel() == 0) {
@@ -205,10 +211,16 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
             tvNickname.setText(mInfoData.getNick_name());
             //设置关注状态
             if (mInfoData.getIs_fans() == 0) {
-//                follow = false;
+                Drawable drawable = this.getResources().getDrawable(R.mipmap.ziliao_weiguanzhu);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
+                follow = false;
 //                guanzhu_name_tv.setText("关注");
             } else {
-//                follow = true;
+                Drawable drawable = this.getResources().getDrawable(R.mipmap.ziliao_guanzhu);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
+                follow = true;
 //                guanzhu_name_tv.setText("取消关注");
             }
             mSoundFile = mInfoData.getSound_file();
@@ -231,17 +243,17 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
             for (UserDetailInfo.DataBean.MemberTagBean memberTagBean : member_tag) {
                 FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 layoutParams.leftMargin = 25;
-                layoutParams.topMargin=10;
-                layoutParams.bottomMargin=10;
+                layoutParams.topMargin = 10;
+                layoutParams.bottomMargin = 10;
                 TextView textView = new TextView(NZhiLiaoActivity.this);
                 textView.setTextColor(Color.parseColor("#ffffff"));
                 textView.setBackgroundResource(R.drawable.activity_biaoqian_bg);
-                GradientDrawable myGrad = (GradientDrawable)textView.getBackground();
+                GradientDrawable myGrad = (GradientDrawable) textView.getBackground();
                 myGrad.setColor(Color.parseColor(memberTagBean.getColor()));
                 textView.setTextSize(tagSize);
                 textView.getPaint().setFakeBoldText(true);
                 textView.setText(memberTagBean.getText());
-                textView.setPadding(10,2,10,2);
+                textView.setPadding(10, 2, 10, 2);
                 textView.setLayoutParams(layoutParams);
                 flow_tag_layout.addView(textView);
             }
@@ -263,30 +275,30 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
             } else {
                 tvAge.setText(mInfoData.getMember_age() + "岁");
             }
-            ArrayList<RoundAngleImageView> ivImages=new ArrayList<>();
+            ArrayList<RoundAngleImageView> ivImages = new ArrayList<>();
             ivImages.add(ivImage1);
             ivImages.add(ivImage2);
             ivImages.add(ivImage3);
             ivImages.add(ivImage4);
-            for(int i=0;i<mInfoData.getXiangce().size();i++){
-                if(i<4){
+            for (int i = 0; i < mInfoData.getXiangce().size(); i++) {
+                if (i < 4) {
                     Glide.with(this).load(mInfoData.getXiangce().get(i).getIcon()).into(ivImages.get(i));
                 }
             }
-            if(mInfoData.getXiangce().size()>4){
+            if (mInfoData.getXiangce().size() > 4) {
                 tvXiangcheMore.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 tvXiangcheMore.setVisibility(View.GONE);
             }
             ivImage1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     try {
-                        ArrayList<String> photosStr=new ArrayList<>();
-                        for(int i=0;i<mInfoData.getXiangce().size();i++){
+                        ArrayList<String> photosStr = new ArrayList<>();
+                        for (int i = 0; i < mInfoData.getXiangce().size(); i++) {
                             photosStr.add(mInfoData.getXiangce().get(i).getIcon());
                         }
-                        openImgLookBig(photosStr,0);
+                        openImgLookBig(photosStr, 0);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -296,11 +308,11 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                 @Override
                 public void onClick(View view) {
                     try {
-                        ArrayList<String> photosStr=new ArrayList<>();
-                        for(int i=0;i<mInfoData.getXiangce().size();i++){
+                        ArrayList<String> photosStr = new ArrayList<>();
+                        for (int i = 0; i < mInfoData.getXiangce().size(); i++) {
                             photosStr.add(mInfoData.getXiangce().get(i).getIcon());
                         }
-                        openImgLookBig(photosStr,1);
+                        openImgLookBig(photosStr, 1);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -310,11 +322,11 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                 @Override
                 public void onClick(View view) {
                     try {
-                        ArrayList<String> photosStr=new ArrayList<>();
-                        for(int i=0;i<mInfoData.getXiangce().size();i++){
+                        ArrayList<String> photosStr = new ArrayList<>();
+                        for (int i = 0; i < mInfoData.getXiangce().size(); i++) {
                             photosStr.add(mInfoData.getXiangce().get(i).getIcon());
                         }
-                        openImgLookBig(photosStr,2);
+                        openImgLookBig(photosStr, 2);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -324,11 +336,11 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                 @Override
                 public void onClick(View view) {
                     try {
-                        ArrayList<String> photosStr=new ArrayList<>();
-                        for(int i=0;i<mInfoData.getXiangce().size();i++){
+                        ArrayList<String> photosStr = new ArrayList<>();
+                        for (int i = 0; i < mInfoData.getXiangce().size(); i++) {
                             photosStr.add(mInfoData.getXiangce().get(i).getIcon());
                         }
-                        openImgLookBig(photosStr,3);
+                        openImgLookBig(photosStr, 3);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -337,7 +349,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
         }
     }
 
-    private void openImgLookBig(ArrayList<String> photosStr,int  position) {
+    private void openImgLookBig(ArrayList<String> photosStr, int position) {
         File downloadDir = new File(Environment.getExternalStorageDirectory(), "QX");
         BGAPhotoPreviewActivity.IntentBuilder photoPreviewIntentBuilder = new BGAPhotoPreviewActivity.IntentBuilder(this)
                 .saveImgDir(downloadDir); // 保存图片的目录，如果传 null，则没有保存图片功能
@@ -349,6 +361,46 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_public_titlebar_center:
+                if (!follow) {
+                    HomeModel.getHomeModel().followUser(new ProgressSubscribe<>(new SubScribeOnNextListener<StandardResponse>() {
+                        @Override
+                        public void onNext(StandardResponse standardResponse) {
+                            if (standardResponse.getStatus_code() == 200) {
+                                follow = true;
+                                Drawable drawable = NZhiLiaoActivity.this.getResources().getDrawable(R.mipmap.ziliao_guanzhu);
+                                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                                tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
+                            } else {
+                                ToastUtils.showToast(NZhiLiaoActivity.this,standardResponse.getMessage(),0);
+                            }
+                        }
+                    }, NZhiLiaoActivity.this), String.valueOf(id), Authorization);
+                } else
+
+                {//如果已经关注
+                    HomeModel.getHomeModel().unfollowUser(new ProgressSubscribe<>(new SubScribeOnNextListener<StandardResponse>() {
+                        @Override
+                        public void onNext(StandardResponse standardResponse) {
+                            if (standardResponse.getStatus_code() == 200) {
+                                follow = false;
+                                Drawable drawable = NZhiLiaoActivity.this.getResources().getDrawable(R.mipmap.ziliao_weiguanzhu);
+                                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                                tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
+                            } else {
+                                ToastUtils.showToast(NZhiLiaoActivity.this,standardResponse.getMessage(),0);
+                            }
+                        }
+                    }, NZhiLiaoActivity.this), String.valueOf(id), Authorization);
+                }
+
+                break;
+            case R.id.iv_shouhu:
+                startActivity(new Intent(this, NKaiTongShouHuActivity.class)
+                        .putExtra("uid", "" + mInfoData.getId())
+                        .putExtra("nickname", mInfoData.getNick_name())
+                        .putExtra("avatar", mInfoData.getMember_avatar()));
+                break;
             case R.id.ll_fensi:
                 Intent tenFans = new Intent(this, FansActivity.class);
                 tenFans.putExtra("id", id);
@@ -365,21 +417,21 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                 startActivity(tenVisitor);
                 break;
             case R.id.ll_liwubang:
-                startActivity(new Intent(this, LiWuBangActivity.class));
+                startActivity(new Intent(this, LiWuBangActivity.class).putExtra("uid", "" + mInfoData.getId()));
                 break;
             case R.id.ll_liaorenqu:
-                NLiaoRenQuActivity.start(NZhiLiaoActivity.this,id);
+                NLiaoRenQuActivity.start(NZhiLiaoActivity.this, id);
 //                startActivity(new Intent(this, NLiaoRenQuActivity.class));
                 break;
             case R.id.ll_shouhu:
                 startActivity(new Intent(this, NShouHuBangActivity.class)
-                                .putExtra("uid",""+id)
-                                .putExtra("nickname",mInfoData.getNick_name())
-                                .putExtra("avatar",mInfoData.getMember_avatar())
-                                .putExtra("type","1"));
+                        .putExtra("uid", "" + id)
+                        .putExtra("nickname", mInfoData.getNick_name())
+                        .putExtra("avatar", mInfoData.getMember_avatar())
+                        .putExtra("type", "1"));
                 break;
             case R.id.tv_xiangche_more:
-                startActivity(new Intent(this, NXiangCheChaKanActivity.class).putExtra("photos",mInfoData.getXiangce()));
+                startActivity(new Intent(this, NXiangCheChaKanActivity.class).putExtra("photos", mInfoData.getXiangce()));
                 break;
             case R.id.sounds_ll:
                 paly_status_iv.setImageResource(R.mipmap.audio_playing_iv);

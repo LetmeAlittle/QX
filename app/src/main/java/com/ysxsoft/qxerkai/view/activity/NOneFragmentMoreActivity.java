@@ -166,23 +166,18 @@ public class NOneFragmentMoreActivity extends NBaseActivity implements BaseQuick
      * @param tag 分类的ID
      */
     private void initItemData(String tag) {
-        Dialog loadingDialog=CustomAlertDialogUtil.createLoadingDialog(this, "加载中...", false);
-        loadingDialog.show();
+        multipleStatusView.showLoading();
         HomeModel.getHomeModel().getUserList(new Subscriber<UserListInfo>() {
             @Override
             public void onCompleted() {
                 LogUtils.e("onCompleted");
-                if(loadingDialog!=null){
-                    loadingDialog.dismiss();
-                }
+                multipleStatusView.hideLoading();
             }
 
             @Override
             public void onError(Throwable e) {
                 LogUtils.e("onError"+e.getMessage());
-                if(loadingDialog!=null){
-                    loadingDialog.dismiss();
-                }
+                multipleStatusView.hideLoading();
             }
 
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -195,6 +190,11 @@ public class NOneFragmentMoreActivity extends NBaseActivity implements BaseQuick
                         adapter.setNewData(userListInfo.getData().getList());
                     }else {
                         adapter.addData(userListInfo.getData().getList());
+                        adapter.loadMoreComplete();
+                    }
+                }else {
+                    if(pageIndex>1){
+                        pageIndex--;
                     }
                 }
             }

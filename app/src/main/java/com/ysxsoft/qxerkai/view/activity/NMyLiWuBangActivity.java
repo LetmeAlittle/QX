@@ -11,11 +11,17 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.MyLiWuResponse;
+import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.adapter.LiWuBangAdapter;
 import com.ysxsoft.qxerkai.view.adapter.MyLiWuBangAdapter;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,20 +77,34 @@ public class NMyLiWuBangActivity extends NBaseActivity{
         adapter1.isFirstOnly(true);
         rvPutongliwu.setAdapter(adapter1);
 
-        rvGuizhuliwu.setLayoutManager(new StaggeredGridLayoutManager(6,StaggeredGridLayoutManager.VERTICAL));
-        adapter2 = new MyLiWuBangAdapter(R.layout.activity_nmy_liwubang_item);
-        adapter2.openLoadAnimation(com.chad.library.adapter.base.BaseQuickAdapter.ALPHAIN);
-        adapter2.isFirstOnly(true);
-        rvGuizhuliwu.setAdapter(adapter2);
+//        贵族礼物
+//        rvGuizhuliwu.setLayoutManager(new StaggeredGridLayoutManager(6,StaggeredGridLayoutManager.VERTICAL));
+//        adapter2 = new MyLiWuBangAdapter(R.layout.activity_nmy_liwubang_item);
+//        adapter2.openLoadAnimation(com.chad.library.adapter.base.BaseQuickAdapter.ALPHAIN);
+//        adapter2.isFirstOnly(true);
+//        rvGuizhuliwu.setAdapter(adapter2);
     }
 
     private void initData() {
-        ArrayList<String> temp=new ArrayList<>();
-        for(int i=0;i<18;i++){
-            temp.add("");
-        }
-        adapter1.setNewData(temp);
-        adapter2.setNewData(temp);
+        multipleStatusView.showLoading();
+        HashMap<String,String> hashMap=new HashMap<>();
+        hashMap.put("user_id",getIntent().getStringExtra("uid"));
+        RetrofitTools.getMyLiWuList(hashMap)
+                .subscribe(new ResponseSubscriber<MyLiWuResponse>(){
+                    @Override
+                    public void onSuccess(MyLiWuResponse myLiWuResponse, int code, String msg) {
+                        multipleStatusView.hideLoading();
+                       adapter1.setNewData(myLiWuResponse.getData().getData());
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+                        multipleStatusView.hideLoading();
+                        ToastUtils.showToast(NMyLiWuBangActivity.this,e.getMessage(),0);
+                    }
+                });
     }
+
+
 
 }

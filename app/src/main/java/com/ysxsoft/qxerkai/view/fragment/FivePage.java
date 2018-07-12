@@ -18,7 +18,6 @@ import com.ttt.qx.qxcall.dbbean.UserBean;
 import com.ttt.qx.qxcall.eventbus.ExitLogin;
 import com.ttt.qx.qxcall.eventbus.LoginSuccess;
 import com.ttt.qx.qxcall.eventbus.NotifyRecentContactRefresh;
-import com.ttt.qx.qxcall.eventbus.RefreshHomeCurrentCategory;
 import com.ttt.qx.qxcall.eventbus.SetSelectItem;
 import com.ttt.qx.qxcall.eventbus.UserInfoModifyed;
 import com.ttt.qx.qxcall.function.home.model.HomeModel;
@@ -27,10 +26,7 @@ import com.ttt.qx.qxcall.function.home.view.FansActivity;
 import com.ttt.qx.qxcall.function.home.view.FollowActivity;
 import com.ttt.qx.qxcall.function.home.view.VisitorActivity;
 import com.ttt.qx.qxcall.function.login.model.LoginModel;
-import com.ttt.qx.qxcall.function.login.view.InvitedFriendsActivity;
 import com.ttt.qx.qxcall.function.login.view.MineBlacksActivity;
-import com.ttt.qx.qxcall.function.login.view.MyVIPActivity;
-import com.ttt.qx.qxcall.function.login.view.RechargeActivity;
 import com.ttt.qx.qxcall.function.login.view.SetCallPriceActivity;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 import com.ttt.qx.qxcall.function.voice.DemoCache;
@@ -39,7 +35,6 @@ import com.ttt.qx.qxcall.utils.IntentUtil;
 import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.activity.NChongZhiActivity;
-import com.ysxsoft.qxerkai.view.activity.NFansListActivity;
 import com.ysxsoft.qxerkai.view.activity.NGouMaiVipActivity;
 import com.ysxsoft.qxerkai.view.activity.NLiaoRenQuActivity;
 import com.ysxsoft.qxerkai.view.activity.NMyLiWuBangActivity;
@@ -50,6 +45,7 @@ import com.ysxsoft.qxerkai.view.activity.NSettingActivity;
 import com.ysxsoft.qxerkai.view.activity.NShouHuBangActivity;
 import com.ysxsoft.qxerkai.view.activity.VipCenterActivity;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
+import com.ysxsoft.qxerkai.view.widget.ObservableScrollView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -132,6 +128,10 @@ public class FivePage extends BasePager implements View.OnClickListener {
     LinearLayout llDianzan;
     @BindView(R.id.ll_fangke)
     LinearLayout llFangke;
+    @BindView(R.id.sv_scrollview)
+    ObservableScrollView svScrollView;
+    @BindView(R.id.ll_titlebar_bg)
+    LinearLayout llTitlebarBg;
 
     private View rootView;
     private String authorization;
@@ -184,6 +184,14 @@ public class FivePage extends BasePager implements View.OnClickListener {
         llGuanzhu.setOnClickListener(this);
         llDianzan.setOnClickListener(this);
         llFangke.setOnClickListener(this);
+        svScrollView.setScrollViewListener(new ObservableScrollView.ScrollViewListener() {
+            @Override
+            public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+                if(oldy>50){
+                    llTitlebarBg.setAlpha((y-50)*0.01f);
+                }
+            }
+        });
     }
 
     @Override
@@ -239,7 +247,9 @@ public class FivePage extends BasePager implements View.OnClickListener {
         setUserInfo(token);
         EventBus.getDefault().post(new NotifyRecentContactRefresh());
     }
+
     UserDetailInfo.DataBean userDetailInfoData;
+
     /**
      * 根据当前用户token 获取用户详细信息
      *
@@ -400,11 +410,11 @@ public class FivePage extends BasePager implements View.OnClickListener {
                 break;
             //守护榜
             case R.id.ll_shouhu:
-                if(userDetailInfoData!=null) {
+                if (userDetailInfoData != null) {
                     ctx.startActivity(new Intent(ctx, NShouHuBangActivity.class)
                             .putExtra("uid", "" + userDetailInfoData.getId())
-                            .putExtra("nickname",userDetailInfoData.getNick_name())
-                            .putExtra("avatar",userDetailInfoData.getMember_avatar())
+                            .putExtra("nickname", userDetailInfoData.getNick_name())
+                            .putExtra("avatar", userDetailInfoData.getMember_avatar())
                             .putExtra("type", "1"));
                 }
                 break;
@@ -440,7 +450,7 @@ public class FivePage extends BasePager implements View.OnClickListener {
                 break;
             //礼物榜
             case R.id.ll_liwubang:
-                IntentUtil.jumpIntent(ctx, NMyLiWuBangActivity.class);
+                ctx.startActivity(new Intent(ctx, NMyLiWuBangActivity.class).putExtra("uid", "" + userDetailInfoData.getId()));
                 break;
             //收费标准
             case R.id.ll_shoufeibiaozhun:

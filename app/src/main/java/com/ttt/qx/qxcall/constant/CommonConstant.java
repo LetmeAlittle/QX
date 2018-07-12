@@ -107,5 +107,5 @@ public class CommonConstant {
     //用户资料  zhaozhipeng
     public static final String USER_SHOUHU = "api/friend/guardsing"; //对某人进行守护
     public static final String USER_GUARDS_LIST="api/friend/guards"; //守护列表
-
+    public static final String USER_MY_LIWU="api/friend/gift_top_my";//我的礼物列表
 }

@@ -141,7 +141,7 @@ public interface FindServiceApi {
      */
     @FormUrlEncoded
     @POST("api/friend/gift_top")
-    Observable<GiftRankList> getGiftRankList(@Field("page") String page,@Header("Authorization") String Authorization);
+    Observable<GiftRankList> getGiftRankList(@Field("page") String page,@Field("user_id") String user_id,@Header("Authorization") String Authorization);
 
     /**
      * 说说赠送礼物

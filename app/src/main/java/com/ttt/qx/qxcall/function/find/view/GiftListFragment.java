@@ -136,7 +136,7 @@ public class GiftListFragment extends Fragment {
                         });
                     }
                 }
-            }, context), "1", authorization);
+            }, context), "1","" ,authorization);
         }
     }
 
@@ -157,7 +157,7 @@ public class GiftListFragment extends Fragment {
                         giftListAdapter.notifyDataSetChanged();
                     }
                 }
-            }, context), String.valueOf(current_page), authorization);
+            }, context), String.valueOf(current_page),"", authorization);
         } else {
             onToast("没有更多了！");
         }

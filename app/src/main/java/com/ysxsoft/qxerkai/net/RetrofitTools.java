@@ -1,5 +1,7 @@
 package com.ysxsoft.qxerkai.net;
 
+import android.support.annotation.RestrictTo;
+
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
@@ -7,6 +9,7 @@ import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
+import com.ysxsoft.qxerkai.net.response.MyLiWuResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
@@ -331,5 +334,14 @@ public class RetrofitTools {
      */
     public static Observable<HaoYouListResponse> getTopList(Map<String, String> map) {
         return subscribe(RetrofitTools.getManager().getTopList(map));
+    }
+
+    /**
+     * 获取我的礼物列表
+     * @param map
+     * @return
+     */
+    public static Observable<MyLiWuResponse> getMyLiWuList(Map<String,String> map){
+        return  subscribe(RetrofitTools.getManager().getMyLiWuList(map));
     }
 }

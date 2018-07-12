@@ -427,21 +427,16 @@ public class OnePage extends BasePager implements View.OnClickListener {
      * @param tag 分类的ID
      */
     private void initItemData(String tag) {
-        Dialog loadingDialog=CustomAlertDialogUtil.createLoadingDialog(ctx, "加载中...", false);
-        loadingDialog.show();
+        multipleStatusView.showLoading();
         HomeModel.getHomeModel().getUserList(new Subscriber<UserListInfo>() {
             @Override
             public void onCompleted() {
-                if(loadingDialog!=null){
-                    loadingDialog.dismiss();
-                }
+                multipleStatusView.hideLoading();
             }
 
             @Override
             public void onError(Throwable e) {
-                if(loadingDialog!=null){
-                    loadingDialog.dismiss();
-                }
+                multipleStatusView.hideLoading();
             }
 
             @RequiresApi(api = Build.VERSION_CODES.M)
