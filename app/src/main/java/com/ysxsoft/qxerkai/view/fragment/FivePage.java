@@ -149,7 +149,7 @@ public class FivePage extends BasePager implements View.OnClickListener {
         }
         initStatusBar(statusBar);
         initStatusBar(statusBar2);
-        initStatusBar2(statusBar3);
+//        initStatusBar2(statusBar3);
         initTitleBar();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
