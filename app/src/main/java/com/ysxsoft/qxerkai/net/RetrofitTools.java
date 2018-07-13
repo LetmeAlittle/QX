@@ -15,6 +15,7 @@ import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangPublishResponse;
 import com.ysxsoft.qxerkai.net.response.TwoPageTuiJianResponse;
+import com.ysxsoft.qxerkai.net.response.UserXiaoFeiNum;
 import com.ysxsoft.qxerkai.utils.LogUtils;
 
 import java.io.File;
@@ -329,7 +330,7 @@ public class RetrofitTools {
     /**
      * 获取好友列表  私人定制
      *
-     * @param map  type 1土豪2一姐
+     * @param map type 1土豪2一姐
      * @return
      */
     public static Observable<HaoYouListResponse> getTopList(Map<String, String> map) {
@@ -338,10 +339,21 @@ public class RetrofitTools {
 
     /**
      * 获取我的礼物列表
+     *
      * @param map
      * @return
      */
-    public static Observable<MyLiWuResponse> getMyLiWuList(Map<String,String> map){
-        return  subscribe(RetrofitTools.getManager().getMyLiWuList(map));
+    public static Observable<MyLiWuResponse> getMyLiWuList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getMyLiWuList(map));
+    }
+
+    /**
+     * 获取用户消费的砰砰豆
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<UserXiaoFeiNum> getUserXiaoFei(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getUserXiaoFei(map));
     }
 }

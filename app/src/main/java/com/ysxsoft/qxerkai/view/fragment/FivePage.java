@@ -3,12 +3,14 @@ package com.ysxsoft.qxerkai.view.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.kyleduo.switchbutton.SwitchButton;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.ttt.qx.qxcall.QXCallApplication;
 import com.ttt.qx.qxcall.R;
@@ -20,12 +22,16 @@ import com.ttt.qx.qxcall.eventbus.LoginSuccess;
 import com.ttt.qx.qxcall.eventbus.NotifyRecentContactRefresh;
 import com.ttt.qx.qxcall.eventbus.SetSelectItem;
 import com.ttt.qx.qxcall.eventbus.UserInfoModifyed;
+import com.ttt.qx.qxcall.function.base.interfacee.SubScribeOnNextListener;
+import com.ttt.qx.qxcall.function.base.subscribe.ProgressSubscribe;
 import com.ttt.qx.qxcall.function.home.model.HomeModel;
 import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
 import com.ttt.qx.qxcall.function.home.view.FansActivity;
 import com.ttt.qx.qxcall.function.home.view.FollowActivity;
 import com.ttt.qx.qxcall.function.home.view.VisitorActivity;
 import com.ttt.qx.qxcall.function.login.model.LoginModel;
+import com.ttt.qx.qxcall.function.login.model.MineModel;
+import com.ttt.qx.qxcall.function.login.view.LoginTransferActivity;
 import com.ttt.qx.qxcall.function.login.view.MineBlacksActivity;
 import com.ttt.qx.qxcall.function.login.view.SetCallPriceActivity;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
@@ -132,9 +138,12 @@ public class FivePage extends BasePager implements View.OnClickListener {
     ObservableScrollView svScrollView;
     @BindView(R.id.ll_titlebar_bg)
     LinearLayout llTitlebarBg;
+    @BindView(R.id.online_status_switch_btn)
+    SwitchButton onlineStatusSwitchBtn;
 
     private View rootView;
     private String authorization;
+    private boolean firstEnter = true;
 
     public FivePage(Context ctx) {
         super(ctx);
@@ -187,9 +196,28 @@ public class FivePage extends BasePager implements View.OnClickListener {
         svScrollView.setScrollViewListener(new ObservableScrollView.ScrollViewListener() {
             @Override
             public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-                if(oldy>50){
-                    llTitlebarBg.setAlpha((y-50)*0.01f);
+                if (oldy > 50) {
+                    llTitlebarBg.setAlpha((y - 50) * 0.01f);
                 }
+            }
+        });
+        onlineStatusSwitchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (!firstEnter) {
+                    if (login) {
+                        MineModel.getMineModel().setOnlineStatus(new ProgressSubscribe<>(new SubScribeOnNextListener<StandardResponse>() {
+                            @Override
+                            public void onNext(StandardResponse standardResponse) {
+
+                            }
+                        }, ctx), b ? "1" : "0", authorization);
+                    } else {
+                        onlineStatusSwitchBtn.setChecked(b);
+                        IntentUtil.jumpIntent(ctx, LoginTransferActivity.class);
+                    }
+                }
+                firstEnter = false;
             }
         });
     }
@@ -293,6 +321,12 @@ public class FivePage extends BasePager implements View.OnClickListener {
                     } else {
                         ivSex.setBackgroundResource(R.mipmap.fragment_five_sex_nv);
                         llShoufeibiaozhun.setVisibility(View.VISIBLE);
+                    }
+                    //在线状态设置
+                    if (userDetailInfoData.getIs_online() == 0) {
+                        onlineStatusSwitchBtn.setChecked(false);
+                    } else {
+                        onlineStatusSwitchBtn.setChecked(true);
                     }
                     tvFenshi.setText(String.valueOf(userDetailInfoData.getFans_num()));
                     tvGuanzhu.setText(String.valueOf(userDetailInfoData.getFlow_num()));
@@ -438,7 +472,9 @@ public class FivePage extends BasePager implements View.OnClickListener {
                 break;
             //会员中心
             case R.id.ll_huiyuanzhongxin:
-                IntentUtil.jumpIntent(ctx, VipCenterActivity.class);
+                ctx.startActivity(new Intent(ctx, VipCenterActivity.class)
+                        .putExtra("url", userDetailInfoData.getMember_avatar())
+                        .putExtra("uid", "" + userDetailInfoData.getId()));
                 break;
             //狗粮区
             case R.id.ll_gouliangqu:

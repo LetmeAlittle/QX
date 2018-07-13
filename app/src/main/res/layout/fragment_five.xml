@@ -837,6 +837,59 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/online_status_key_rl"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:paddingBottom="15dp"
+                                    android:paddingLeft="20dp"
+                                    android:paddingRight="20dp"
+                                    android:paddingTop="15dp"
+                                    >
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="在线状态"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/middle_size"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="20dp"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/normal_size"
+                                        android:visibility="gone"/>
+
+                                    <!--#4CD964-->
+                                    <com.kyleduo.switchbutton.SwitchButton
+                                        android:id="@+id/online_status_switch_btn"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"/>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1px"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@color/_666666"
+                                    />
+                            </LinearLayout>
+
+                            <LinearLayout
                                 android:id="@+id/ll_heimingdan"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
