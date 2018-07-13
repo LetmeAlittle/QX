@@ -14,9 +14,12 @@ import android.widget.Toast;
 
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.adapter.SendGiftListAdapter;
+import com.ttt.qx.qxcall.database.UserDao;
+import com.ttt.qx.qxcall.dbbean.UserBean;
 import com.ttt.qx.qxcall.function.find.model.entity.GiftList;
 import com.ttt.qx.qxcall.utils.ToastUtil;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -33,7 +36,6 @@ public class GiftSendDialog {
 
         void onSend(String gift_id);
     }
-
 
     /**
      * 从底部弹出  可选的 按钮的对话框

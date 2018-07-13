@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="@color/colorBackground"
               android:orientation="vertical"
               android:padding="@dimen/_15px">
 
@@ -12,6 +13,7 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingBottom="@dimen/_15px"
+        android:background="@drawable/side_bg_9b5ada_yj2"
         android:paddingLeft="@dimen/_45px"
         android:paddingRight="@dimen/_45px"
         android:paddingTop="@dimen/_15px">
@@ -28,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15px"
             android:text="熊猫"
-            android:textColor="@color/_a1a1a1"
+            android:textColor="@color/white"
             android:textSize="@dimen/_35px"/>
     </LinearLayout>
 </LinearLayout>

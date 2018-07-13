@@ -39,439 +39,407 @@
                     android:layout_height="60dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="40dp"
-                    android:src="@mipmap/image5"
                     app:civ_border_color="#ffffff"
                     app:civ_border_width="1dp"
                     />
 
                 <TextView
+                    android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="用户昵称"
                     android:textColor="@color/white"
                     android:textSize="@dimen/middle_size"/>
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_marginTop="30dp"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="#884496c5"/>
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_gravity="center"
-                            android:src="#4496c5"/>
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="-3dp"
-                        android:layout_marginRight="-3dp"
-                        android:layout_weight="1">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:background="@drawable/activity_vip_center_line1"
-                            />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:background="@color/_666666"
-                            android:visibility="gone"
-                            />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="#88ffffff"/>
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_gravity="center"
-                            android:src="#ffffff"/>
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="-3dp"
-                        android:layout_marginRight="-3dp"
-                        android:layout_weight="1">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:background="@drawable/activity_vip_center_line2"
-                            />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:background="@color/_666666"
-                            android:visibility="gone"
-                            />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="#88ffa234"/>
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_gravity="center"
-                            android:src="#ffa234"/>
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="-3dp"
-                        android:layout_marginRight="-3dp"
-                        android:layout_weight="1">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:background="@drawable/activity_vip_center_line3"
-                            />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:background="@color/_666666"
-                            android:visibility="gone"
-                            />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="#88e5be73"/>
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_gravity="center"
-                            android:src="#e5be73"/>
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="-3dp"
-                        android:layout_marginRight="-3dp"
-                        android:layout_weight="1">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:background="@drawable/activity_vip_center_line4"
-                            />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:background="@color/_666666"
-                            android:visibility="gone"
-                            />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="#88fd3d5c"/>
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_gravity="center"
-                            android:src="#fd3d5c"/>
-                    </FrameLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
                         android:orientation="vertical">
 
-                        <FrameLayout
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="gone">
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_marginTop="30dp"
+                            android:orientation="horizontal">
 
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:src="#884496c5"/>
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
 
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/civ_img11"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:src="#884496c5"/>
+
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/civ_img1"
+                                    android:layout_width="10dp"
+                                    android:layout_height="10dp"
+                                    android:layout_gravity="center"
+                                    android:src="#4496c5"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:src="#4496c5"/>
-                        </FrameLayout>
+                                android:layout_marginLeft="-3dp"
+                                android:layout_marginRight="-3dp"
+                                android:layout_weight="1">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="2dp"
+                                    android:background="@drawable/activity_vip_center_line1"
+                                    />
+
+                                <View
+                                    android:id="@+id/iv_img1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="2dp"
+                                    android:background="@color/_666666"
+                                    android:visibility="gone"
+                                    />
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/civ_22"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:src="#88ffffff"/>
+
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/civ_img2"
+                                    android:layout_width="10dp"
+                                    android:layout_height="10dp"
+                                    android:layout_gravity="center"
+                                    android:src="#ffffff"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="-3dp"
+                                android:layout_marginRight="-3dp"
+                                android:layout_weight="1">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="2dp"
+                                    android:background="@drawable/activity_vip_center_line2"
+                                    />
+
+                                <View
+                                    android:id="@+id/iv_img2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="2dp"
+                                    android:background="@color/_666666"
+                                    android:visibility="gone"
+                                    />
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/civ_img33"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:src="#88ffa234"/>
+
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/civ_img3"
+                                    android:layout_width="10dp"
+                                    android:layout_height="10dp"
+                                    android:layout_gravity="center"
+                                    android:src="#ffa234"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="-3dp"
+                                android:layout_marginRight="-3dp"
+                                android:layout_weight="1">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="2dp"
+                                    android:background="@drawable/activity_vip_center_line3"
+                                    />
+
+                                <View
+                                    android:id="@+id/iv_img3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="2dp"
+                                    android:background="@color/_666666"
+                                    android:visibility="gone"
+                                    />
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/civ_img44"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:src="#88e5be73"/>
+
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/civ_img4"
+                                    android:layout_width="10dp"
+                                    android:layout_height="10dp"
+                                    android:layout_gravity="center"
+                                    android:src="#e5be73"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="-3dp"
+                                android:layout_marginRight="-3dp"
+                                android:layout_weight="1">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="2dp"
+                                    android:background="@drawable/activity_vip_center_line4"
+                                    />
+
+                                <View
+                                    android:id="@+id/iv_img4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="2dp"
+                                    android:background="@color/_666666"
+                                    android:visibility="gone"
+                                    />
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/civ_img55"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:src="#88fd3d5c"/>
+
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/civ_img5"
+                                    android:layout_width="10dp"
+                                    android:layout_height="10dp"
+                                    android:layout_gravity="center"
+                                    android:src="#fd3d5c"/>
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="青铜"
-                            android:textColor="@color/qingtong"
-                            android:textSize="@dimen/middle_size"
-                            />
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="500砰砰豆"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/small_size"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
 
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="青铜"
+                                        android:textColor="@color/qingtong"
+                                        android:textSize="@dimen/middle_size"
+                                        android:textStyle="bold"
+                                        />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="2dp"
+                                        android:text="100砰砰豆"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/small_size"/>
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_weight="1"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="白银"
+                                        android:textColor="@color/baiyin"
+                                        android:textSize="@dimen/middle_size"
+                                        android:textStyle="bold"
+                                        />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="2dp"
+                                        android:text="500砰砰豆"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/small_size"/>
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_weight="1"
+                                    />
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="黄金"
+                                    android:textColor="@color/huangjin"
+                                    android:textSize="@dimen/middle_size"
+                                    android:textStyle="bold"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:text="1000砰砰豆"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/small_size"/>
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_weight="1"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="铂金"
+                                        android:textColor="@color/bojin"
+                                        android:textSize="@dimen/middle_size"
+                                        android:textStyle="bold"
+                                        />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="2dp"
+                                        android:text="5000砰砰豆"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/small_size"/>
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_weight="1"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="钻石"
+                                        android:textColor="@color/zhuanshi"
+                                        android:textSize="@dimen/middle_size"
+                                        android:textStyle="bold"
+                                        />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="2dp"
+                                        android:text="10000砰砰豆"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/small_size"/>
+
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
                     </LinearLayout>
 
                     <View
+                        android:id="@+id/top_beijing"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorBackground"
                         />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone">
-
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:src="#88ffffff"/>
-
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:layout_gravity="center"
-                                android:src="#ffffff"/>
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="白银"
-                            android:textColor="@color/baiyin"
-                            android:textSize="@dimen/middle_size"
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="500砰砰豆"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/small_size"/>
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_weight="1"
-                        />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone">
-
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:src="#88ffa234"/>
-
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:layout_gravity="center"
-                                android:src="#ffa234"/>
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="黄金"
-                            android:textColor="@color/huangjin"
-                            android:textSize="@dimen/middle_size"
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="500砰砰豆"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/small_size"/>
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_weight="1"
-                        />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone">
-
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:src="#88e5be73"/>
-
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:layout_gravity="center"
-                                android:src="#e5be73"/>
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="铂金"
-                            android:textColor="@color/bojin"
-                            android:textSize="@dimen/middle_size"
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="500砰砰豆"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/small_size"/>
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_weight="1"
-                        />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone">
-
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:src="#88fd3d5c"/>
-
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:layout_gravity="center"
-                                android:src="#fd3d5c"/>
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="钻石"
-                            android:textColor="@color/zhuanshi"
-                            android:textSize="@dimen/middle_size"
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="500砰砰豆"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/small_size"/>
-
-                    </LinearLayout>
-                </LinearLayout>
-
+                </FrameLayout>
             </LinearLayout>
         </com.ysxsoft.qxerkai.view.widget.MultipleStatusView>
     </LinearLayout>

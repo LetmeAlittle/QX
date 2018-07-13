@@ -211,13 +211,13 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
             tvNickname.setText(mInfoData.getNick_name());
             //设置关注状态
             if (mInfoData.getIs_fans() == 0) {
-                Drawable drawable = this.getResources().getDrawable(R.mipmap.ziliao_weiguanzhu);
+                Drawable drawable = this.getResources().getDrawable(R.mipmap.ziliao_guanzhu);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
                 follow = false;
 //                guanzhu_name_tv.setText("关注");
             } else {
-                Drawable drawable = this.getResources().getDrawable(R.mipmap.ziliao_guanzhu);
+                Drawable drawable = this.getResources().getDrawable(R.mipmap.ziliao_weiguanzhu);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
                 follow = true;
@@ -368,7 +368,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                         public void onNext(StandardResponse standardResponse) {
                             if (standardResponse.getStatus_code() == 200) {
                                 follow = true;
-                                Drawable drawable = NZhiLiaoActivity.this.getResources().getDrawable(R.mipmap.ziliao_guanzhu);
+                                Drawable drawable = NZhiLiaoActivity.this.getResources().getDrawable(R.mipmap.ziliao_weiguanzhu);
                                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                                 tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
                             } else {
@@ -384,7 +384,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                         public void onNext(StandardResponse standardResponse) {
                             if (standardResponse.getStatus_code() == 200) {
                                 follow = false;
-                                Drawable drawable = NZhiLiaoActivity.this.getResources().getDrawable(R.mipmap.ziliao_weiguanzhu);
+                                Drawable drawable = NZhiLiaoActivity.this.getResources().getDrawable(R.mipmap.ziliao_guanzhu);
                                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                                 tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
                             } else {

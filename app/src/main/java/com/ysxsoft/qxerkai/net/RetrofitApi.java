@@ -12,17 +12,20 @@ import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
 import com.ysxsoft.qxerkai.net.response.MyLiWuResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
+import com.ysxsoft.qxerkai.net.response.HomeItemList;
 import com.ysxsoft.qxerkai.net.response.MyLiWuResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangPublishResponse;
 import com.ysxsoft.qxerkai.net.response.TwoPageTuiJianResponse;
+import com.ysxsoft.qxerkai.net.response.UserXiaoFeiNum;
 
 import java.util.Map;
 
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -38,6 +41,7 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_ADD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_START;
+import static com.ttt.qx.qxcall.constant.CommonConstant.HOME_ITEM_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.MY_CARD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.NOTICE_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.PUSH_COMMENT;
@@ -52,6 +56,7 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.TWO_PAGE_USER_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_GUARDS_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_MY_LIWU;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_SHOUHU;
+import static com.ttt.qx.qxcall.constant.CommonConstant.USER_XIAO_FEI_NUM;
 
 public interface RetrofitApi {
 
@@ -276,10 +281,28 @@ public interface RetrofitApi {
 
     /**
      * 获取我的礼物列表
+     *
      * @param map
      * @return
      */
     @FormUrlEncoded
     @POST(USER_MY_LIWU)
-    Observable<MyLiWuResponse> getMyLiWuList(@FieldMap Map<String,String> map);
+    Observable<MyLiWuResponse> getMyLiWuList(@FieldMap Map<String, String> map);
+
+    /**
+     * 获取用户消费的豆子数
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(USER_XIAO_FEI_NUM)
+    Observable<UserXiaoFeiNum> getUserXiaoFei(@FieldMap Map<String, String> map);
+    /**
+     * 获取用户消费的豆子数
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(HOME_ITEM_LIST)
+    Observable<HomeItemList> getHomeItemList(@FieldMap Map<String, String> map);
 }

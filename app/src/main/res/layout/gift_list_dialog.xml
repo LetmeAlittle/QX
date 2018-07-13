@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="@color/_ffffff"
+              android:background="@color/colorBackground"
               android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/_f0f0f0"
+        android:background="@color/colorBackground"
         android:padding="@dimen/_15px">
 
         <ImageView
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@mipmap/zuanshi_iv"/>
+            android:src="@mipmap/pengpengdou_small"/>
 
         <TextView
             android:id="@+id/gift_price_tv"
@@ -34,7 +34,7 @@
             android:layout_marginLeft="@dimen/_15px"
             android:layout_toRightOf="@id/zuanshi_iv"
             android:text=""
-            android:textColor="@color/_9b5ada"/>
+            android:textColor="@color/colorAccent"/>
 
         <TextView
             android:id="@+id/send_tv"
@@ -42,11 +42,11 @@
             android:layout_height="@dimen/_80px"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/fill_bg_9b5ada_yj"
+            android:background="@drawable/activity_register_button_click"
             android:gravity="center"
             android:text="赠送"
             android:textColor="@color/_ffffff"
-            android:textSize="@dimen/_45px"/>
+            android:textSize="@dimen/middle_size"/>
     </RelativeLayout>
 
 </LinearLayout>

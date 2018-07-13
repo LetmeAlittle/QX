@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/_2A273C"
+    android:background="@color/colorBackground"
     android:orientation="vertical">
 
     <LinearLayout
@@ -33,7 +33,7 @@
                     android:id="@+id/notify_type_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="确幸礼物通知"
+                    android:text="礼物通知"
                     android:textColor="@color/_ffffff"
                     android:textSize="@dimen/_38px" />
 
@@ -55,7 +55,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_35px"
-            android:text="啊说得来咖啡碱哈撒更加宽大"
             android:textColor="@color/_ffffff"
             android:textSize="@dimen/_36px" />
     </LinearLayout>

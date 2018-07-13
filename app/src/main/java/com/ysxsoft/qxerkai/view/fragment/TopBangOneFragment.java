@@ -93,7 +93,7 @@ public class TopBangOneFragment extends BaseFragment implements BaseQuickAdapter
         swipeTarget.setAdapter(adapter);
 
         Bundle bundle = getArguments();
-        if (bundle != null){
+        if (bundle != null) {
             type = bundle.getString("type");
         }
     }
@@ -125,6 +125,7 @@ public class TopBangOneFragment extends BaseFragment implements BaseQuickAdapter
             @Override
             public void onSuccess(HaoYouListResponse response, int code, String msg) {
                 multipleStatusView.hideLoading();
+                adapter.loadMoreComplete();
                 if (code == 200) {
                     List<HaoYouListResponse.DataBeanX.DataBean> data = response.getData().getData();
                     if (pageIndex == 1) {
@@ -150,7 +151,7 @@ public class TopBangOneFragment extends BaseFragment implements BaseQuickAdapter
             @Override
             public void onFailed(Throwable e) {
                 multipleStatusView.hideLoading();
-
+                adapter.loadMoreComplete();
             }
 
             @Override

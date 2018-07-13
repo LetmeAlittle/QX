@@ -23,6 +23,6 @@ public class MyLiWuBangAdapter extends BaseQuickAdapter<MyLiWuResponse.DataBeanX
         ImageView ivLiwu=helper.getView(R.id.iv_liwu);
         TextView tvNum=helper.getView(R.id.tv_num);
         Glide.with(mContext).load(item.getGift_img()).into(ivLiwu);
-        tvNum.setText(item.getGift_num());
+        tvNum.setText(""+item.getCnt());
     }
 }

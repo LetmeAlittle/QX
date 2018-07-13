@@ -34,6 +34,9 @@ import com.ttt.qx.qxcall.pager.BasePager;
 import com.ttt.qx.qxcall.utils.CustomAlertDialogUtil;
 import com.ttt.qx.qxcall.utils.IntentUtil;
 import com.ttt.qx.qxcall.widget.viewhelper.TabLayoutHelper;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.HomeItemList;
 import com.ysxsoft.qxerkai.utils.DimenUtils;
 import com.ysxsoft.qxerkai.utils.LogUtils;
 import com.ysxsoft.qxerkai.utils.SystemUtils;
@@ -50,6 +53,7 @@ import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 import com.ysxsoft.qxerkai.view.widget.MyScrollView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -130,11 +134,11 @@ public class OnePage extends BasePager implements View.OnClickListener {
     }
 
     //不同分类对应的id，这里写成了死的。
-    private String xiaojiejie="46"; //小姐姐
-    private String xiaogege="45";   //小哥哥
-    private String yujie="48";        //御姐
-    private String dashu="47";        //大叔
-    private String shengyou="49";     //声优
+    private String xiaojiejie = "46"; //小姐姐
+    private String xiaogege = "45";   //小哥哥
+    private String yujie = "48";        //御姐
+    private String dashu = "47";        //大叔
+    private String shengyou = "49";     //声优
 
     @Override
     public View initView() {
@@ -211,10 +215,10 @@ public class OnePage extends BasePager implements View.OnClickListener {
                     IntentUtil.jumpIntent(ctx, NLoginActivity.class);
                     return;
                 }
-                UserListInfo.DataBean.ListBean data=adapter1.getData().get(position);
+                HomeItemList.DataBeanX.ListsBean.DataBean data = adapter1.getData().get(position);
                 ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class)
-                        .putExtra("id",data.getId())
-                        .putExtra("accid",data.getWy_acid()));
+                        .putExtra("id", data.getId())
+                        .putExtra("accid", data.getWy_acid()));
             }
         });
         adapter2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -224,10 +228,10 @@ public class OnePage extends BasePager implements View.OnClickListener {
                     IntentUtil.jumpIntent(ctx, NLoginActivity.class);
                     return;
                 }
-                UserListInfo.DataBean.ListBean data=adapter2.getData().get(position);
+                HomeItemList.DataBeanX.ListsBean.DataBean data = adapter2.getData().get(position);
                 ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class)
-                        .putExtra("id",data.getId())
-                        .putExtra("accid",data.getWy_acid()));
+                        .putExtra("id", data.getId())
+                        .putExtra("accid", data.getWy_acid()));
             }
         });
         adapter3.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -237,10 +241,10 @@ public class OnePage extends BasePager implements View.OnClickListener {
                     IntentUtil.jumpIntent(ctx, NLoginActivity.class);
                     return;
                 }
-                UserListInfo.DataBean.ListBean data=adapter3.getData().get(position);
+                HomeItemList.DataBeanX.ListsBean.DataBean data = adapter3.getData().get(position);
                 ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class)
-                        .putExtra("id",data.getId())
-                        .putExtra("accid",data.getWy_acid()));
+                        .putExtra("id", data.getId())
+                        .putExtra("accid", data.getWy_acid()));
             }
         });
         adapter4.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -250,10 +254,10 @@ public class OnePage extends BasePager implements View.OnClickListener {
                     IntentUtil.jumpIntent(ctx, NLoginActivity.class);
                     return;
                 }
-                UserListInfo.DataBean.ListBean data=adapter4.getData().get(position);
+                HomeItemList.DataBeanX.ListsBean.DataBean data = adapter4.getData().get(position);
                 ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class)
-                        .putExtra("id",data.getId())
-                        .putExtra("accid",data.getWy_acid()));
+                        .putExtra("id", data.getId())
+                        .putExtra("accid", data.getWy_acid()));
             }
         });
         adapter5.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -263,10 +267,10 @@ public class OnePage extends BasePager implements View.OnClickListener {
                     IntentUtil.jumpIntent(ctx, NLoginActivity.class);
                     return;
                 }
-                UserListInfo.DataBean.ListBean data=adapter5.getData().get(position);
+               HomeItemList.DataBeanX.ListsBean.DataBean data = adapter5.getData().get(position);
                 ctx.startActivity(new Intent(ctx, NZhiLiaoActivity.class)
-                        .putExtra("id",data.getId())
-                        .putExtra("accid",data.getWy_acid()));
+                        .putExtra("id", data.getId())
+                        .putExtra("accid", data.getWy_acid()));
             }
         });
     }
@@ -278,11 +282,7 @@ public class OnePage extends BasePager implements View.OnClickListener {
     @Override
     public void initData() {
 //        initContent();
-        initItemData(xiaojiejie); //小姐姐
-        initItemData(xiaogege); //小哥哥
-        initItemData(yujie); //御姐
-        initItemData(dashu); //大叔
-        initItemData(shengyou); //声优
+        initItemData(); //小姐姐
         tvGonggao.setSelected(true);
         scrollView.setOnScrollListener(new MyScrollView.OnScrollListener() {
             @Override
@@ -299,32 +299,32 @@ public class OnePage extends BasePager implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         String title = "";
-        String tag="";
+        String tag = "";
         switch (view.getId()) {
             case R.id.ll_xiaoxiannv:
                 title = "小姐姐";
-                tag=xiaojiejie;
+                tag = xiaojiejie;
                 break;
             case R.id.ll_xiaogege:
                 title = "小哥哥";
-                tag=xiaogege;
+                tag = xiaogege;
                 break;
             case R.id.ll_yujie:
                 title = "御姐";
-                tag=yujie;
+                tag = yujie;
                 break;
             case R.id.ll_dashu:
                 title = "大叔";
-                tag=dashu;
+                tag = dashu;
                 break;
             case R.id.ll_shengyou:
                 title = "声优";
-                tag=shengyou;
+                tag = shengyou;
                 break;
         }
         ctx.startActivity(new Intent(ctx, NOneFragmentMoreActivity.class)
                 .putExtra("title", title)
-                .putExtra("tag",tag));
+                .putExtra("tag", tag));
     }
 
     private class ItemClickListener implements View.OnClickListener {
@@ -360,14 +360,14 @@ public class OnePage extends BasePager implements View.OnClickListener {
         }
     }
 
-    private class YongHuAdapter extends BaseQuickAdapter<UserListInfo.DataBean.ListBean, BaseViewHolder> {
+    private class YongHuAdapter extends BaseQuickAdapter<HomeItemList.DataBeanX.ListsBean.DataBean, BaseViewHolder> {
 
         public YongHuAdapter(int layoutResId) {
             super(layoutResId);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, UserListInfo.DataBean.ListBean item) {
+        protected void convert(BaseViewHolder helper, HomeItemList.DataBeanX.ListsBean.DataBean item) {
             FrameLayout flBg = helper.getView(R.id.fl_bg);
             int bgWidth = (int) SystemUtils.getScreenWidth(activity) / 2 - DimenUtils.dp2px(ctx, 17.5f);
             flBg.setLayoutParams(new LinearLayout.LayoutParams(bgWidth, bgWidth / 34 * 45));
@@ -384,11 +384,11 @@ public class OnePage extends BasePager implements View.OnClickListener {
             name.setText(item.getNick_name());
             TextView age = helper.getView(R.id.tv_age);
             age.setText(item.getMember_age());
-            if(item.getMember_sex().equals("1")){
+            if (item.getMember_sex().equals("1")) {
                 age.setTextColor(mContext.getResources().getColor(R.color.sex_nan));
-            }else if(item.getMember_sex().equals("2")){
+            } else if (item.getMember_sex().equals("2")) {
                 age.setTextColor(mContext.getResources().getColor(R.color.sex_nv));
-            }else {
+            } else {
                 age.setTextColor(mContext.getResources().getColor(R.color.black));
             }
             TextView price = helper.getView(R.id.tv_price);
@@ -423,46 +423,30 @@ public class OnePage extends BasePager implements View.OnClickListener {
 
     /**
      * 初始化数据
-     *
-     * @param tag 分类的ID
      */
-    private void initItemData(String tag) {
+    private void initItemData() {
         multipleStatusView.showLoading();
-        HomeModel.getHomeModel().getUserList(new Subscriber<UserListInfo>() {
-            @Override
-            public void onCompleted() {
-                multipleStatusView.hideLoading();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                multipleStatusView.hideLoading();
-            }
-
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onNext(UserListInfo userListInfo) {
-                if (userListInfo.getStatus_code() == 200) {
-                    ArrayList<UserListInfo.DataBean.ListBean> temp = new ArrayList<>();
-                    if (userListInfo.getData().getList().size() > 4) {
-                        temp.addAll(userListInfo.getData().getList().subList(0, 4));
-                    } else {
-                        temp.addAll(userListInfo.getData().getList());
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("class", "1");
+        RetrofitTools.getHomeItemList(hashMap)
+                .subscribe(new ResponseSubscriber<HomeItemList>() {
+                    @Override
+                    public void onSuccess(HomeItemList homeItemList, int code, String msg) {
+                        multipleStatusView.hideLoading();
+                        if(homeItemList.getStatus_code()==200){
+                            adapter1.setNewData(homeItemList.getData().get(0).getLists().getData());
+                            adapter2.setNewData(homeItemList.getData().get(1).getLists().getData());
+                            adapter3.setNewData(homeItemList.getData().get(2).getLists().getData());
+                            adapter4.setNewData(homeItemList.getData().get(3).getLists().getData());
+                            adapter5.setNewData(homeItemList.getData().get(4).getLists().getData());
+                        }
                     }
-                    if(tag.equals(xiaojiejie)){
-                        adapter1.setNewData(temp);
-                    }else if(tag.equals(xiaogege)){
-                        adapter2.setNewData(temp);
-                    }else if(tag.equals(yujie)){
-                        adapter3.setNewData(temp);
-                    }else if(tag.equals(dashu)){
-                        adapter4.setNewData(temp);
-                    }else if(tag.equals(shengyou)){
-                        adapter5.setNewData(temp);
+
+                    @Override
+                    public void onFailed(Throwable e) {
+                        multipleStatusView.hideLoading();
                     }
-                }
-            }
-        }, tag, "0", "1", authorization);
+                });
     }
 
 }

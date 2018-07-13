@@ -67,7 +67,7 @@ public class SendGiftListAdapter extends RecyclerView.Adapter<SendGiftListAdapte
         if (giftSelectMap.get(gift_id)) {
             holder.item_ll.setBackgroundResource(R.drawable.side_bg_9b5ada_yj);
         } else {
-            holder.item_ll.setBackgroundColor(context.getResources().getColor(R.color._ffffff));
+            holder.item_ll.setBackgroundResource(R.drawable.side_bg_9b5ada_yj2);
         }
         holder.item_ll.setOnClickListener(new View.OnClickListener() {
             @Override
