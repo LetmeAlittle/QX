@@ -9,6 +9,7 @@ import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
+import com.ysxsoft.qxerkai.net.response.HomeItemList;
 import com.ysxsoft.qxerkai.net.response.MyLiWuResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
@@ -356,4 +357,15 @@ public class RetrofitTools {
     public static Observable<UserXiaoFeiNum> getUserXiaoFei(Map<String, String> map) {
         return subscribe(RetrofitTools.getManager().getUserXiaoFei(map));
     }
+
+    /**
+     * 获取首页用户列表
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<HomeItemList> getHomeItemList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getHomeItemList(map));
+    }
+
 }

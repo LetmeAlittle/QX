@@ -8,6 +8,7 @@ import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
+import com.ysxsoft.qxerkai.net.response.HomeItemList;
 import com.ysxsoft.qxerkai.net.response.MyLiWuResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
@@ -33,6 +34,7 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_ADD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_DETAIL;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIKE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.HOME_ITEM_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.MY_CARD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.NOTICE_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.PUSH_COMMENT;
@@ -259,4 +261,12 @@ public interface RetrofitApi {
     @FormUrlEncoded
     @POST(USER_XIAO_FEI_NUM)
     Observable<UserXiaoFeiNum> getUserXiaoFei(@FieldMap Map<String, String> map);
+    /**
+     * 获取用户消费的豆子数
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(HOME_ITEM_LIST)
+    Observable<HomeItemList> getHomeItemList(@FieldMap Map<String, String> map);
 }

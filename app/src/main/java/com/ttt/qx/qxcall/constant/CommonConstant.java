@@ -108,4 +108,5 @@ public class CommonConstant {
     public static final String USER_GUARDS_LIST = "api/friend/guards"; //守护列表
     public static final String USER_MY_LIWU = "api/friend/gift_top_my";//我的礼物列表
     public static final String USER_XIAO_FEI_NUM = "api/xiaofeicnt";//用户消费的砰砰豆数量
+    public static final String HOME_ITEM_LIST = "api/home";//首页用户列表
 }
