@@ -20,6 +20,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.function.home.model.HomeModel;
+import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
 import com.ttt.qx.qxcall.function.listen.model.StealListenModel;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 import com.ttt.qx.qxcall.function.voice.AVChatActivity;
@@ -121,7 +123,6 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
         initStatusBar(statusBar);
         initTitleBar();
         initRv();
-
         ObserverMap.reg(activity.getClass().getSimpleName(), this);
         return rootView;
     }
@@ -344,7 +345,7 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
                                 ToastUtils.showToast(activity, standardResponse.getMessage(), 0);
                             }
                         }
-                    }, String.valueOf(item.getId()),  "Bearer "+DBUtils.getUserToken());
+                    }, String.valueOf(item.getId()), "Bearer " + DBUtils.getUserToken());
 //                    }, String.valueOf("10195"),  "Bearer "+DBUtils.getUserToken());
 //                    }, String.valueOf("10195"),  "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTE2LjYyLjIxNy4xODMvYXBpL3VzZXIvbG9naW4iLCJpYXQiOjE1MzA3Nzk5NjIsIm5iZiI6MTUzMDc3OTk2MiwianRpIjoiWUx6V2x0MVNUdUZBaTZlVCIsInN1YiI6MTAxOTUsInBydiI6ImFmZDBmZDliZGQ5YWM3MmZmMzk4MzQxZjFkNjI4NDBjYmY0YzcxNjcifQ.TUr5VrjwTtGu74_unrDiiaSatHC42ILiYeK059A76B8");
                 }
@@ -374,7 +375,28 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
      */
     private void getNotice() {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("type", type);//1老司机开车 2闺蜜私房话 3两性研究所 4剧本专区 5撩妹区 6撩汉区
+
+        //1老司机开车 2闺蜜私房话 3两性研究所 4剧本专区 5撩妹区 6撩汉区
+
+        boolean needRequest = true;
+        switch (type) {
+            case "1"://老司机开车
+                map.put("type", "2");//2老司机开车 3闺蜜私房话 4两性研究所
+                break;
+            case "2"://闺蜜私房话
+                map.put("type", "3");//2老司机开车 3闺蜜私房话 4两性研究所
+                break;
+            case "3"://两性研究所
+                map.put("type", "4");//2老司机开车 3闺蜜私房话 4两性研究所
+                break;
+            case "4"://4剧本专区
+                tvGonggao.setText(StringUtils.convert("暂无公告"));
+                needRequest = false;
+                break;
+        }
+        if(!needRequest){//剧本专区没有公告 暂时不用
+           return;
+        }
         RetrofitTools.getNoticeList(map)
                 .subscribe(new ResponseSubscriber<GetNoticeListResponse>() {
                     @Override

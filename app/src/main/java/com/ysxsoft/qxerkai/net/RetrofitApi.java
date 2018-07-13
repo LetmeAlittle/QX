@@ -4,9 +4,13 @@ package com.ysxsoft.qxerkai.net;
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
+import com.ysxsoft.qxerkai.net.response.GetHuaTiListResponse;
+import com.ysxsoft.qxerkai.net.response.GetHuaTiListResponse;
 import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
+import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
+import com.ysxsoft.qxerkai.net.response.MyLiWuResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
 import com.ysxsoft.qxerkai.net.response.MyLiWuResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
@@ -31,6 +35,9 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_ADD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_DETAIL;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIKE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_ADD;
+import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_START;
 import static com.ttt.qx.qxcall.constant.CommonConstant.MY_CARD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.NOTICE_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.PUSH_COMMENT;
@@ -206,7 +213,35 @@ public interface RetrofitApi {
     @POST(TWO_PAGE_USER_LIST)
     Observable<TwoPageTuiJianResponse> getTuiJianList(@FieldMap Map<String, String> map);
 
+    /**
+     * 获取漂浮的话题
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(HUA_TI_LIST)
+    Observable<GetHuaTiListResponse> getHuaTiList(@FieldMap Map<String, String> map);
 
+    /**
+     * 发表话题
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(HUA_TI_ADD)
+    Observable<BaseResponse> addHuaTi(@FieldMap Map<String, String> map);
+
+    /**
+     * 发表话题
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(HUA_TI_START)
+    Observable<BaseResponse> huaTiStart(@FieldMap Map<String, String> map);
 
     /**
      * 获取附近的人列表  私人定制

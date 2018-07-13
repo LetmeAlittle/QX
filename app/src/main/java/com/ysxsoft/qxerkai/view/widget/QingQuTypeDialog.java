@@ -1,41 +1,22 @@
 package com.ysxsoft.qxerkai.view.widget;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ttt.qx.qxcall.R;
-import com.ttt.qx.qxcall.utils.IntentUtil;
-import com.ttt.qx.qxcall.utils.SystemUtil;
-import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
-import com.ysxsoft.qxerkai.utils.DBUtils;
-import com.ysxsoft.qxerkai.utils.DimenUtils;
 import com.ysxsoft.qxerkai.utils.StringUtils;
 import com.ysxsoft.qxerkai.utils.SystemUtils;
-import com.ysxsoft.qxerkai.view.activity.NPersonCenterActivity;
-import com.ysxsoft.qxerkai.view.activity.NQingQuDetailActivity;
-import com.ysxsoft.qxerkai.view.activity.NZhiLiaoActivity;
 
 import java.util.ArrayList;
 
@@ -87,7 +68,7 @@ public class QingQuTypeDialog extends Dialog {
     }
 
     private View initView() {
-        View view = View.inflate(context, R.layout.pop_xiao_qing_qu_select_type, null);
+        View view = View.inflate(context, R.layout.dialog_xiao_qing_qu_select_type, null);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         initRecyclerView(recyclerView);
         TextView cancel = (TextView) view.findViewById(R.id.cancel);

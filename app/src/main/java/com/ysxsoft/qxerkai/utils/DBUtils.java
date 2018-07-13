@@ -26,7 +26,7 @@ public class DBUtils {
         UserDao userDao = new UserDao();
         UserBean userBean = userDao.queryFirstData();
         if (userBean != null && userBean.getToken() != null) {
-            userToken = "" + userBean.getWy_token();
+            userToken = "" + userBean.getToken();
         } else {
             userToken = "";
         }

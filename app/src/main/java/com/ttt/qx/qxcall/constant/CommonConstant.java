@@ -87,6 +87,9 @@ public class CommonConstant {
     public static final String MY_CARD="api/friend/myCard";                                 //撩人区列表  user_id page
     public static final String CARD_ADD="api/friend/pushcard";                             //发表帖子 user_id content title  type
     public static final String TWO_PAGE_USER_LIST="api/tuijian";                            //Tab2 推荐用户列表
+    public static final String HUA_TI_LIST="api/gambitList";                                 //漂浮的话题 page
+    public static final String HUA_TI_ADD="api/push_gambit";                             //抛话题  user_id num[砰砰豆] title[话题标题]
+    public static final String HUA_TI_START="/api/gambitStart";                               //抢话题/继续聊  user_id gid
 
 
 

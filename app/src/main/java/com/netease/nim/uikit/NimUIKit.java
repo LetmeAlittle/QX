@@ -194,6 +194,16 @@ public final class NimUIKit {
     }
 
     /**
+     * 带话题过去至聊天消息
+     *
+     * @param context
+     * @param account
+     */
+    public static void startP2PSessionWithTitle(Context context, String account, String icon, String name, String title,int isVip,int num) {
+        P2PMessageActivity.startByHuaTi(context, account, icon, name, title,isVip,num, commonP2PSessionCustomization, null);
+    }
+
+    /**
      * 同 {@link NimUIKit#startP2PSession(Context, String)},同时聊天界面打开后，列表跳转至anchor位置
      *
      * @param context 上下文

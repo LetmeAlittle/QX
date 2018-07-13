@@ -146,6 +146,7 @@ public class LiaoHanQuActivity extends NBaseActivity implements BaseQuickAdapter
             @Override
             public void onSuccess(GetCardListResponse getCardListResponse, int code, String msg) {
                 multipleStatusView.hideLoading();
+                adapter.loadMoreComplete();
                 if (code == 200) {
                     if (getCardListResponse != null && getCardListResponse.getData() != null && getCardListResponse.getData().getList() != null) {
                         fillData(getCardListResponse.getData().getList());
@@ -161,6 +162,7 @@ public class LiaoHanQuActivity extends NBaseActivity implements BaseQuickAdapter
             @Override
             public void onFailed(Throwable e) {
                 multipleStatusView.hideLoading();
+                adapter.loadMoreComplete();
             }
 
             @Override

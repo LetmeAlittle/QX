@@ -48,6 +48,33 @@ public class P2PMessageActivity extends BaseMessageActivity {
         context.startActivity(intent);
     }
 
+    /**
+     * 抛话题点头像进去
+     * @param context
+     * @param contactId
+     * @param customization
+     * @param anchor
+     */
+    public static void startByHuaTi(Context context,String contactId,String icon,String name,String title,int isVip,int num, SessionCustomization customization, IMMessage anchor) {
+        Intent intent = new Intent();
+        intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
+        intent.putExtra(Extras.EXTRA_CUSTOMIZATION, customization);
+        intent.putExtra("icon",icon);
+        intent.putExtra("name",name);
+        intent.putExtra("title",title);
+        intent.putExtra("isVip",isVip);
+        intent.putExtra("num",num);
+
+        if (anchor != null) {
+            intent.putExtra(Extras.EXTRA_ANCHOR, anchor);
+        }
+        intent.setClass(context, P2PMessageActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        context.startActivity(intent);
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

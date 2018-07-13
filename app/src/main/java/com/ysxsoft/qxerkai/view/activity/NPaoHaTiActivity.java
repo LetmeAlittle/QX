@@ -1,6 +1,7 @@
 package com.ysxsoft.qxerkai.view.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnticipateInterpolator;
@@ -10,8 +11,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.database.UserDao;
+import com.ttt.qx.qxcall.dbbean.UserBean;
+import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.BaseResponse;
+import com.ysxsoft.qxerkai.net.response.GetHuaTiListResponse;
+import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
+import com.ysxsoft.qxerkai.view.widget.PublishHuaTiDialog;
 import com.ysxsoft.qxerkai.view.widget.XCDanmuView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,7 +63,6 @@ public class NPaoHaTiActivity extends NBaseActivity {
         initStatusBar(statusBar);
         initTitleBar();
         initView();
-        initDanMu();
         initData();
     }
 
@@ -66,7 +80,7 @@ public class NPaoHaTiActivity extends NBaseActivity {
         llPublicTitlebarRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                showDialog();//发布话题
             }
         });
         tvPublicTitlebarCenter.setText("抛话题");
@@ -83,22 +97,81 @@ public class NPaoHaTiActivity extends NBaseActivity {
         ivXin.startAnimation(animation);//开始动画
     }
 
-    private void initDanMu() {
-        mStrItems=new String[20];
-        for(int i=0;i<20;i++){
-            mStrItems[i]="话题名称话题名称话题"+i;
-        }
-        xcDanmuView.initDanmuItemViews(mStrItems);
+    private void initDanMu(List<GetHuaTiListResponse.DataBeanX.DataBean> list) {
+//        mStrItems=new String[list.size()];
+//        for (int i = 0; i < list.size(); i++) {
+//            mStrItems[i]=list.get(i).get
+//        }
+//        mStrItems = new String[20];
+//        for (int i = 0; i < 20; i++) {
+//             = "话题名称话题名称话题" + i;
+//        }
+        xcDanmuView.initDanmuItemViews(list);
         xcDanmuView.start();
     }
 
     private void initData() {
-
+        getList();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         xcDanmuView.stop();
+    }
+
+    /**
+     * 获取漂浮的话题
+     */
+    private void getList() {
+        Map<String, String> map = new HashMap<>();
+//        map.put("page", "1");
+        RetrofitTools.getHuaTiList(map)
+                .subscribe(new ResponseSubscriber<GetHuaTiListResponse>() {
+                    @Override
+                    public void onSuccess(GetHuaTiListResponse ruleResponse, int code, String msg) {
+                        if (code == 200) {
+                            if (ruleResponse.getData() == null) {
+                                return;
+                            }
+                            List<GetHuaTiListResponse.DataBeanX.DataBean> list = ruleResponse.getData().getData();
+                            if (list == null) {
+                                return;
+                            }
+                            size=list.size();
+                            initDanMu(list);
+                        } else {
+                            ToastUtil.showToast(NPaoHaTiActivity.this, msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+                    }
+                });
+    }
+
+    private int size;
+
+
+    private void showDialog() {
+        PublishHuaTiDialog dialog = new PublishHuaTiDialog(this, R.style.dialogHuaTiStyle);
+        dialog.show(new PublishHuaTiDialog.OnHuaTiDialogListener() {
+            @Override
+            public void publish(String title,String selectedNum) {
+                GetHuaTiListResponse.DataBeanX.DataBean data = new GetHuaTiListResponse.DataBeanX.DataBean();
+                UserDao userDao = new UserDao();
+                UserBean userBean = userDao.queryFirstData();
+                data.setIcon(userBean.getMember_avatar());
+                data.setGid(userBean.getId());
+                data.setNick_name(userBean.getNick_name());
+                data.setTitle(title);
+                data.setIs_vip(userBean.getLevel().equals("0")?0:1);//是否是vip
+                data.setNum(Integer.parseInt(selectedNum));//砰砰豆
+
+                xcDanmuView.createDanmuView(0, data);
+                xcDanmuView.requestLayout();
+            }
+        });
     }
 }

@@ -407,6 +407,8 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
             @Override
             public void onSuccess(GetCardDetailResponse getCardDetailResponse, int code, String msg) {
                 multipleStatusView.hideLoading();
+                adapter.loadMoreComplete();
+
                 if (code == 200) {
 
                     if (getCardDetailResponse.getData() == null) return;
@@ -438,6 +440,7 @@ public class NQingQuDetailActivity extends NBaseActivity implements BaseQuickAda
 
             @Override
             public void onFailed(Throwable e) {
+                adapter.loadMoreComplete();
                 multipleStatusView.hideLoading();
             }
 

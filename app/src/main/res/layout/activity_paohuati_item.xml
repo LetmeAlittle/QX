@@ -6,66 +6,67 @@
               android:orientation="vertical">
 
     <FrameLayout
-        android:id="@+id/fl_bg"
-        android:clickable="true"
+    android:id="@+id/fl_bg"
+    android:clickable="true"
+    android:layout_width="wrap_content"
+    android:layout_height="70dp">
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="70dp">
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/activity_paohuati_item_bg"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/logo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@drawable/activity_paohuati_item_bg"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="bottom"
-                android:src="@mipmap/image4"/>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:orientation="vertical">
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="话题名称话题名称话题"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/middle_size"/>
 
-                <TextView
-                    android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="话题名称话题名称话题"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/middle_size"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="6砰砰豆"
-                    android:textColor="#feeb18"
-                    android:textSize="@dimen/middle_size"/>
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="6砰砰豆"
+                android:textColor="#feeb18"
+                android:textSize="@dimen/middle_size"/>
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_vip"
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
-            android:layout_marginLeft="1.5dp"
-            android:background="@mipmap/activity_paohuati_vip">
+    </LinearLayout>
 
-        </ImageView>
+    <ImageView
+        android:id="@+id/iv_vip"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:layout_marginLeft="1.5dp"
+        android:background="@mipmap/activity_paohuati_vip">
 
-    </FrameLayout>
+    </ImageView>
+
+</FrameLayout>
 
 </LinearLayout>

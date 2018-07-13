@@ -13,13 +13,13 @@
         android:layout_height="@dimen/zero_dp"
         android:layout_weight="1"
       >
-
         <com.netease.nim.uikit.session.helper.MsgBkImageView
             android:id="@+id/message_activity_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
         <LinearLayout
+            android:id="@+id/msgLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -77,6 +77,73 @@
             </LinearLayout>
         </FrameLayout>
 
+        <!--话题布局start-->
+        <FrameLayout
+            android:id="@+id/fl_bg"
+            android:clickable="true"
+            android:focusable="false"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@drawable/activity_paohuati_item_bg2"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="bottom" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="话题名称话题名称话题"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="6砰砰豆"
+                        android:textColor="#feeb18"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_vip"
+                android:layout_width="wrap_content"
+                android:layout_height="65dp"
+                android:layout_marginLeft="1.5dp"
+                android:background="@drawable/activity_paohuati_vip2">
+
+            </ImageView>
+
+        </FrameLayout>
+        <!--话题布局end-->
     </FrameLayout>
     <include layout="@layout/nim_message_activity_bottom_layout" />
 </LinearLayout>

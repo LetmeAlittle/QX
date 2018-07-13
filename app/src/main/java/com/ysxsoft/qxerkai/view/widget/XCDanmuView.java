@@ -26,32 +26,47 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.BaseResponse;
+import com.ysxsoft.qxerkai.net.response.GetHuaTiListResponse;
+import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.DimenUtils;
 import com.ysxsoft.qxerkai.utils.LogUtils;
 import com.ysxsoft.qxerkai.utils.SystemUtils;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.utils.ZPUtils;
+import com.ysxsoft.qxerkai.view.activity.NZhiLiaoActivity;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by caizhiming on 2015/10/11.
- *
  */
 public class XCDanmuView extends RelativeLayout {
     private int mScreenWidth;
     private List<View> mChildList;
     private boolean mIsWorking = false;
     private Context mContext;
-    private int mDelayDuration = 500;
+    private int mDelayDuration = 1000;
     private int animationDuration = 10000;
+    private int animationHalfDuration = 10000;
     private Random mRandom;
+
+    private boolean isFirst = true;
 
     public XCDanmuView(Context context) {
         this(context, null, 0);
@@ -83,7 +98,72 @@ public class XCDanmuView extends RelativeLayout {
         }
     }
 
+    public void initDanmuItemViews(List<GetHuaTiListResponse.DataBeanX.DataBean> list) {
+        for (int i = 0; i < list.size(); i++) {
+            createDanmuView(i, list.get(i));
+        }
+    }
+
     private ArrayList<Integer> containRow = new ArrayList<>();
+
+    public void createDanmuView(int index, GetHuaTiListResponse.DataBeanX.DataBean data) {
+        View genView = View.inflate(mContext, R.layout.activity_paohuati_item, null);
+        TextView title = (TextView) genView.findViewById(R.id.tv_title);
+        TextView price = (TextView) genView.findViewById(R.id.price);
+        title.setText(ZPUtils.subString(data.getTitle(), 8));
+        price.setText(data.getNum() + "砰砰豆/分钟");
+        de.hdodenhof.circleimageview.CircleImageView logo = (CircleImageView) genView.findViewById(R.id.logo);
+        Glide.with(mContext).load(data.getIcon()).into(logo);//发表人头像
+
+        int mRowNum = (getScreenHight() - DimenUtils.dp2px(mContext, 50)) / DimenUtils.dp2px(mContext, 110);
+        ImageView ivVIP = (ImageView) genView.findViewById(R.id.iv_vip);
+        int row = mRandom.nextInt(mRowNum);
+        if (containRow.size() >= mRowNum) {
+            row = containRow.get(index % mRowNum);
+        } else {
+            while (containRow.contains(row)) {
+                row = mRandom.nextInt(mRowNum);
+            }
+        }
+        if (data.getIs_vip() == 0) {//不是vip
+            ivVIP.setVisibility(View.INVISIBLE);
+        } else {
+            ivVIP.setVisibility(View.VISIBLE);
+        }
+        containRow.add(row);
+        RelativeLayout.LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        lp.topMargin = row * DimenUtils.dp2px(mContext, 110);
+        genView.setLayoutParams(lp);
+
+        genView.findViewById(R.id.fl_bg).setTag(data.getUser_id());//传输用户id
+        genView.findViewById(R.id.fl_bg).setOnClickListener(new ViewClick(data));
+        this.addView(genView);
+        mChildList.add(index, genView);
+    }
+
+    class ViewClick implements View.OnClickListener {
+        private GetHuaTiListResponse.DataBeanX.DataBean data;
+
+        public ViewClick(GetHuaTiListResponse.DataBeanX.DataBean data) {
+            this.data = data;
+        }
+
+        @Override
+        public void onClick(View v) {
+            String userId = "" + (int) v.getTag();
+            String dbUserId = DBUtils.getUserId();
+            if (userId != null) {
+                if (userId.equals(dbUserId)) {
+                    ToastUtil.showToast(mContext, "不能抢聊自己的话题");
+                } else {
+                    startHuaTi(data, (int) v.getTag());
+//                    NimUIKit.startP2PSessionWithTitle(mContext, "" + tag, data.getIcon(), data.getNick_name(), data.getTitle(), data.getIs_vip(), data.getNum());
+                }
+            }
+
+        }
+    }
 
     public void createDanmuView(int index, String content) {
         View genView = View.inflate(mContext, R.layout.activity_paohuati_item, null);
@@ -134,7 +214,7 @@ public class XCDanmuView extends RelativeLayout {
 //            animator.setDuration(animationDuration);
 //            animator.setInterpolator(new LinearInterpolator());
 //            mChildList.get(msg.what).startAnimation(animator);//开始动画
-            LogUtils.i("objectAnimator" + msg.what);
+//            LogUtils.i("objectAnimator" + msg.what);
             ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mChildList.get(msg.what), "translationX", (mScreenWidth + mChildList.get(msg.what).getWidth()), -(mScreenWidth + mChildList.get(msg.what).getWidth()));
             objectAnimator.setDuration(animationDuration);
             objectAnimator.start();
@@ -153,11 +233,15 @@ public class XCDanmuView extends RelativeLayout {
                         handler.sendEmptyMessageDelayed(i, i * mDelayDuration);
                     }
                     SystemClock.sleep((mChildList.size() + 1) * mDelayDuration);
+                    if (isFirst) {
+                        isFirst = false;
+                    }
                 }
             }
         });
         runThread.start();
     }
+
 
     public void stop() {
         mIsWorking = false;
@@ -200,5 +284,33 @@ public class XCDanmuView extends RelativeLayout {
         // 获取屏幕信息
         mWm.getDefaultDisplay().getMetrics(dm);
         return dm.heightPixels;
+    }
+
+
+    /**
+     * 抢话题
+     */
+    private void startHuaTi(GetHuaTiListResponse.DataBeanX.DataBean data, int tag) {
+        if (data == null) {
+            return;
+        }
+        Map<String, String> map = new HashMap<>();
+        map.put("user_id", DBUtils.getUserId());
+        map.put("gid", data.getGid() + "");//价格
+        RetrofitTools.startHuaTi(map)
+                .subscribe(new ResponseSubscriber<BaseResponse>() {
+                    @Override
+                    public void onSuccess(BaseResponse baseResponse, int code, String msg) {
+                        if (code == 200) {
+                            NimUIKit.startP2PSessionWithTitle(mContext, "" + tag, data.getIcon(), data.getNick_name(), data.getTitle(), data.getIs_vip(), data.getNum());
+                        } else {
+                            ToastUtil.showToast(mContext, msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+                    }
+                });
     }
 }

@@ -139,6 +139,7 @@ public class SGLOneFragment extends BaseFragment implements BaseQuickAdapter.Req
                     @Override
                     public void onSuccess(SaGouLiangListResponse saGouLiangListResponse, int code, String msg) {
                         multipleStatusView.hideLoading();
+                        adapter.loadMoreComplete();
                         SaGouLiangListResponse.DataBean dataBean = saGouLiangListResponse.getData();
                         if (dataBean == null) {
                             return;
@@ -165,6 +166,7 @@ public class SGLOneFragment extends BaseFragment implements BaseQuickAdapter.Req
 
                     @Override
                     public void onFailed(Throwable e) {
+                        adapter.loadMoreComplete();
                         multipleStatusView.hideLoading();
                         if (pageIndex > 1) {
                             pageIndex--;

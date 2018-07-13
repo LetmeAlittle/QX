@@ -106,6 +106,15 @@ public class UserDetailInfo {
         private ArrayList<XiangCheBean> xiangce;
         private String dog;     //狗粮数量
         private String guard;   //守护数量
+        private int paohuati;//抛话题一次 所消耗砰砰豆数量
+
+        public int getPaohuati() {
+            return paohuati;
+        }
+
+        public void setPaohuati(int paohuati) {
+            this.paohuati = paohuati;
+        }
 
         public ArrayList<XiangCheBean> getXiangce() {
             return xiangce;

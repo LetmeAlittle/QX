@@ -5,6 +5,7 @@ import android.support.annotation.RestrictTo;
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
+import com.ysxsoft.qxerkai.net.response.GetHuaTiListResponse;
 import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
@@ -343,5 +344,35 @@ public class RetrofitTools {
      */
     public static Observable<MyLiWuResponse> getMyLiWuList(Map<String,String> map){
         return  subscribe(RetrofitTools.getManager().getMyLiWuList(map));
+    }
+
+    /**
+     * 漂浮的话题列表
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<GetHuaTiListResponse> getHuaTiList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getHuaTiList(map));
+    }
+
+    /**
+     * 漂浮的话题列表
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<BaseResponse> addHuaTi(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().addHuaTi(map));
+    }
+
+    /**
+     * 抢话题/继续聊
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<BaseResponse> startHuaTi(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().huaTiStart(map));
     }
 }

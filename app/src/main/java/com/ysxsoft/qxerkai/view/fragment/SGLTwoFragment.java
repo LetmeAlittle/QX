@@ -143,6 +143,7 @@ public class SGLTwoFragment extends BaseFragment implements BaseQuickAdapter.Req
                 .subscribe(new ResponseSubscriber<SaGouLiangListResponse>() {
                     @Override
                     public void onSuccess(SaGouLiangListResponse saGouLiangListResponse, int code, String msg) {
+                        adapter.loadMoreComplete();
                         SaGouLiangListResponse.DataBean dataBean = saGouLiangListResponse.getData();
                         if (dataBean == null) {
                             return;
@@ -169,6 +170,7 @@ public class SGLTwoFragment extends BaseFragment implements BaseQuickAdapter.Req
 
                     @Override
                     public void onFailed(Throwable e) {
+                        adapter.loadMoreComplete();
                         if (pageIndex > 1) {
                             pageIndex--;
                         }

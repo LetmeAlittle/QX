@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/dp_14"
+            android:gravity="center"
+            android:text="发布话题"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/layout_padding_8dp"
+            android:src="@mipmap/close_over_time_iv" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layout_padding_4dp"
+        android:layout_marginRight="@dimen/layout_padding_4dp"
+        android:background="@drawable/rect_space_radius4"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/layout_padding_16dp">
+
+            <EditText
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rect_white_radius4"
+                android:drawableRight="@drawable/oval_theme"
+                android:gravity="left"
+                android:hint="输入想聊的话题，点击右下角图标可随机生成话题哦~"
+                android:minLines="3"
+                android:paddingBottom="@dimen/dp_14"
+                android:paddingLeft="@dimen/layout_padding_16dp"
+                android:paddingRight="@dimen/dp_14"
+                android:paddingTop="@dimen/dp_14"
+                android:textSize="@dimen/text_size_12" />
+
+            <TextView
+                android:id="@+id/updateTitle"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="right|bottom"
+                android:layout_marginBottom="@dimen/dp_4"
+                android:layout_marginRight="@dimen/dp_4"
+                android:background="@drawable/oval_theme"
+                android:gravity="center"
+                android:text="#"
+                android:textColor="@color/white" />
+        </FrameLayout>
+
+        <com.ysxsoft.qxerkai.view.widget.StringScrollPicker
+            android:id="@+id/picker"
+            app:spv_orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            app:spv_center_item_background="#22888888"
+            app:spv_max_text_size="24dp"
+            app:spv_min_text_size="14dp"
+            app:spv_center_item_position="4"
+            app:spv_visible_item_count="9"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/padding_1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="@dimen/layout_padding_8dp"
+            android:text="砰砰豆/分钟"
+            android:textColor="@color/colorLoginColor"
+            android:textSize="@dimen/sp_12" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dp_22"
+            android:layout_marginTop="@dimen/dp_36"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dp_14"
+            android:background="@drawable/bg_hua_ti_selector"
+            android:paddingBottom="@dimen/dp_4"
+            android:paddingLeft="@dimen/dp_22"
+            android:paddingRight="@dimen/dp_22"
+            android:paddingTop="@dimen/dp_4"
+            android:text="立即发车"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</LinearLayout>

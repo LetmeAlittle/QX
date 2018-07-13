@@ -7,8 +7,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.netease.nim.uikit.CustomPushContentProvider;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.R;
@@ -40,6 +44,11 @@ import com.netease.nimlib.sdk.msg.model.MessageReceipt;
 import com.netease.nimlib.sdk.robot.model.NimRobotInfo;
 import com.netease.nimlib.sdk.robot.model.RobotAttachment;
 import com.netease.nimlib.sdk.robot.model.RobotMsgType;
+import com.ttt.qx.qxcall.DimenTool;
+import com.ttt.qx.qxcall.utils.SystemUtil;
+import com.ysxsoft.qxerkai.utils.DimenUtils;
+import com.ysxsoft.qxerkai.utils.GlideCircleTransform;
+import com.ysxsoft.qxerkai.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +84,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        parseTitle();
         parseIntent();
     }
 
@@ -167,9 +177,9 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             messageListPanel.setChattingBackground(customization.backgroundUri, customization.backgroundColor);
         }
 
-        ivLiwu=(ImageView)findView(R.id.iv_liwu);
-        ivPhone=(ImageView)findView(R.id.iv_phone);
-        GiftAction giftAction=new GiftAction();
+        ivLiwu = (ImageView) findView(R.id.iv_liwu);
+        ivPhone = (ImageView) findView(R.id.iv_phone);
+        GiftAction giftAction = new GiftAction();
         giftAction.setContainer(container);
         ivLiwu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +187,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
                 giftAction.onClick();
             }
         });
-        PhoneAction phoneAction=new PhoneAction();
+        PhoneAction phoneAction = new PhoneAction();
         phoneAction.setContainer(container);
         ivPhone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -362,4 +372,43 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     public void receiveReceipt() {
         messageListPanel.receiveReceipt();
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Sincerly  2018.07.13 15:39:00  新增抛话题
+    ///////////////////////////////////////////////////////////////////////////
+    private void parseTitle() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            int isVip = bundle.getInt("isVip");//1是vip  0不是vip
+            String title = bundle.getString("title");//话题标题
+            int num = bundle.getInt("num");//话题价格
+            String icon = bundle.getString("icon");
+            FrameLayout parent = findView(R.id.fl_bg);
+            LinearLayout msgLayout=findView(R.id.msgLayout);//动态设置布局  布局下移
+
+            if (title != null) {//是vip
+                parent.setVisibility(View.VISIBLE);
+                msgLayout.setPadding(0, DimenUtils.dp2px(getActivity(),70),0,0);
+            } else {
+                parent.setVisibility(View.GONE);
+            }
+
+            ImageView logo = findView(R.id.logo);
+            ImageView iv_vip = findView(R.id.iv_vip);
+            TextView t = findView(R.id.tv_title);
+            TextView p = findView(R.id.price);
+
+            if (isVip == 0) {
+                iv_vip.setVisibility(View.GONE);
+            } else {
+                iv_vip.setVisibility(View.VISIBLE);
+            }
+            Glide.with(getActivity()).load(icon).transform(new GlideCircleTransform(getActivity())).into(logo);//圆角
+            t.setText(StringUtils.convert(title));
+            p.setText(StringUtils.convert(num + "") + "砰砰豆/分钟");
+        }
+    }
+
+
 }

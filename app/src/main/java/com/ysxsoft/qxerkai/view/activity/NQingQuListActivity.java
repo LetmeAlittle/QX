@@ -124,6 +124,7 @@ public class NQingQuListActivity extends NBaseActivity implements BaseQuickAdapt
             @Override
             public void onSuccess(GetCardListResponse getCardListResponse, int code, String msg) {
                 multipleStatusView.hideLoading();
+                adapter.loadMoreComplete();
                 if (code == 200) {
                     if (getCardListResponse != null && getCardListResponse.getData() != null && getCardListResponse.getData().getList() != null) {
                         fillData(getCardListResponse.getData().getList());
@@ -138,6 +139,7 @@ public class NQingQuListActivity extends NBaseActivity implements BaseQuickAdapt
 
             @Override
             public void onFailed(Throwable e) {
+                adapter.loadMoreComplete();
                 multipleStatusView.hideLoading();
             }
 
