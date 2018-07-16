@@ -359,6 +359,9 @@ public class RecentContactsFragment extends TFragment {
     private void onRecentContactsLoaded() {
         items.clear();
         if (loadedRecents != null) {
+            if(loadedRecents.get(0).getSessionType()==SessionTypeEnum.P2P){
+                items.add(loadedRecents.get(0));
+            }
             items.addAll(loadedRecents);
             loadedRecents = null;
         }

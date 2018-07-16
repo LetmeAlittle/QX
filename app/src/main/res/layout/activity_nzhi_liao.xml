@@ -697,8 +697,8 @@
                                     <ImageView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:visibility="invisible"
-                                        android:src="@mipmap/fragment_five_next"/>
+                                        android:src="@mipmap/fragment_five_next"
+                                        android:visibility="invisible"/>
                                 </LinearLayout>
 
                                 <View
@@ -759,69 +759,90 @@
                     </LinearLayout>
                 </ScrollView>
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
-                        android:id="@+id/ll_liaotian"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:gravity="center"
-                        >
+                        android:background="@color/colorAccent"
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:id="@+id/ll_liaotian"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/colorAccent"
-                            android:drawableLeft="@mipmap/activity_nzhiliao_fasongxiaoxi"
-                            android:drawablePadding="10dp"
+                            android:layout_weight="1"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
                             android:gravity="center"
-                            android:paddingBottom="10dp"
-                            android:paddingTop="10dp"
-                            android:text="发送消息"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/middle_size"/>
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorAccent"
+                                android:drawableLeft="@mipmap/activity_nzhiliao_fasongxiaoxi"
+                                android:drawablePadding="10dp"
+                                android:gravity="center"
+                                android:paddingBottom="10dp"
+                                android:paddingTop="10dp"
+                                android:text="发送消息"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorBackground"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/ll_yuyin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:gravity="center"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorAccent"
+                                android:drawableLeft="@mipmap/activity_nzhiliao_yuyin"
+                                android:drawablePadding="10dp"
+                                android:gravity="center"
+                                android:paddingBottom="10dp"
+                                android:paddingTop="10dp"
+                                android:text="语音聊天"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/middle_size"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="1dp"
+                    <TextView
+                        android:id="@+id/tv_bianji"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/colorBackground"
-                        />
-
-                    <LinearLayout
-                        android:id="@+id/ll_yuyin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="?attr/selectableItemBackground"
+                        android:background="@color/colorAccent"
                         android:clickable="true"
+                        android:drawablePadding="10dp"
                         android:gravity="center"
-                        >
+                        android:paddingBottom="10dp"
+                        android:visibility="gone"
+                        android:paddingTop="10dp"
+                        android:text="编辑资料"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/middle_size"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorAccent"
-                            android:drawableLeft="@mipmap/activity_nzhiliao_yuyin"
-                            android:drawablePadding="10dp"
-                            android:gravity="center"
-                            android:paddingBottom="10dp"
-                            android:paddingTop="10dp"
-                            android:text="语音聊天"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/middle_size"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                </FrameLayout>
 
             </LinearLayout>
         </com.ysxsoft.qxerkai.view.widget.MultipleStatusView>

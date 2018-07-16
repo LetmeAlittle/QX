@@ -10,6 +10,7 @@ import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
+import com.ysxsoft.qxerkai.net.response.MemberListResponse;
 import com.ysxsoft.qxerkai.net.response.MyLiWuResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
 import com.ysxsoft.qxerkai.net.response.HomeItemList;
@@ -38,10 +39,12 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_ADD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_DETAIL;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIKE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.DEL_ICON;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_ADD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_START;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HOME_ITEM_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.MEMBER_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.MY_CARD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.NOTICE_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.PUSH_COMMENT;
@@ -53,6 +56,7 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_fjs;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_guanzhur;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_topList;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TWO_PAGE_USER_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.UPLOAD_ICONS;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_GUARDS_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_MY_LIWU;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_SHOUHU;
@@ -291,18 +295,48 @@ public interface RetrofitApi {
 
     /**
      * 获取用户消费的豆子数
+     *
      * @param map
      * @return
      */
     @FormUrlEncoded
     @POST(USER_XIAO_FEI_NUM)
     Observable<UserXiaoFeiNum> getUserXiaoFei(@FieldMap Map<String, String> map);
+
     /**
      * 获取用户消费的豆子数
+     *
      * @param map
      * @return
      */
     @FormUrlEncoded
     @POST(HOME_ITEM_LIST)
     Observable<HomeItemList> getHomeItemList(@FieldMap Map<String, String> map);
+
+    /**
+     * 往相册上传图片
+     *
+     * @return
+     */
+    @POST(UPLOAD_ICONS)
+    Observable<BaseResponse> uploadIcon(@Body RequestBody Body);
+
+    /**
+     * 删除照片
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(DEL_ICON)
+    Observable<BaseResponse> delIcon(@FieldMap Map<String, String> map);
+
+    /**
+     * 获取用户身份列表
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(MEMBER_LIST)
+    Observable<MemberListResponse> getMemberList();
 }

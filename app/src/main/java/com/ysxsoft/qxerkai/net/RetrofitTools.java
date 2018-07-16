@@ -11,6 +11,7 @@ import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
 import com.ysxsoft.qxerkai.net.response.HomeItemList;
+import com.ysxsoft.qxerkai.net.response.MemberListResponse;
 import com.ysxsoft.qxerkai.net.response.MyLiWuResponse;
 import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
@@ -398,5 +399,32 @@ public class RetrofitTools {
      */
     public static Observable<BaseResponse> startHuaTi(Map<String, String> map) {
         return subscribe(RetrofitTools.getManager().huaTiStart(map));
+    }
+
+    /**
+     * 往相册上传图片
+     *
+     * @return
+     */
+    public static Observable<BaseResponse> uploadIcon(Map<String, String> map, String[] imageNames, File[] imageFiles) {
+        return subscribe(RetrofitTools.getManager().uploadIcon(builder(map, imageNames, imageFiles).build()));
+    }
+
+    /**
+     * 删除相册中的图片
+     *
+     * @return
+     */
+    public static Observable<BaseResponse> delIcon(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().delIcon(map));
+    }
+
+    /**
+     * 获取用户身份列表
+     *
+     * @return
+     */
+    public static Observable<MemberListResponse> getMemberList() {
+        return subscribe(RetrofitTools.getManager().getMemberList());
     }
 }

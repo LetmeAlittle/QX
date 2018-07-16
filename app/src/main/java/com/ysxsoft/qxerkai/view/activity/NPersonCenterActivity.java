@@ -45,14 +45,12 @@ import com.ttt.qx.qxcall.function.login.model.MineModel;
 import com.ttt.qx.qxcall.function.login.view.IdentifyAuthActivity;
 import com.ttt.qx.qxcall.function.login.view.LoginTransferActivity;
 import com.ttt.qx.qxcall.function.login.view.SetUserInfoActivity;
-import com.ttt.qx.qxcall.function.login.view.UserMainEditActivity;
 import com.ttt.qx.qxcall.function.register.model.RegisterModel;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 import com.ttt.qx.qxcall.function.register.model.entity.UploadImgResponse;
 import com.ttt.qx.qxcall.utils.CustomAlertDialogUtil;
 import com.ttt.qx.qxcall.utils.ImageUtil;
 import com.ttt.qx.qxcall.utils.IntentUtil;
-import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ttt.qx.qxcall.utils.UriUtil;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
@@ -113,6 +111,10 @@ public class NPersonCenterActivity extends NBaseActivity {
     ImageView ivVip;
     @BindView(R.id.tv_address)
     TextView tvAddress;
+    @BindView(R.id.tv_shenfen)
+    TextView tvShenfen;
+    @BindView(R.id.ll_shenfen)
+    LinearLayout llShenfen;
 
     private Integer id;
     private UserBean mUserBean;
@@ -207,8 +209,8 @@ public class NPersonCenterActivity extends NBaseActivity {
         tvAddress.setText(mInfoData.getMember_province() + mInfoData.getMember_city());
     }
 
-    @OnClick({R.id.ll_xiangche, R.id.ll_headimg,R.id.ll_gerenjiesao,R.id.ll_nickname,R.id.ll_age,R.id.ll_address,
-                R.id.ll_sex,R.id.ll_realname})
+    @OnClick({R.id.ll_xiangche, R.id.ll_headimg, R.id.ll_gerenjiesao, R.id.ll_nickname, R.id.ll_age, R.id.ll_address,
+            R.id.ll_sex, R.id.ll_realname})
     public void onclick(View view) {
         switch (view.getId()) {
             case R.id.ll_xiangche:
@@ -396,7 +398,7 @@ public class NPersonCenterActivity extends NBaseActivity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             if (photoFile != null && photoFile.exists()) {
                 /*获取当前系统的android版本号*/
-                int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+                int currentapiVersion = Build.VERSION.SDK_INT;
                 if (currentapiVersion < 24) {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                     startActivityForResult(intent, PHOTO_REQUEST_CODE);
@@ -459,7 +461,7 @@ public class NPersonCenterActivity extends NBaseActivity {
             options.inSampleSize = 30;
             Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
             if (bitmap != null) {
-                if (loadingDialog==null) {
+                if (loadingDialog == null) {
                     loadingDialog = CustomAlertDialogUtil.createLoadingDialog(this, "加载中...", true);
                 }
                 if (!loadingDialog.isShowing()) {
@@ -544,7 +546,7 @@ public class NPersonCenterActivity extends NBaseActivity {
 
     public void onToast(String message) {
         //消息弹出
-        ToastUtils.showToast(this,message,Toast.LENGTH_SHORT);
+        ToastUtils.showToast(this, message, Toast.LENGTH_SHORT);
     }
 
     @Override

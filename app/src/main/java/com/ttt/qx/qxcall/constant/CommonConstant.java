@@ -75,21 +75,21 @@ public class CommonConstant {
     public static final String BASE_PATH = Environment.getExternalStorageDirectory() + "/ttt/pp/";
     public static final String PHOTO_URL = BASE_PATH + "images";
 
-    public static final String SA_GOU_LIANG_LIST="api/friend/dogList";                     //撒狗粮列表  type[1讲故事 2发图片]   page
-    public static final String SA_GOU_LIANG_LIKE="api/friend/dogLike";                     //撒狗粮点赞  user_id  sid
-    public static final String SA_GOU_LIANG_COMMIT="api/friend/publishDog";               //发布撒狗粮  user_id  type[1讲故事 2发图片]  content[type为1必填]   file[type为2必填]
-    public static final String RULE="/api/lucres";                                            //网页规则    aid [1关于我们/2我的收益规则3/萨狗粮规则4/萨狗粮奖品5使用说明/6vip特权]
-    public static final String CARD_LIST="api/friend/cardList";                             //帖子列表  user_id  page   type [1老司机开车 2闺蜜私房话 3两性研究所 4剧本专区 5撩妹区 6撩汉区]
-    public static final String CARD_DETAIL="api/friend/carddetail";                         //帖子详情  page   tid
-    public static final String CARD_LIKE="api/friend/likes";                                 //帖子/评论点赞  user_Id
-    public static final String NOTICE_LIST="api/getNotice";                                  //公告  type [0公告 1随机话题 2老司机开车 3闺蜜私房语4两性研究社]
-    public static final String PUSH_COMMENT="api/friend/pushComment";                      //帖子评论  user_id content tid
-    public static final String MY_CARD="api/friend/myCard";                                 //撩人区列表  user_id page
-    public static final String CARD_ADD="api/friend/pushcard";                             //发表帖子 user_id content title  type
-    public static final String TWO_PAGE_USER_LIST="api/tuijian";                            //Tab2 推荐用户列表
-    public static final String HUA_TI_LIST="api/gambitList";                                 //漂浮的话题 page
-    public static final String HUA_TI_ADD="api/push_gambit";                             //抛话题  user_id num[砰砰豆] title[话题标题]
-    public static final String HUA_TI_START="/api/gambitStart";                               //抢话题/继续聊  user_id gid
+    public static final String SA_GOU_LIANG_LIST = "api/friend/dogList";                     //撒狗粮列表  type[1讲故事 2发图片]   page
+    public static final String SA_GOU_LIANG_LIKE = "api/friend/dogLike";                     //撒狗粮点赞  user_id  sid
+    public static final String SA_GOU_LIANG_COMMIT = "api/friend/publishDog";               //发布撒狗粮  user_id  type[1讲故事 2发图片]  content[type为1必填]   file[type为2必填]
+    public static final String RULE = "/api/lucres";                                            //网页规则    aid [1关于我们/2我的收益规则3/萨狗粮规则4/萨狗粮奖品5使用说明/6vip特权]
+    public static final String CARD_LIST = "api/friend/cardList";                             //帖子列表  user_id  page   type [1老司机开车 2闺蜜私房话 3两性研究所 4剧本专区 5撩妹区 6撩汉区]
+    public static final String CARD_DETAIL = "api/friend/carddetail";                         //帖子详情  page   tid
+    public static final String CARD_LIKE = "api/friend/likes";                                 //帖子/评论点赞  user_Id
+    public static final String NOTICE_LIST = "api/getNotice";                                  //公告  type [0公告 1随机话题 2老司机开车 3闺蜜私房语4两性研究社]
+    public static final String PUSH_COMMENT = "api/friend/pushComment";                      //帖子评论  user_id content tid
+    public static final String MY_CARD = "api/friend/myCard";                                 //撩人区列表  user_id page
+    public static final String CARD_ADD = "api/friend/pushcard";                             //发表帖子 user_id content title  type
+    public static final String TWO_PAGE_USER_LIST = "api/tuijian";                            //Tab2 推荐用户列表
+    public static final String HUA_TI_LIST = "api/gambitList";                                 //漂浮的话题 page
+    public static final String HUA_TI_ADD = "api/push_gambit";                             //抛话题  user_id num[砰砰豆] title[话题标题]
+    public static final String HUA_TI_START = "/api/gambitStart";                               //抢话题/继续聊  user_id gid
 
 
     //朋友圈
@@ -112,4 +112,8 @@ public class CommonConstant {
     public static final String USER_MY_LIWU = "api/friend/gift_top_my";//我的礼物列表
     public static final String USER_XIAO_FEI_NUM = "api/xiaofeicnt";//用户消费的砰砰豆数量
     public static final String HOME_ITEM_LIST = "api/home";//首页用户列表
+    public static final String UPLOAD_ICONS = "api/upicon";//往相册上传图片
+    public static final String DEL_ICON = "api/delicon";//删除相册里的图片
+    public static final String MEMBER_LIST = "api/memberList";//个人资料身份列表
+
 }
