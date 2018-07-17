@@ -39,6 +39,7 @@ import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 import com.ttt.qx.qxcall.function.voice.AVChatActivity;
 import com.ttt.qx.qxcall.function.voice.AVChatProfile;
 import com.ttt.qx.qxcall.function.voice.DemoCache;
+import com.ttt.qx.qxcall.utils.IntentUtil;
 import com.ttt.qx.qxcall.widget.FlowLayout;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
@@ -136,6 +137,8 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
     TextView tvGouliangnum;
     @BindView(R.id.iv_shouhu)
     ImageView ivShouhu;
+    @BindView(R.id.tv_bianji)
+    TextView tvBianji;
 
     private int id;
     private String accid;
@@ -187,6 +190,13 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
         llFangke.setOnClickListener(this);
         ivShouhu.setOnClickListener(this);
         tvPublicTitlebarCenter.setOnClickListener(this);
+        if (accid.equals(DemoCache.getAccount())) {
+            ivShouhu.setVisibility(View.GONE);
+            tvBianji.setVisibility(View.VISIBLE);
+            tvBianji.setOnClickListener(this);
+        } else {
+            tvBianji.setVisibility(View.GONE);
+        }
     }
 
     private void initViewData() {
@@ -209,20 +219,23 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
 //                member_level_tv.setText("VIP" + mInfoData.getLevel());
             }
             tvNickname.setText(mInfoData.getNick_name());
-            //设置关注状态
-            if (mInfoData.getIs_fans() == 0) {
-                Drawable drawable = this.getResources().getDrawable(R.mipmap.ziliao_guanzhu);
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
-                follow = false;
+            if (!accid.equals(DemoCache.getAccount())) {
+                //设置关注状态
+                if (mInfoData.getIs_fans() == 0) {
+                    Drawable drawable = this.getResources().getDrawable(R.mipmap.ziliao_guanzhu);
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
+                    follow = false;
 //                guanzhu_name_tv.setText("关注");
-            } else {
-                Drawable drawable = this.getResources().getDrawable(R.mipmap.ziliao_weiguanzhu);
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
-                follow = true;
+                } else {
+                    Drawable drawable = this.getResources().getDrawable(R.mipmap.ziliao_weiguanzhu);
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
+                    follow = true;
 //                guanzhu_name_tv.setText("取消关注");
+                }
             }
+
             mSoundFile = mInfoData.getSound_file();
             initMediaPlayer();
 //            个性签名
@@ -350,6 +363,9 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
     }
 
     private void openImgLookBig(ArrayList<String> photosStr, int position) {
+        if (photosStr.size() <= position) {
+            return;
+        }
         File downloadDir = new File(Environment.getExternalStorageDirectory(), "QX");
         BGAPhotoPreviewActivity.IntentBuilder photoPreviewIntentBuilder = new BGAPhotoPreviewActivity.IntentBuilder(this)
                 .saveImgDir(downloadDir); // 保存图片的目录，如果传 null，则没有保存图片功能
@@ -361,7 +377,13 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_bianji:
+                IntentUtil.jumpIntent(this, NPersonCenterActivity.class);
+                break;
             case R.id.tv_public_titlebar_center:
+                if (accid.equals(DemoCache.getAccount())) {
+                    return;
+                }
                 if (!follow) {
                     HomeModel.getHomeModel().followUser(new ProgressSubscribe<>(new SubScribeOnNextListener<StandardResponse>() {
                         @Override
@@ -372,7 +394,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                                 tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
                             } else {
-                                ToastUtils.showToast(NZhiLiaoActivity.this,standardResponse.getMessage(),0);
+                                ToastUtils.showToast(NZhiLiaoActivity.this, standardResponse.getMessage(), 0);
                             }
                         }
                     }, NZhiLiaoActivity.this), String.valueOf(id), Authorization);
@@ -388,7 +410,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                                 tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
                             } else {
-                                ToastUtils.showToast(NZhiLiaoActivity.this,standardResponse.getMessage(),0);
+                                ToastUtils.showToast(NZhiLiaoActivity.this, standardResponse.getMessage(), 0);
                             }
                         }
                     }, NZhiLiaoActivity.this), String.valueOf(id), Authorization);
@@ -396,6 +418,9 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
 
                 break;
             case R.id.iv_shouhu:
+                if (accid.equals(DemoCache.getAccount())) {
+                    return;
+                }
                 startActivity(new Intent(this, NKaiTongShouHuActivity.class)
                         .putExtra("uid", "" + mInfoData.getId())
                         .putExtra("nickname", mInfoData.getNick_name())

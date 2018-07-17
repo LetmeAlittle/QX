@@ -101,7 +101,7 @@ public class XuanZheShouHuActivity extends NBaseActivity implements BaseQuickAda
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                HaoYouListResponse.DataBeanX.DataBean dataBean= (HaoYouListResponse.DataBeanX.DataBean) adapter.getItem(position);
+                HaoYouListResponse.DataBeanX.DataBean dataBean = (HaoYouListResponse.DataBeanX.DataBean) adapter.getItem(position);
                 dataBean.getIcon();
                 dataBean.getId();
                 dataBean.getNick_name();
@@ -178,11 +178,32 @@ public class XuanZheShouHuActivity extends NBaseActivity implements BaseQuickAda
                 tvStatus.setTextColor(Color.parseColor("#fd3d5c"));
                 tvStatus.setText("在线");
                 tvChoose.setVisibility(View.VISIBLE);
+                tvChoose.setOnClickListener(new ChooseClick("" + item.getId(), item.getNick_name(), item.getIcon()));
             }
             Glide.with(mContext).load(item.getIcon())
                     .into((ImageView) helper.getView(R.id.iv_touxiang));
 
             helper.setText(R.id.tv_nickname, item.getNick_name());
+        }
+    }
+
+    private class ChooseClick implements View.OnClickListener {
+        private String uid;
+        private String nickName;
+        private String avatar;
+
+        public ChooseClick(String uid, String nickName, String avatar) {
+            this.uid = uid;
+            this.nickName = nickName;
+            this.avatar = avatar;
+        }
+
+        @Override
+        public void onClick(View view) {
+            startActivity(new Intent(XuanZheShouHuActivity.this, NKaiTongShouHuActivity.class)
+                    .putExtra("uid", uid)
+                    .putExtra("nickname", nickName)
+                    .putExtra("avatar", avatar));
         }
     }
 

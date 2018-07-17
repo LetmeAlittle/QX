@@ -116,10 +116,13 @@ public class CommonConstant {
 	public static final String SRDZ_topList = "api/topList";//获取土豪/一姐榜
 
 
-	//用户资料  zhaozhipeng
-	public static final String USER_SHOUHU = "api/friend/guardsing"; //对某人进行守护
-	public static final String USER_GUARDS_LIST = "api/friend/guards"; //守护列表
-	public static final String USER_MY_LIWU = "api/friend/gift_top_my";//我的礼物列表
-	public static final String USER_XIAO_FEI_NUM = "api/xiaofeicnt";//用户消费的砰砰豆数量
-	public static final String HOME_ITEM_LIST = "api/home";//首页用户列表
+    //用户资料  zhaozhipeng
+    public static final String USER_SHOUHU = "api/friend/guardsing"; //对某人进行守护
+    public static final String USER_GUARDS_LIST = "api/friend/guards"; //守护列表
+    public static final String USER_MY_LIWU = "api/friend/gift_top_my";//我的礼物列表
+    public static final String USER_XIAO_FEI_NUM = "api/xiaofeicnt";//用户消费的砰砰豆数量
+    public static final String HOME_ITEM_LIST = "api/home";//首页用户列表
+    public static final String UPLOAD_ICONS = "api/upicon";//往相册上传图片
+    public static final String DEL_ICON = "api/delicon";//删除相册里的图片
+    public static final String MEMBER_LIST = "api/memberList";//个人资料身份列表
 }

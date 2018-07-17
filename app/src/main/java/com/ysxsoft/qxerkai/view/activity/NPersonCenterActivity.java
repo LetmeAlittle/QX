@@ -45,14 +45,12 @@ import com.ttt.qx.qxcall.function.login.model.MineModel;
 import com.ttt.qx.qxcall.function.login.view.IdentifyAuthActivity;
 import com.ttt.qx.qxcall.function.login.view.LoginTransferActivity;
 import com.ttt.qx.qxcall.function.login.view.SetUserInfoActivity;
-import com.ttt.qx.qxcall.function.login.view.UserMainEditActivity;
 import com.ttt.qx.qxcall.function.register.model.RegisterModel;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 import com.ttt.qx.qxcall.function.register.model.entity.UploadImgResponse;
 import com.ttt.qx.qxcall.utils.CustomAlertDialogUtil;
 import com.ttt.qx.qxcall.utils.ImageUtil;
 import com.ttt.qx.qxcall.utils.IntentUtil;
-import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ttt.qx.qxcall.utils.UriUtil;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
@@ -85,6 +83,11 @@ import static com.ttt.qx.qxcall.function.login.view.SetUserInfoActivity.NICK_NAM
  */
 public class NPersonCenterActivity extends NBaseActivity {
 
+    //用户修改头像操作
+    public final String HEAD = "head";
+    private final int BASE_SUCCESS = 0;
+    //默认初始某次操作为修改头像
+    public String imgType = HEAD;
     @BindView(R.id.status_bar)
     View statusBar;
     @BindView(R.id.iv_public_titlebar_left_1)
@@ -113,20 +116,67 @@ public class NPersonCenterActivity extends NBaseActivity {
     ImageView ivVip;
     @BindView(R.id.tv_address)
     TextView tvAddress;
-
+    @BindView(R.id.tv_shenfen)
+    TextView tvShenfen;
+    @BindView(R.id.ll_shenfen)
+    LinearLayout llShenfen;
     private Integer id;
     private UserBean mUserBean;
     private String Authorization;
     private UserDetailInfo.DataBean mInfoData;
-
     //用户是否对资料进行了修改标记
     private boolean modifyed = false;
-    //用户修改头像操作
-    public final String HEAD = "head";
-    //默认初始某次操作为修改头像
-    public String imgType = HEAD;
     private int REQUEST_PERMISSION = 1111;
     private Dialog loadingDialog;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case BASE_SUCCESS:
+                    String encodeString = (String) msg.obj;
+                    if (imgType.equals(HEAD)) {//如果修改的是头像
+                        // 调用头像上传接口
+                        RegisterModel.getRegisterModel().uploadHeadImg(new Subscriber<UploadImgResponse>() {
+                            @Override
+                            public void onCompleted() {
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                if (!isFinishing()) {
+                                    if (loadingDialog != null && loadingDialog.isShowing()) {
+                                        loadingDialog.dismiss();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onNext(UploadImgResponse uploadImgResponse) {
+                                if (!isFinishing()) {
+                                    if (loadingDialog != null && loadingDialog.isShowing()) {
+                                        loadingDialog.dismiss();
+                                    }
+                                }
+                                if (uploadImgResponse.getStatus_code() == 200) {
+                                    UploadImgResponse.DataBean data = uploadImgResponse.getData();
+                                    mInfoData.setMember_avatar(data.getAvatar());//更新头像路径值
+                                    //通知minePager 头像刷新
+                                    NotifyMinePagerHeaderModify notifyMinePagerHeaderModify = new NotifyMinePagerHeaderModify();
+                                    notifyMinePagerHeaderModify.avatar = data.getAvatar();
+                                    EventBus.getDefault().post(notifyMinePagerHeaderModify);
+                                    setUserHeadIcon(data.getAvatar());
+                                    modifyed = true;
+                                } else {
+                                    onToast(uploadImgResponse.getMessage());
+                                }
+                            }
+                        }, encodeString, "Bearer " + mUserBean.getToken());
+                    }
+                    break;
+            }
+        }
+    };
     //当前跳转标记
     private String type = "";
     private boolean verifyStatus = false;
@@ -207,8 +257,8 @@ public class NPersonCenterActivity extends NBaseActivity {
         tvAddress.setText(mInfoData.getMember_province() + mInfoData.getMember_city());
     }
 
-    @OnClick({R.id.ll_xiangche, R.id.ll_headimg,R.id.ll_gerenjiesao,R.id.ll_nickname,R.id.ll_age,R.id.ll_address,
-                R.id.ll_sex,R.id.ll_realname})
+    @OnClick({R.id.ll_xiangche, R.id.ll_headimg, R.id.ll_gerenjiesao, R.id.ll_nickname, R.id.ll_age, R.id.ll_address,
+            R.id.ll_sex, R.id.ll_realname})
     public void onclick(View view) {
         switch (view.getId()) {
             case R.id.ll_xiangche:
@@ -270,54 +320,6 @@ public class NPersonCenterActivity extends NBaseActivity {
                 }
                 break;
         }
-    }
-
-    @Subscribe
-    public void onEventVerifySuccess(VerifySuccess verifySuccess) {
-        verifyStatus = true;
-        tvRenzheng.setText("已认证");
-    }
-
-    /**
-     * 显示地址选择器
-     */
-    private void showPickerView() {
-        OptionsPickerView pvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                //返回的分别是三个级别的选中位置
-//                String text = options1Items.get(options1).getPickerViewText() +
-//                        options2Items.get(options1).get(options2) +
-//                        options3Items.get(options1).get(options2).get(options3);
-                //获取省份数据
-                String province = options1Items.get(options1).getPickerViewText();
-                //获取城市数据
-                String city = options2Items.get(options1).get(options2);
-                //调用用户地址设置接口
-                MineModel.getMineModel().setAddress(new ProgressSubscribe<>(new SubScribeOnNextListener<StandardResponse>() {
-                    @Override
-                    public void onNext(StandardResponse standardResponse) throws IOException {
-                        if (standardResponse.getStatus_code() == 200) {
-                            modifyed = true;
-                            onToast("地址设置成功！");
-                            tvAddress.setText(province + city);
-                            AddressSetSuccess addressSetSuccess = new AddressSetSuccess();
-                            addressSetSuccess.address = province + "   " + city;
-                            EventBus.getDefault().post(addressSetSuccess);
-                        }
-                    }
-                }, NPersonCenterActivity.this), province, city, Authorization);
-            }
-        }).setTitleText("")
-                .setDividerColor(Color.parseColor("#ebebeb"))
-                .setTextColorCenter(Color.parseColor("#333333"))
-                .setContentTextSize(16)
-                .setOutSideCancelable(true)
-                .build();
-        /*pvOptions.setPicker(options1Items);//一级选择器*/
-        pvOptions.setPicker(options1Items, options2Items);//二级选择器
-//        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
-        pvOptions.show();
     }
 
     /**
@@ -388,6 +390,66 @@ public class NPersonCenterActivity extends NBaseActivity {
         dialog.show();//显示对话框
     }
 
+    /**
+     * 启动用户信息设置视图
+     *
+     * @param type
+     * @param content
+     */
+    private void startSetUserInfo(String type, String content) {
+        Intent intent = new Intent(this, SetUserInfoActivity.class);
+        intent.putExtra("mark", type);
+        intent.putExtra("content", content);
+        startActivity(intent);
+    }
+
+    /**
+     * 显示地址选择器
+     */
+    private void showPickerView() {
+        OptionsPickerView pvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+//                String text = options1Items.get(options1).getPickerViewText() +
+//                        options2Items.get(options1).get(options2) +
+//                        options3Items.get(options1).get(options2).get(options3);
+                //获取省份数据
+                String province = options1Items.get(options1).getPickerViewText();
+                //获取城市数据
+                String city = options2Items.get(options1).get(options2);
+                //调用用户地址设置接口
+                MineModel.getMineModel().setAddress(new ProgressSubscribe<>(new SubScribeOnNextListener<StandardResponse>() {
+                    @Override
+                    public void onNext(StandardResponse standardResponse) throws IOException {
+                        if (standardResponse.getStatus_code() == 200) {
+                            modifyed = true;
+                            onToast("地址设置成功！");
+                            tvAddress.setText(province + city);
+                            AddressSetSuccess addressSetSuccess = new AddressSetSuccess();
+                            addressSetSuccess.address = province + "   " + city;
+                            EventBus.getDefault().post(addressSetSuccess);
+                        }
+                    }
+                }, NPersonCenterActivity.this), province, city, Authorization);
+            }
+        }).setTitleText("")
+                .setDividerColor(Color.parseColor("#ebebeb"))
+                .setTextColorCenter(Color.parseColor("#333333"))
+                .setContentTextSize(16)
+                .setOutSideCancelable(true)
+                .build();
+        /*pvOptions.setPicker(options1Items);//一级选择器*/
+        pvOptions.setPicker(options1Items, options2Items);//二级选择器
+//        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
+        pvOptions.show();
+    }
+
+    public void onToast(String message) {
+        //消息弹出
+        ToastUtils.showToast(this, message, Toast.LENGTH_SHORT);
+    }
+
     private void openCamera() {
         //实例化intent,指向摄像头
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -396,7 +458,7 @@ public class NPersonCenterActivity extends NBaseActivity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             if (photoFile != null && photoFile.exists()) {
                 /*获取当前系统的android版本号*/
-                int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+                int currentapiVersion = Build.VERSION.SDK_INT;
                 if (currentapiVersion < 24) {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                     startActivityForResult(intent, PHOTO_REQUEST_CODE);
@@ -413,6 +475,12 @@ public class NPersonCenterActivity extends NBaseActivity {
         } else {
             Toast.makeText(this, "没有相机", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Subscribe
+    public void onEventVerifySuccess(VerifySuccess verifySuccess) {
+        verifyStatus = true;
+        tvRenzheng.setText("已认证");
     }
 
     @Override
@@ -459,7 +527,7 @@ public class NPersonCenterActivity extends NBaseActivity {
             options.inSampleSize = 30;
             Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
             if (bitmap != null) {
-                if (loadingDialog==null) {
+                if (loadingDialog == null) {
                     loadingDialog = CustomAlertDialogUtil.createLoadingDialog(this, "加载中...", true);
                 }
                 if (!loadingDialog.isShowing()) {
@@ -482,57 +550,6 @@ public class NPersonCenterActivity extends NBaseActivity {
         }
     }
 
-    private final int BASE_SUCCESS = 0;
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case BASE_SUCCESS:
-                    String encodeString = (String) msg.obj;
-                    if (imgType.equals(HEAD)) {//如果修改的是头像
-                        // 调用头像上传接口
-                        RegisterModel.getRegisterModel().uploadHeadImg(new Subscriber<UploadImgResponse>() {
-                            @Override
-                            public void onCompleted() {
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                if (!isFinishing()) {
-                                    if (loadingDialog != null && loadingDialog.isShowing()) {
-                                        loadingDialog.dismiss();
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onNext(UploadImgResponse uploadImgResponse) {
-                                if (!isFinishing()) {
-                                    if (loadingDialog != null && loadingDialog.isShowing()) {
-                                        loadingDialog.dismiss();
-                                    }
-                                }
-                                if (uploadImgResponse.getStatus_code() == 200) {
-                                    UploadImgResponse.DataBean data = uploadImgResponse.getData();
-                                    mInfoData.setMember_avatar(data.getAvatar());//更新头像路径值
-                                    //通知minePager 头像刷新
-                                    NotifyMinePagerHeaderModify notifyMinePagerHeaderModify = new NotifyMinePagerHeaderModify();
-                                    notifyMinePagerHeaderModify.avatar = data.getAvatar();
-                                    EventBus.getDefault().post(notifyMinePagerHeaderModify);
-                                    setUserHeadIcon(data.getAvatar());
-                                    modifyed = true;
-                                } else {
-                                    onToast(uploadImgResponse.getMessage());
-                                }
-                            }
-                        }, encodeString, "Bearer " + mUserBean.getToken());
-                    }
-                    break;
-            }
-        }
-    };
-
     private void setUserHeadIcon(String avatar) {
         Glide.clear(civHead);
         Glide.with(NPersonCenterActivity.this)
@@ -540,11 +557,6 @@ public class NPersonCenterActivity extends NBaseActivity {
                 .skipMemoryCache(true)//跳过内部缓存
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(civHead);
-    }
-
-    public void onToast(String message) {
-        //消息弹出
-        ToastUtils.showToast(this,message,Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -577,19 +589,6 @@ public class NPersonCenterActivity extends NBaseActivity {
                 mInfoData.setBirthday(setUserInfoSuccess.content);
                 break;
         }
-    }
-
-    /**
-     * 启动用户信息设置视图
-     *
-     * @param type
-     * @param content
-     */
-    private void startSetUserInfo(String type, String content) {
-        Intent intent = new Intent(this, SetUserInfoActivity.class);
-        intent.putExtra("mark", type);
-        intent.putExtra("content", content);
-        startActivity(intent);
     }
 
 }

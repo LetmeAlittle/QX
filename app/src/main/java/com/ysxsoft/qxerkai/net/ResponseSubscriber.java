@@ -30,11 +30,12 @@ public abstract class ResponseSubscriber<T extends BaseResponse> extends Subscri
         }
     }
 
+    public abstract void onSuccess(T t, int code, String msg);
+
+    public abstract void onFailed(Throwable e);
+
     @Override
     public void onStart() {
         super.onStart();
     }
-
-    public abstract void onSuccess(T t, int code, String msg);
-    public abstract void onFailed(Throwable e);
 }
