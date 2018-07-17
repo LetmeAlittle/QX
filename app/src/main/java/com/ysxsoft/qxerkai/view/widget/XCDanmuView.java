@@ -288,7 +288,7 @@ public class XCDanmuView extends RelativeLayout {
 
 
     /**
-     * 抢话题
+     * 抢话题/继续话题
      */
     private void startHuaTi(GetHuaTiListResponse.DataBeanX.DataBean data, int tag) {
         if (data == null) {
