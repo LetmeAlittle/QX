@@ -1,5 +1,7 @@
 package com.ysxsoft.qxerkai.utils;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.msg.MsgService;
@@ -72,7 +74,9 @@ public class WYUtils {
 		pushPayload.put("id","3");
 		pushPayload.put("members",teamJson.getMembers());
 //		notification.setPushPayload(new HashMap<>());
-		notification.setContent(new Gson().toJson(teamJson));
+		notification.setContent(new Gson().toJson(pushPayload));
+		Log.e("tag","json--->"+new Gson().toJson(pushPayload));
+
 		// 发送自定义通知
 		NIMClient.getService(MsgService.class).sendCustomNotification(notification);
 	}

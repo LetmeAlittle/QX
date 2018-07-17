@@ -346,25 +346,6 @@ public interface RetrofitApi {
 	@FormUrlEncoded
 	@POST(PI_PEI_BUY)
 	Observable<BaseResponse> piPeiBuy(@FieldMap Map<String, String> map);
-    /**
-     * 获取用户消费的豆子数
-     *
-     * @param map
-     * @return
-     */
-    @FormUrlEncoded
-    @POST(USER_XIAO_FEI_NUM)
-    Observable<UserXiaoFeiNum> getUserXiaoFei(@FieldMap Map<String, String> map);
-
-    /**
-     * 获取用户消费的豆子数
-     *
-     * @param map
-     * @return
-     */
-    @FormUrlEncoded
-    @POST(HOME_ITEM_LIST)
-    Observable<HomeItemList> getHomeItemList(@FieldMap Map<String, String> map);
 
     /**
      * 往相册上传图片
