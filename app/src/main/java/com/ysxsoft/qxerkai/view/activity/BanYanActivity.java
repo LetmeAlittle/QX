@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,9 +15,11 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
 import com.ysxsoft.qxerkai.net.RetrofitTools;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
+import com.ysxsoft.qxerkai.net.response.SearchListResponse;
 import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
@@ -33,12 +36,6 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
     //1111
     @BindView(R.id.status_bar)
     View statusBar;
-    @BindView(R.id.iv_public_titlebar_left_1)
-    ImageView ivPublicTitlebarLeft1;
-    @BindView(R.id.ll_public_titlebar_left)
-    LinearLayout llPublicTitlebarLeft;
-    @BindView(R.id.tv_public_titlebar_center)
-    TextView tvPublicTitlebarCenter;
     @BindView(R.id.swipe_target)
     RecyclerView swipeTarget;
     @BindView(R.id.multipleStatusView)
@@ -51,12 +48,15 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
     LinearLayout llHaoYou;
     @BindView(R.id.ll_fu_jin)
     LinearLayout llFuJin;
+    @BindView(R.id.et_public_titlebar)
+    EditText etPublicTitlebar;
 
 
     private int pageType = 0,pageIndex = 1,pageTotal = 1,urlType = 0;
     private int picLeft = R.mipmap.touxiang_dashu, picRight = R.mipmap.touxiang_luoli;
     private String user_id= "";
 
+    private OnChooseClick onChooseClick;
     private BanYanAdapter adapter;
     private HashMap<String,String> map = new HashMap<>();
 
@@ -68,12 +68,12 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
         ButterKnife.bind(this);
         initStatusBar();
         initStatusBar(statusBar);
-        initTitleBar();
+//        initTitleBar();
         initView();
         initData();
     }
 
-    private void initTitleBar() {
+   /* private void initTitleBar() {
         ivPublicTitlebarLeft1.setVisibility(View.VISIBLE);
         ivPublicTitlebarLeft1.setImageResource(R.mipmap.back_left_white);
         llPublicTitlebarLeft.setOnClickListener(new View.OnClickListener() {
@@ -83,9 +83,12 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
             }
         });
         tvPublicTitlebarCenter.setText("");
-    }
+    }*/
 
     private void initView() {
+        etPublicTitlebar.setClickable(true);
+        etPublicTitlebar.setFocusable(false);
+
         user_id = DBUtils.getUserId();
 
         swipeTarget.setLayoutManager(new LinearLayoutManager(this));
@@ -132,6 +135,8 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
         urlType = 0;
     }
 
+
+
     private void initData() {
         pageIndex =1;
         if (urlType == 0) {
@@ -139,11 +144,25 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
         } else {
             getFjData();
         }
+
+        onChooseClick = new OnChooseClick() {
+            @Override
+            public void onClick(HaoYouListResponse.DataBeanX.DataBean item) {
+                showToast(item.getNick_name());
+            }
+        };
     }
 
-    @OnClick({R.id.tv_hy, R.id.tv_fj})
+    @OnClick({R.id.iv_public_titlebar_left_1, R.id.et_public_titlebar,
+            R.id.tv_hy, R.id.tv_fj,R.id.tv_sysPipei})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_public_titlebar_left_1:
+                finish();
+                break;
+            case R.id.et_public_titlebar:
+                startActivity(new Intent(this,NBanYanSearchActivity.class));
+                break;
             case R.id.tv_hy://我的好友
                 if (llHaoYou.getVisibility() != View.VISIBLE )  {
                     urlType =0;
@@ -157,6 +176,10 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
                     llFuJin.setVisibility(View.VISIBLE);
                     llHaoYou.setVisibility(View.INVISIBLE);
                 }
+                break;
+            case R.id.tv_sysPipei://系统匹配
+                //TODO   系统匹配
+
                 break;
         }
         initData();
@@ -278,12 +301,26 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
                 tvStatus.setTextColor(Color.parseColor("#fd3d5c"));
                 tvStatus.setText("在线");
                 tvChoose.setVisibility(View.VISIBLE);
+
+                tvChoose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onChooseClick.onClick(item);
+                    }
+                });
+
             }
             Glide.with(mContext).load(item.getIcon())
                     .into((ImageView) helper.getView(R.id.iv_touxiang));
 
             helper.setText(R.id.tv_nickname,item.getNick_name());
         }
+
+    }
+
+
+    public interface OnChooseClick{
+        void onClick(HaoYouListResponse.DataBeanX.DataBean item);
     }
 
 }

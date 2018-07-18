@@ -44,11 +44,13 @@
                         android:orientation="vertical">
 
                         <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/iv_pic"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:src="@mipmap/image5"/>
 
                         <TextView
+                            android:id="@+id/tv_nickname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -101,6 +103,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
@@ -110,6 +113,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_question_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -120,6 +124,7 @@
                         android:textSize="@dimen/middle_size"/>
 
                     <TextView
+                        android:id="@+id/tv_question"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="20dp"
@@ -138,22 +143,26 @@
                         android:paddingTop="15dp">
 
                         <RadioGroup
+                            android:id="@+id/rg1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:orientation="horizontal">
 
                             <RadioButton
+                                android:id="@+id/rb11"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:button="@drawable/activity_nzhuan_shu_pi_pei_select"
                                 android:paddingLeft="5dp"
                                 android:text="三观"
+                                android:checked="true"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/normal_size"/>
 
                             <RadioButton
+                                android:id="@+id/rb12"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -164,6 +173,7 @@
                                 android:textSize="@dimen/normal_size"/>
 
                             <RadioButton
+                                android:id="@+id/rb13"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -174,6 +184,7 @@
                                 android:textSize="@dimen/normal_size"/>
 
                             <RadioButton
+                                android:id="@+id/rb14"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -193,7 +204,11 @@
                         android:orientation="horizontal"
                         android:paddingBottom="15dp">
 
+
+
                         <TextView
+                            android:id="@+id/btn_l"
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="30dp"
@@ -207,6 +222,7 @@
                             android:textSize="@dimen/middle_size"/>
 
                         <TextView
+                            android:id="@+id/btn_r"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/fragment_three_kaitong_bg"

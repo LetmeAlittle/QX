@@ -1,24 +1,26 @@
 package com.ysxsoft.qxerkai.view.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.utils.SystemUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
 import com.ysxsoft.qxerkai.net.RetrofitTools;
-import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
+import com.ysxsoft.qxerkai.net.response.SearchListResponse;
 import com.ysxsoft.qxerkai.utils.DBUtils;
-import com.ysxsoft.qxerkai.view.adapter.XuanZeShouHuAdapter;
+import com.ysxsoft.qxerkai.utils.LogUtils;
+import com.ysxsoft.qxerkai.utils.SystemUtils;
+import com.ysxsoft.qxerkai.view.adapter.ShouHuSearchAdapter;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
 import java.util.HashMap;
@@ -28,116 +30,91 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class XuanZheShouHuActivity extends NBaseActivity implements BaseQuickAdapter.RequestLoadMoreListener {
-
-    public static final String TYPE_JUMP = "TYPE_JUMP";
+public class NShouHuSearchActivity extends NBaseActivity implements BaseQuickAdapter.RequestLoadMoreListener {
 
     @BindView(R.id.status_bar)
     View statusBar;
+    @BindView(R.id.et_public_titlebar)
+    EditText etPublicTitlebar;
     @BindView(R.id.swipe_target)
     RecyclerView swipeTarget;
     @BindView(R.id.multipleStatusView)
     MultipleStatusView multipleStatusView;
-    @BindView(R.id.et_public_titlebar)
-    EditText etPublicTitlebar;
 
-    private XuanZeShouHuAdapter adapter;
-    private int type = 0, pageIndex = 1, pageTotal = 1;
-    private String user_id = "";
+    private ShouHuSearchAdapter adapter;
+    private int time = 0, pageIndex = 1, pageTotal = 1;
+    private String user_id = "",searchContent = "";
     private HashMap<String, String> map = new HashMap<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_xuan_zhe_shou_hu);
+        setContentView(R.layout.activity_nshou_hu_search);
         ButterKnife.bind(this);
         initStatusBar();
         initStatusBar(statusBar);
-//        initTitleBar();
+
         initView();
         initData();
         setListener();
     }
 
-
-   /* private void initTitleBar() {
-        ivPublicTitlebarLeft1.setVisibility(View.VISIBLE);
-        ivPublicTitlebarLeft1.setImageResource(R.mipmap.back_left_white);
-        llPublicTitlebarLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-        tvPublicTitlebarCenter.setText("");
-    }*/
-
-
-
     private void initView() {
-        etPublicTitlebar.setClickable(true);
-        etPublicTitlebar.setFocusable(false);
-
         user_id = DBUtils.getUserId();
         Intent intent = getIntent();
-        type = intent.getIntExtra(TYPE_JUMP, 0);
-
+        time = intent.getIntExtra(XuanZheShouHuActivity.TYPE_JUMP, 0);
 
         swipeTarget.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new XuanZeShouHuAdapter(R.layout.activity_xuan_zhe_shou_hu_item,type);
+        adapter = new ShouHuSearchAdapter(R.layout.activity_xuan_zhe_shou_hu_item, time);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         adapter.isFirstOnly(true);
         swipeTarget.setAdapter(adapter);
-
-    }
-
-    @OnClick({R.id.iv_public_titlebar_left_1, R.id.et_public_titlebar})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.iv_public_titlebar_left_1:
-                finish();
-                break;
-            case R.id.et_public_titlebar:
-                startActivity(new Intent(this,NShouHuSearchActivity.class)
-                .putExtra(TYPE_JUMP,type));
-                break;
-        }
     }
 
     private void initData() {
-        pageIndex = 1;
-        getHyData();
+
     }
 
     private void setListener() {
         adapter.setOnLoadMoreListener(this, swipeTarget);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+
+        etPublicTitlebar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                HaoYouListResponse.DataBeanX.DataBean dataBean = (HaoYouListResponse.DataBeanX.DataBean) adapter.getItem(position);
-                dataBean.getIcon();
-                dataBean.getId();
-                dataBean.getNick_name();
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH){//搜索按键action
+                    SystemUtils.hideSoftInput(NShouHuSearchActivity.this);
+                    searchContent = etPublicTitlebar.getText().toString();
+                    if (TextUtils.isEmpty(searchContent)){
+                        return true;
+                    }
+                    LogUtils.e("开始搜索");
+
+                    pageIndex = 1;
+                    getListData();
+                    return true;
+                }
+
+
+                return false;
             }
         });
     }
 
 
     //获取好友列表数据
-    private void getHyData() {
+    private void getListData() {
         map.clear();
-        map.put("user_id", user_id);
+        map.put("id", searchContent);
         map.put("page", pageIndex + "");
 
-        RetrofitTools.getHaoYouList(map).subscribe(new ResponseSubscriber<HaoYouListResponse>() {
+        RetrofitTools.getSearchList(map).subscribe(new ResponseSubscriber<SearchListResponse>() {
             @Override
-            public void onSuccess(HaoYouListResponse response, int code, String msg) {
+            public void onSuccess(SearchListResponse response, int code, String msg) {
                 multipleStatusView.hideLoading();
                 if (code == 200) {
-                    List<HaoYouListResponse.DataBeanX.DataBean> data = response.getData().getData();
+                    List<SearchListResponse.DataBean.ListBean> data = response.getData().getList();
                     if (pageIndex == 1) {
-                        pageTotal = response.getData().getLast_page();
+                        pageTotal = response.getData().getPage().getLast_page();
                         if (data != null) {
                             adapter.setNewData(data);
                         }
@@ -159,17 +136,26 @@ public class XuanZheShouHuActivity extends NBaseActivity implements BaseQuickAda
                 multipleStatusView.showLoading();
             }
         });
-
     }
 
     @Override
     public void onLoadMoreRequested() {
         if (pageIndex < pageTotal) {
             pageIndex++;
-            getHyData();
+            getListData();
         } else {
             adapter.loadMoreEnd();
         }
     }
+    @OnClick(R.id.iv_public_titlebar_left_1)
+    public void onViewClicked() {
+        finish();
+    }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SystemUtils.hideSoftInput(NShouHuSearchActivity.this);
+    }
 }

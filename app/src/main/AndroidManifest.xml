@@ -131,7 +131,7 @@
 
         <activity
             android:name=".function.home.view.MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <!-- 网易云 即时通讯以及音视频第三方使用相关 配置 start -->
         <!--
            APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
@@ -324,7 +324,7 @@
         <activity
             android:name=".function.voice.AVChatActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".function.find.view.PublishDynamicsActivity"
             android:screenOrientation="portrait" />
@@ -596,6 +596,17 @@
         <activity android:name="com.ysxsoft.qxerkai.view.activity.NXiangCheChaKanActivity"/>
         <!--用户协议-->
         <activity android:name="com.ysxsoft.qxerkai.view.activity.NUserProtocolActivity"/>
+        <!--守护 搜索页-->
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NShouHuSearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <!--角色扮演 搜索页-->
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NBanYanSearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

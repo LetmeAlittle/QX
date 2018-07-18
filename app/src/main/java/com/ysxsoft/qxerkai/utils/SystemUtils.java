@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import java.lang.reflect.Method;
 
@@ -17,6 +18,15 @@ import java.lang.reflect.Method;
  * Created by dongjunkun on 2015/11/24.
  */
 public class SystemUtils {
+
+    /**
+     * 隐藏软键盘
+     */
+    public static void hideSoftInput(Activity activity) {
+        View view = activity.getWindow().peekDecorView();
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
+    }
 
     /**
      * 获取是否存在NavigationBar

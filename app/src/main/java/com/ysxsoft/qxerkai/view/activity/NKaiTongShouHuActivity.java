@@ -69,6 +69,7 @@ public class NKaiTongShouHuActivity extends NBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        time = getIntent().getIntExtra("time",0);
         uid = getIntent().getStringExtra("uid");
         nickname = getIntent().getStringExtra("nickname");
         avatar = getIntent().getStringExtra("avatar");
@@ -91,6 +92,21 @@ public class NKaiTongShouHuActivity extends NBaseActivity {
     }
 
     private void initView() {
+        switch (time){
+            case 0:
+                tvTime.setText("开通7天守护");
+                tvMoney.setText("100");
+                break;
+            case 1:
+                tvTime.setText("开通15天守护");
+                tvMoney.setText("200");
+                break;
+            case 2:
+                tvTime.setText("开通30天守护");
+                tvMoney.setText("300");
+                break;
+        }
+
         UserDao userDao = new UserDao();
         userBean = userDao.queryFirstData();
         Glide.with(this).load(userBean.getMember_avatar()).into(civHead1);

@@ -9,6 +9,7 @@ import com.ysxsoft.qxerkai.net.response.GetHuaTiListResponse;
 import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GetPiPeiListResponse;
+import com.ysxsoft.qxerkai.net.response.GetQuestionRespose;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
 import com.ysxsoft.qxerkai.net.response.HomeItemList;
@@ -18,6 +19,7 @@ import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangPublishResponse;
+import com.ysxsoft.qxerkai.net.response.SearchListResponse;
 import com.ysxsoft.qxerkai.net.response.TwoPageTuiJianResponse;
 import com.ysxsoft.qxerkai.net.response.UserXiaoFeiNum;
 import com.ysxsoft.qxerkai.utils.LogUtils;
@@ -330,6 +332,17 @@ public class RetrofitTools {
 		return subscribe(RetrofitTools.getManager().getHaoYouList(map));
 	}
 
+
+	/**
+	 * 搜索好友  私人定制
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<SearchListResponse> getSearchList(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getSearchList(map));
+	}
+
 	/**
 	 * 获取好友列表  私人定制
 	 *
@@ -456,4 +469,13 @@ public class RetrofitTools {
     public static Observable<MemberListResponse> getMemberList() {
         return subscribe(RetrofitTools.getManager().getMemberList());
     }
+
+	/**
+	 * 获取用户身份列表
+	 *
+	 * @return
+	 */
+	public static Observable<GetQuestionRespose> getQuestionList() {
+		return subscribe(RetrofitTools.getManager().getQuestionList());
+	}
 }

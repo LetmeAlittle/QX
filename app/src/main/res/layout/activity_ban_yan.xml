@@ -1,29 +1,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/colorBackground"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <include
+        layout="@layout/public_titlebar_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.ysxsoft.qxerkai.view.widget.MultipleStatusView
+        android:id="@+id/multipleStatusView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        app:emptyView="@layout/custom_empty_view"
+        app:errorView="@layout/custom_error_view"
+        app:loadingView="@layout/custom_loading_view"
+        app:noNetworkView="@layout/custom_no_network_view">
 
-        <include
-            layout="@layout/public_titlebar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
-        <com.ysxsoft.qxerkai.view.widget.MultipleStatusView
-            android:id="@+id/multipleStatusView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:emptyView="@layout/custom_empty_view"
-            app:errorView="@layout/custom_error_view"
-            app:loadingView="@layout/custom_loading_view"
-            app:noNetworkView="@layout/custom_no_network_view">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,7 +40,7 @@
                         android:id="@+id/iv_left"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/touxiang_dashu"/>
+                        android:src="@mipmap/touxiang_dashu" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -52,7 +50,7 @@
                         android:text="VS"
                         android:textColor="@color/white"
                         android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <FrameLayout
                         android:layout_width="wrap_content"
@@ -62,13 +60,12 @@
                             android:id="@+id/iv_right"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/touxiang_luoli"/>
+                            android:src="@mipmap/touxiang_luoli" />
 
                         <ImageView
-                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/touxiang_mengban"/>
+                            android:src="@mipmap/touxiang_mengban" />
 
                     </FrameLayout>
                 </LinearLayout>
@@ -87,7 +84,7 @@
                         android:paddingTop="10dp"
                         android:text="我的好友"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/middle_size"/>
+                        android:textSize="@dimen/middle_size" />
 
                     <TextView
                         android:id="@+id/tv_fj"
@@ -95,10 +92,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="附近的人"
                         android:paddingTop="10dp"
+                        android:text="附近的人"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/middle_size"/>
+                        android:textSize="@dimen/middle_size" />
 
                 </LinearLayout>
 
@@ -119,23 +116,21 @@
                         <View
                             android:layout_width="65dp"
                             android:layout_height="match_parent"
-                            android:background="@color/white"
-                            />
+                            android:background="@color/white" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_fu_jin"
-                        android:visibility="invisible"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_weight="1"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:visibility="invisible">
 
                         <View
                             android:layout_width="65dp"
                             android:layout_height="match_parent"
-                            android:background="@color/white"
-                            />
+                            android:background="@color/white" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -143,10 +138,26 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/swipe_target"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
-        </com.ysxsoft.qxerkai.view.widget.MultipleStatusView>
-    </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_sysPipei"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/fragment_three_kaitong_bg"
+                android:text="系统匹配"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/middle_size"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/dp_40"/>
+
+        </RelativeLayout>
+    </com.ysxsoft.qxerkai.view.widget.MultipleStatusView>
 </LinearLayout>

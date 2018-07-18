@@ -9,6 +9,7 @@ import com.ysxsoft.qxerkai.net.response.GetHuaTiListResponse;
 import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GetPiPeiListResponse;
+import com.ysxsoft.qxerkai.net.response.GetQuestionRespose;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
 import com.ysxsoft.qxerkai.net.response.MemberListResponse;
@@ -20,6 +21,7 @@ import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangPublishResponse;
+import com.ysxsoft.qxerkai.net.response.SearchListResponse;
 import com.ysxsoft.qxerkai.net.response.TwoPageTuiJianResponse;
 import com.ysxsoft.qxerkai.net.response.UserXiaoFeiNum;
 
@@ -58,7 +60,9 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIKE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_fjs;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_guanzhur;
+import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_search;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_topList;
+import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_wentiliebiao;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TWO_PAGE_USER_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.UPLOAD_ICONS;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_GUARDS_LIST;
@@ -276,6 +280,16 @@ public interface RetrofitApi {
 	@POST(SRDZ_guanzhur)
 	Observable<HaoYouListResponse> getHaoYouList(@FieldMap Map<String, String> map);
 
+	/**
+	 * 获取好友列表  私人定制
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(SRDZ_search)
+	Observable<SearchListResponse> getSearchList(@FieldMap Map<String, String> map);
+
 
 	/**
 	 * 获取土豪/一姐榜
@@ -373,4 +387,14 @@ public interface RetrofitApi {
     @FormUrlEncoded
     @POST(MEMBER_LIST)
     Observable<MemberListResponse> getMemberList();
+
+    /**
+     * 问题的列表
+     *
+     * @return
+     */
+    @POST(SRDZ_wentiliebiao)
+    Observable<GetQuestionRespose> getQuestionList();
+
+
 }
