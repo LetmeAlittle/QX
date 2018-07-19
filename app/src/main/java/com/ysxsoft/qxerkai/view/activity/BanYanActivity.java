@@ -235,20 +235,23 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
                     llHaoYou.setVisibility(View.VISIBLE);
                     llFuJin.setVisibility(View.INVISIBLE);
                 }
+                initData();
                 break;
             case R.id.tv_fj://附近的人
                 if (llFuJin.getVisibility() != View.VISIBLE)  {
                     urlType =1;
                     llFuJin.setVisibility(View.VISIBLE);
                     llHaoYou.setVisibility(View.INVISIBLE);
+
                 }
+                initData();
                 break;
             case R.id.tv_sysPipei://系统匹配
                 //TODO   系统匹配
 
                 break;
         }
-        initData();
+
     }
 
     @Override
