@@ -5,12 +5,17 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -21,6 +26,7 @@ import com.ysxsoft.qxerkai.net.RetrofitTools;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
 import com.ysxsoft.qxerkai.net.response.SearchListResponse;
 import com.ysxsoft.qxerkai.utils.DBUtils;
+import com.ysxsoft.qxerkai.utils.LogUtils;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
 import java.util.HashMap;
@@ -59,6 +65,37 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
     private OnChooseClick onChooseClick;
     private BanYanAdapter adapter;
     private HashMap<String,String> map = new HashMap<>();
+    private double latitude = 34.801765;
+    private double longitude = 113.611325;
+
+
+    //声明AMapLocationClient类对象
+    public AMapLocationClient mLocationClient = null;
+    //声明AMapLocationClientOption对象
+    public AMapLocationClientOption mLocationOption = null;
+
+    //声明定位回调监听器
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation amapLocation) {
+            if (amapLocation != null) {
+                if (amapLocation.getErrorCode() == 0) {
+                    LogUtils.e("实现定位==="+amapLocation.getAddress());
+                    //可在其中解析amapLocation获取相应内容。
+                    //获取纬度
+                    latitude = amapLocation.getLatitude();
+                    //获取经度
+                    longitude = amapLocation.getLongitude();
+
+                }else {
+                    //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError","location Error, ErrCode:"
+                            + amapLocation.getErrorCode() + ", errInfo:"
+                            + amapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
 
 
     @Override
@@ -71,6 +108,34 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
 //        initTitleBar();
         initView();
         initData();
+        initMap();
+    }
+
+    private void initMap() {
+        //初始化定位
+        mLocationClient = new AMapLocationClient(getApplicationContext());
+        //设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+
+        //初始化AMapLocationClientOption对象
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+
+
+        //获取一次定位结果：
+        //该方法默认为false。
+        mLocationOption.setOnceLocation(true);
+
+        //获取最近3s内精度最高的一次定位结果：
+        //设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+        mLocationOption.setOnceLocationLatest(true);
+
+
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
     }
 
    /* private void initTitleBar() {
@@ -148,6 +213,7 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
         onChooseClick = new OnChooseClick() {
             @Override
             public void onClick(HaoYouListResponse.DataBeanX.DataBean item) {
+                //TODO  角色扮演  选择
                 showToast(item.getNick_name());
             }
         };
@@ -243,8 +309,8 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
         map.clear();
         map.put("user_id",user_id);
         map.put("page",pageIndex+"");
-        map.put("lat","34.801765");//纬度
-        map.put("lng","113.611325");//精度
+        map.put("lat",latitude+"");//纬度
+        map.put("lng",longitude +"");//精度
 
         RetrofitTools.getFjRenList(map).subscribe(new ResponseSubscriber<HaoYouListResponse>() {
             @Override
