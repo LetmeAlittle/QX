@@ -98,9 +98,11 @@ public class CommonConstant {
 	public static final String PI_PEI_SUO = "api/shangsuo";                      				//匹配上锁 tid user_id
 	public static final String TOU_TING_TAG = "api/tingtingtag";                      		//偷听发录音的标签 user_id
 	public static final String TOU_TING_START = "api/toutingStart";                      	//开始偷听 user_id  tid
-	public static final String TOU_TING_LU_YIN = "/api/luyining";                      		//发布偷听的录音 user_id  tid  tag_id  money  sc[录音时长]  file
+	public static final String TOU_TING_LU_YIN = "api/luyining";                      		//发布偷听的录音 user_id  tid  tag_id  money  sc[录音时长]  file
 	public static final String TOU_TING_LU_YIN_LIST = "api/luyinlist";                      //录音列表 user_id  page tag_id
-	public static final String TING_LU_YIN = "/api/tingluyin";                      			//听录音 user_id  tid
+	public static final String TING_LU_YIN = "api/tingluyin";                      			//听录音 user_id  tid
+	public static final String DAN_MU = "api/sendg";                      						//发弹幕 user_id  tid  title
+	public static final String JIE_SUO = "api/jiesuo";                      					//偷听/录音解锁 user_id  tid[type 1房间的 2录音的 ：id]  type [1房间的 2录音的]
 
 	//朋友圈
 	public static final String FRIEND_Q_LIST = "/api/friend/list";// 朋友圈

@@ -45,11 +45,13 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_ADD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_DETAIL;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIKE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.DAN_MU;
 import static com.ttt.qx.qxcall.constant.CommonConstant.DEL_ICON;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_ADD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_START;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HOME_ITEM_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.JIE_SUO;
 import static com.ttt.qx.qxcall.constant.CommonConstant.MEMBER_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.MY_CARD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.NOTICE_LIST;
@@ -70,6 +72,7 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_DETAIL;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_LU_YIN_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_wentiliebiao;
+import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_START;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TWO_PAGE_USER_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.UPLOAD_ICONS;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_GUARDS_LIST;
@@ -368,40 +371,40 @@ public interface RetrofitApi {
 	@POST(PI_PEI_BUY)
 	Observable<BaseResponse> piPeiBuy(@FieldMap Map<String, String> map);
 
-    /**
-     * 往相册上传图片
-     *
-     * @return
-     */
-    @POST(UPLOAD_ICONS)
-    Observable<BaseResponse> uploadIcon(@Body RequestBody Body);
+	/**
+	 * 往相册上传图片
+	 *
+	 * @return
+	 */
+	@POST(UPLOAD_ICONS)
+	Observable<BaseResponse> uploadIcon(@Body RequestBody Body);
 
-    /**
-     * 删除照片
-     *
-     * @param map
-     * @return
-     */
-    @FormUrlEncoded
-    @POST(DEL_ICON)
-    Observable<BaseResponse> delIcon(@FieldMap Map<String, String> map);
+	/**
+	 * 删除照片
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(DEL_ICON)
+	Observable<BaseResponse> delIcon(@FieldMap Map<String, String> map);
 
-    /**
-     * 获取用户身份列表
-     *
-     * @return
-     */
-    @FormUrlEncoded
-    @POST(MEMBER_LIST)
-    Observable<MemberListResponse> getMemberList();
+	/**
+	 * 获取用户身份列表
+	 *
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(MEMBER_LIST)
+	Observable<MemberListResponse> getMemberList();
 
-    /**
-     * 问题的列表
-     *
-     * @return
-     */
-    @POST(SRDZ_wentiliebiao)
-    Observable<GetQuestionRespose> getQuestionList();
+	/**
+	 * 问题的列表
+	 *
+	 * @return
+	 */
+	@POST(SRDZ_wentiliebiao)
+	Observable<GetQuestionRespose> getQuestionList();
 
 	/**
 	 * 获取偷听列表
@@ -443,5 +446,33 @@ public interface RetrofitApi {
 	@POST(PI_PEI_SUO)
 	Observable<BaseResponse> suo(@FieldMap Map<String, String> map);
 
+	/**
+	 * 发弹幕
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(DAN_MU)
+	Observable<BaseResponse> fadanmu(@FieldMap Map<String, String> map);
 
+	/**
+	 * 解锁
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(JIE_SUO)
+	Observable<BaseResponse> jiesuo(@FieldMap Map<String, String> map);
+
+	/**
+	 * 检测房间是否上锁 是否可以偷听  开始偷听
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(TOU_TING_START)
+	Observable<BaseResponse> checkTouTing(@FieldMap Map<String, String> map);
 }

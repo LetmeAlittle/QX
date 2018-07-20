@@ -24,12 +24,14 @@ import com.netease.nimlib.sdk.avchat.model.AVChatVideoFrame;
 import com.ttt.qx.qxcall.QXCallApplication;
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.dialog.GiftSendDialog;
+import com.ttt.qx.qxcall.dialog.ReceiveTextDialog;
 import com.ttt.qx.qxcall.dialog.TipDialog;
 import com.ttt.qx.qxcall.function.base.interfacee.SubScribeOnNextListener;
 import com.ttt.qx.qxcall.function.base.subscribe.ProgressSubscribe;
 import com.ttt.qx.qxcall.function.find.model.FindModel;
 import com.ttt.qx.qxcall.function.find.model.entity.GiftList;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
+import com.ttt.qx.qxcall.function.voice.AVChatUI;
 import com.ttt.qx.qxcall.function.voice.DemoCache;
 import com.ttt.qx.qxcall.function.voice.floatw.FloatViewService;
 import com.ttt.qx.qxcall.utils.ToastUtil;
@@ -55,6 +57,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Retrofit;
 
 import static com.ttt.qx.qxcall.QXCallApplication.onToast;
 
@@ -125,6 +128,7 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 	private int currentSuo = 0;//当前房间锁级别
 	private int qzUserAccid;
 	private int fUserAccid;
+	private AVChatUI avChatUI; // 音视频总管理器
 
 	private Handler handler = new Handler() {
 		@Override
@@ -134,7 +138,9 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 				case UPDATE_CODE://每s更新时间
 					s++;
 					if (s > 60 && s % 60 == 0) {//每分钟购买
-						buy();
+						if (isAdmin) {
+							buy();//管理员调用
+						}
 					}
 					handler.sendEmptyMessageDelayed(UPDATE_CODE, 1000);
 					time.setText(parseTime(s));
@@ -147,9 +153,9 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.e("tag", "收到房主取消通知");
-			String room=intent.getStringExtra("roomName");
-			if(room!=null&&room.equals(roomName)){
-				ToastUtils.showToast(NHuaLiaoActivity.this,"房主关闭房间！",1);
+			String room = intent.getStringExtra("roomName");
+			if (room != null && room.equals(roomName)) {
+				ToastUtils.showToast(NHuaLiaoActivity.this, "房主关闭房间！", 1);
 				finish();
 			}
 		}
@@ -180,6 +186,18 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 		register();//注册广播
 		register(true);
 		initData();
+
+		Map<String, String> receiveMap = new HashMap<String, String>();
+		receiveMap.put("content", "呵呵呵");
+		ReceiveTextDialog.showReceiveTextDialog(NHuaLiaoActivity.this, receiveMap, new ReceiveTextDialog.OnComponentClickListener() {
+			@Override
+			public void onCancle() {
+			}
+
+			@Override
+			public void onSend(String gift_id) {
+			}
+		});
 	}
 
 	private void parseIntent() {
@@ -361,9 +379,9 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 			GetTouTingDetailResponse.DataBean.FUserBean fUserBean = data.getF_user();
 			fUserAccid = data.getFuid();
 			//顶部title
-			if(isAdmin){
+			if (isAdmin) {
 				tvPublicTitlebarCenter.setText(fUserBean.getNick_name());
-			}else{
+			} else {
 				tvPublicTitlebarCenter.setText(userBean.getNick_name());
 			}
 		}
@@ -419,7 +437,7 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 	private void leave() {
 		if (isAdmin) {//房主 需要通知别人关闭页面
 			WYUtils.dismissTeam(teamId);//解散群
-			members.add("10196");
+			members.add("10196");//TODO:need更换
 			for (int i = 0; i < members.size(); i++) {
 				if (DBUtils.getUserId().equals(members.get(i))) {//如果是管理员 不发送
 					continue;
@@ -458,7 +476,7 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 				}
 				PiPeiSuoDialog dialog = new PiPeiSuoDialog(NHuaLiaoActivity.this, R.style.dialogHuaTiStyle);
 				dialog.setType(currentSuo == 0 ? true : false);
-				dialog.setMoney(currentSuo == 0 ? "20":"5");
+				dialog.setMoney(currentSuo == 0 ? "20" : "5");
 				dialog.show(new PiPeiSuoDialog.OnPiPeiSuoDialogListener() {
 					@Override
 					public void lock() {
@@ -469,9 +487,11 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 			case R.id.otherAudio://他的声音   扩音
 				AVChatManager.getInstance().setSpeaker(speakerMode = !speakerMode);
 				break;
-			case R.id.myAudio://我的声音
+			case R.id.myAudio://我的声音   静音
+
 				break;
 			case R.id.sendDanMu://发弹幕
+				sendText();
 				break;
 			case R.id.sendLiWu://送礼物
 				if (isAdmin) {//房主送给接听用户
@@ -505,6 +525,30 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 					public void onFailed(Throwable e) {
 					}
 				});
+	}
+
+	/**
+	 * 发弹幕
+	 */
+	private void sendText() {
+		Map<String, String> s = new HashMap<>();
+		s.put("user_id", DBUtils.getUserId());
+		s.put("tid", roomName);
+		s.put("title", "呵呵呵呵");
+		RetrofitTools.fadanmu(s).subscribe(new ResponseSubscriber<BaseResponse>() {
+			@Override
+			public void onSuccess(BaseResponse baseResponse, int code, String msg) {
+				if (code == 200) {
+					ToastUtils.showToast(NHuaLiaoActivity.this, "发布成功", 1);
+				} else {
+					ToastUtils.showToast(NHuaLiaoActivity.this, baseResponse.getMessage(), 1);
+				}
+			}
+
+			@Override
+			public void onFailed(Throwable e) {
+			}
+		});
 	}
 
 	/**
@@ -564,13 +608,13 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 	public void onUserLeave(String s, int i) { //－1,用户超时离开  0,正常退出
 		//用户离开房间
 		Log.e("tag", "有人离开房间" + s);
-		if(!s.equals(DBUtils.getUserId())){
+		if (!s.equals(DBUtils.getUserId())) {
 			members.remove(s);
 		}
-		if(members.size()==1){
-			ToastUtils.showToast(NHuaLiaoActivity.this,"对方已离开房间！",1);
+		if (members.size() == 1) {
+			ToastUtils.showToast(NHuaLiaoActivity.this, "对方已离开房间！", 1);
 			finish();
-		}else{
+		} else {
 			getDetail();
 		}
 	}

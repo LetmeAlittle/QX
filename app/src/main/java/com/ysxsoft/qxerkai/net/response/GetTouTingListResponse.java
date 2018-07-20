@@ -40,10 +40,10 @@ public class GetTouTingListResponse extends BaseResponse{
 		private int from;
 		private int last_page;
 		private String last_page_url;
-		private Object next_page_url;
+		private String next_page_url;
 		private String path;
 		private int per_page;
-		private Object prev_page_url;
+		private String prev_page_url;
 		private int to;
 		private int total;
 		private List<DataBean> data;
@@ -88,11 +88,11 @@ public class GetTouTingListResponse extends BaseResponse{
 			this.last_page_url = last_page_url;
 		}
 
-		public Object getNext_page_url() {
+		public String getNext_page_url() {
 			return next_page_url;
 		}
 
-		public void setNext_page_url(Object next_page_url) {
+		public void setNext_page_url(String next_page_url) {
 			this.next_page_url = next_page_url;
 		}
 
@@ -112,11 +112,11 @@ public class GetTouTingListResponse extends BaseResponse{
 			this.per_page = per_page;
 		}
 
-		public Object getPrev_page_url() {
+		public String getPrev_page_url() {
 			return prev_page_url;
 		}
 
-		public void setPrev_page_url(Object prev_page_url) {
+		public void setPrev_page_url(String prev_page_url) {
 			this.prev_page_url = prev_page_url;
 		}
 
@@ -165,7 +165,7 @@ public class GetTouTingListResponse extends BaseResponse{
 			 * ficon : http://116.62.217.183/storage/avatar/2018/05/09/avatar_1525825589_10158.jpg
 			 */
 
-			private int id;
+			private String id;
 			private int uid;
 			private int fuid;
 			private int addtime;
@@ -183,11 +183,11 @@ public class GetTouTingListResponse extends BaseResponse{
 			private String fname;
 			private String ficon;
 
-			public int getId() {
+			public String getId() {
 				return id;
 			}
 
-			public void setId(int id) {
+			public void setId(String id) {
 				this.id = id;
 			}
 

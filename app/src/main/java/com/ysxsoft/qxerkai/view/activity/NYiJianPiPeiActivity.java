@@ -257,13 +257,15 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 		teamJson.setTeamName(team.getName());
 		teamJson.setCallerName(DBUtils.getUserNickName());
 		teamJson.setUserId(DBUtils.getUserId());
-		int size = members.size();
+
+//		int size = members.size();
 //		for (int i = 0; i < size; i++) {
 //			String targetId = members.get(i);
 //			if (!DBUtils.getUserId().equals(targetId)) {
 //				WYUtils.notifyUserById(targetId, teamJson);
 //			}
 //		}
+
 //		WYUtils.notifyUserById("10164", teamJson);
 		WYUtils.notifyUserById("10196", teamJson);
 	}
@@ -306,8 +308,16 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 
 			}
 		});
-	}
 
+		//发送取消通知
+		members.add("10196");
+		for (int i = 0; i < members.size(); i++) {
+			if (DBUtils.getUserId().equals(members.get(i))) {//如果是管理员 不发送
+				continue;
+			}
+			WYUtils.notifyToUser(members.get(i), roomName, DBUtils.getUserNickName(), members);//通知成员关闭
+		}
+	}
 
 	@Override
 	protected void onPause() {

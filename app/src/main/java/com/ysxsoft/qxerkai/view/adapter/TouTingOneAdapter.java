@@ -15,14 +15,21 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.utils.ImageUtil;
+import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetTouTingListResponse;
+import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.GlideBlurTransform;
 import com.ysxsoft.qxerkai.utils.StringUtils;
 import com.ysxsoft.qxerkai.view.activity.NHuaLiaoTouTingActivity;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPreviewActivity;
@@ -134,6 +141,46 @@ public class TouTingOneAdapter extends BaseQuickAdapter<GetTouTingListResponse.D
 
 		helper.setText(R.id.peopelNum, item.getSuo() + "人在收听");
 		helper.setText(R.id.time, "时长" + StringUtils.msToTime(item.getSc()));
+
+		ImageView iv_touting = helper.getView(R.id.iv_touting);
+		iv_touting.setOnClickListener(new ItemClickListener(item.getId()));
+	}
+
+	private class ItemClickListener implements View.OnClickListener{
+		private String roomName;
+
+		public ItemClickListener(String roomName) {
+			this.roomName = roomName;
+		}
+
+		@Override
+		public void onClick(View v) {
+			check(roomName);
+		}
+	}
+
+	/**
+	 *  开始偷听接口
+	 */
+	private void check(String roomName) {
+		Map<String, String> map = new HashMap<>();
+		map.put("tid", roomName);
+		map.put("user_id", DBUtils.getUserId());
+		RetrofitTools.checkTouTing(map)
+				.subscribe(new ResponseSubscriber<BaseResponse>() {
+					@Override
+					public void onSuccess(BaseResponse ruleResponse, int code, String msg) {
+						if (code == 200) {
+							//可以偷听  跳转至偷听页面
+							NHuaLiaoTouTingActivity.start(mContext,roomName);
+						} else {
+							ToastUtil.showToast(mContext, msg);
+						}
+					}
+					@Override
+					public void onFailed(Throwable e) {
+					}
+				});
 	}
 
 	class BlurEntity {

@@ -2,6 +2,7 @@ package com.ysxsoft.qxerkai.net;
 
 import android.support.annotation.RestrictTo;
 
+import com.umeng.socialize.media.Base;
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
@@ -79,24 +80,61 @@ public class RetrofitTools {
 	}
 
 	/**
-	 * OkHttp过滤器
+	 * 撒狗粮列表
+	 *
+	 * @param map
+	 * @return
 	 */
-	private static class LogInterceptor implements Interceptor {
-		@Override
-		public okhttp3.Response intercept(Chain chain) throws IOException {
-			Request request = chain.request();
-			LogUtils.e("RequestTool-->  request:" + request.toString());
-			okhttp3.Response response = chain.proceed(request);
-			okhttp3.MediaType mediaType = response.body().contentType();
-			String content = response.body().string();
-			LogUtils.e("RequestTool-->  response body:" + content);
-			if (response.body() != null) {
-				ResponseBody body = ResponseBody.create(mediaType, content);
-				return response.newBuilder().body(body).build();
-			} else {
-				return response;
-			}
-		}
+	public static Observable<SaGouLiangListResponse> getSaGouLiangList(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getSaGouLiangList(map));
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+	// 网络请求 基础Method
+	///////////////////////////////////////////////////////////////////////////
+	public static <T> Observable<T> subscribe(Observable<T> responseObservable) {
+		return responseObservable
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribeOn(Schedulers.io())
+				.unsubscribeOn(Schedulers.io());
+	}
+
+	public static RetrofitApi getManager() {
+		return getBuilder().build().create(RetrofitApi.class);
+	}
+
+	/**
+	 * 撒狗粮点赞
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<SaGouLiangLikeResponse> likeSaGouLiang(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().likeSaGouLiang(map));
+	}
+
+	/**
+	 * 关于我们/我的收益规则/萨狗粮规则/萨狗粮奖品/使用说明/vip特权
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<RuleResponse> getRule(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getRule(map));
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+	// 网络请求 Api
+	///////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * 发布撒狗粮    图片
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<SaGouLiangPublishResponse> publishSaGouLiang(Map<String, String> map, String[] imageNames, File[] imageFiles) {
+		return subscribe(RetrofitTools.getManager().publishSaGouLiang(COMMON_BASE_URL + SA_GOU_LIANG_COMMIT, builder(map, imageNames, imageFiles).build()));
 	}
 
 	/**
@@ -126,63 +164,6 @@ public class RetrofitTools {
 			throw new IllegalArgumentException("The param imageNames is null");
 		}
 		return builder;
-	}
-
-	/**
-	 * 撒狗粮列表
-	 *
-	 * @param map
-	 * @return
-	 */
-	public static Observable<SaGouLiangListResponse> getSaGouLiangList(Map<String, String> map) {
-		return subscribe(RetrofitTools.getManager().getSaGouLiangList(map));
-	}
-
-	///////////////////////////////////////////////////////////////////////////
-	// 网络请求 基础Method
-	///////////////////////////////////////////////////////////////////////////
-	public static <T> Observable<T> subscribe(Observable<T> responseObservable) {
-		return responseObservable
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribeOn(Schedulers.io())
-				.unsubscribeOn(Schedulers.io());
-	}
-
-	public static RetrofitApi getManager() {
-		return getBuilder().build().create(RetrofitApi.class);
-	}
-
-	///////////////////////////////////////////////////////////////////////////
-	// 网络请求 Api
-	///////////////////////////////////////////////////////////////////////////
-	/**
-	 * 撒狗粮点赞
-	 *
-	 * @param map
-	 * @return
-	 */
-	public static Observable<SaGouLiangLikeResponse> likeSaGouLiang(Map<String, String> map) {
-		return subscribe(RetrofitTools.getManager().likeSaGouLiang(map));
-	}
-
-	/**
-	 * 关于我们/我的收益规则/萨狗粮规则/萨狗粮奖品/使用说明/vip特权
-	 *
-	 * @param map
-	 * @return
-	 */
-	public static Observable<RuleResponse> getRule(Map<String, String> map) {
-		return subscribe(RetrofitTools.getManager().getRule(map));
-	}
-
-	/**
-	 * 发布撒狗粮    图片
-	 *
-	 * @param map
-	 * @return
-	 */
-	public static Observable<SaGouLiangPublishResponse> publishSaGouLiang(Map<String, String> map, String[] imageNames, File[] imageFiles) {
-		return subscribe(RetrofitTools.getManager().publishSaGouLiang(COMMON_BASE_URL + SA_GOU_LIANG_COMMIT, builder(map, imageNames, imageFiles).build()));
 	}
 
 	/**
@@ -285,56 +266,55 @@ public class RetrofitTools {
 		return subscribe(RetrofitTools.getManager().publishCard(map));
 	}
 
-    /**
-     * 发布帖子  标题 文本 图片
-     *
-     * @param map
-     * @return
-     */
-    public static Observable<BaseResponse> publishCard(Map<String, String> map, String[] imageNames, File[] imageFiles) {
-        return subscribe(RetrofitTools.getManager().publishCard(COMMON_BASE_URL + CARD_ADD, builder(map, imageNames, imageFiles).build()));
-    }
+	/**
+	 * 发布帖子  标题 文本 图片
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<BaseResponse> publishCard(Map<String, String> map, String[] imageNames, File[] imageFiles) {
+		return subscribe(RetrofitTools.getManager().publishCard(COMMON_BASE_URL + CARD_ADD, builder(map, imageNames, imageFiles).build()));
+	}
 
-    /**
-     * 撩人区列表
-     *
-     * @param map
-     * @return
-     */
-    public static Observable<GetLiaoRenListResponse> getLiaoRenList(Map<String, String> map) {
-        return subscribe(RetrofitTools.getManager().getLiaoRenList(map));
-    }
+	/**
+	 * 撩人区列表
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<GetLiaoRenListResponse> getLiaoRenList(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getLiaoRenList(map));
+	}
 
-    /**
-     * 撩人区列表
-     *
-     * @param map
-     * @return
-     */
-    public static Observable<TwoPageTuiJianResponse> getTuiJianList(Map<String, String> map) {
-        return subscribe(RetrofitTools.getManager().getTuiJianList(map));
-    }
+	/**
+	 * 撩人区列表
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<TwoPageTuiJianResponse> getTuiJianList(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getTuiJianList(map));
+	}
 
-    /**
-     * 获取附近的人列表  私人定制
-     *
-     * @param map
-     * @return
-     */
-    public static Observable<HaoYouListResponse> getFjRenList(Map<String, String> map) {
-        return subscribe(RetrofitTools.getManager().getFjRenList(map));
-    }
+	/**
+	 * 获取附近的人列表  私人定制
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<HaoYouListResponse> getFjRenList(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getFjRenList(map));
+	}
 
-    /**
-     * 获取好友列表  私人定制
-     *
-     * @param map
-     * @return
-     */
-    public static Observable<HaoYouListResponse> getHaoYouList(Map<String, String> map) {
-        return subscribe(RetrofitTools.getManager().getHaoYouList(map));
-    }
-
+	/**
+	 * 获取好友列表  私人定制
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<HaoYouListResponse> getHaoYouList(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getHaoYouList(map));
+	}
 
 	/**
 	 * 搜索好友  私人定制
@@ -355,75 +335,66 @@ public class RetrofitTools {
 	public static Observable<HaoYouListResponse> getTopList(Map<String, String> map) {
 		return subscribe(RetrofitTools.getManager().getTopList(map));
 	}
-    /**
-     * 获取好友列表  私人定制
-     *
-     * @param map type 1土豪2一姐
-     * @return
-     */
-    public static Observable<HaoYouListResponse> getTopList(Map<String, String> map) {
-        return subscribe(RetrofitTools.getManager().getTopList(map));
-    }
 
-    /**
-     * 获取我的礼物列表
-     *
-     * @param map
-     * @return
-     */
-    public static Observable<MyLiWuResponse> getMyLiWuList(Map<String, String> map) {
-        return subscribe(RetrofitTools.getManager().getMyLiWuList(map));
-    }
+	/**
+	 * 获取我的礼物列表
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<MyLiWuResponse> getMyLiWuList(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getMyLiWuList(map));
+	}
 
-    /**
-     * 获取用户消费的砰砰豆
-     *
-     * @param map
-     * @return
-     */
-    public static Observable<UserXiaoFeiNum> getUserXiaoFei(Map<String, String> map) {
-        return subscribe(RetrofitTools.getManager().getUserXiaoFei(map));
-    }
+	/**
+	 * 获取用户消费的砰砰豆
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<UserXiaoFeiNum> getUserXiaoFei(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getUserXiaoFei(map));
+	}
 
-    /**
-     * 获取首页用户列表
-     *
-     * @param map
-     * @return
-     */
-    public static Observable<HomeItemList> getHomeItemList(Map<String, String> map) {
-        return subscribe(RetrofitTools.getManager().getHomeItemList(map));
-    }
+	/**
+	 * 获取首页用户列表
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<HomeItemList> getHomeItemList(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getHomeItemList(map));
+	}
 
-    /**
-     * 漂浮的话题列表
-     *
-     * @param map
-     * @return
-     */
-    public static Observable<GetHuaTiListResponse> getHuaTiList(Map<String, String> map) {
-        return subscribe(RetrofitTools.getManager().getHuaTiList(map));
-    }
+	/**
+	 * 漂浮的话题列表
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<GetHuaTiListResponse> getHuaTiList(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getHuaTiList(map));
+	}
 
-    /**
-     * 漂浮的话题列表
-     *
-     * @param map
-     * @return
-     */
-    public static Observable<BaseResponse> addHuaTi(Map<String, String> map) {
-        return subscribe(RetrofitTools.getManager().addHuaTi(map));
-    }
+	/**
+	 * 漂浮的话题列表
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<BaseResponse> addHuaTi(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().addHuaTi(map));
+	}
 
-    /**
-     * 抢话题/继续聊
-     *
-     * @param map
-     * @return
-     */
-    public static Observable<BaseResponse> startHuaTi(Map<String, String> map) {
-        return subscribe(RetrofitTools.getManager().huaTiStart(map));
-    }
+	/**
+	 * 抢话题/继续聊
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<BaseResponse> startHuaTi(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().huaTiStart(map));
+	}
 
 	/**
 	 * 一键匹配
@@ -508,14 +479,15 @@ public class RetrofitTools {
 	public static Observable<BaseResponse> suo(Map<String, String> map) {
 		return subscribe(RetrofitTools.getManager().suo(map));
 	}
-    /**
-     * 获取用户身份列表
-     *
-     * @return
-     */
-    public static Observable<MemberListResponse> getMemberList() {
-        return subscribe(RetrofitTools.getManager().getMemberList());
-    }
+
+	/**
+	 * 获取用户身份列表
+	 *
+	 * @return
+	 */
+	public static Observable<MemberListResponse> getMemberList() {
+		return subscribe(RetrofitTools.getManager().getMemberList());
+	}
 
 	/**
 	 * 获取用户身份列表
@@ -524,5 +496,54 @@ public class RetrofitTools {
 	 */
 	public static Observable<GetQuestionRespose> getQuestionList() {
 		return subscribe(RetrofitTools.getManager().getQuestionList());
+	}
+
+	/**
+	 *发弹幕
+	 *
+	 * @return
+	 */
+	public static Observable<BaseResponse> fadanmu(Map<String,String> map) {
+		return subscribe(RetrofitTools.getManager().fadanmu(map));
+	}
+
+	/**
+	 * 偷听/录音解锁
+	 *
+	 * @return
+	 */
+	public static Observable<BaseResponse> jiesuo(Map<String,String> map) {
+		return subscribe(RetrofitTools.getManager().jiesuo(map));
+	}
+
+	/**
+	 *检测房间是否能被偷听
+	 *
+	 * @return
+	 */
+	public static Observable<BaseResponse> checkTouTing(Map<String,String> map) {
+		return subscribe(RetrofitTools.getManager().checkTouTing(map));
+	}
+
+
+	/**
+	 * OkHttp过滤器
+	 */
+	private static class LogInterceptor implements Interceptor {
+		@Override
+		public okhttp3.Response intercept(Chain chain) throws IOException {
+			Request request = chain.request();
+			LogUtils.e("RequestTool-->  request:" + request.toString());
+			okhttp3.Response response = chain.proceed(request);
+			okhttp3.MediaType mediaType = response.body().contentType();
+			String content = response.body().string();
+			LogUtils.e("RequestTool-->  response body:" + content);
+			if (response.body() != null) {
+				ResponseBody body = ResponseBody.create(mediaType, content);
+				return response.newBuilder().body(body).build();
+			} else {
+				return response;
+			}
+		}
 	}
 }

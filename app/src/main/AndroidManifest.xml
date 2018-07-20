@@ -602,7 +602,7 @@
         <!--查看相册-->
         <activity android:name="com.ysxsoft.qxerkai.view.activity.NXiangCheChaKanActivity"   android:screenOrientation="portrait"/>
         <!--用户协议-->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NUserProtocolActivity"/>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NUserProtocolActivity"   android:screenOrientation="portrait"/>
         <!--守护 搜索页-->
         <activity
             android:name="com.ysxsoft.qxerkai.view.activity.NShouHuSearchActivity"
@@ -614,10 +614,9 @@
             android:name="com.ysxsoft.qxerkai.view.activity.NBanYanSearchActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NUserProtocolActivity"   android:screenOrientation="portrait"/>
+
         <!--一键匹配来电页面-->
         <activity android:name="com.ysxsoft.qxerkai.view.activity.PiPeiCallActivity"   android:screenOrientation="portrait">
-
         </activity>
 
     </application>

@@ -52,6 +52,7 @@ import com.ttt.qx.qxcall.database.UserDao;
 import com.ttt.qx.qxcall.dbbean.NotifyBean;
 import com.ttt.qx.qxcall.dbbean.UserBean;
 import com.ttt.qx.qxcall.dialog.ReceiveGiftDialog;
+import com.ttt.qx.qxcall.dialog.ReceiveTextDialog;
 import com.ttt.qx.qxcall.function.helper.SessionHelper;
 import com.ttt.qx.qxcall.function.home.view.MainActivity;
 import com.ttt.qx.qxcall.function.login.model.entity.AddressEntity;
@@ -383,6 +384,19 @@ public class QXCallApplication extends MultiDexApplication {
 									public void onSend(String gift_id) {
 									}
 								});
+							} else if (jsonObject.getInt("msg_type") == 12) {//弹幕
+								notifyBean.setContent(jsonObject.getString("msg"));
+								Activity topActivity = CustomActivityManager.getInstance().getTopActivity();
+								Map<String, String> receiveMap = new HashMap<String, String>();
+								receiveMap.put("content", jsonObject.getString("msg"));
+								ReceiveTextDialog.showReceiveTextDialog(topActivity, receiveMap, new ReceiveTextDialog.OnComponentClickListener() {
+									@Override
+									public void onCancle() {
+									}
+									@Override
+									public void onSend(String gift_id) {
+									}
+								});
 							} else {//其他系统通知（充值成功、系统消息推送等）1
 								notifyBean.setContent(jsonObject.getString("msg"));
 								notifyBean.setMsgType(String.valueOf(jsonObject.getInt("msg_type")));
@@ -392,23 +406,23 @@ public class QXCallApplication extends MultiDexApplication {
 							notifyDao.add(notifyBean);
 						} else {//一键匹配广播
 							String id = jsonObject.optString("id");
-							switch (id){
+							switch (id) {
 								case "3":
-									LogUtils.e("收到匹配通知"+jsonObject.toString());
+									LogUtils.e("收到匹配通知" + jsonObject.toString());
 									WYUtils.TeamJson teamJson = WYUtils.parseCustom(jsonObject);
 									//type: 1系统匹配2专属匹配3角色扮演
-									if(DBUtils.getUserId()!=null&&DBUtils.getUserId().equals(teamJson.getUserId())){
+									if (DBUtils.getUserId() != null && DBUtils.getUserId().equals(teamJson.getUserId())) {
 										LogUtils.e("收到自己通知");
 										return;
 									}
-									LogUtils.e("通知解析后:"+new Gson().toJson(teamJson));
-									PiPeiCallActivity.start(getApplicationContext(), teamJson.getCallerName(), teamJson.getRoomName(), teamJson.getUserId(), "1", teamJson.getTeamId(),teamJson.getMembers());
+									LogUtils.e("通知解析后:" + new Gson().toJson(teamJson));
+									PiPeiCallActivity.start(getApplicationContext(), teamJson.getCallerName(), teamJson.getRoomName(), teamJson.getUserId(), "1", teamJson.getTeamId(), teamJson.getMembers());
 									break;
 								case "4"://群主解散房间通知/房间成员退出通知
 									LogUtils.e("群主解散房间通知/房间成员退出通知");
-									LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getApplicationContext()) ;
-									Intent intent = new Intent( "com.ysxsoft.qxerkai.needexit" ) ;
-									intent.putExtra("roomName",jsonObject.optString("room"));//房间名称
+									LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
+									Intent intent = new Intent("com.ysxsoft.qxerkai.needexit");
+									intent.putExtra("roomName", jsonObject.optString("room"));//房间名称
 									localBroadcastManager.sendBroadcast(intent);
 									break;
 							}
