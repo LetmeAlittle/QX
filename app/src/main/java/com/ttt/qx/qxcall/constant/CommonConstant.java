@@ -114,6 +114,9 @@ public class CommonConstant {
 	public static final String SRDZ_fjs = "api/fjs";// 附近的人
 	public static final String SRDZ_guanzhur = "api/guanzhur";// 我的好友（关注的人）
 	public static final String SRDZ_topList = "api/topList";//获取土豪/一姐榜
+	public static final String SRDZ_wentiliebiao = "api/wentiliebiao";//问题的列表
+	public static final String SRDZ_search = "api/home/search";//搜索
+
 
 
     //用户资料  zhaozhipeng

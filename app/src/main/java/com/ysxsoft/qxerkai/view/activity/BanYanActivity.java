@@ -5,19 +5,28 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
 import com.ysxsoft.qxerkai.net.RetrofitTools;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
+import com.ysxsoft.qxerkai.net.response.SearchListResponse;
 import com.ysxsoft.qxerkai.utils.DBUtils;
+import com.ysxsoft.qxerkai.utils.LogUtils;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
 import java.util.HashMap;
@@ -33,12 +42,6 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
     //1111
     @BindView(R.id.status_bar)
     View statusBar;
-    @BindView(R.id.iv_public_titlebar_left_1)
-    ImageView ivPublicTitlebarLeft1;
-    @BindView(R.id.ll_public_titlebar_left)
-    LinearLayout llPublicTitlebarLeft;
-    @BindView(R.id.tv_public_titlebar_center)
-    TextView tvPublicTitlebarCenter;
     @BindView(R.id.swipe_target)
     RecyclerView swipeTarget;
     @BindView(R.id.multipleStatusView)
@@ -51,14 +54,48 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
     LinearLayout llHaoYou;
     @BindView(R.id.ll_fu_jin)
     LinearLayout llFuJin;
+    @BindView(R.id.et_public_titlebar)
+    EditText etPublicTitlebar;
 
 
     private int pageType = 0,pageIndex = 1,pageTotal = 1,urlType = 0;
     private int picLeft = R.mipmap.touxiang_dashu, picRight = R.mipmap.touxiang_luoli;
     private String user_id= "";
 
+    private OnChooseClick onChooseClick;
     private BanYanAdapter adapter;
     private HashMap<String,String> map = new HashMap<>();
+    private double latitude = 34.801765;
+    private double longitude = 113.611325;
+
+
+    //声明AMapLocationClient类对象
+    public AMapLocationClient mLocationClient = null;
+    //声明AMapLocationClientOption对象
+    public AMapLocationClientOption mLocationOption = null;
+
+    //声明定位回调监听器
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation amapLocation) {
+            if (amapLocation != null) {
+                if (amapLocation.getErrorCode() == 0) {
+                    LogUtils.e("实现定位==="+amapLocation.getAddress());
+                    //可在其中解析amapLocation获取相应内容。
+                    //获取纬度
+                    latitude = amapLocation.getLatitude();
+                    //获取经度
+                    longitude = amapLocation.getLongitude();
+
+                }else {
+                    //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError","location Error, ErrCode:"
+                            + amapLocation.getErrorCode() + ", errInfo:"
+                            + amapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
 
 
     @Override
@@ -68,12 +105,40 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
         ButterKnife.bind(this);
         initStatusBar();
         initStatusBar(statusBar);
-        initTitleBar();
+//        initTitleBar();
         initView();
         initData();
+        initMap();
     }
 
-    private void initTitleBar() {
+    private void initMap() {
+        //初始化定位
+        mLocationClient = new AMapLocationClient(getApplicationContext());
+        //设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+
+        //初始化AMapLocationClientOption对象
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+
+
+        //获取一次定位结果：
+        //该方法默认为false。
+        mLocationOption.setOnceLocation(true);
+
+        //获取最近3s内精度最高的一次定位结果：
+        //设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+        mLocationOption.setOnceLocationLatest(true);
+
+
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
+    }
+
+   /* private void initTitleBar() {
         ivPublicTitlebarLeft1.setVisibility(View.VISIBLE);
         ivPublicTitlebarLeft1.setImageResource(R.mipmap.back_left_white);
         llPublicTitlebarLeft.setOnClickListener(new View.OnClickListener() {
@@ -83,9 +148,12 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
             }
         });
         tvPublicTitlebarCenter.setText("");
-    }
+    }*/
 
     private void initView() {
+        etPublicTitlebar.setClickable(true);
+        etPublicTitlebar.setFocusable(false);
+
         user_id = DBUtils.getUserId();
 
         swipeTarget.setLayoutManager(new LinearLayoutManager(this));
@@ -132,6 +200,8 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
         urlType = 0;
     }
 
+
+
     private void initData() {
         pageIndex =1;
         if (urlType == 0) {
@@ -139,27 +209,49 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
         } else {
             getFjData();
         }
+
+        onChooseClick = new OnChooseClick() {
+            @Override
+            public void onClick(HaoYouListResponse.DataBeanX.DataBean item) {
+                //TODO  角色扮演  选择
+                showToast(item.getNick_name());
+            }
+        };
     }
 
-    @OnClick({R.id.tv_hy, R.id.tv_fj})
+    @OnClick({R.id.iv_public_titlebar_left_1, R.id.et_public_titlebar,
+            R.id.tv_hy, R.id.tv_fj,R.id.tv_sysPipei})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_public_titlebar_left_1:
+                finish();
+                break;
+            case R.id.et_public_titlebar:
+                startActivity(new Intent(this,NBanYanSearchActivity.class));
+                break;
             case R.id.tv_hy://我的好友
                 if (llHaoYou.getVisibility() != View.VISIBLE )  {
                     urlType =0;
                     llHaoYou.setVisibility(View.VISIBLE);
                     llFuJin.setVisibility(View.INVISIBLE);
                 }
+                initData();
                 break;
             case R.id.tv_fj://附近的人
                 if (llFuJin.getVisibility() != View.VISIBLE)  {
                     urlType =1;
                     llFuJin.setVisibility(View.VISIBLE);
                     llHaoYou.setVisibility(View.INVISIBLE);
+
                 }
+                initData();
+                break;
+            case R.id.tv_sysPipei://系统匹配
+                //TODO   系统匹配
+
                 break;
         }
-        initData();
+
     }
 
     @Override
@@ -220,8 +312,8 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
         map.clear();
         map.put("user_id",user_id);
         map.put("page",pageIndex+"");
-        map.put("lat","34.801765");//纬度
-        map.put("lng","113.611325");//精度
+        map.put("lat",latitude+"");//纬度
+        map.put("lng",longitude +"");//精度
 
         RetrofitTools.getFjRenList(map).subscribe(new ResponseSubscriber<HaoYouListResponse>() {
             @Override
@@ -278,12 +370,26 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
                 tvStatus.setTextColor(Color.parseColor("#fd3d5c"));
                 tvStatus.setText("在线");
                 tvChoose.setVisibility(View.VISIBLE);
+
+                tvChoose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onChooseClick.onClick(item);
+                    }
+                });
+
             }
             Glide.with(mContext).load(item.getIcon())
                     .into((ImageView) helper.getView(R.id.iv_touxiang));
 
             helper.setText(R.id.tv_nickname,item.getNick_name());
         }
+
+    }
+
+
+    public interface OnChooseClick{
+        void onClick(HaoYouListResponse.DataBeanX.DataBean item);
     }
 
 }

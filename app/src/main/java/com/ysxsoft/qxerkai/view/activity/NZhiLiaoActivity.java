@@ -422,6 +422,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                     return;
                 }
                 startActivity(new Intent(this, NKaiTongShouHuActivity.class)
+                        .putExtra("time", 0)
                         .putExtra("uid", "" + mInfoData.getId())
                         .putExtra("nickname", mInfoData.getNick_name())
                         .putExtra("avatar", mInfoData.getMember_avatar()));

@@ -70,6 +70,13 @@
             android:name="UMENG_CHANNEL"
             android:value="XiaoMi" />
 
+        <!-- 高德地图 配置  -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="3f6b6504144955017e07d2a39b13332e">
+        </meta-data>
+        <service android:name="com.amap.api.location.APSService"></service>
+
         <!-- 友盟第三方使用相关 配置 start -->
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
@@ -131,7 +138,7 @@
 
         <activity
             android:name=".function.home.view.MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <!-- 网易云 即时通讯以及音视频第三方使用相关 配置 start -->
         <!--
            APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
@@ -324,7 +331,7 @@
         <activity
             android:name=".function.voice.AVChatActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".function.find.view.PublishDynamicsActivity"
             android:screenOrientation="portrait" />
@@ -595,6 +602,18 @@
         <!--查看相册-->
         <activity android:name="com.ysxsoft.qxerkai.view.activity.NXiangCheChaKanActivity"   android:screenOrientation="portrait"/>
         <!--用户协议-->
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NUserProtocolActivity"/>
+        <!--守护 搜索页-->
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NShouHuSearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <!--角色扮演 搜索页-->
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NBanYanSearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.ysxsoft.qxerkai.view.activity.NUserProtocolActivity"   android:screenOrientation="portrait"/>
         <!--一键匹配来电页面-->
         <activity android:name="com.ysxsoft.qxerkai.view.activity.PiPeiCallActivity"   android:screenOrientation="portrait">
