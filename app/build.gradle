@@ -155,6 +155,8 @@ dependencies {
     compile 'cn.bingoogolapple:bga-banner:2.2.4@aar'
     //图片压缩
     compile 'top.zibin:Luban:1.1.3'
+    //高斯模糊glide 库
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
 }

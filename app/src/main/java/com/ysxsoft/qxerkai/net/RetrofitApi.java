@@ -7,8 +7,11 @@ import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
 import com.ysxsoft.qxerkai.net.response.GetHuaTiListResponse;
 import com.ysxsoft.qxerkai.net.response.GetHuaTiListResponse;
 import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
+import com.ysxsoft.qxerkai.net.response.GetLuYinListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GetPiPeiListResponse;
+import com.ysxsoft.qxerkai.net.response.GetTouTingDetailResponse;
+import com.ysxsoft.qxerkai.net.response.GetTouTingListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
 import com.ysxsoft.qxerkai.net.response.MemberListResponse;
@@ -50,6 +53,7 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.MY_CARD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.NOTICE_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.PI_PEI;
 import static com.ttt.qx.qxcall.constant.CommonConstant.PI_PEI_BUY;
+import static com.ttt.qx.qxcall.constant.CommonConstant.PI_PEI_SUO;
 import static com.ttt.qx.qxcall.constant.CommonConstant.PI_PEI_YI_JIAN;
 import static com.ttt.qx.qxcall.constant.CommonConstant.PUSH_COMMENT;
 import static com.ttt.qx.qxcall.constant.CommonConstant.RULE;
@@ -59,6 +63,9 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_fjs;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_guanzhur;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_topList;
+import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_DETAIL;
+import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_LU_YIN_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TWO_PAGE_USER_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.UPLOAD_ICONS;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_GUARDS_LIST;
@@ -373,4 +380,47 @@ public interface RetrofitApi {
     @FormUrlEncoded
     @POST(MEMBER_LIST)
     Observable<MemberListResponse> getMemberList();
+
+
+	/**
+	 * 获取偷听列表
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(TOU_TING_LIST)
+	Observable<GetTouTingListResponse> getTouTingList(@FieldMap Map<String, String> map);
+
+	/**
+	 * 获取录音列表
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(TOU_TING_LU_YIN_LIST)
+	Observable<GetLuYinListResponse> getLuYinList(@FieldMap Map<String, String> map);
+
+	/**
+	 * 获取偷听详情
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(TOU_TING_DETAIL)
+	Observable<GetTouTingDetailResponse> getTouTingDetail(@FieldMap Map<String, String> map);
+
+	/**
+	 * 匹配上锁
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(PI_PEI_SUO)
+	Observable<BaseResponse> suo(@FieldMap Map<String, String> map);
+
+
 }

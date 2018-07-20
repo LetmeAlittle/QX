@@ -352,7 +352,9 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
 			temp1.addAll(data);
 		}
 		quanZiAdapter.setNewData(temp1);
-	}	@Override
+	}
+
+	@Override
 	public void onClick(View view) {
 		int tag = Integer.valueOf(view.getTag().toString());
 		if (tag == currentTabIndex) {

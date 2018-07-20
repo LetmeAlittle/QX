@@ -524,78 +524,83 @@
             android:name="com.ysxsoft.qxerkai.view.activity.NPengYouQuanActivity"
             android:screenOrientation="portrait"></activity>
         <!-- 用户资料主页 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NZhiLiaoActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NZhiLiaoActivity"   android:screenOrientation="portrait"></activity>
         <!-- 撒狗粮 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.SaGouLiangActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.SaGouLiangActivity"   android:screenOrientation="portrait"></activity>
         <!-- 偷听列表 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NTouTingActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NTouTingActivity"   android:screenOrientation="portrait"></activity>
         <!-- 朋友圈详情 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.PengYouQuanDetailActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.PengYouQuanDetailActivity"   android:screenOrientation="portrait"></activity>
         <!-- 礼物榜 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.LiWuBangActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.LiWuBangActivity"   android:screenOrientation="portrait"></activity>
         <!-- 我的页面礼物榜 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NMyLiWuBangActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NMyLiWuBangActivity"   android:screenOrientation="portrait"></activity>
         <!-- Top榜 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NTopBangActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NTopBangActivity"   android:screenOrientation="portrait"></activity>
         <!-- 撩人区 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NLiaoRenQuActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NLiaoRenQuActivity"   android:screenOrientation="portrait"></activity>
         <!-- 守护榜 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NShouHuBangActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NShouHuBangActivity"   android:screenOrientation="portrait"></activity>
         <!-- 个人资料 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NPersonCenterActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NPersonCenterActivity"   android:screenOrientation="portrait"></activity>
         <!-- 设置页面 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NSettingActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NSettingActivity"   android:screenOrientation="portrait"></activity>
         <!-- 撩汉区 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.LiaoHanQuActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.LiaoHanQuActivity"   android:screenOrientation="portrait"></activity>
         <!-- 撩妹区 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.LiaoMeiQuActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.LiaoMeiQuActivity"   android:screenOrientation="portrait"></activity>
         <!-- 相册 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NXiangCheActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NXiangCheActivity"   android:screenOrientation="portrait"></activity>
         <!-- 购买VIP -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NGouMaiVipActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NGouMaiVipActivity"   android:screenOrientation="portrait"></activity>
         <!-- VIP中心 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.VipCenterActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.VipCenterActivity"   android:screenOrientation="portrait"></activity>
         <!-- 我的收益 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NMyShouYiActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NMyShouYiActivity"   android:screenOrientation="portrait"></activity>
         <!-- 收支明细 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NShouZhiMingXiActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NShouZhiMingXiActivity"   android:screenOrientation="portrait"></activity>
         <!-- 粉丝列表 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NFansListActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NFansListActivity"   android:screenOrientation="portrait"></activity>
         <!-- 我的邀请 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NMyYaoQingActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NMyYaoQingActivity"   android:screenOrientation="portrait"></activity>
         <!-- 充值 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NChongZhiActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NChongZhiActivity"   android:screenOrientation="portrait"></activity>
         <!-- 专属匹配 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NZhuanShuPiPeiActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NZhuanShuPiPeiActivity"   android:screenOrientation="portrait"></activity>
         <!-- 选择守护 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.XuanZheShouHuActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.XuanZheShouHuActivity"   android:screenOrientation="portrait"></activity>
         <!-- 角色扮演 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.BanYanActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.BanYanActivity"   android:screenOrientation="portrait"></activity>
         <!-- 语音聊天页面 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NHuaLiaoActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NHuaLiaoActivity"   android:screenOrientation="portrait"></activity>
         <!-- 语音聊天偷听页面 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NHuaLiaoTouTingActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NHuaLiaoTouTingActivity"   android:screenOrientation="portrait"></activity>
         <!-- 小情趣发布 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NFaTieActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NFaTieActivity"   android:screenOrientation="portrait"></activity>
         <!-- 朋友圈发布 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NPengYouQuanFaBuActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NPengYouQuanFaBuActivity"   android:screenOrientation="portrait"></activity>
         <!-- 意见反馈 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NFeedBackActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NFeedBackActivity"   android:screenOrientation="portrait"></activity>
         <!-- 小情趣，查看更多 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NQingQuListActivity"></activity>
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NTiXianActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NQingQuListActivity"   android:screenOrientation="portrait"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NTiXianActivity"   android:screenOrientation="portrait"></activity>
         <!-- 网页基类-->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.BaseWebViewActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.BaseWebViewActivity"   android:screenOrientation="portrait"></activity>
         <!--发布撒狗粮-->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.PublishSGLActivity"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.PublishSGLActivity"   android:screenOrientation="portrait"></activity>
         <!--小情趣详情-->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NQingQuDetailActivity"></activity>
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NKaiTongShouHuActivity">
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NQingQuDetailActivity"   android:screenOrientation="portrait"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NKaiTongShouHuActivity"   android:screenOrientation="portrait">
         </activity>
         <!--查看相册-->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NXiangCheChaKanActivity"/>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NXiangCheChaKanActivity"   android:screenOrientation="portrait"/>
         <!--用户协议-->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NUserProtocolActivity"/>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NUserProtocolActivity"   android:screenOrientation="portrait"/>
+        <!--一键匹配来电页面-->
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.PiPeiCallActivity"   android:screenOrientation="portrait">
+
+        </activity>
+
     </application>
 
 </manifest>

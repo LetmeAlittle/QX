@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dp_10"
+    android:background="@drawable/rect_white_radius4"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="@dimen/layout_padding_24dp"
+        android:text="录音结束，是否发布录音？"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/layout_margin_24dp"
+        android:layout_marginTop="@dimen/layout_padding_8dp"
+        android:background="@drawable/round_pi_pei"
+        android:drawableLeft="@drawable/t_avchat_voice_normal"
+        android:drawablePadding="@dimen/layout_padding_16dp"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dp_4"
+        android:paddingLeft="@dimen/layout_padding_16dp"
+        android:paddingRight="@dimen/layout_padding_16dp"
+        android:paddingTop="@dimen/dp_4"
+        android:text="26s"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1px"
+        android:background="#40545454" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/layout_padding_12dp"
+            android:text="取消"
+            android:textSize="@dimen/text_size_12sp" />
+
+        <View
+            android:layout_width="@dimen/layout_padding_1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:background="#40545454" />
+
+        <TextView
+            android:id="@+id/submit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/layout_padding_12dp"
+            android:text="去发布"
+            android:textColor="@color/colorLoginColor"
+            android:textSize="@dimen/text_size_12sp" />
+    </LinearLayout>
+
+</LinearLayout>

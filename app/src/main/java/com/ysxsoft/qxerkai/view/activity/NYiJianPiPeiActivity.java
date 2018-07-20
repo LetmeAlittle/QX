@@ -22,7 +22,13 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.avchat.AVChatCallback;
 import com.netease.nimlib.sdk.avchat.AVChatManager;
+import com.netease.nimlib.sdk.avchat.AVChatStateObserver;
+import com.netease.nimlib.sdk.avchat.model.AVChatAudioFrame;
 import com.netease.nimlib.sdk.avchat.model.AVChatChannelInfo;
+import com.netease.nimlib.sdk.avchat.model.AVChatData;
+import com.netease.nimlib.sdk.avchat.model.AVChatNetworkStats;
+import com.netease.nimlib.sdk.avchat.model.AVChatSessionStats;
+import com.netease.nimlib.sdk.avchat.model.AVChatVideoFrame;
 import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.constant.TeamFieldEnum;
 import com.netease.nimlib.sdk.team.constant.TeamTypeEnum;
@@ -34,6 +40,7 @@ import com.ysxsoft.qxerkai.net.ResponseSubscriber;
 import com.ysxsoft.qxerkai.net.RetrofitTools;
 import com.ysxsoft.qxerkai.net.response.GetPiPeiListResponse;
 import com.ysxsoft.qxerkai.utils.DBUtils;
+import com.ysxsoft.qxerkai.utils.LogUtils;
 import com.ysxsoft.qxerkai.utils.SystemUtils;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.utils.WYUtils;
@@ -49,7 +56,7 @@ import java.util.UUID;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NYiJianPiPeiActivity extends AppCompatActivity {
+public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatStateObserver {
 
 	private final int U_TIME_CODE = 0x01;
 	private final int NOT_FOUND = 0x02;
@@ -66,6 +73,7 @@ public class NYiJianPiPeiActivity extends AppCompatActivity {
 	private ArrayList<String> members = new ArrayList<>();//成员ID
 
 	private Team team;//创建之后的群组
+	private String type="1";
 
 	private Handler handler = new Handler() {
 		@Override
@@ -79,7 +87,7 @@ public class NYiJianPiPeiActivity extends AppCompatActivity {
 						handler.sendEmptyMessageDelayed(U_TIME_CODE, delayTime);
 					} else {//超过60s未匹配到 关闭页面
 						handler.removeCallbacksAndMessages(U_TIME_CODE);
-						dismissTeam();
+//						dismissTeam();
 						finish();
 					}
 					break;
@@ -92,6 +100,7 @@ public class NYiJianPiPeiActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_yi_jian_pi_pei);
 		ButterKnife.bind(this);
+		register(true);//注册监听通知
 		initStatusBar();
 		initView();
 		handler.obtainMessage(U_TIME_CODE).sendToTarget();
@@ -161,11 +170,28 @@ public class NYiJianPiPeiActivity extends AppCompatActivity {
 	private void createRoom() {
 		roomName = DBUtils.getUserId() + "-" + System.currentTimeMillis();//房间名称    用户id- 时间戳
 		String extraMessage = "";
-
 		AVChatManager.getInstance().createRoom(roomName, extraMessage, new AVChatCallback<AVChatChannelInfo>() {
 			@Override
 			public void onSuccess(AVChatChannelInfo avChatChannelInfo) {
 				Log.e("tag", "创建多人音视频通话成功!");
+
+				WYUtils.joinRoom(roomName, new AVChatCallback<AVChatData>() {
+					@Override
+					public void onSuccess(AVChatData avChatData) {
+						Log.e("tag", "加入房间成功!");
+					}
+
+					@Override
+					public void onFailed(int i) {
+						Log.e("tag", "加入房间onFailed!"+i);
+					}
+
+					@Override
+					public void onException(Throwable throwable) {
+						Log.e("tag", "加入房间onException!"+throwable.getMessage());
+					}
+				});
+
 				createTeam(roomName);//创建群组   群组名称与多人音视频讨论组一样
 			}
 
@@ -215,8 +241,8 @@ public class NYiJianPiPeiActivity extends AppCompatActivity {
 	}
 
 	private void addUser() {
-		NIMClient.getService(TeamService.class).addMembers(team.getId(), members);
-		notifyALlUser();
+//		NIMClient.getService(TeamService.class).addMembers(team.getId(), members);
+		notifyALlUser();//通知匹配接口所有用户 显示打电话页面
 	}
 
 	/**
@@ -230,8 +256,7 @@ public class NYiJianPiPeiActivity extends AppCompatActivity {
 		teamJson.setRoomName(roomName);
 		teamJson.setTeamName(team.getName());
 		teamJson.setCallerName(DBUtils.getUserNickName());
-
-		Log.e("tag", "发送通知");
+		teamJson.setUserId(DBUtils.getUserId());
 		int size = members.size();
 //		for (int i = 0; i < size; i++) {
 //			String targetId = members.get(i);
@@ -239,7 +264,16 @@ public class NYiJianPiPeiActivity extends AppCompatActivity {
 //				WYUtils.notifyUserById(targetId, teamJson);
 //			}
 //		}
-		WYUtils.notifyUserById("10164", teamJson);
+//		WYUtils.notifyUserById("10164", teamJson);
+		WYUtils.notifyUserById("10196", teamJson);
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		handler.removeCallbacksAndMessages(U_TIME_CODE);
+		dismissTeam();
+		finish();
 	}
 
 	public void onBack(View view) {
@@ -255,24 +289,25 @@ public class NYiJianPiPeiActivity extends AppCompatActivity {
 		if (team == null) {
 			return;
 		}
-		NIMClient.getService(TeamService.class).dismissTeam(team.getId()).setCallback(new RequestCallback<Void>() {
+		WYUtils.dismissTeam(team.getId());
+		WYUtils.leaveRoom2(roomName, new AVChatCallback<Void>() {
 			@Override
-			public void onSuccess(Void param) {
-				// 解散群成功
-				Log.e("tag", "解散群组成功！");
+			public void onSuccess(Void aVoid) {
+				LogUtils.e("离开房间");
 			}
 
 			@Override
-			public void onFailed(int code) {
-				// 解散群失败
+			public void onFailed(int i) {
+
 			}
 
 			@Override
-			public void onException(Throwable exception) {
-				// 错误
+			public void onException(Throwable throwable) {
+
 			}
 		});
 	}
+
 
 	@Override
 	protected void onPause() {
@@ -280,4 +315,160 @@ public class NYiJianPiPeiActivity extends AppCompatActivity {
 		super.onPause();
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		register(false);
+	}
+
+	private void register(boolean register){
+		AVChatManager.getInstance().observeAVChatState(this, register);
+	}
+
+	@Override
+	public void onJoinedChannel(int i, String s, String s1, int i1) {
+		Log.e("tag","一键匹配 onJoinedChannel");
+	}
+
+	@Override
+	public void onUserJoined(String s) {
+		Log.e("tag","一键匹配 onUserJoined");
+		if(team==null){
+			return;
+		}
+		handler.removeCallbacksAndMessages(U_TIME_CODE);
+
+//		NHuaLiaoActivity.start(getApplicationContext(), DBUtils.getUserNickName(),roomName, DBUtils.getUserId(), type,team.getId(),members);
+		NHuaLiaoActivity.start(NYiJianPiPeiActivity.this,roomName,team.getId(),"1",DBUtils.getUserNickName(),true,members);
+		finish();
+	}
+
+	@Override
+	public void onUserLeave(String s, int i) {
+		Log.e("tag","一键匹配 onUserLeave");
+	}
+
+	@Override
+	public void onLeaveChannel() {
+		Log.e("tag","一键匹配 onLeaveChannel");
+	}
+
+	@Override
+	public void onProtocolIncompatible(int i) {
+		Log.e("tag","一键匹配 onProtocolIncompatible");
+	}
+
+	@Override
+	public void onDisconnectServer() {
+		Log.e("tag","一键匹配 onDisconnectServer");
+	}
+
+	@Override
+	public void onNetworkQuality(String s, int i, AVChatNetworkStats avChatNetworkStats) {
+		Log.e("tag","一键匹配 onNetworkQuality");
+
+	}
+
+	@Override
+	public void onCallEstablished() {
+		Log.e("tag","一键匹配 onCallEstablished");
+
+	}
+
+	@Override
+	public void onDeviceEvent(int i, String s) {
+		Log.e("tag","一键匹配 onDeviceEvent");
+
+	}
+
+	@Override
+	public void onTakeSnapshotResult(String s, boolean b, String s1) {
+		Log.e("tag","一键匹配 onTakeSnapshotResult");
+
+	}
+
+	@Override
+	public void onConnectionTypeChanged(int i) {
+		Log.e("tag","一键匹配 onConnectionTypeChanged");
+
+	}
+
+	@Override
+	public void onAVRecordingCompletion(String s, String s1) {
+		Log.e("tag","一键匹配 onAVRecordingCompletion");
+
+	}
+
+	@Override
+	public void onAudioRecordingCompletion(String s) {
+		Log.e("tag","一键匹配 onAudioRecordingCompletion");
+
+	}
+
+	@Override
+	public void onLowStorageSpaceWarning(long l) {
+		Log.e("tag","一键匹配 onLowStorageSpaceWarning");
+
+	}
+
+	@Override
+	public void onFirstVideoFrameAvailable(String s) {
+		Log.e("tag","一键匹配 onFirstVideoFrameAvailable");
+
+	}
+
+	@Override
+	public void onFirstVideoFrameRendered(String s) {
+		Log.e("tag","一键匹配 onFirstVideoFrameRendered");
+
+	}
+
+	@Override
+	public void onVideoFrameResolutionChanged(String s, int i, int i1, int i2) {
+		Log.e("tag","一键匹配 onVideoFrameResolutionChanged");
+	}
+
+	@Override
+	public void onVideoFpsReported(String s, int i) {
+		Log.e("tag","一键匹配 onVideoFpsReported");
+	}
+
+	@Override
+	public boolean onVideoFrameFilter(AVChatVideoFrame avChatVideoFrame, boolean b) {
+		Log.e("tag","一键匹配 onVideoFrameFilter");
+
+		return false;
+	}
+
+	@Override
+	public boolean onAudioFrameFilter(AVChatAudioFrame avChatAudioFrame) {
+		Log.e("tag","一键匹配 onAudioFrameFilter");
+
+		return false;
+	}
+
+	@Override
+	public void onAudioDeviceChanged(int i) {
+		Log.e("tag","一键匹配 onAudioDeviceChanged");
+	}
+
+	@Override
+	public void onReportSpeaker(Map<String, Integer> map, int i) {
+		Log.e("tag","一键匹配 onReportSpeaker");
+	}
+
+	@Override
+	public void onAudioMixingEvent(int i) {
+		Log.e("tag","一键匹配 onAudioMixingEvent");
+	}
+
+	@Override
+	public void onSessionStats(AVChatSessionStats avChatSessionStats) {
+		Log.e("tag","一键匹配 onSessionStats");
+	}
+
+	@Override
+	public void onLiveEvent(int i) {
+		Log.e("tag","一键匹配 onLiveEvent");
+	}
 }

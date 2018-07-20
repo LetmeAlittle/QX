@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
@@ -14,6 +15,7 @@ import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -70,6 +72,10 @@ import com.ttt.qx.qxcall.utils.crash.CrashListener;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
+import com.ysxsoft.qxerkai.utils.DBUtils;
+import com.ysxsoft.qxerkai.utils.LogUtils;
+import com.ysxsoft.qxerkai.utils.WYUtils;
+import com.ysxsoft.qxerkai.view.activity.PiPeiCallActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -384,8 +390,28 @@ public class QXCallApplication extends MultiDexApplication {
 								notifyBean.setTitle(jsonObject.getString("type"));
 							}
 							notifyDao.add(notifyBean);
-						} else if (jsonObject.has("teamId")) {//一键匹配广播
-							Log.e("tag", "自定义通知   jsonObject:" + jsonObject.toString());
+						} else {//一键匹配广播
+							String id = jsonObject.optString("id");
+							switch (id){
+								case "3":
+									LogUtils.e("收到匹配通知"+jsonObject.toString());
+									WYUtils.TeamJson teamJson = WYUtils.parseCustom(jsonObject);
+									//type: 1系统匹配2专属匹配3角色扮演
+									if(DBUtils.getUserId()!=null&&DBUtils.getUserId().equals(teamJson.getUserId())){
+										LogUtils.e("收到自己通知");
+										return;
+									}
+									LogUtils.e("通知解析后:"+new Gson().toJson(teamJson));
+									PiPeiCallActivity.start(getApplicationContext(), teamJson.getCallerName(), teamJson.getRoomName(), teamJson.getUserId(), "1", teamJson.getTeamId(),teamJson.getMembers());
+									break;
+								case "4"://群主解散房间通知/房间成员退出通知
+									LogUtils.e("群主解散房间通知/房间成员退出通知");
+									LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getApplicationContext()) ;
+									Intent intent = new Intent( "com.ysxsoft.qxerkai.needexit" ) ;
+									intent.putExtra("roomName",jsonObject.optString("room"));//房间名称
+									localBroadcastManager.sendBroadcast(intent);
+									break;
+							}
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -402,6 +428,7 @@ public class QXCallApplication extends MultiDexApplication {
 //                    }, false);
 				}
 			}, true);
+
 			//UIKit初始化
 			// 初始化 NimUIKit sdk
 			NimUIKit.init(context);

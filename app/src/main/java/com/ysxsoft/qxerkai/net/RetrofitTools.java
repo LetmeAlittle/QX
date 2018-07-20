@@ -7,8 +7,11 @@ import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
 import com.ysxsoft.qxerkai.net.response.GetHuaTiListResponse;
 import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
+import com.ysxsoft.qxerkai.net.response.GetLuYinListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GetPiPeiListResponse;
+import com.ysxsoft.qxerkai.net.response.GetTouTingDetailResponse;
+import com.ysxsoft.qxerkai.net.response.GetTouTingListResponse;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
 import com.ysxsoft.qxerkai.net.response.HomeItemList;
@@ -280,125 +283,125 @@ public class RetrofitTools {
 		return subscribe(RetrofitTools.getManager().publishCard(map));
 	}
 
-	/**
-	 * 发布帖子  标题 文本 图片
-	 *
-	 * @param map
-	 * @return
-	 */
-	public static Observable<BaseResponse> publishCard(Map<String, String> map, String[] imageNames, File[] imageFiles) {
-		return subscribe(RetrofitTools.getManager().publishCard(COMMON_BASE_URL + CARD_ADD, builder(map, imageNames, imageFiles).build()));
-	}
+    /**
+     * 发布帖子  标题 文本 图片
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<BaseResponse> publishCard(Map<String, String> map, String[] imageNames, File[] imageFiles) {
+        return subscribe(RetrofitTools.getManager().publishCard(COMMON_BASE_URL + CARD_ADD, builder(map, imageNames, imageFiles).build()));
+    }
 
-	/**
-	 * 撩人区列表
-	 *
-	 * @param map
-	 * @return
-	 */
-	public static Observable<GetLiaoRenListResponse> getLiaoRenList(Map<String, String> map) {
-		return subscribe(RetrofitTools.getManager().getLiaoRenList(map));
-	}
+    /**
+     * 撩人区列表
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<GetLiaoRenListResponse> getLiaoRenList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getLiaoRenList(map));
+    }
 
-	/**
-	 * 撩人区列表
-	 *
-	 * @param map
-	 * @return
-	 */
-	public static Observable<TwoPageTuiJianResponse> getTuiJianList(Map<String, String> map) {
-		return subscribe(RetrofitTools.getManager().getTuiJianList(map));
-	}
+    /**
+     * 撩人区列表
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<TwoPageTuiJianResponse> getTuiJianList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getTuiJianList(map));
+    }
 
-	/**
-	 * 获取附近的人列表  私人定制
-	 *
-	 * @param map
-	 * @return
-	 */
-	public static Observable<HaoYouListResponse> getFjRenList(Map<String, String> map) {
-		return subscribe(RetrofitTools.getManager().getFjRenList(map));
-	}
+    /**
+     * 获取附近的人列表  私人定制
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<HaoYouListResponse> getFjRenList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getFjRenList(map));
+    }
 
-	/**
-	 * 获取好友列表  私人定制
-	 *
-	 * @param map
-	 * @return
-	 */
-	public static Observable<HaoYouListResponse> getHaoYouList(Map<String, String> map) {
-		return subscribe(RetrofitTools.getManager().getHaoYouList(map));
-	}
+    /**
+     * 获取好友列表  私人定制
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<HaoYouListResponse> getHaoYouList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getHaoYouList(map));
+    }
 
-	/**
-	 * 获取好友列表  私人定制
-	 *
-	 * @param map type 1土豪2一姐
-	 * @return
-	 */
-	public static Observable<HaoYouListResponse> getTopList(Map<String, String> map) {
-		return subscribe(RetrofitTools.getManager().getTopList(map));
-	}
+    /**
+     * 获取好友列表  私人定制
+     *
+     * @param map type 1土豪2一姐
+     * @return
+     */
+    public static Observable<HaoYouListResponse> getTopList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getTopList(map));
+    }
 
-	/**
-	 * 获取我的礼物列表
-	 *
-	 * @param map
-	 * @return
-	 */
-	public static Observable<MyLiWuResponse> getMyLiWuList(Map<String, String> map) {
-		return subscribe(RetrofitTools.getManager().getMyLiWuList(map));
-	}
+    /**
+     * 获取我的礼物列表
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<MyLiWuResponse> getMyLiWuList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getMyLiWuList(map));
+    }
 
-	/**
-	 * 获取用户消费的砰砰豆
-	 *
-	 * @param map
-	 * @return
-	 */
-	public static Observable<UserXiaoFeiNum> getUserXiaoFei(Map<String, String> map) {
-		return subscribe(RetrofitTools.getManager().getUserXiaoFei(map));
-	}
+    /**
+     * 获取用户消费的砰砰豆
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<UserXiaoFeiNum> getUserXiaoFei(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getUserXiaoFei(map));
+    }
 
-	/**
-	 * 获取首页用户列表
-	 *
-	 * @param map
-	 * @return
-	 */
-	public static Observable<HomeItemList> getHomeItemList(Map<String, String> map) {
-		return subscribe(RetrofitTools.getManager().getHomeItemList(map));
-	}
+    /**
+     * 获取首页用户列表
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<HomeItemList> getHomeItemList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getHomeItemList(map));
+    }
 
-	/**
-	 * 漂浮的话题列表
-	 *
-	 * @param map
-	 * @return
-	 */
-	public static Observable<GetHuaTiListResponse> getHuaTiList(Map<String, String> map) {
-		return subscribe(RetrofitTools.getManager().getHuaTiList(map));
-	}
+    /**
+     * 漂浮的话题列表
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<GetHuaTiListResponse> getHuaTiList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().getHuaTiList(map));
+    }
 
-	/**
-	 * 漂浮的话题列表
-	 *
-	 * @param map
-	 * @return
-	 */
-	public static Observable<BaseResponse> addHuaTi(Map<String, String> map) {
-		return subscribe(RetrofitTools.getManager().addHuaTi(map));
-	}
+    /**
+     * 漂浮的话题列表
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<BaseResponse> addHuaTi(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().addHuaTi(map));
+    }
 
-	/**
-	 * 抢话题/继续聊
-	 *
-	 * @param map
-	 * @return
-	 */
-	public static Observable<BaseResponse> startHuaTi(Map<String, String> map) {
-		return subscribe(RetrofitTools.getManager().huaTiStart(map));
-	}
+    /**
+     * 抢话题/继续聊
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<BaseResponse> startHuaTi(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().huaTiStart(map));
+    }
 
 	/**
 	 * 一键匹配
@@ -430,30 +433,66 @@ public class RetrofitTools {
 		return subscribe(RetrofitTools.getManager().piPeiBuy(map));
 	}
 
-    /**
-     * 往相册上传图片
-     *
-     * @return
-     */
-    public static Observable<BaseResponse> uploadIcon(Map<String, String> map, String[] imageNames, File[] imageFiles) {
-        return subscribe(RetrofitTools.getManager().uploadIcon(builder(map, imageNames, imageFiles).build()));
-    }
+	/**
+	 * 往相册上传图片
+	 *
+	 * @return
+	 */
+	public static Observable<BaseResponse> uploadIcon(Map<String, String> map, String[] imageNames, File[] imageFiles) {
+		return subscribe(RetrofitTools.getManager().uploadIcon(builder(map, imageNames, imageFiles).build()));
+	}
 
-    /**
-     * 删除相册中的图片
-     *
-     * @return
-     */
-    public static Observable<BaseResponse> delIcon(Map<String, String> map) {
-        return subscribe(RetrofitTools.getManager().delIcon(map));
-    }
+	/**
+	 * 删除相册中的图片
+	 *
+	 * @return
+	 */
+	public static Observable<BaseResponse> delIcon(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().delIcon(map));
+	}
 
-    /**
-     * 获取用户身份列表
-     *
-     * @return
-     */
-    public static Observable<MemberListResponse> getMemberList() {
-        return subscribe(RetrofitTools.getManager().getMemberList());
-    }
+	/**
+	 * 获取用户身份列表
+	 *
+	 * @return
+	 */
+	public static Observable<MemberListResponse> getMemberList() {
+		return subscribe(RetrofitTools.getManager().getMemberList());
+	}
+
+	/**
+	 * 获取偷听列表
+	 *
+	 * @return
+	 */
+	public static Observable<GetTouTingListResponse> getTouTingList(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getTouTingList(map));
+	}
+
+	/**
+	 * 获取录音列表
+	 *
+	 * @return
+	 */
+	public static Observable<GetLuYinListResponse> getLuYinList(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getLuYinList(map));
+	}
+
+	/**
+	 * 获取偷听详情
+	 *
+	 * @return
+	 */
+	public static Observable<GetTouTingDetailResponse> getTouTingDetail(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getTouTingDetail(map));
+	}
+
+	/**
+	 * 获取偷听详情
+	 *
+	 * @return
+	 */
+	public static Observable<BaseResponse> suo(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().suo(map));
+	}
 }
