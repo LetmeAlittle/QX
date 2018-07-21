@@ -2,6 +2,7 @@ package com.ysxsoft.qxerkai.net;
 
 import android.support.annotation.RestrictTo;
 
+import com.ttt.qx.qxcall.function.find.model.entity.DynamicResponse;
 import com.umeng.socialize.media.Base;
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
@@ -12,6 +13,7 @@ import com.ysxsoft.qxerkai.net.response.GetJiaoSeListenningResponse;
 import com.ysxsoft.qxerkai.net.response.GetJiaoSePPidResponse;
 import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetLuYinListResponse;
+import com.ysxsoft.qxerkai.net.response.GetLuYinTagListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GetPiPeiListResponse;
 import com.ysxsoft.qxerkai.net.response.GetTouTingDetailResponse;
@@ -83,6 +85,35 @@ public class RetrofitTools {
 	}
 
 	/**
+	 * 请求体builder  上传文件
+	 *
+	 * @param map
+	 * @param imageNames
+	 * @param imageFile
+	 * @return
+	 */
+	public static MultipartBody.Builder builder(Map<String, String> map, String[] imageNames, File[] imageFile) {
+		MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+		if (map != null) {
+			Set<String> keys = map.keySet();
+			Iterator<String> iterator = keys.iterator();
+			while (iterator.hasNext()) {
+				String key = iterator.next();
+				builder.addFormDataPart(key, map.get(key));
+			}
+		}
+		if (imageNames != null && imageFile != null && imageNames.length == imageFile.length) {
+			int length = imageNames.length;
+			for (int i = 0; i < length; i++) {
+				builder.addFormDataPart(imageNames[i], imageFile[i].getName(), RequestBody.create(MediaType.parse("image/*"), imageFile[i]));
+			}
+		} else {
+			throw new IllegalArgumentException("The param imageNames is null");
+		}
+		return builder;
+	}
+
+	/**
 	 * 撒狗粮列表
 	 *
 	 * @param map
@@ -126,10 +157,6 @@ public class RetrofitTools {
 		return subscribe(RetrofitTools.getManager().getRule(map));
 	}
 
-	///////////////////////////////////////////////////////////////////////////
-	// 网络请求 Api
-	///////////////////////////////////////////////////////////////////////////
-
 	/**
 	 * 发布撒狗粮    图片
 	 *
@@ -140,34 +167,6 @@ public class RetrofitTools {
 		return subscribe(RetrofitTools.getManager().publishSaGouLiang(COMMON_BASE_URL + SA_GOU_LIANG_COMMIT, builder(map, imageNames, imageFiles).build()));
 	}
 
-	/**
-	 * 请求体builder  上传文件
-	 *
-	 * @param map
-	 * @param imageNames
-	 * @param imageFile
-	 * @return
-	 */
-	public static MultipartBody.Builder builder(Map<String, String> map, String[] imageNames, File[] imageFile) {
-		MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-		if (map != null) {
-			Set<String> keys = map.keySet();
-			Iterator<String> iterator = keys.iterator();
-			while (iterator.hasNext()) {
-				String key = iterator.next();
-				builder.addFormDataPart(key, map.get(key));
-			}
-		}
-		if (imageNames != null && imageFile != null && imageNames.length == imageFile.length) {
-			int length = imageNames.length;
-			for (int i = 0; i < length; i++) {
-				builder.addFormDataPart(imageNames[i], imageFile[i].getName(), RequestBody.create(MediaType.parse("image/*"), imageFile[i]));
-			}
-		} else {
-			throw new IllegalArgumentException("The param imageNames is null");
-		}
-		return builder;
-	}
 
 	/**
 	 * 更换朋友圈背景    图片
@@ -463,6 +462,15 @@ public class RetrofitTools {
 	 */
 	public static Observable<GetLuYinListResponse> getLuYinList(Map<String, String> map) {
 		return subscribe(RetrofitTools.getManager().getLuYinList(map));
+	}
+
+	/**
+	 * 获取录音  标签列表
+	 *
+	 * @return
+	 */
+	public static Observable<GetLuYinTagListResponse> getLuYinTagList(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getLuYinTagList(map));
 	}
 
 	/**

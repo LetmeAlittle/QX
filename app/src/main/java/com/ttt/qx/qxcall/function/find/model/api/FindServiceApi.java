@@ -83,7 +83,16 @@ public interface FindServiceApi {
      */
     @FormUrlEncoded
     @POST("api/friend/list")
-    Observable<DynamicResponse> getAllDynamic(@Header("Authorization") String Authorization, @Field("page") String page, @Field("user_id") String user_id);
+    Observable<DynamicResponse> getAllDynamic(@Header("Authorization") String Authorization,@Field("page") String page,  @Field("user_id") String user_id);
+
+    /**
+     * 全部动态数据
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/friend/friend_list")
+    Observable<DynamicResponse> getMyPengYouQuanList(@Header("Authorization") String Authorization, @Field("page") String page,@Field("class") String classs, @Field("user_id") String user_id);
 
     /**
      * 好友动态数据

@@ -1,5 +1,6 @@
 package com.ttt.qx.qxcall.function.find.model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -169,6 +170,9 @@ public class DynamicResponse {
         }
 
         public List<ListBean> getList() {
+            if (list == null) {
+                return new ArrayList<>();
+            }
             return list;
         }
 

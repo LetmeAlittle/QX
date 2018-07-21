@@ -1,6 +1,7 @@
 package com.ysxsoft.qxerkai.net;
 
 
+import com.ttt.qx.qxcall.function.find.model.entity.DynamicResponse;
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
@@ -11,6 +12,7 @@ import com.ysxsoft.qxerkai.net.response.GetJiaoSeListenningResponse;
 import com.ysxsoft.qxerkai.net.response.GetJiaoSePPidResponse;
 import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetLuYinListResponse;
+import com.ysxsoft.qxerkai.net.response.GetLuYinTagListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
 import com.ysxsoft.qxerkai.net.response.GetPiPeiListResponse;
 import com.ysxsoft.qxerkai.net.response.GetTouTingDetailResponse;
@@ -39,6 +41,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
@@ -80,6 +83,7 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_LU_YIN_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_wentiliebiao;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_START;
+import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_TAG;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TWO_PAGE_USER_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.UPLOAD_ICONS;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_GUARDS_LIST;
@@ -432,6 +436,16 @@ public interface RetrofitApi {
 	@FormUrlEncoded
 	@POST(TOU_TING_LU_YIN_LIST)
 	Observable<GetLuYinListResponse> getLuYinList(@FieldMap Map<String, String> map);
+
+	/**
+	 * 获取录音 标签列表
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(TOU_TING_TAG)
+	Observable<GetLuYinTagListResponse> getLuYinTagList(@FieldMap Map<String, String> map);
 
 	/**
 	 * 获取偷听详情

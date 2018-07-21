@@ -149,6 +149,7 @@ public class PengYouQuanDetailActivity extends NBaseActivity implements BaseQuic
     private UserBean mUserBean;
 
     private boolean zan = false;
+    private String memberId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -253,6 +254,7 @@ public class PengYouQuanDetailActivity extends NBaseActivity implements BaseQuic
                     data = detail.getData();
                     handler.sendEmptyMessage(UP_TOP);
 
+                    memberId = detail.getData().getMember_id()+"";
                     list.addAll(data.getReply_list());
                     adapter.setNewData(list);
 
@@ -269,6 +271,11 @@ public class PengYouQuanDetailActivity extends NBaseActivity implements BaseQuic
         tvGift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (memberId.equals(userId)){
+                    showToast("不能送自己礼物");
+                    return;
+                }
+
 
                 FindModel.getFindModel().getGiftList(new ProgressSubscribe<>(new SubScribeOnNextListener<GiftList>() {
                     @Override

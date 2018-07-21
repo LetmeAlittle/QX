@@ -93,6 +93,17 @@ public class FindModel implements BaseModel {
         Observable<DynamicResponse> observable = findServiceApi.getAllDynamic(Authorization, page, user_id);
         onToSubscribe889(observable, subscriber);
     }
+    /**
+     * 我的朋友圈
+     *
+     * @param subscriber
+     * @param page
+     * @param Authorization
+     */
+    public void getMyPengYouQuanList(Subscriber<DynamicResponse> subscriber,  String Authorization, String page,String clas,String user_id) {
+        Observable<DynamicResponse> observable = findServiceApi.getMyPengYouQuanList(Authorization, page, clas,user_id);
+        onToSubscribe889(observable, subscriber);
+    }
 
     /**
      * 好友动态
