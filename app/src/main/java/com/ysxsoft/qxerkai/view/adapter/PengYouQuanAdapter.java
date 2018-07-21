@@ -38,8 +38,8 @@ public class PengYouQuanAdapter extends BaseQuickAdapter<DynamicResponse.DataBea
         this.onIconClickListener = onIconClickListener;
     }
 
-    public PengYouQuanAdapter(int layoutResId, List<DynamicResponse.DataBean.ListBean> data) {
-        super(layoutResId, data);
+    public PengYouQuanAdapter(int layoutResId) {
+        super(layoutResId);
     }
 
     @Override
@@ -88,14 +88,14 @@ public class PengYouQuanAdapter extends BaseQuickAdapter<DynamicResponse.DataBea
         tvZan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onIconClickListener.onZanClick(position);
+                onIconClickListener.onZanClick(item);
             }
         });
 
         helper.getView(R.id.tv_liwu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onIconClickListener.onGiftClick(position);
+                onIconClickListener.onGiftClick(item);
             }
         });
 
@@ -103,7 +103,7 @@ public class PengYouQuanAdapter extends BaseQuickAdapter<DynamicResponse.DataBea
 
 
     public interface OnIconClickListener{
-        void onZanClick(int position);
-        void onGiftClick(int position);
+        void onZanClick(DynamicResponse.DataBean.ListBean item);
+        void onGiftClick(DynamicResponse.DataBean.ListBean item);
     }
 }

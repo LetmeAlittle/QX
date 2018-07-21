@@ -46,6 +46,7 @@ import com.ysxsoft.qxerkai.view.activity.NLiaoRenQuActivity;
 import com.ysxsoft.qxerkai.view.activity.NMyLiWuBangActivity;
 import com.ysxsoft.qxerkai.view.activity.NMyShouYiActivity;
 import com.ysxsoft.qxerkai.view.activity.NMyYaoQingActivity;
+import com.ysxsoft.qxerkai.view.activity.NPengYouQuanMyActivity;
 import com.ysxsoft.qxerkai.view.activity.NPersonCenterActivity;
 import com.ysxsoft.qxerkai.view.activity.NSettingActivity;
 import com.ysxsoft.qxerkai.view.activity.NShouHuBangActivity;
@@ -454,6 +455,7 @@ public class FivePage extends BasePager implements View.OnClickListener {
                 break;
             //我的朋友圈
             case R.id.ll_pengyouquan:
+                IntentUtil.jumpIntent(ctx, NPengYouQuanMyActivity.class);
                 break;
             //我的收益
             case R.id.ll_wodeshouyi:

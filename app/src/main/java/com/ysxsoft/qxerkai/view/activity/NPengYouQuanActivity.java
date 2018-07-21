@@ -175,9 +175,10 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
                 }
             }
         });
-        swipeTarget.setLayoutManager(new LinearLayoutManager(this));
         list = new ArrayList<>();
-        adapter = new PengYouQuanAdapter(R.layout.activity_peng_you_quan_item, list);
+
+        swipeTarget.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new PengYouQuanAdapter(R.layout.activity_peng_you_quan_item);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         adapter.isFirstOnly(true);
         adapter.setOnLoadMoreListener(this, swipeTarget);
@@ -234,13 +235,18 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
 
         adapter.setOnIconClickListener(new PengYouQuanAdapter.OnIconClickListener() {
             @Override
-            public void onZanClick(int position) {
-                postZan(position);
+            public void onZanClick(DynamicResponse.DataBean.ListBean listBean) {
+                postZan(listBean);
             }
 
             @Override
-            public void onGiftClick(int position) {
-                sendGift(position);
+            public void onGiftClick(DynamicResponse.DataBean.ListBean listBean) {
+                String id = listBean.getMember_id()+"";
+                if (id.equals(userId)){
+                    showToast("不能送自己礼物");
+                    return;
+                }
+                sendGift(listBean);
             }
         });
 
@@ -284,8 +290,7 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
         });
     }
 
-    private void sendGift(int position) {
-        DynamicResponse.DataBean.ListBean listBean = list.get(position);
+    private void sendGift( DynamicResponse.DataBean.ListBean listBean) {
 
         FindModel.getFindModel().getGiftList(new ProgressSubscribe<>(new SubScribeOnNextListener<GiftList>() {
             @Override
@@ -322,8 +327,7 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
     }
 
 
-    private void postZan(int position) {
-        DynamicResponse.DataBean.ListBean listBean = list.get(position);
+    private void postZan( DynamicResponse.DataBean.ListBean listBean) {
         int isZan = listBean.getIs_zan();
         if (isZan == 0) {
             FindModel.getFindModel().callDianZan(new Subscriber<StandardResponse>() {
@@ -361,13 +365,20 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
         }
         FindModel.getFindModel().getAllDynamic(new Subscriber<DynamicResponse>() {
             @Override
-            public void onCompleted() {
+            public void onStart() {
+                super.onStart();
+                multipleStatusView.showLoading();
+            }
 
+            @Override
+            public void onCompleted() {
+                multipleStatusView.hideLoading();
             }
 
             @Override
             public void onError(Throwable e) {
                 LogUtils.e(e.toString());
+                multipleStatusView.hideLoading();
             }
 
             @Override
@@ -408,13 +419,19 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
 
         FindModel.getFindModel().getFriendDynamic(new Subscriber<DynamicResponse>() {
             @Override
-            public void onCompleted() {
+            public void onStart() {
+                super.onStart();
+                multipleStatusView.showLoading();
+            }
 
+            @Override
+            public void onCompleted() {
+                multipleStatusView.hideLoading();
             }
 
             @Override
             public void onError(Throwable e) {
-
+                multipleStatusView.hideLoading();
             }
 
             @Override
