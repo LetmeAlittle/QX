@@ -11,6 +11,7 @@ import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.avchat.AVChatCallback;
 import com.netease.nimlib.sdk.avchat.AVChatManager;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
+import com.netease.nimlib.sdk.avchat.constant.AVChatUserRole;
 import com.netease.nimlib.sdk.avchat.model.AVChatData;
 import com.netease.nimlib.sdk.avchat.model.AVChatParameters;
 import com.netease.nimlib.sdk.msg.MsgService;
@@ -28,6 +29,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.netease.nimlib.sdk.avchat.constant.AVChatChannelProfile.CHANNEL_PROFILE_DEFAULT;
+import static com.netease.nimlib.sdk.avchat.constant.AVChatMediaCodecMode.MEDIA_CODEC_AUTO;
 
 public class WYUtils {
 
@@ -198,8 +202,6 @@ public class WYUtils {
 		NIMClient.getService(MsgService.class).sendCustomNotification(notification);
 	}
 
-	;
-
 	/**
 	 * 离开房间
 	 *
@@ -218,10 +220,14 @@ public class WYUtils {
 		AVChatManager.getInstance().disableRtc();
 		AVChatManager.getInstance().enableRtc();
 		//设置场景, 如果需要高清音乐场景，设置 AVChatChannelProfile#CHANNEL_PROFILE_HIGH_QUALITY_MUSIC
-		//		AVChatManager.getInstance.setChannelProfile(CHANNEL_PROFILE_DEFAULT);
+//				AVChatManager.getInstance.setChannelProfile(CHANNEL_PROFILE_DEFAULT);
+		AVChatManager.getInstance().setChannelProfile(CHANNEL_PROFILE_DEFAULT);
 		//设置通话可选参数
-		AVChatParameters parameters = new AVChatParameters();
-		AVChatManager.getInstance().setParameters(parameters);
+//		AVChatParameters parameters = new AVChatParameters();
+//		AVChatManager.getInstance().setParameters(parameters);
+		AVChatManager.getInstance().setParameter(AVChatParameters.KEY_VIDEO_ENCODER_MODE, MEDIA_CODEC_AUTO);
+		AVChatManager.getInstance().setParameter(AVChatParameters.KEY_SESSION_MULTI_MODE_USER_ROLE, AVChatUserRole.NORMAL);
+
 		//视频通话设置
 		//		AVChatManager.getInstance().enableVideo();
 		//		AVChatManager.getInstance().setupLocalVideoRender(IVideoRender render, boolean mirror, int scalingType);
@@ -239,7 +245,6 @@ public class WYUtils {
 	///////////////////////////////////////////////////////////////////////////
 	// 群组管理
 	///////////////////////////////////////////////////////////////////////////
-
 	/**
 	 * 解散群组
 	 *

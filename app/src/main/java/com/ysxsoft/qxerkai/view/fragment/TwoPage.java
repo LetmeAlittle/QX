@@ -520,7 +520,7 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
 							if (standardResponse.getStatus_code() == 200) {
 								//调起拨打界面。
 								AVChatProfile.getInstance().setAVChatting(true);
-								AVChatActivity.launch(getApplication(), item.getWy_acid(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+								AVChatActivity.launch(getApplication(), item.getId()+"", AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
 							} else {
 								ToastUtils.showToast(activity, standardResponse.getMessage(), 0);
 							}

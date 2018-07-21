@@ -37,6 +37,7 @@ import com.ttt.qx.qxcall.function.find.model.entity.GiftList;
 import com.ttt.qx.qxcall.function.home.model.HomeModel;
 import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
+import com.ttt.qx.qxcall.function.voice.AVChatAudio;
 import com.ttt.qx.qxcall.function.voice.AVChatProfile;
 import com.ttt.qx.qxcall.function.voice.AVChatUI;
 import com.ttt.qx.qxcall.function.voice.DemoCache;
@@ -173,6 +174,7 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 			}
 		}
 	};
+
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -184,6 +186,7 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 			}
 		}
 	};
+
 	///////////////////////////////////////////////////////////////////////////
 	// 获取个人信息
 	///////////////////////////////////////////////////////////////////////////
@@ -205,8 +208,19 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_nhua_liao);
+		AVChatProfile.getInstance().setAVChatting(true);
 		ButterKnife.bind(this);
 		parseIntent();
+//		AVChatManager.getInstance().setSpeaker(true);
+//		AVChatManager.getInstance().muteRemoteAudio("" + DBUtils.getUserId(), false);
+
+		//语音是否开启
+		if(AVChatManager.getInstance().isLocalAudioMuted()){
+			Log.e("tag","静音!");
+		}else{
+			Log.e("tag","非静音!");
+		}
+
 		initStatusBar();
 		initStatusBar(statusBar);
 		initTitleBar();
@@ -215,18 +229,6 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 		register();//注册广播
 		register(true);
 		initData();
-
-		Map<String, String> receiveMap = new HashMap<String, String>();
-		receiveMap.put("content", "呵呵呵");
-		ReceiveTextDialog.showReceiveTextDialog(NHuaLiaoActivity.this, receiveMap, new ReceiveTextDialog.OnComponentClickListener() {
-			@Override
-			public void onCancle() {
-			}
-
-			@Override
-			public void onSend(String gift_id) {
-			}
-		});
 	}
 
 	private void parseIntent() {
@@ -589,7 +591,7 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 	private void leave() {
 		if (isAdmin) {//房主 需要通知别人关闭页面
 			WYUtils.dismissTeam(teamId);//解散群
-			members.add("10196");//TODO:need更换
+//			members.add("10196");//TODO:need更换
 			for (int i = 0; i < members.size(); i++) {
 				if (DBUtils.getUserId().equals(members.get(i))) {//如果是管理员 不发送
 					continue;
@@ -643,7 +645,7 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 			case R.id.myAudio://我的声音   静音
 				if (!AVChatManager.getInstance().isRemoteAudioMuted("" + fUserAccid)) { // isMute是否处于静音状态
 					// 关闭音频
-					Log.e("tag", "关闭音频");
+					Log.e("tag", "关闭音频"); //不解码
 					AVChatManager.getInstance().muteRemoteAudio("" + fUserAccid, true); //关闭远端流 不听对方的声音
 				} else {
 					//打开音频
@@ -695,7 +697,7 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 		Map<String, String> s = new HashMap<>();
 		s.put("user_id", DBUtils.getUserId());
 		s.put("tid", roomName);
-		s.put("title", "呵呵呵呵");
+		s.put("title", "弹幕测试");
 		RetrofitTools.fadanmu(s).subscribe(new ResponseSubscriber<BaseResponse>() {
 			@Override
 			public void onSuccess(BaseResponse baseResponse, int code, String msg) {
