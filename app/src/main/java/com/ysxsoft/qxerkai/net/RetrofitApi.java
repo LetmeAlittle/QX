@@ -4,8 +4,11 @@ package com.ysxsoft.qxerkai.net;
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
+import com.ysxsoft.qxerkai.net.response.GetGuShiResponse;
 import com.ysxsoft.qxerkai.net.response.GetHuaTiListResponse;
 import com.ysxsoft.qxerkai.net.response.GetHuaTiListResponse;
+import com.ysxsoft.qxerkai.net.response.GetJiaoSeListenningResponse;
+import com.ysxsoft.qxerkai.net.response.GetJiaoSePPidResponse;
 import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetLuYinListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
@@ -47,6 +50,10 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIKE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.DAN_MU;
 import static com.ttt.qx.qxcall.constant.CommonConstant.DEL_ICON;
+import static com.ttt.qx.qxcall.constant.CommonConstant.GET_JIAO_ACCEPT_CHECK;
+import static com.ttt.qx.qxcall.constant.CommonConstant.GET_JIAO_LISTENNING;
+import static com.ttt.qx.qxcall.constant.CommonConstant.GET_JIAO_SE_PPID;
+import static com.ttt.qx.qxcall.constant.CommonConstant.GU_SHI;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_ADD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_START;
@@ -467,6 +474,16 @@ public interface RetrofitApi {
 	Observable<BaseResponse> jiesuo(@FieldMap Map<String, String> map);
 
 	/**
+	 * 故事内容
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(GU_SHI)
+	Observable<GetGuShiResponse> getGuShi(@FieldMap Map<String, String> map);
+
+	/**
 	 * 检测房间是否上锁 是否可以偷听  开始偷听
 	 *
 	 * @param map
@@ -475,4 +492,34 @@ public interface RetrofitApi {
 	@FormUrlEncoded
 	@POST(TOU_TING_START)
 	Observable<BaseResponse> checkTouTing(@FieldMap Map<String, String> map);
+
+	/**
+	 * 获取系统匹配ppid
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(GET_JIAO_SE_PPID)
+	Observable<GetJiaoSePPidResponse> getJiaoSePPid(@FieldMap Map<String, String> map);
+
+	/**
+	 * 用户接听 判断是否能接听
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(GET_JIAO_ACCEPT_CHECK)
+	Observable<BaseResponse> acceptJiaoSeCheck(@FieldMap Map<String, String> map);
+
+	/**
+	 * 获取系统匹配ppid
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(GET_JIAO_LISTENNING)
+	Observable<GetJiaoSeListenningResponse> jiaoSeListenning(@FieldMap Map<String, String> map);
 }

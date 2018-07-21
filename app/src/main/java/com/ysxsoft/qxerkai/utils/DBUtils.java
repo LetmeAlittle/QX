@@ -66,4 +66,16 @@ public class DBUtils {
 		}
 		return userName;
 	}
+
+	public static String getUserAvatar() {
+		String avatar = "";
+		UserDao userDao = new UserDao();
+		UserBean userBean = userDao.queryFirstData();
+		if (userBean != null && userBean.getMember_avatar() != null) {
+			avatar = "" + userBean.getMember_avatar();
+		} else {
+			avatar = "";
+		}
+		return avatar;
+	}
 }

@@ -107,6 +107,60 @@ public class UserDetailInfo {
         private String dog;     //狗粮数量
         private String guard;   //守护数量
         private int paohuati;//抛话题一次 所消耗砰砰豆数量
+        private int zs;
+        private int js;
+        private int suo1;
+        private int suo2;
+        private int jss;
+        private int sckq;
+
+        public int getZs() {
+            return zs;
+        }
+
+        public void setZs(int zs) {
+            this.zs = zs;
+        }
+
+        public int getJs() {
+            return js;
+        }
+
+        public void setJs(int js) {
+            this.js = js;
+        }
+
+        public int getSuo1() {
+            return suo1;
+        }
+
+        public void setSuo1(int suo1) {
+            this.suo1 = suo1;
+        }
+
+        public int getSuo2() {
+            return suo2;
+        }
+
+        public void setSuo2(int suo2) {
+            this.suo2 = suo2;
+        }
+
+        public int getJss() {
+            return jss;
+        }
+
+        public void setJss(int jss) {
+            this.jss = jss;
+        }
+
+        public int getSckq() {
+            return sckq;
+        }
+
+        public void setSckq(int sckq) {
+            this.sckq = sckq;
+        }
 
         public int getPaohuati() {
             return paohuati;

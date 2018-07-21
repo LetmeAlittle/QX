@@ -1,6 +1,7 @@
 package com.netease.nim.uikit.session.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,6 +20,7 @@ import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.ait.AitManager;
 import com.netease.nim.uikit.cache.RobotInfoCache;
 import com.netease.nim.uikit.common.fragment.TFragment;
+import com.netease.nim.uikit.common.util.string.StringUtil;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.actions.BaseAction;
 import com.netease.nim.uikit.session.actions.CameraAction;
@@ -46,11 +48,19 @@ import com.netease.nimlib.sdk.robot.model.RobotAttachment;
 import com.netease.nimlib.sdk.robot.model.RobotMsgType;
 import com.ttt.qx.qxcall.DimenTool;
 import com.ttt.qx.qxcall.utils.SystemUtil;
+import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.BaseResponse;
+import com.ysxsoft.qxerkai.net.response.GetGuShiResponse;
+import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.DimenUtils;
 import com.ysxsoft.qxerkai.utils.GlideCircleTransform;
 import com.ysxsoft.qxerkai.utils.StringUtils;
+import com.ysxsoft.qxerkai.view.activity.NHuaLiaoTouTingActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,17 +90,24 @@ public class MessageFragment extends TFragment implements ModuleProxy {
 
     private ImageView ivLiwu;
     private ImageView ivPhone;
+    private TextView close;
+    private LinearLayout banYanLayout;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        parseTitle();
         parseIntent();
+        parseTitle();
+        parseJiaose();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.nim_message_fragment, container, false);
+        LinearLayout linearLayout= (LinearLayout) rootView.findViewById(R.id.banYanLayout);
+        linearLayout.setVisibility(View.GONE);//角色扮演默认关闭
+        FrameLayout parent = (FrameLayout) rootView.findViewById(R.id.fl_bg);
+        parent.setVisibility(View.GONE);//抛话题默认关闭
         return rootView;
     }
 
@@ -179,6 +196,10 @@ public class MessageFragment extends TFragment implements ModuleProxy {
 
         ivLiwu = (ImageView) findView(R.id.iv_liwu);
         ivPhone = (ImageView) findView(R.id.iv_phone);
+        banYanLayout = (LinearLayout) findView(R.id.banYanLayout);
+        close = (TextView) findView(R.id.close);
+//        bottomLayout=(LinearLayout) findView(R.id.bottomLayout);
+
         GiftAction giftAction = new GiftAction();
         giftAction.setContainer(container);
         ivLiwu.setOnClickListener(new View.OnClickListener() {
@@ -410,5 +431,198 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    //  Sincerly  2018.07.20 18:02:00  新增角色
+    ///////////////////////////////////////////////////////////////////////////
+    private void parseJiaose(){
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            //角色扮演的  通知  id = 5 ;  members = 匹配的成员数租 ;  teamId = 发起者的id ;  role = (0或者1 — 0是代表扮演左边  1是代表扮演右边) ;  story = 故事类型(0:教师VS学生 1:亲王VS宠妃 2:护士VS病人 3:大叔VS萝莉 4:空姐VS乘客 5:老板VS秘书)  ;  teamName = 发起者的昵称
+//            intent.putStringArrayListExtra("members", (ArrayList<String>) members);
+//            intent.putExtra("teamId",teamId);//发起者的id
+//            intent.putExtra("role",role);
+//            intent.putExtra("story",story);
+//            intent.putExtra("teamName",teamName);
+            String teamId=bundle.getString("teamId");
+            String role=bundle.getString("role");
+            String story=bundle.getString("story");
+            String teamName=bundle.getString("teamName");
+            List<String> members=bundle.getStringArrayList("members");
+            String userIcon=bundle.getString("userIcon");//发起人头像  数据源带过来的
+
+            if(story!=null){//角色扮演
+                banYanLayout= (LinearLayout) rootView.findViewById(R.id.banYanLayout);
+                banYanLayout.setVisibility(View.VISIBLE);
+
+                content= (TextView) rootView.findViewById(R.id.content);//故事
+                contentTitle= (TextView) rootView.findViewById(R.id.contentTitle);//故事title
+
+                getGuShi(role);//获取故事
+                close= (TextView) rootView.findViewById(R.id.close);
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(isExspanded=!isExspanded){
+                            close.setText("展开故事");
+                            contentTitle.setVisibility(View.GONE);
+                            content.setVisibility(View.GONE);
+                        }else{
+                            close.setText("收起故事");
+                            contentTitle.setVisibility(View.VISIBLE);
+                            content.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+
+                ImageView leftUserIcon=findView(R.id.leftLogo);//左边用户logo
+                ImageView leftRobotIcon=findView(R.id.leftLogo2);//系统角色
+                ImageView rightUserIcon=findView(R.id.leftLogo3);//右边用户logo
+                ImageView rightRobotIcon=findView(R.id.leftLogo4);//系统角色
+
+                TextView leftName=findView(R.id.leftName);
+                TextView rightName=findView(R.id.rightName);//系统角色
+                TextView leftName2=findView(R.id.leftName2);
+                TextView rightName2=findView(R.id.rightName2);//系统角色
+
+				String[] s=getNameByStory(story);//根据故事类型得到两个系统角色
+				if("0".equals(role)){//对方扮演角色  左边
+					leftName.setText(StringUtils.convert(teamName));//发起人在左
+					rightName.setText(s[0]);
+					leftName2.setText(StringUtils.convert(DBUtils.getUserNickName()));//自己在右
+					rightName2.setText(s[1]);
+				}else{
+					leftName.setText(StringUtils.convert(DBUtils.getUserNickName()));//自己在左
+					rightName.setText(s[0]);
+					leftName2.setText(StringUtils.convert(teamName));//发起人在右
+					rightName2.setText(s[1]);
+				}
+
+				//头像
+				int[] s2=getIconByStory(story);
+				if("0".equals(role)){//对方扮演角色  左边
+					Glide.with(getActivity()).load(userIcon).into(leftUserIcon);
+					leftRobotIcon.setImageResource(s2[0]);
+					Glide.with(getActivity()).load(DBUtils.getUserAvatar()).into(rightUserIcon);
+					rightRobotIcon.setImageResource(s2[1]);
+				}else{
+					Glide.with(getActivity()).load(DBUtils.getUserAvatar()).into(leftUserIcon);
+					leftRobotIcon.setImageResource(s2[0]);
+					Glide.with(getActivity()).load(userIcon).into(rightUserIcon);
+					rightRobotIcon.setImageResource(s2[1]);
+				}
+            }else{
+                banYanLayout= (LinearLayout) rootView.findViewById(R.id.banYanLayout);
+                banYanLayout.setVisibility(View.GONE);
+            }
+        }
+    }
+    TextView content;
+    TextView contentTitle;
+    private boolean isExspanded=true;//已展开
+
+    /**
+     * 获取故事内容
+     */
+    private void getGuShi(String role){
+        Map<String,String> map=new HashMap<>();
+        map.put("type",role);
+        RetrofitTools.getGuShi(map).subscribe(new ResponseSubscriber<GetGuShiResponse>() {
+            @Override
+            public void onSuccess(GetGuShiResponse getGuShiResponse, int code, String msg) {
+                if(code==200){
+                   String gushi=getGuShiResponse.getData();
+                   content.setText(StringUtils.convert(gushi));//填充故事内容
+                }
+            }
+
+            @Override
+            public void onFailed(Throwable e) {
+            }
+        });
+    }
+
+    /**
+     * 根据角色 得到两个名字
+     * @param story
+     * @return
+     */
+    private String[] getNameByStory(String story){
+        String[] s=new String[2];
+		//角色扮演的  通知  id = 5 ;  members = 匹配的成员数租 ;  teamId = 发起者的id ;  role = (0或者1 — 0是代表扮演左边  1是代表扮演右边) ;
+		// story = 故事类型(0:教师VS学生 1:亲王VS宠妃 2:护士VS病人 3:大叔VS萝莉 4:空姐VS乘客 5:老板VS秘书)  ;  teamName = 发起者的昵称
+		String leftName="";
+		String rightName="";
+		switch (story){
+			case "0":
+				leftName="教师";
+				rightName="学生";
+				break;
+			case "1":
+				leftName="亲王";
+				rightName="宠妃";
+				break;
+			case "2":
+				leftName="护士";
+				rightName="病人";
+				break;
+			case "3":
+				leftName="大叔";
+				rightName="萝莉";
+				break;
+			case "4":
+				leftName="空姐";
+				rightName="乘客";
+				break;
+			case "5":
+				leftName="老板";
+				rightName="秘书";
+				break;
+        }
+        s[0]=leftName;
+		s[1]=rightName;
+		return s;
+    }
+
+	/**
+	 * 根据角色 得到两个头像
+	 * @param story
+	 * @return
+	 */
+	private int[] getIconByStory(String story){
+		int[] s=new int[2];
+		//角色扮演的  通知  id = 5 ;  members = 匹配的成员数租 ;  teamId = 发起者的id ;  role = (0或者1 — 0是代表扮演左边  1是代表扮演右边) ;
+		// story = 故事类型(0:教师VS学生 1:亲王VS宠妃 2:护士VS病人 3:大叔VS萝莉 4:空姐VS乘客 5:老板VS秘书)  ;  teamName = 发起者的昵称
+		int leftIcon=R.drawable.icon_js_js;
+		int rightIcon=R.drawable.icon_js_xs;
+		switch (story){
+			case "0":
+				leftIcon=R.drawable.icon_js_js;
+				rightIcon=R.drawable.icon_js_xs;
+				break;
+			case "1":
+				leftIcon=R.drawable.icon_js_qw;
+				rightIcon=R.drawable.icon_js_cf;
+				break;
+			case "2":
+				leftIcon=R.drawable.icon_js_hs;
+				rightIcon=R.drawable.icon_js_bing;
+				break;
+			case "3":
+				leftIcon=R.drawable.icon_js_ds;
+				rightIcon=R.drawable.icon_js_ll;
+				break;
+			case "4":
+				leftIcon=R.drawable.icon_js_kj;
+				rightIcon=R.drawable.icon_js_ck;
+				break;
+			case "5":
+				leftIcon=R.drawable.icon_js_lb;
+				rightIcon=R.drawable.icon_js_ms;
+				break;
+		}
+		s[0]=leftIcon;
+		s[1]=rightIcon;
+		return s;
+	}
 
 }

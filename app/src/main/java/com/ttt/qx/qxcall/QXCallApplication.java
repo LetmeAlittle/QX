@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,6 +32,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.common.util.log.LogUtil;
+import com.netease.nim.uikit.session.activity.P2PMessageActivity;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -54,6 +56,8 @@ import com.ttt.qx.qxcall.dbbean.UserBean;
 import com.ttt.qx.qxcall.dialog.ReceiveGiftDialog;
 import com.ttt.qx.qxcall.dialog.ReceiveTextDialog;
 import com.ttt.qx.qxcall.function.helper.SessionHelper;
+import com.ttt.qx.qxcall.function.home.model.HomeModel;
+import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
 import com.ttt.qx.qxcall.function.home.view.MainActivity;
 import com.ttt.qx.qxcall.function.login.model.entity.AddressEntity;
 import com.ttt.qx.qxcall.function.login.model.entity.JsonBean;
@@ -76,6 +80,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.LogUtils;
 import com.ysxsoft.qxerkai.utils.WYUtils;
+import com.ysxsoft.qxerkai.view.activity.NHuaLiaoActivity;
 import com.ysxsoft.qxerkai.view.activity.PiPeiCallActivity;
 
 import org.json.JSONArray;
@@ -95,6 +100,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import rx.Subscriber;
 
 import static com.ttt.qx.qxcall.database.XUtil.BUFFER_SIZE;
 import static com.ttt.qx.qxcall.database.XUtil.DB_NAME;
@@ -132,6 +138,8 @@ public class QXCallApplication extends MultiDexApplication {
 	public static String accid;
 	//某次通话时间
 	public static long baseTime = 0;
+	//匹配通话时间
+	public static long pipeiTime = 0;
 	public static List<AddressEntity> mAddressEntity = new ArrayList<>();
 	public static boolean listenToLogin = false;
 	public static ArrayList<JsonBean> options1Items = new ArrayList<>();
@@ -385,6 +393,7 @@ public class QXCallApplication extends MultiDexApplication {
 									}
 								});
 							} else if (jsonObject.getInt("msg_type") == 12) {//弹幕
+								Log.e("tag", "收到弹幕:" + content);
 								notifyBean.setContent(jsonObject.getString("msg"));
 								Activity topActivity = CustomActivityManager.getInstance().getTopActivity();
 								Map<String, String> receiveMap = new HashMap<String, String>();
@@ -393,6 +402,7 @@ public class QXCallApplication extends MultiDexApplication {
 									@Override
 									public void onCancle() {
 									}
+
 									@Override
 									public void onSend(String gift_id) {
 									}
@@ -424,6 +434,31 @@ public class QXCallApplication extends MultiDexApplication {
 									Intent intent = new Intent("com.ysxsoft.qxerkai.needexit");
 									intent.putExtra("roomName", jsonObject.optString("room"));//房间名称
 									localBroadcastManager.sendBroadcast(intent);
+									break;
+								case "5"://角色扮演
+//									角色扮演的  通知  id = 5 ;  members = 匹配的成员数租 ;  teamId = 发起者的id ;  role = (0或者1 — 0是代表扮演左边  1是代表扮演右边) ;  story = 故事类型(0:教师VS学生 1:亲王VS宠妃 2:护士VS病人 3:大叔VS萝莉 4:空姐VS乘客 5:老板VS秘书)  ;  teamName = 发起者的昵称
+									try {
+										String teamId=jsonObject.optString("teamId");
+										String role=jsonObject.optString("role");//0代表左边  1代表右边
+										String story=jsonObject.optString("story");//故事类型 0:教师VS学生 1:亲王VS宠妃 2:护士VS病人 3:大叔VS萝莉 4:空姐VS乘客 5:老板VS秘书
+										String teamName=jsonObject.optString("teamName");//teamName 发起者的昵称
+										LogUtils.e("收到扮演通知"+"teamId:"+teamId+" role:"+role+" story:"+story+" teamName:"+teamName);
+
+										List<String> members = new ArrayList<>();
+										JSONArray jsonArray = jsonObject.optJSONArray("members");
+										if (jsonArray != null) {
+											for (int i = 0; i < jsonArray.length(); i++) {
+												String member = jsonArray.getString(i);
+												members.add(member);
+											}
+										}
+										if(canRequest){
+											getUserInfo(teamId,context,members,role,teamId,story,teamName);
+										}
+//										NimUIKit.startP2PSessionWithJiaoSe(getApplicationContext(),members,role,teamId,story,teamName);
+									} catch (JSONException e) {
+										e.printStackTrace();
+									}
 									break;
 							}
 						}
@@ -807,4 +842,38 @@ public class QXCallApplication extends MultiDexApplication {
 		animation.start();
 	}
 
+	/**
+	 * 获取用户信息
+	 * @param userId
+	 */
+	private void getUserInfo(String userId,Context context, List<String> members, String role, String teamId, String story, String teamName){
+		canRequest=false;
+		String authorization = "Bearer " + DBUtils.getUserToken();
+		HomeModel.getHomeModel().getUserInfo(new Subscriber<UserDetailInfo>() {
+			@Override
+			public void onCompleted() {
+				canRequest=true;
+				LogUtils.e("角色匹配通知获取用户头像onCompleted");
+			}
+
+			@Override
+			public void onError(Throwable e) {
+				canRequest=true;
+				LogUtils.e("角色匹配通知获取用户头像onError");
+				e.printStackTrace();
+			}
+
+			@Override
+			public void onNext(UserDetailInfo userDetailInfo) {
+				canRequest=true;
+				LogUtils.e("角色匹配通知获取用户头像onNext");
+				if (userDetailInfo.getStatus_code() == 200) {
+					String avatar=userDetailInfo.getData().getMember_avatar();//发起人用户头像
+					PiPeiCallActivity.start(context, members, role,teamId,story, teamName,avatar);
+				}
+			}
+		}, String.valueOf(userId), authorization);
+	}
+
+	private boolean canRequest=true;
 }

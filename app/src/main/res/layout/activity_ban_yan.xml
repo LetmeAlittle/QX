@@ -36,11 +36,23 @@
                     android:paddingBottom="20dp"
                     android:paddingTop="20dp">
 
-                    <ImageView
-                        android:id="@+id/iv_left"
+                    <FrameLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/touxiang_dashu" />
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/iv_left"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/touxiang_dashu" />
+
+                        <ImageView
+                            android:id="@+id/mengban"
+                            android:visibility="gone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/touxiang_mengban" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -63,6 +75,7 @@
                             android:src="@mipmap/touxiang_luoli" />
 
                         <ImageView
+                            android:id="@+id/mengban2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@mipmap/touxiang_mengban" />

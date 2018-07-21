@@ -16,14 +16,17 @@
             android:layout_height="wrap_content"
             android:text="TextView"
             android:textColor="@color/white"
+            android:textSize="18sp"
             android:padding="@dimen/dp_4"
             />
 
         <TextView
+            android:id="@+id/content"
             android:layout_width="wrap_content"
             android:text="正在呼叫你"
             android:textColor="@color/white"
             android:padding="@dimen/dp_4"
+            android:textSize="18sp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 

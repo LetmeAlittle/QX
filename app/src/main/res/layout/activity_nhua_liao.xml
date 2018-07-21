@@ -120,15 +120,16 @@
                                 android:id="@+id/time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="03:56"
+                                android:text="00:00"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/lager_size"/>
 
                             <TextView
+                                android:id="@+id/free"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
-                                android:text="收费中"
+                                android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/normal_size"/>
 
@@ -148,7 +149,7 @@
                         android:paddingLeft="35dp"
                         android:paddingRight="25dp"
                         android:paddingTop="10dp"
-                        android:text="已上锁"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="@dimen/normal_size"/>
 
@@ -181,7 +182,7 @@
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:paddingTop="5dp"
-                        android:text="1人在收听"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="@dimen/middle_size"/>
 

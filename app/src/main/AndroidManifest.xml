@@ -169,6 +169,10 @@
             android:name=".function.voice.floatw.FloatViewService"
             android:enabled="true"
             android:exported="true" />
+        <service
+            android:name=".function.voice.floatw.PiPeiFloatViewService"
+            android:enabled="true"
+            android:exported="true" />
         <!--
              网易云通信SDK的监视系统启动和网络变化的广播接收器，用户开机自启动以及网络变化时候重新登录，
             保持和 NimService 同一进程
@@ -579,9 +583,10 @@
         <!-- 角色扮演 -->
         <activity android:name="com.ysxsoft.qxerkai.view.activity.BanYanActivity"   android:screenOrientation="portrait"></activity>
         <!-- 语音聊天页面 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NHuaLiaoActivity"   android:screenOrientation="portrait"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NHuaLiaoActivity"    android:launchMode="singleInstance"
+            android:screenOrientation="portrait"></activity>
         <!-- 语音聊天偷听页面 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NHuaLiaoTouTingActivity"   android:screenOrientation="portrait"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.NHuaLiaoTouTingActivity"   android:launchMode="singleInstance"  android:screenOrientation="portrait"></activity>
         <!-- 小情趣发布 -->
         <activity android:name="com.ysxsoft.qxerkai.view.activity.NFaTieActivity"   android:screenOrientation="portrait"></activity>
         <!-- 朋友圈发布 -->

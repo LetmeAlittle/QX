@@ -4,11 +4,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,10 +34,14 @@ import com.ttt.qx.qxcall.function.base.interfacee.SubScribeOnNextListener;
 import com.ttt.qx.qxcall.function.base.subscribe.ProgressSubscribe;
 import com.ttt.qx.qxcall.function.find.model.FindModel;
 import com.ttt.qx.qxcall.function.find.model.entity.GiftList;
+import com.ttt.qx.qxcall.function.home.model.HomeModel;
+import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
+import com.ttt.qx.qxcall.function.voice.AVChatProfile;
 import com.ttt.qx.qxcall.function.voice.AVChatUI;
 import com.ttt.qx.qxcall.function.voice.DemoCache;
 import com.ttt.qx.qxcall.function.voice.floatw.FloatViewService;
+import com.ttt.qx.qxcall.function.voice.floatw.PiPeiFloatViewService;
 import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
 import com.ysxsoft.qxerkai.net.RetrofitTools;
@@ -58,6 +66,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Retrofit;
+import rx.Subscriber;
 
 import static com.ttt.qx.qxcall.QXCallApplication.onToast;
 
@@ -109,6 +118,8 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 	TextView myAudio;
 	@BindView(R.id.sendDanMu)
 	TextView sendDanMu;
+	@BindView(R.id.free)
+	TextView free;
 	@BindView(R.id.sendLiWu)
 	TextView sendLiWu;
 	boolean speakerMode = false;//控制是否扩音
@@ -116,11 +127,16 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 	// 广播
 	///////////////////////////////////////////////////////////////////////////
 	LocalBroadcastManager localBroadcastManager;
+	/**
+	 * 设置用户信息
+	 */
+	UserDetailInfo.DataBean mInfoData;
 	private String type;//当前页面类型
 	private String roomName;//房间名称
 	private String callerName;//发起人名称
 	private String teamId;//发起人名称
 	private int s = 0;//总运行时间
+	private int frees = 60 * 4;//前4分钟免费
 	private boolean serviceStart = false;
 	private String targetId;//接收人id
 	private boolean isAdmin = false;//是否是房主
@@ -129,6 +145,7 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 	private int qzUserAccid;
 	private int fUserAccid;
 	private AVChatUI avChatUI; // 音视频总管理器
+	private boolean follow = false;
 
 	private Handler handler = new Handler() {
 		@Override
@@ -137,18 +154,25 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 			switch (msg.what) {
 				case UPDATE_CODE://每s更新时间
 					s++;
-					if (s > 60 && s % 60 == 0) {//每分钟购买
-						if (isAdmin) {
-							buy();//管理员调用
+					if (s % 5 == 0) {
+						getDetail();
+					}
+					if (s <= frees) {//是否免费
+						free.setText("免费中");
+					} else {
+						free.setText("收费中");
+						if (s > 60 && s % 60 == 0) {//每分钟购买
+							if (isAdmin) {
+								buy();//管理员调用
+							}
 						}
 					}
-					handler.sendEmptyMessageDelayed(UPDATE_CODE, 1000);
 					time.setText(parseTime(s));
+					handler.sendEmptyMessageDelayed(UPDATE_CODE, 1000);
 					break;
 			}
 		}
 	};
-
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -160,6 +184,11 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 			}
 		}
 	};
+	///////////////////////////////////////////////////////////////////////////
+	// 获取个人信息
+	///////////////////////////////////////////////////////////////////////////
+	private int suo1;//第一道锁价格
+	private int suo2;//第二道锁价格
 
 	public static void start(Context context, String roomName, String teamId, String type, String callerName, boolean isAdmin, List<String> members) {
 		Intent intent = new Intent(context, NHuaLiaoActivity.class);
@@ -219,17 +248,19 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 			}
 		});
 		tvPublicTitlebarCenter.setText("");
+		tvPublicTitlebarCenter.setCompoundDrawablePadding(10);
+		tvPublicTitlebarCenter.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				guanzhu();
+			}
+		});
 		ivPublicTitlebarRight2.setVisibility(View.VISIBLE);
 		ivPublicTitlebarRight2.setImageResource(R.mipmap.activity_hualiao_right);
 		llPublicTitlebarRight.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				QXCallApplication.baseTime = System.currentTimeMillis() - (s * 1000);
-				Intent intent = new Intent(NHuaLiaoActivity.this, FloatViewService.class);
-				startService(intent);
-				serviceStart = true;
-				//不销毁 activity
-				moveTaskToBack(true);
+				up();//挂起服务
 			}
 		});
 	}
@@ -267,11 +298,121 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 	///////////////////////////////////////////////////////////////////////////
 	// 网络请求
 	///////////////////////////////////////////////////////////////////////////
-
 	private void initData() {
+		getUserInfo(true);//获取自己的 初始化价格
+		getUserInfo(false);//获取对方是否关注
 		getNotify();
 		getDetail();
 		handler.sendEmptyMessageDelayed(UPDATE_CODE, 1000);
+	}
+
+	/**
+	 * 加好友/取消关注
+	 */
+	private void guanzhu() {
+		String id = "";
+		if (isAdmin) {//是否是房主
+			id = "" + fUserAccid;
+		} else {
+			id = "" + qzUserAccid;
+		}
+		String authorization = "Bearer " + DBUtils.getUserToken();
+		if (!follow) {
+			HomeModel.getHomeModel().followUser(new ProgressSubscribe<>(new SubScribeOnNextListener<StandardResponse>() {
+				@Override
+				public void onNext(StandardResponse standardResponse) {
+					if (standardResponse.getStatus_code() == 200) {
+						follow = true;
+						Drawable drawable = NHuaLiaoActivity.this.getResources().getDrawable(R.mipmap.ziliao_weiguanzhu);
+						drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+						tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
+					} else {
+						ToastUtils.showToast(NHuaLiaoActivity.this, standardResponse.getMessage(), 0);
+					}
+				}
+			}, NHuaLiaoActivity.this), String.valueOf(id), authorization);
+		} else {//如果已经关注
+			HomeModel.getHomeModel().unfollowUser(new ProgressSubscribe<>(new SubScribeOnNextListener<StandardResponse>() {
+				@Override
+				public void onNext(StandardResponse standardResponse) {
+					if (standardResponse.getStatus_code() == 200) {
+						follow = false;
+						Drawable drawable = NHuaLiaoActivity.this.getResources().getDrawable(R.mipmap.ziliao_guanzhu);
+						drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+						tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
+					} else {
+						ToastUtils.showToast(NHuaLiaoActivity.this, standardResponse.getMessage(), 0);
+					}
+				}
+			}, NHuaLiaoActivity.this), String.valueOf(id), authorization);
+		}
+	}
+
+	private void up() {
+		QXCallApplication.pipeiTime = SystemClock.elapsedRealtime() - s * 1000;
+		Intent intent = new Intent(NHuaLiaoActivity.this, PiPeiFloatViewService.class);
+		startService(intent);
+		serviceStart = true;
+		//不销毁 activity
+		moveTaskToBack(true);
+	}
+
+	/**
+	 * 获取用户信息
+	 *
+	 * @param first
+	 */
+	private void getUserInfo(boolean first) {
+		String id = "";
+		if (isAdmin) {//是否是房主
+			if (first) {
+				id = "" + qzUserAccid;
+			} else {
+				id = "" + fUserAccid;
+			}
+		} else {
+			if (first) {
+				id = "" + fUserAccid;
+			} else {
+				id = "" + qzUserAccid;
+			}
+		}
+		String authorization = "Bearer " + DBUtils.getUserToken();
+		//初始化金币数
+		HomeModel.getHomeModel().getUserInfo(new Subscriber<UserDetailInfo>() {
+			@Override
+			public void onCompleted() {
+			}
+
+			@Override
+			public void onError(Throwable e) {
+				e.printStackTrace();
+			}
+
+			@Override
+			public void onNext(UserDetailInfo userDetailInfo) {
+				if (userDetailInfo.getStatus_code() == 200) {
+//					price.setText("抛一次话题收取"+StringUtils.convert(""+userDetailInfo.getData().getPaohuati())+"砰砰豆");
+					if (first) {//第一次获取自己信息
+						suo1 = userDetailInfo.getData().getSuo1();
+						suo2 = userDetailInfo.getData().getSuo2();
+					} else {//第一次获取对方信息
+						mInfoData = userDetailInfo.getData();
+						if (mInfoData.getIs_fans() == 0) {
+							Drawable drawable = NHuaLiaoActivity.this.getResources().getDrawable(R.mipmap.ziliao_guanzhu);
+							drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+							tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
+							follow = false;
+						} else {
+							Drawable drawable = NHuaLiaoActivity.this.getResources().getDrawable(R.mipmap.ziliao_weiguanzhu);
+							drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+							tvPublicTitlebarCenter.setCompoundDrawables(null, null, drawable, null);
+							follow = true;
+						}
+					}
+				}
+			}
+		}, String.valueOf(id), authorization);
 	}
 
 	/**
@@ -360,6 +501,11 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 					currentSuo = 2;
 					break;
 			}
+			if (s <= frees) {//4分钟前免费
+				moneyNum.setVisibility(View.GONE);
+			} else {
+				moneyNum.setVisibility(View.VISIBLE);
+			}
 			//消费豆子数量
 			moneyNum.setText("已计费：" + data.getNum() + "砰砰豆");
 			//收听数量
@@ -385,6 +531,11 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 				tvPublicTitlebarCenter.setText(userBean.getNick_name());
 			}
 		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
 	}
 
 	private String parseTime(int s) {
@@ -421,12 +572,13 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 		Log.e("tag", "开始销毁");
 		//如果收起服务已经开启 同时停止服务
 		if (serviceStart) {
-			stopService(new Intent(NHuaLiaoActivity.this, FloatViewService.class));
+			stopService(new Intent(NHuaLiaoActivity.this, PiPeiFloatViewService.class));
 			serviceStart = false;
 		}
 		register(false);//取消注册
 		unregister();
 		leave();
+		AVChatProfile.getInstance().setAVChatting(false);
 	}
 
 	private void unregister() {
@@ -476,7 +628,7 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 				}
 				PiPeiSuoDialog dialog = new PiPeiSuoDialog(NHuaLiaoActivity.this, R.style.dialogHuaTiStyle);
 				dialog.setType(currentSuo == 0 ? true : false);
-				dialog.setMoney(currentSuo == 0 ? "20" : "5");
+				dialog.setMoney(currentSuo == 0 ? suo1 + "" : suo2 + "");
 				dialog.show(new PiPeiSuoDialog.OnPiPeiSuoDialogListener() {
 					@Override
 					public void lock() {
@@ -485,10 +637,19 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 				});
 				break;
 			case R.id.otherAudio://他的声音   扩音
-				AVChatManager.getInstance().setSpeaker(speakerMode = !speakerMode);
+//				AVChatManager.getInstance().setSpeaker(speakerMode = !speakerMode);
+				AVChatManager.getInstance().setSpeaker(!AVChatManager.getInstance().speakerEnabled()); // 设置扬声器是否开启
 				break;
 			case R.id.myAudio://我的声音   静音
-
+				if (!AVChatManager.getInstance().isRemoteAudioMuted("" + fUserAccid)) { // isMute是否处于静音状态
+					// 关闭音频
+					Log.e("tag", "关闭音频");
+					AVChatManager.getInstance().muteRemoteAudio("" + fUserAccid, true); //关闭远端流 不听对方的声音
+				} else {
+					//打开音频
+					Log.e("tag", " 打开音频");
+					AVChatManager.getInstance().muteRemoteAudio("" + fUserAccid, false);
+				}
 				break;
 			case R.id.sendDanMu://发弹幕
 				sendText();
@@ -733,5 +894,15 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 	@Override
 	public void onLiveEvent(int i) {
 
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		Log.e("tag", "home键");
+		if (event.getAction() == KeyEvent.KEYCODE_HOME) {
+			Log.e("tag", "home键");
+			up();
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }

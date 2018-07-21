@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +25,9 @@ import com.netease.nimlib.sdk.avchat.model.AVChatSessionStats;
 import com.netease.nimlib.sdk.avchat.model.AVChatVideoFrame;
 import com.ttt.qx.qxcall.QXCallApplication;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.function.home.model.HomeModel;
+import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
+import com.ttt.qx.qxcall.function.voice.AVChatProfile;
 import com.ttt.qx.qxcall.function.voice.floatw.FloatViewService;
 import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
@@ -35,6 +40,7 @@ import com.ysxsoft.qxerkai.utils.StringUtils;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.utils.WYUtils;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
+import com.ysxsoft.qxerkai.view.widget.TouTingSuoDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +51,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import rx.Subscriber;
 
 public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStateObserver {
 
@@ -107,6 +114,33 @@ public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStat
 	private int fUserAccid;//接收人id
 	private LocalBroadcastManager localBroadcastManager;
 
+	public final static int UPDATE_CODE=0x02;
+	private int s;
+
+	private Handler handler = new Handler() {
+		@Override
+		public void dispatchMessage(Message msg) {
+			super.dispatchMessage(msg);
+			switch (msg.what) {
+				case UPDATE_CODE://每s更新时间
+					s++;
+					if (s > 60 && s % 60 == 0) {//每分钟购买
+//						if (isAdmin) {
+//							buy();//管理员调用
+//						}
+					}
+					handler.sendEmptyMessageDelayed(UPDATE_CODE, 1000);
+					shichang.setText(parseTime(s));
+					break;
+			}
+		}
+	};
+
+	private String parseTime(int s) {
+		String str = StringUtils.getM(s) + ":" + StringUtils.getS(s);
+		return str;
+	}
+
 	public static void start(Context context, String roomName){
 		Intent intent=new Intent(context,NHuaLiaoTouTingActivity.class);
 		intent.putExtra("roomName",roomName);
@@ -116,7 +150,6 @@ public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStat
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.e("tag", "收到房主取消通知");
 			String room = intent.getStringExtra("roomName");
 			if (room != null && room.equals(roomName)) {
 				ToastUtils.showToast(NHuaLiaoTouTingActivity.this, "该房间已加锁！", 1);
@@ -195,14 +228,18 @@ public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStat
 				Log.e("tag","进入房间onException!"+throwable.getMessage());
 			}
 		});
+		getUserInfo();
 		getNotify();
 		getDetail();
+		handler.sendEmptyMessageDelayed(UPDATE_CODE, 1000);
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		register(false);
+		AVChatProfile.getInstance().setAVChatting(false);
+		leave();
 	}
 
 	private void leave(){
@@ -231,11 +268,14 @@ public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStat
 			case R.id.leftIcon://左边用户头像
 				break;
 			case R.id.lock1://左边头像解锁
-				if (data == null) {
-					ToastUtils.showToast(NHuaLiaoTouTingActivity.this, "房间信息缺失!", 1);
-					return;
-				}
-				jiesuo(true);
+				TouTingSuoDialog dialog=new TouTingSuoDialog(NHuaLiaoTouTingActivity.this,R.style.dialogHuaTiStyle);
+				dialog.setMoney(""+js);
+				dialog.show(new TouTingSuoDialog.OnTouTingSuoDialogListener() {
+					@Override
+					public void sure() {
+						jiesuo(true);
+					}
+				});
 				break;
 			case R.id.rightIcon://右边用户头像
 				break;
@@ -244,7 +284,18 @@ public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStat
 					ToastUtils.showToast(NHuaLiaoTouTingActivity.this, "房间信息缺失!", 1);
 					return;
 				}
-				jiesuo(false);
+				if(rightlocked){
+					ToastUtils.showToast(NHuaLiaoTouTingActivity.this, "已解锁!", 1);
+					return;
+				}
+				TouTingSuoDialog dialog2=new TouTingSuoDialog(NHuaLiaoTouTingActivity.this,R.style.dialogHuaTiStyle);
+				dialog2.setMoney(""+js);
+				dialog2.show(new TouTingSuoDialog.OnTouTingSuoDialogListener() {
+					@Override
+					public void sure() {
+						jiesuo(false);
+					}
+				});
 				break;
 			case R.id.luyin://录音
 				break;
@@ -409,36 +460,29 @@ public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStat
 	}
 
 	/**
-	 * 显示用户头像
+	 * 显示两人头像
 	 */
 	private void showImage() {
-		if (data == null) {
-			return;
-		}
+		// 发起人头像
 		if (leftLocked) {
-			// 用户头像
 			Glide.with(NHuaLiaoTouTingActivity.this).load(data.getUser().getIcon())
 					.into(leftIcon);
 			lock1.setVisibility(View.GONE);
 		} else {
-			// 用户头像
 			Glide.with(NHuaLiaoTouTingActivity.this).load(data.getUser().getIcon())
 					.bitmapTransform(new BlurTransformation(NHuaLiaoTouTingActivity.this, 15))
 					.into(leftIcon);
 			lock1.setVisibility(View.VISIBLE);
 		}
-
+		// 接收人头像
 		if (rightlocked) {
-			// 用户头像
 			Glide.with(NHuaLiaoTouTingActivity.this).load(data.getF_user().getIcon())
-					.crossFade()
-					.bitmapTransform(new BlurTransformation(NHuaLiaoTouTingActivity.this, 15))
 					.into(rightIcon);
 			lock2.setVisibility(View.GONE);
 		} else {
-			Glide.with(NHuaLiaoTouTingActivity.this).load(data.getUser().getIcon())
+			Glide.with(NHuaLiaoTouTingActivity.this).load(data.getF_user().getIcon())
 					.bitmapTransform(new BlurTransformation(NHuaLiaoTouTingActivity.this, 15))
-					.into(leftIcon);
+					.into(rightIcon);
 			lock2.setVisibility(View.VISIBLE);
 		}
 	}
@@ -577,5 +621,32 @@ public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStat
 
 	@Override
 	public void onLiveEvent(int i) {
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+	// 获取个人信息
+	///////////////////////////////////////////////////////////////////////////
+	private int js;//解锁头像价格
+	private void getUserInfo() {
+		String authorization = "Bearer " + DBUtils.getUserToken();
+		//初始化金币数
+		HomeModel.getHomeModel().getUserInfo(new Subscriber<UserDetailInfo>() {
+			@Override
+			public void onCompleted() {
+			}
+
+			@Override
+			public void onError(Throwable e) {
+				e.printStackTrace();
+			}
+
+			@Override
+			public void onNext(UserDetailInfo userDetailInfo) {
+				if (userDetailInfo.getStatus_code() == 200) {
+//					price.setText("抛一次话题收取"+StringUtils.convert(""+userDetailInfo.getData().getPaohuati())+"砰砰豆");
+					js=userDetailInfo.getData().getJs();
+				}
+			}
+		}, "", authorization);
 	}
 }

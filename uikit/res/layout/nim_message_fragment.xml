@@ -1,149 +1,370 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/messageActivityLayout"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/activity_nchat_bg"
-              android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/messageActivityLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/activity_nchat_bg"
+    android:orientation="vertical">
 
-
-    <FrameLayout
-        android:id="@+id/message_activity_list_view_container"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/zero_dp"
-        android:layout_weight="1"
-      >
-        <com.netease.nim.uikit.session.helper.MsgBkImageView
-            android:id="@+id/message_activity_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
+        android:layout_height="match_parent">
         <LinearLayout
-            android:id="@+id/msgLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:layout_height="match_parent">
             <FrameLayout
-                android:id="@+id/team_notify_bar_panel"
+                android:id="@+id/message_activity_list_view_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/zero_dp"
+                android:layout_weight="1">
 
-            </FrameLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/messageListView"
-                style="@style/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-        </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/layoutPlayAudio"
-            android:layout_width="@dimen/_350px"
-            android:layout_height="@dimen/_350px"
-            android:layout_gravity="center"
-            android:background="@drawable/nim_dialog_toast_bg"
-            android:visibility="gone"
-            >
-
-            <Chronometer
-                android:id="@+id/timer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/timer_default"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_50px"/>
-
-            <LinearLayout
-                android:id="@+id/timer_tip_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_15px"
-                android:layout_gravity="bottom"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/timer_tip"
+                <com.netease.nim.uikit.session.helper.MsgBkImageView
+                    android:id="@+id/message_activity_background"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="@string/recording_cancel"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_35px"/>
-            </LinearLayout>
-        </FrameLayout>
-
-        <!--话题布局start-->
-        <FrameLayout
-            android:id="@+id/fl_bg"
-            android:clickable="true"
-            android:focusable="false"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="70dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="@drawable/activity_paohuati_item_bg2"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="bottom" />
+                    android:layout_height="match_parent" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/msgLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="20dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="话题名称话题名称话题"
-                        android:singleLine="true"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"/>
+                    <FrameLayout
+                        android:id="@+id/team_notify_bar_panel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></FrameLayout>
 
-                    <TextView
-                        android:id="@+id/price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="20dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="6砰砰豆"
-                        android:textColor="#feeb18"
-                        android:textSize="14sp"/>
+                    <LinearLayout
+                        android:id="@+id/banYanLayout"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
 
+                        <!--角色扮演start-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:orientation="horizontal"
+                                android:paddingTop="@dimen/dp_10"
+                                android:layout_height="wrap_content">
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:layout_height="wrap_content">
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="100dp"
+                                        android:orientation="horizontal">
+
+                                        <ImageView
+                                            android:id="@+id/leftLogo"
+                                            android:layout_width="48dp"
+                                            android:layout_height="48dp"
+                                            android:layout_centerVertical="true"
+                                            android:background="#545454" />
+
+                                        <TextView
+                                            android:id="@+id/leftlable"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginLeft="@dimen/dp_4"
+                                            android:layout_marginRight="@dimen/dp_4"
+                                            android:layout_toRightOf="@id/leftLogo"
+                                            android:text="饰演"
+                                            android:textColor="@color/white"
+                                            android:textSize="20sp"
+                                            android:textStyle="bold" />
+
+                                        <ImageView
+                                            android:id="@+id/leftLogo2"
+                                            android:layout_width="72dp"
+                                            android:layout_height="72dp"
+                                            android:layout_toRightOf="@+id/leftlable"
+                                            android:background="@drawable/icon_js_ds" />
+
+                                        <TextView
+                                            android:id="@+id/leftName"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@id/leftLogo"
+                                            android:text="JACK"
+                                            android:textColor="@color/white" />
+
+                                        <TextView
+                                            android:id="@+id/rightName"
+                                            android:layout_width="72dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignLeft="@id/leftLogo2"
+                                            android:layout_below="@id/leftLogo2"
+                                            android:gravity="center"
+                                            android:text="大叔"
+                                            android:textColor="@color/white" />
+                                    </RelativeLayout>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:layout_height="wrap_content">
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="100dp"
+                                        android:orientation="horizontal">
+
+                                        <ImageView
+                                            android:id="@+id/leftLogo3"
+                                            android:layout_width="48dp"
+                                            android:layout_height="48dp"
+                                            android:layout_centerVertical="true"
+                                            android:background="#545454" />
+
+                                        <TextView
+                                            android:id="@+id/leftlable2"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginLeft="@dimen/dp_4"
+                                            android:layout_marginRight="@dimen/dp_4"
+                                            android:layout_toRightOf="@id/leftLogo3"
+                                            android:text="饰演"
+                                            android:textColor="@color/white"
+                                            android:textSize="20sp"
+                                            android:textStyle="bold" />
+
+                                        <ImageView
+                                            android:id="@+id/leftLogo4"
+                                            android:layout_width="72dp"
+                                            android:layout_height="72dp"
+                                            android:layout_toRightOf="@+id/leftlable2"
+                                            android:background="@drawable/icon_js_ll" />
+
+                                        <TextView
+                                            android:id="@+id/leftName2"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@id/leftLogo3"
+                                            android:text="JACK"
+                                            android:textColor="@color/white" />
+
+                                        <TextView
+                                            android:id="@+id/rightName2"
+                                            android:layout_width="72dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignLeft="@id/leftLogo4"
+                                            android:layout_below="@id/leftLogo4"
+                                            android:gravity="center"
+                                            android:text="萝莉"
+                                            android:textColor="@color/white" />
+                                    </RelativeLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_marginLeft="@dimen/dp_22"
+                                android:layout_marginRight="@dimen/dp_22"
+                                android:paddingLeft="@dimen/dp_10"
+                                android:paddingRight="@dimen/dp_10"
+                                android:paddingTop="@dimen/dp_10"
+                                android:orientation="vertical"
+                                android:background="@drawable/rect_border_white"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/contentTitle"
+                                    android:layout_width="wrap_content"
+                                    android:text="剧情介绍"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/white"
+                                    android:layout_height="wrap_content" />
+                                <TextView
+                                    android:id="@+id/content"
+                                    android:textColor="@color/white"
+                                    android:layout_width="wrap_content"
+                                    android:text="坐在教室后排的问题学生，侧脸俊秀，高挺的鼻子显得一丝高冷，自从这位带来御姐范的美女老师带班之后，他惹事的频率愈高。
+        老师：你就这么喜欢打架吗？
+        学生：他喜欢你我才打的他，知道吗？你是我的！
+        老师：你流血了，快去校医务室！【转身离开】
+        学生：你是心疼了吗？【双臂张开将老师困在墙角，满眼深情】"
+                                    android:textSize="12sp"
+                                    android:layout_height="wrap_content" />
+
+                                <TextView
+                                    android:id="@+id/close"
+                                    android:gravity="center"
+                                    android:padding="@dimen/dp_4"
+                                    android:textColor="@color/white"
+                                    android:layout_width="match_parent"
+                                    android:text="收起剧情"
+                                    android:paddingBottom="@dimen/dp_10"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+                        </LinearLayout>
+                        <!--角色扮演end-->
+                    </LinearLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/messageListView"
+                        style="@style/recycler_view"
+                        android:layout_marginBottom="56dp"
+                        android:layout_above="@id/sendLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
                 </LinearLayout>
+                <FrameLayout
+                    android:id="@+id/layoutPlayAudio"
+                    android:layout_width="@dimen/_350px"
+                    android:layout_height="@dimen/_350px"
+                    android:layout_gravity="center"
+                    android:background="@drawable/nim_dialog_toast_bg"
+                    android:visibility="gone">
 
+                    <Chronometer
+                        android:id="@+id/timer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/timer_default"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_50px" />
+
+                    <LinearLayout
+                        android:id="@+id/timer_tip_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="@dimen/_15px"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/timer_tip"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="@string/recording_cancel"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_35px" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <!--话题布局start-->
+                <FrameLayout
+                    android:id="@+id/fl_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center_horizontal"
+                    android:clickable="true"
+                    android:focusable="false">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/activity_paohuati_item_bg2"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/logo"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="bottom" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="20dp"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:singleLine="true"
+                                android:text="话题名称话题名称话题"
+                                android:textColor="@color/white"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="20dp"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:text="6砰砰豆"
+                                android:textColor="#feeb18"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_vip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="65dp"
+                        android:layout_marginLeft="1.5dp"
+                        android:background="@drawable/activity_paohuati_vip2">
+
+                    </ImageView>
+
+                </FrameLayout>
+                <!--话题布局end-->
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:id="@+id/iv_liwu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_above="@id/iv_phone"
+            android:src="@drawable/activity_nchat_liwu"/>
+
+        <ImageView
+            android:layout_above="@id/sendLayout"
+            android:layout_alignParentRight="true"
+            android:id="@+id/iv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@drawable/activity_nchat_phone"/>
+
+        <LinearLayout
+            android:id="@+id/sendLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+            <include layout="@layout/nim_message_activity_text_layout"/>
+
+            <LinearLayout
+                android:id="@+id/messageActivityBottomLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/_00000000"
+                android:orientation="vertical">
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/iv_vip"
+            <com.netease.nim.uikit.session.emoji.EmoticonPickerView
+                android:id="@+id/emoticon_picker_view"
                 android:layout_width="wrap_content"
-                android:layout_height="65dp"
-                android:layout_marginLeft="1.5dp"
-                android:background="@drawable/activity_paohuati_vip2">
-
-            </ImageView>
-
-        </FrameLayout>
-        <!--话题布局end-->
-    </FrameLayout>
-    <include layout="@layout/nim_message_activity_bottom_layout" />
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+<!--    <include layout="@layout/nim_message_activity_bottom_layout" />-->
 </LinearLayout>

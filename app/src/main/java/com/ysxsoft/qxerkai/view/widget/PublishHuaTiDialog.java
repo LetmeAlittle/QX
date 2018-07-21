@@ -155,7 +155,6 @@ public class PublishHuaTiDialog extends Dialog {
                 });
     }
 
-
     /**
      * 发表话题
      *

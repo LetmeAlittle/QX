@@ -4,8 +4,9 @@ import java.util.List;
 
 public class GetHuaTiListResponse  extends BaseResponse{
 
+
     /**
-     * data : {"current_page":1,"data":[{"num":14,"title":"和异性如何聊天展开话题","gid":19,"is_vip":0,"user_id":10148,"nick_name":"魔","icon":"http://116.62.217.183/storage/avatar/2018/06/02/avatar_1527910701_10148.jpg"},{"num":1,"title":"大庭广众之下摔倒了怎么办？","gid":18,"is_vip":0,"user_id":10148,"nick_name":"魔","icon":"http://116.62.217.183/storage/avatar/2018/06/02/avatar_1527910701_10148.jpg"},{"num":1,"title":"如果你在图书馆看书，正入迷时，对面的异性用脚碰了你三次，你会？","gid":17,"is_vip":0,"user_id":10148,"nick_name":"魔","icon":"http://116.62.217.183/storage/avatar/2018/06/02/avatar_1527910701_10148.jpg"},{"num":1,"title":"和异性如何聊天展开话题","gid":16,"is_vip":0,"user_id":10182,"nick_name":"在一起","icon":"http://116.62.217.183/storage/avatar/2018/06/21/avatar_1529571492_10182.jpg"},{"num":1,"title":"没有感情的婚姻还有没有必要？","gid":15,"is_vip":0,"user_id":10182,"nick_name":"在一起","icon":"http://116.62.217.183/storage/avatar/2018/06/21/avatar_1529571492_10182.jpg"},{"num":1,"title":"喜欢上好朋友怎么办？","gid":14,"is_vip":0,"user_id":10148,"nick_name":"魔","icon":"http://116.62.217.183/storage/avatar/2018/06/02/avatar_1527910701_10148.jpg"},{"num":1,"title":"哈喽","gid":13,"is_vip":0,"user_id":78,"nick_name":"hello","icon":"http://116.62.217.183/storage/avatar/2017/12/12/avatar_1513053977_78.jpg"},{"num":1,"title":"什么样的两个人在一起才是最合适的呢？","gid":9,"is_vip":0,"user_id":10182,"nick_name":"在一起","icon":"http://116.62.217.183/storage/avatar/2018/06/21/avatar_1529571492_10182.jpg"},{"num":1,"title":"什么样的两个人才是合适的呢？","gid":8,"is_vip":0,"user_id":10182,"nick_name":"在一起","icon":"http://116.62.217.183/storage/avatar/2018/06/21/avatar_1529571492_10182.jpg"},{"num":1,"title":"你好吗👋","gid":2,"is_vip":0,"user_id":10148,"nick_name":"魔","icon":"http://116.62.217.183/storage/avatar/2018/06/02/avatar_1527910701_10148.jpg"}],"first_page_url":"http://116.62.217.183/api/gambitList?page=1","from":1,"last_page":1,"last_page_url":"http://116.62.217.183/api/gambitList?page=1","next_page_url":null,"path":"http://116.62.217.183/api/gambitList","per_page":15,"prev_page_url":null,"to":10,"total":10}
+     * data : {"current_page":1,"data":[{"num":23,"title":"你会介意TA有非常要好的异性朋友吗？","gid":50,"is_vip":0,"user_id":10196,"nick_name":"Sunny","icon":"http://116.62.217.183/storage/avatar/2018/07/07/avatar_1530935253_10196.png"},{"num":7,"title":"你觉得自己善良吗？","gid":49,"is_vip":0,"user_id":10196,"nick_name":"Sunny","icon":"http://116.62.217.183/storage/avatar/2018/07/07/avatar_1530935253_10196.png"},{"num":7,"title":"如果你在图书馆看书，正入迷时，对面的异性用脚碰了你三次，你会？","gid":46,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":7,"title":"121123123...........","gid":45,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":12,"title":"如果你在图书馆看书，正入迷时，对面的异性用脚碰了你三次，你会？","gid":44,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":7,"title":"3","gid":41,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":7,"title":"11111还","gid":40,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":7,"title":"大庭广众之下摔倒了怎么办？","gid":38,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":53,"title":"111","gid":37,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":53,"title":"tets","gid":36,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":53,"title":"你觉得自己善良吗？11111111","gid":35,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":9,"title":"y7777","gid":34,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":53,"title":"435443","gid":33,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":53,"title":"没有感情的婚姻还有没有必要？","gid":32,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":53,"title":"大庭广众之下摔倒了怎么办？","gid":30,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"}],"first_page_url":"http://116.62.217.183/api/gambitList?page=1","from":1,"last_page":3,"last_page_url":"http://116.62.217.183/api/gambitList?page=3","next_page_url":"http://116.62.217.183/api/gambitList?page=2","path":"http://116.62.217.183/api/gambitList","per_page":15,"prev_page_url":null,"to":15,"total":35}
      */
 
     private DataBeanX data;
@@ -21,17 +22,17 @@ public class GetHuaTiListResponse  extends BaseResponse{
     public static class DataBeanX {
         /**
          * current_page : 1
-         * data : [{"num":14,"title":"和异性如何聊天展开话题","gid":19,"is_vip":0,"user_id":10148,"nick_name":"魔","icon":"http://116.62.217.183/storage/avatar/2018/06/02/avatar_1527910701_10148.jpg"},{"num":1,"title":"大庭广众之下摔倒了怎么办？","gid":18,"is_vip":0,"user_id":10148,"nick_name":"魔","icon":"http://116.62.217.183/storage/avatar/2018/06/02/avatar_1527910701_10148.jpg"},{"num":1,"title":"如果你在图书馆看书，正入迷时，对面的异性用脚碰了你三次，你会？","gid":17,"is_vip":0,"user_id":10148,"nick_name":"魔","icon":"http://116.62.217.183/storage/avatar/2018/06/02/avatar_1527910701_10148.jpg"},{"num":1,"title":"和异性如何聊天展开话题","gid":16,"is_vip":0,"user_id":10182,"nick_name":"在一起","icon":"http://116.62.217.183/storage/avatar/2018/06/21/avatar_1529571492_10182.jpg"},{"num":1,"title":"没有感情的婚姻还有没有必要？","gid":15,"is_vip":0,"user_id":10182,"nick_name":"在一起","icon":"http://116.62.217.183/storage/avatar/2018/06/21/avatar_1529571492_10182.jpg"},{"num":1,"title":"喜欢上好朋友怎么办？","gid":14,"is_vip":0,"user_id":10148,"nick_name":"魔","icon":"http://116.62.217.183/storage/avatar/2018/06/02/avatar_1527910701_10148.jpg"},{"num":1,"title":"哈喽","gid":13,"is_vip":0,"user_id":78,"nick_name":"hello","icon":"http://116.62.217.183/storage/avatar/2017/12/12/avatar_1513053977_78.jpg"},{"num":1,"title":"什么样的两个人在一起才是最合适的呢？","gid":9,"is_vip":0,"user_id":10182,"nick_name":"在一起","icon":"http://116.62.217.183/storage/avatar/2018/06/21/avatar_1529571492_10182.jpg"},{"num":1,"title":"什么样的两个人才是合适的呢？","gid":8,"is_vip":0,"user_id":10182,"nick_name":"在一起","icon":"http://116.62.217.183/storage/avatar/2018/06/21/avatar_1529571492_10182.jpg"},{"num":1,"title":"你好吗👋","gid":2,"is_vip":0,"user_id":10148,"nick_name":"魔","icon":"http://116.62.217.183/storage/avatar/2018/06/02/avatar_1527910701_10148.jpg"}]
+         * data : [{"num":23,"title":"你会介意TA有非常要好的异性朋友吗？","gid":50,"is_vip":0,"user_id":10196,"nick_name":"Sunny","icon":"http://116.62.217.183/storage/avatar/2018/07/07/avatar_1530935253_10196.png"},{"num":7,"title":"你觉得自己善良吗？","gid":49,"is_vip":0,"user_id":10196,"nick_name":"Sunny","icon":"http://116.62.217.183/storage/avatar/2018/07/07/avatar_1530935253_10196.png"},{"num":7,"title":"如果你在图书馆看书，正入迷时，对面的异性用脚碰了你三次，你会？","gid":46,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":7,"title":"121123123...........","gid":45,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":12,"title":"如果你在图书馆看书，正入迷时，对面的异性用脚碰了你三次，你会？","gid":44,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":7,"title":"3","gid":41,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":7,"title":"11111还","gid":40,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":7,"title":"大庭广众之下摔倒了怎么办？","gid":38,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":53,"title":"111","gid":37,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":53,"title":"tets","gid":36,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":53,"title":"你觉得自己善良吗？11111111","gid":35,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":9,"title":"y7777","gid":34,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":53,"title":"435443","gid":33,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":53,"title":"没有感情的婚姻还有没有必要？","gid":32,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"},{"num":53,"title":"大庭广众之下摔倒了怎么办？","gid":30,"is_vip":0,"user_id":10195,"nick_name":"Sincerly","icon":"http://116.62.217.183/storage/avatar/2018/07/13/avatar_1531476895_10195.png"}]
          * first_page_url : http://116.62.217.183/api/gambitList?page=1
          * from : 1
-         * last_page : 1
-         * last_page_url : http://116.62.217.183/api/gambitList?page=1
-         * next_page_url : null
+         * last_page : 3
+         * last_page_url : http://116.62.217.183/api/gambitList?page=3
+         * next_page_url : http://116.62.217.183/api/gambitList?page=2
          * path : http://116.62.217.183/api/gambitList
          * per_page : 15
          * prev_page_url : null
-         * to : 10
-         * total : 10
+         * to : 15
+         * total : 35
          */
 
         private int current_page;
@@ -39,7 +40,7 @@ public class GetHuaTiListResponse  extends BaseResponse{
         private int from;
         private int last_page;
         private String last_page_url;
-        private Object next_page_url;
+        private String next_page_url;
         private String path;
         private int per_page;
         private Object prev_page_url;
@@ -87,11 +88,11 @@ public class GetHuaTiListResponse  extends BaseResponse{
             this.last_page_url = last_page_url;
         }
 
-        public Object getNext_page_url() {
+        public String getNext_page_url() {
             return next_page_url;
         }
 
-        public void setNext_page_url(Object next_page_url) {
+        public void setNext_page_url(String next_page_url) {
             this.next_page_url = next_page_url;
         }
 
@@ -145,13 +146,13 @@ public class GetHuaTiListResponse  extends BaseResponse{
 
         public static class DataBean {
             /**
-             * num : 14
-             * title : 和异性如何聊天展开话题
-             * gid : 19
+             * num : 23
+             * title : 你会介意TA有非常要好的异性朋友吗？
+             * gid : 50
              * is_vip : 0
-             * user_id : 10148
-             * nick_name : 魔
-             * icon : http://116.62.217.183/storage/avatar/2018/06/02/avatar_1527910701_10148.jpg
+             * user_id : 10196
+             * nick_name : Sunny
+             * icon : http://116.62.217.183/storage/avatar/2018/07/07/avatar_1530935253_10196.png
              */
 
             private int num;

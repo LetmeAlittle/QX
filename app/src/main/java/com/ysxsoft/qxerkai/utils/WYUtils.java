@@ -1,5 +1,6 @@
 package com.ysxsoft.qxerkai.utils;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -119,7 +120,7 @@ public class WYUtils {
 	/**
 	 * 发送解散群自定义通知
 	 */
-	public static void notifyToUser(String targetId,String room,String nickName,List<String> members){
+	public static void notifyToUser(String targetId, String room, String nickName, List<String> members) {
 		if (targetId == null) {
 			return;
 		}
@@ -133,13 +134,71 @@ public class WYUtils {
 //		notification.setApnsText("the_content_for_apns");
 		// 自定义推送属性
 		Map<String, Object> pushPayload = new HashMap<>();
-		pushPayload.put("room",room);
-		pushPayload.put("NickName",nickName);
-		pushPayload.put("members",members);
-		pushPayload.put("id","4");
+		pushPayload.put("room", room);
+		pushPayload.put("NickName", nickName);
+		pushPayload.put("members", members);
+		pushPayload.put("id", "4");
 		notification.setContent(new Gson().toJson(pushPayload));
 		NIMClient.getService(MsgService.class).sendCustomNotification(notification);
 	}
+
+	public static void notifyToAllUserBanYan(Context context, List<String> members, String role, String story) {
+		if (members == null) {
+			ToastUtils.showToast(context, "未匹配到小伙伴！", 1);
+			return;
+		}
+		for (int i = 0; i < members.size(); i++) {
+			//角色扮演的  通知  id = 5 ;  members = 匹配的成员数租 ;  teamId = 发起者的id ;  role = (0或者1 — 0是代表扮演左边  1是代表扮演右边) ;  story = 故事类型(0:教师VS学生 1:亲王VS宠妃 2:护士VS病人 3:大叔VS萝莉 4:空姐VS乘客 5:老板VS秘书)  ;  teamName = 发起者的昵称
+			// 构造自定义通知，指定接收者
+			CustomNotification notification = new CustomNotification();
+			notification.setSessionId(members.get(i));
+			notification.setSessionType(SessionTypeEnum.P2P);
+			// 设置该消息需要保证送达
+			notification.setSendToOnlineUserOnly(false);
+			// 自定义推送属性
+			Map<String, Object> pushPayload = new HashMap<>();
+			pushPayload.put("id", "5");
+			pushPayload.put("members", members);
+			pushPayload.put("teamId", DBUtils.getUserId());
+			pushPayload.put("role", role);
+			pushPayload.put("story", story);
+			pushPayload.put("teamName", DBUtils.getUserNickName());
+			notification.setContent(new Gson().toJson(pushPayload));
+			NIMClient.getService(MsgService.class).sendCustomNotification(notification);
+		}
+	}
+
+	/**
+	 * 向一个人发送角色扮演邀请
+	 * @param context
+	 * @param targetId
+	 * @param role
+	 * @param story
+	 */
+	public static void notifyToUserBanYan(Context context, String targetId, String role, String story) {
+		if (targetId == null) {
+			ToastUtils.showToast(context, "未找到小伙伴！", 1);
+			return;
+		}
+		// 构造自定义通知，指定接收者
+		CustomNotification notification = new CustomNotification();
+		notification.setSessionId(targetId);
+		notification.setSessionType(SessionTypeEnum.P2P);
+		// 设置该消息需要保证送达
+		notification.setSendToOnlineUserOnly(false);
+		// 自定义推送属性
+		Map<String, Object> pushPayload = new HashMap<>();
+		pushPayload.put("id", "5");
+		pushPayload.put("members", new ArrayList<>());
+		pushPayload.put("teamId", DBUtils.getUserId());
+		pushPayload.put("role", role);
+		pushPayload.put("story", story);
+		pushPayload.put("teamName", DBUtils.getUserNickName());
+		notification.setContent(new Gson().toJson(pushPayload));
+		NIMClient.getService(MsgService.class).sendCustomNotification(notification);
+	}
+
+	;
 
 	/**
 	 * 离开房间
@@ -156,15 +215,16 @@ public class WYUtils {
 	 */
 	public static void joinRoom(String roomName, AVChatCallback<AVChatData> chatCallback) {
 		//开启音视频引擎
+		AVChatManager.getInstance().disableRtc();
 		AVChatManager.getInstance().enableRtc();
-//设置场景, 如果需要高清音乐场景，设置 AVChatChannelProfile#CHANNEL_PROFILE_HIGH_QUALITY_MUSIC
-//		AVChatManager.getInstance.setChannelProfile(CHANNEL_PROFILE_DEFAULT);
+		//设置场景, 如果需要高清音乐场景，设置 AVChatChannelProfile#CHANNEL_PROFILE_HIGH_QUALITY_MUSIC
+		//		AVChatManager.getInstance.setChannelProfile(CHANNEL_PROFILE_DEFAULT);
 		//设置通话可选参数
 		AVChatParameters parameters = new AVChatParameters();
 		AVChatManager.getInstance().setParameters(parameters);
-//视频通话设置
-//		AVChatManager.getInstance().enableVideo();
-//		AVChatManager.getInstance().setupLocalVideoRender(IVideoRender render, boolean mirror, int scalingType);
+		//视频通话设置
+		//		AVChatManager.getInstance().enableVideo();
+		//		AVChatManager.getInstance().setupLocalVideoRender(IVideoRender render, boolean mirror, int scalingType);
 		//设置视频采集模块
 		//		AVChatCameraCapturer videoCapturer = AVChatVideoCapturerFactory.createCameraCapturer();
 		//		AVChatManager.getInstance().setupVideoCapturer(videoCapturer);
@@ -182,6 +242,7 @@ public class WYUtils {
 
 	/**
 	 * 解散群组
+	 *
 	 * @param teamId
 	 */
 	public static void dismissTeam(String teamId) {
@@ -203,7 +264,6 @@ public class WYUtils {
 			}
 		});
 	}
-
 
 	///////////////////////////////////////////////////////////////////////////
 	// 自定义通知实体类

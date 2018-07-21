@@ -6,7 +6,10 @@ import com.umeng.socialize.media.Base;
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
+import com.ysxsoft.qxerkai.net.response.GetGuShiResponse;
 import com.ysxsoft.qxerkai.net.response.GetHuaTiListResponse;
+import com.ysxsoft.qxerkai.net.response.GetJiaoSeListenningResponse;
+import com.ysxsoft.qxerkai.net.response.GetJiaoSePPidResponse;
 import com.ysxsoft.qxerkai.net.response.GetLiaoRenListResponse;
 import com.ysxsoft.qxerkai.net.response.GetLuYinListResponse;
 import com.ysxsoft.qxerkai.net.response.GetNoticeListResponse;
@@ -517,6 +520,15 @@ public class RetrofitTools {
 	}
 
 	/**
+	 * 偷听/录音解锁
+	 *
+	 * @return
+	 */
+	public static Observable<GetGuShiResponse> getGuShi(Map<String,String> map) {
+		return subscribe(RetrofitTools.getManager().getGuShi(map));
+	}
+
+	/**
 	 *检测房间是否能被偷听
 	 *
 	 * @return
@@ -525,6 +537,35 @@ public class RetrofitTools {
 		return subscribe(RetrofitTools.getManager().checkTouTing(map));
 	}
 
+	/**
+	 * 角色扮演 接听时判断能不能接
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<BaseResponse> acceptJiaoSeCheck(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().acceptJiaoSeCheck(map));
+	}
+
+	/**
+	 * 角色扮演 获取ppid
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<GetJiaoSePPidResponse> getJiaoSePPid(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getJiaoSePPid(map));
+	}
+
+	/**
+	 * 角色扮演 轮询
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<GetJiaoSeListenningResponse> jiaoSeListenning(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().jiaoSeListenning(map));
+	}
 
 	/**
 	 * OkHttp过滤器

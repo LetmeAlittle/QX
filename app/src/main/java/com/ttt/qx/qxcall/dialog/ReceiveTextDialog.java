@@ -46,13 +46,19 @@ public class ReceiveTextDialog {
 		content.setText(receiveMap.get("content"));
 		FrameLayout frameLayout = (FrameLayout) activity.getWindow().getDecorView();
 		view.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+		FrameLayout.LayoutParams layoutParams= (FrameLayout.LayoutParams) view.getLayoutParams();
+		layoutParams.gravity=Gravity.BOTTOM;
+		layoutParams.bottomMargin=SystemUtils.getStatusHeight(activity)*1/3;
+		view.setLayoutParams(layoutParams);
+
 		frameLayout.addView(view);
 		ValueAnimator valueAnimator=ValueAnimator.ofFloat(0f,1f);
 		valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator animation) {
-				Log.e("tag","距离："+((float)animation.getAnimatedValue()*getScreenWidth(activity)-view.getWidth()));
-				view.setTranslationX((float)animation.getAnimatedValue()* getScreenWidth(activity)-view.getWidth());
+				Log.e("tag","距离："+((float)animation.getAnimatedValue()*getScreenWidth(activity)));
+				view.setTranslationX((float)animation.getAnimatedValue()* getScreenWidth(activity));
 			}
 		});
 		valueAnimator.setInterpolator(new LinearInterpolator());

@@ -59,7 +59,6 @@ public class NTouTingActivity extends NBaseActivity {
     }
 
 
-
     private void initTitleBar() {
         ivPublicTitlebarLeft1.setVisibility(View.VISIBLE);
         ivPublicTitlebarLeft1.setImageResource(R.mipmap.back_left_white);

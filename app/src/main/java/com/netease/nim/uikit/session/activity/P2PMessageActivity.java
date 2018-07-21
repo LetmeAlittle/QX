@@ -22,6 +22,7 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -74,6 +75,34 @@ public class P2PMessageActivity extends BaseMessageActivity {
         context.startActivity(intent);
     }
 
+
+    /**
+     * 角色扮演进去
+     * @param context
+     * @param members 成员列表
+     * @param role 0左边  1右边
+     * @param teamId 发起者id
+     * @param story 故事类型
+     * @param teamName 发起者名称
+     */
+    public static void startByJiaose(Context context,List<String> members,String role,String teamId,String story,String teamName,String userIcon, SessionCustomization customization, IMMessage anchor) {
+        Intent intent = new Intent();
+        intent.putExtra(Extras.EXTRA_ACCOUNT, teamId);
+        intent.putExtra(Extras.EXTRA_CUSTOMIZATION, customization);
+        //角色扮演的  通知  id = 5 ;  members = 匹配的成员数租 ;  teamId = 发起者的id ;  role = (0或者1 — 0是代表扮演左边  1是代表扮演右边) ;  story = 故事类型(0:教师VS学生 1:亲王VS宠妃 2:护士VS病人 3:大叔VS萝莉 4:空姐VS乘客 5:老板VS秘书)  ;  teamName = 发起者的昵称
+        intent.putStringArrayListExtra("members", (ArrayList<String>) members);
+        intent.putExtra("teamId",teamId);//发起者的id
+        intent.putExtra("role",role);
+        intent.putExtra("story",story);
+        intent.putExtra("teamName",teamName);
+        intent.putExtra("userIcon",userIcon);//对方头像
+        if (anchor != null) {
+            intent.putExtra(Extras.EXTRA_ANCHOR, anchor);
+        }
+        intent.setClass(context, P2PMessageActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

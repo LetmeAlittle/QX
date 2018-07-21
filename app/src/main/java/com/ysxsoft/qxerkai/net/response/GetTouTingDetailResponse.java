@@ -228,7 +228,7 @@ public class GetTouTingDetailResponse extends BaseResponse {
 			private String member_img_3;
 			private String member_img_4;
 			private String birthday;
-			private List<String> member_tag;
+			private List<TAGS> member_tag;
 			private int qq_bind;
 			private int wx_bind;
 			private int mobile_bind;
@@ -454,11 +454,11 @@ public class GetTouTingDetailResponse extends BaseResponse {
 				this.birthday = birthday;
 			}
 
-			public List<String> getMember_tag() {
+			public List<TAGS> getMember_tag() {
 				return member_tag;
 			}
 
-			public void setMember_tag(List<String> member_tag) {
+			public void setMember_tag(List<TAGS> member_tag) {
 				this.member_tag = member_tag;
 			}
 
@@ -804,7 +804,7 @@ public class GetTouTingDetailResponse extends BaseResponse {
 			private String member_img_3;
 			private String member_img_4;
 			private String birthday;
-			private List<String> member_tag;
+			private List<TAGS> member_tag;
 			private int qq_bind;
 			private int wx_bind;
 			private int mobile_bind;
@@ -1030,11 +1030,11 @@ public class GetTouTingDetailResponse extends BaseResponse {
 				this.birthday = birthday;
 			}
 
-			public List<String> getMember_tag() {
+			public List<TAGS> getMember_tag() {
 				return member_tag;
 			}
 
-			public void setMember_tag(List<String> member_tag) {
+			public void setMember_tag(List<TAGS> member_tag) {
 				this.member_tag = member_tag;
 			}
 
@@ -1293,6 +1293,36 @@ public class GetTouTingDetailResponse extends BaseResponse {
 			public void setIcon(String icon) {
 				this.icon = icon;
 			}
+		}
+	}
+
+	public static class TAGS{
+		private int id;
+		private String text;
+		private String color;
+
+		public int getId() {
+			return id;
+		}
+
+		public void setId(int id) {
+			this.id = id;
+		}
+
+		public String getText() {
+			return text == null ? "" : text;
+		}
+
+		public void setText(String text) {
+			this.text = text;
+		}
+
+		public String getColor() {
+			return color == null ? "" : color;
+		}
+
+		public void setColor(String color) {
+			this.color = color;
 		}
 	}
 }

@@ -15,12 +15,19 @@ import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.adapter.ListenCategoryAdapter;
 import com.ttt.qx.qxcall.function.find.model.entity.BlurEntity;
 import com.ttt.qx.qxcall.utils.ImageUtil;
+import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.BaseResponse;
 import com.ysxsoft.qxerkai.net.response.GetLuYinListResponse;
+import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.GlideBlurTransform;
 import com.ysxsoft.qxerkai.utils.StringUtils;
 import com.ysxsoft.qxerkai.view.activity.NHuaLiaoTouTingActivity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -39,12 +46,7 @@ public class TouTingTwoAdapter extends BaseQuickAdapter<GetLuYinListResponse.Dat
     @Override
     protected void convert(BaseViewHolder helper, GetLuYinListResponse.DataBeanX.DataBean item) {
         ImageView ivTouTing=helper.getView(R.id.iv_touting);
-        ivTouTing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mContext.startActivity(new Intent(mContext,NHuaLiaoTouTingActivity.class));
-            }
-        });
+        ivTouTing.setOnClickListener(new ItemClickListener(""+item.getId()));
 
         CircleImageView circleImageView1=helper.getView(R.id.civ_headImageView1);
         CircleImageView circleImageView2=helper.getView(R.id.civ_headImageView2);
@@ -131,6 +133,43 @@ public class TouTingTwoAdapter extends BaseQuickAdapter<GetLuYinListResponse.Dat
             }
         }
     };
+
+	private class ItemClickListener implements View.OnClickListener{
+		private String roomName;
+
+		public ItemClickListener(String roomName) {
+			this.roomName = roomName;
+		}
+
+		@Override
+		public void onClick(View v) {
+			check(roomName);
+		}
+	}
+
+	/**
+	 *  开始偷听接口
+	 */
+	private void check(String roomName) {
+		Map<String, String> map = new HashMap<>();
+		map.put("tid", roomName);
+		map.put("user_id", DBUtils.getUserId());
+		RetrofitTools.checkTouTing(map)
+				.subscribe(new ResponseSubscriber<BaseResponse>() {
+					@Override
+					public void onSuccess(BaseResponse ruleResponse, int code, String msg) {
+						if (code == 200) {
+							//可以偷听  跳转至偷听页面
+							NHuaLiaoTouTingActivity.start(mContext,roomName);
+						} else {
+							ToastUtil.showToast(mContext, msg);
+						}
+					}
+					@Override
+					public void onFailed(Throwable e) {
+					}
+				});
+	}
 
     class BlurEntity {
         public Bitmap bitmap;

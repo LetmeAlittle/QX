@@ -245,11 +245,13 @@ public class NZhuanShuPiPeiActivity extends NBaseActivity {
                     curPosition++;
                     handler.sendEmptyMessage(UPDATE_QUESTION);
                 } else {
-                    showToast("开始匹配");
-                    LogUtils.e(""+new Gson().toJson(answers));//  answers:（array数组问题id 的）
+//                    showToast("开始匹配");
+//                    LogUtils.e(""+new Gson().toJson(answers));//  answers:（array数组问题id 的）
                     //TODO 获取问题的人
                     //接口：api/getwent  传值：user_id（用户信息）  sex（性别的） wentiids（array数组问题id 的）==answers
 
+                    startActivity(new Intent(this, NYiJianPiPeiActivity.class));
+                    overridePendingTransition(0, 0);
                 }
                 break;
         }

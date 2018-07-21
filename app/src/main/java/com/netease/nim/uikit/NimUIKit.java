@@ -204,6 +204,15 @@ public final class NimUIKit {
     }
 
     /**
+     * 角色扮演过去至聊天消息
+     *
+     * @param context
+     */
+    public static void startP2PSessionWithJiaoSe(Context context,List<String> members,String role, String teamId, String story, String teamName,String userIcon) {
+        P2PMessageActivity.startByJiaose(context, members,role,teamId, story, teamName,userIcon, commonP2PSessionCustomization, null);
+    }
+
+    /**
      * 同 {@link NimUIKit#startP2PSession(Context, String)},同时聊天界面打开后，列表跳转至anchor位置
      *
      * @param context 上下文

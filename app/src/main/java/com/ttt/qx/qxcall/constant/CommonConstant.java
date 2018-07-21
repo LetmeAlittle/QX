@@ -103,6 +103,10 @@ public class CommonConstant {
 	public static final String TING_LU_YIN = "api/tingluyin";                      			//听录音 user_id  tid
 	public static final String DAN_MU = "api/sendg";                      						//发弹幕 user_id  tid  title
 	public static final String JIE_SUO = "api/jiesuo";                      					//偷听/录音解锁 user_id  tid[type 1房间的 2录音的 ：id]  type [1房间的 2录音的]
+	public static final String GU_SHI = "api/gushi";                      						//故事 0:教师VS学生 1:亲王VS宠妃 2:护士VS病人 3:大叔VS萝莉 4:空姐VS乘客 5:老板VS秘书
+	public static final String GET_JIAO_SE_PPID = "api/jiaose";                      		//角色扮演 获取ppid
+	public static final String GET_JIAO_ACCEPT_CHECK = "api/jietingjs";                     //角色扮演 判断是否能接听 user_id  f_user_id
+	public static final String GET_JIAO_LISTENNING = "api/jietingxiangqing";               //角色扮演 判断是否有人接听 ppid  轮询
 
 	//朋友圈
 	public static final String FRIEND_Q_LIST = "/api/friend/list";// 朋友圈
@@ -118,7 +122,6 @@ public class CommonConstant {
 	public static final String SRDZ_topList = "api/topList";//获取土豪/一姐榜
 	public static final String SRDZ_wentiliebiao = "api/wentiliebiao";//问题的列表
 	public static final String SRDZ_search = "api/home/search";//搜索
-
 
 
     //用户资料  zhaozhipeng
