@@ -202,6 +202,7 @@ public class PiPeiCallActivity extends AppCompatActivity {
 				} else {
 					//该房间已经有人存在   不能加入
 					ToastUtils.showToast(PiPeiCallActivity.this, "加入失败！已经有人进入该房间！", 0);
+					finish();
 				}
 			}
 
@@ -229,7 +230,8 @@ public class PiPeiCallActivity extends AppCompatActivity {
 					finish();
 				} else {
 					//该房间已经有人存在   不能加入
-					ToastUtils.showToast(PiPeiCallActivity.this, "加入失败！", 0);
+					ToastUtils.showToast(PiPeiCallActivity.this, "接受邀请失败！角色扮演已被别人接听！", 0);
+					finish();
 				}
 			}
 

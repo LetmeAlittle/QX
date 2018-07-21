@@ -500,14 +500,14 @@ public class MessageFragment extends TFragment implements ModuleProxy {
 				//头像
 				int[] s2=getIconByStory(story);
 				if("0".equals(role)){//对方扮演角色  左边
-					Glide.with(getActivity()).load(userIcon).into(leftUserIcon);
+					Glide.with(getActivity()).load(userIcon).transform(new GlideCircleTransform(getActivity())).into(leftUserIcon);
 					leftRobotIcon.setImageResource(s2[0]);
-					Glide.with(getActivity()).load(DBUtils.getUserAvatar()).into(rightUserIcon);
+					Glide.with(getActivity()).load(DBUtils.getUserAvatar()).transform(new GlideCircleTransform(getActivity())).into(rightUserIcon);
 					rightRobotIcon.setImageResource(s2[1]);
 				}else{
-					Glide.with(getActivity()).load(DBUtils.getUserAvatar()).into(leftUserIcon);
+					Glide.with(getActivity()).load(DBUtils.getUserAvatar()).transform(new GlideCircleTransform(getActivity())).into(leftUserIcon);
 					leftRobotIcon.setImageResource(s2[0]);
-					Glide.with(getActivity()).load(userIcon).into(rightUserIcon);
+					Glide.with(getActivity()).load(userIcon).transform(new GlideCircleTransform(getActivity())).into(rightUserIcon);
 					rightRobotIcon.setImageResource(s2[1]);
 				}
             }else{

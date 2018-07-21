@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dp_10"
+    android:background="@drawable/rect_white_radius4"
+    android:orientation="vertical">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dp_40"
+        android:paddingTop="@dimen/dp_40"
+        android:textSize="14sp"
+        android:text="禁止偷听请上锁~" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1px"
+        android:background="#40545454" />
+
+    <TextView
+        android:id="@+id/sure"
+        android:layout_width="match_parent"
+        android:text="发送！"
+        android:gravity="center"
+        android:textColor="@color/colorLoginColor"
+        android:paddingTop="@dimen/dp_10"
+        android:layout_gravity="center"
+        android:textSize="@dimen/text_size_14sp"
+        android:paddingBottom="@dimen/dp_10"
+        android:layout_height="wrap_content" />
+</LinearLayout>

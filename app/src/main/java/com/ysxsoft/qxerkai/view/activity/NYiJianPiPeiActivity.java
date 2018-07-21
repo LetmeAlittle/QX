@@ -115,9 +115,19 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 			public void onSuccess(GetJiaoSeListenningResponse getJiaoSeListenningResponse, int code, String msg) {
 				if (code == 200) {
 					int flag = getJiaoSeListenningResponse.getData().getFlag();
+					int fuid=getJiaoSeListenningResponse.getData().getFuid();
+
 					if (flag == 1) { //flag  状态 0未被接听 1 被接听
-						//跳转
-						NimUIKit.startP2PSessionWithJiaoSe(NYiJianPiPeiActivity.this, members, "0".equals(role)?"1":"0",""+getJiaoSeListenningResponse.getData().getFuid(), story, DBUtils.getUserNickName(),avatar);//携带对方id 对方名字
+						GetJiaoSeListenningResponse.DataBean.ListBean list=  getJiaoSeListenningResponse.getData().getList();
+						String avatar="";
+						String name="";
+						if(list!=null){
+							avatar=list.getMember_avatar();
+							name=list.getNick_name();
+						}
+						Log.e("tag","name:"+name+"avatar:"+avatar);
+						NimUIKit.startP2PSessionWithJiaoSe(NYiJianPiPeiActivity.this, members, "0".equals(role)?"1":"0",""+fuid, story, name,avatar);//携带对方id 对方名字
+						handler.removeCallbacksAndMessages(null);
 						finish();
 					} else {
 					}
@@ -360,14 +370,14 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 		if (!isSystem) {//不是角色扮演
 			register(false);
 		}else{
-			handler.removeCallbacksAndMessages(U_TIME_CODE);
+			handler.removeCallbacksAndMessages(null);
 		}
 	}
 
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		handler.removeCallbacksAndMessages(U_TIME_CODE);
+		handler.removeCallbacksAndMessages(null);
 		if (!isSystem) {//不是系统匹配
 			dismissTeam();
 		}
@@ -416,7 +426,7 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 	}
 
 	public void onBack(View view) {
-		handler.removeCallbacksAndMessages(U_TIME_CODE);
+		handler.removeCallbacksAndMessages(null);
 		if (!isSystem) {//不是系统匹配
 			dismissTeam();
 		}

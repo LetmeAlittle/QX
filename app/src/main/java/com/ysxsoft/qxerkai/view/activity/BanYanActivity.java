@@ -216,12 +216,14 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
 			public void onClick(HaoYouListResponse.DataBeanX.DataBean item) {
 				//TODO  角色扮演  选择
 //				showToast(item.getNick_name());
-				Intent intent = new Intent(BanYanActivity.this, NYiJianPiPeiActivity.class);
-				intent.putExtra("isSystem", true);
-				intent.putExtra("role", isLeft ? "0" : "1");
-				intent.putExtra("avatar",item.getMember_avatar());
-				intent.putExtra("story", convert(pageType));//android转换ios 自定义通知
-				startActivity(intent);
+
+//				Intent intent = new Intent(BanYanActivity.this, NYiJianPiPeiActivity.class);
+//				intent.putExtra("isSystem", true);
+//				intent.putExtra("role", isLeft ? "0" : "1");
+//				intent.putExtra("avatar",item.getMember_avatar());
+//				intent.putExtra("story", convert(pageType));//android转换ios 自定义通知
+//				startActivity(intent);
+
 				NimUIKit.startP2PSessionWithJiaoSe(BanYanActivity.this, new ArrayList<String>(), isLeft?"1":"0",DBUtils.getUserId(), convert(pageType), DBUtils.getUserNickName(),item.getMember_avatar());//跳转至角色扮演 携带对方id 对方名字
 				WYUtils.notifyToUserBanYan( BanYanActivity.this,item.getId()+"",isLeft?"0":"1",convert(pageType));//通知用户
 			}
