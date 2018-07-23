@@ -16,6 +16,8 @@
 #   public *;
 #}
 #网易云相关混淆
+
+-ignorewarnings
 -dontwarn com.netease.**
 -keep class com.netease.** {*;}
 #如果你使用全文检索插件，需要加入
@@ -218,4 +220,3 @@
 
      -keep class com.ttt.qx.qxcall.QXCallApplication {*;}
          -dontwarn com.ttt.qx.qxcall.QXCallApplication
-

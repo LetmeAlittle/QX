@@ -61,7 +61,7 @@ android {
 //            buildConfigField "boolean", "LOG_DEBUG", "true"
             minifyEnabled true
             signingConfigs.release
-//            zipAlignEnabled false
+//            zipAlignEnabled true
             // 移除无用的resource文件
 //            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
