@@ -457,7 +457,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
                 content= (TextView) rootView.findViewById(R.id.content);//故事
                 contentTitle= (TextView) rootView.findViewById(R.id.contentTitle);//故事title
 
-                getGuShi(role);//获取故事
+                getGuShi(story);//获取故事
                 close= (TextView) rootView.findViewById(R.id.close);
                 close.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -523,9 +523,9 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     /**
      * 获取故事内容
      */
-    private void getGuShi(String role){
+    private void getGuShi(String story){
         Map<String,String> map=new HashMap<>();
-        map.put("type",role);
+        map.put("type",story);
         RetrofitTools.getGuShi(map).subscribe(new ResponseSubscriber<GetGuShiResponse>() {
             @Override
             public void onSuccess(GetGuShiResponse getGuShiResponse, int code, String msg) {

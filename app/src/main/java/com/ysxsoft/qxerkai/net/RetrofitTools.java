@@ -30,6 +30,7 @@ import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangPublishResponse;
 import com.ysxsoft.qxerkai.net.response.SearchListResponse;
 import com.ysxsoft.qxerkai.net.response.TwoPageTuiJianResponse;
+import com.ysxsoft.qxerkai.net.response.UpdatePwdResponse;
 import com.ysxsoft.qxerkai.net.response.UserXiaoFeiNum;
 import com.ysxsoft.qxerkai.utils.LogUtils;
 
@@ -573,6 +574,46 @@ public class RetrofitTools {
 	 */
 	public static Observable<GetJiaoSeListenningResponse> jiaoSeListenning(Map<String, String> map) {
 		return subscribe(RetrofitTools.getManager().jiaoSeListenning(map));
+	}
+
+	/**
+	 * 获取短信验证码
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<BaseResponse> getCode(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().getCode(map));
+	}
+
+	/**
+	 * 修改手机号
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<BaseResponse> updatePhone(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().updatePhone(map));
+	}
+
+	/**
+	 * 修改密码
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<UpdatePwdResponse> updatePwd(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().updatePwd(map));
+	}
+
+	/**
+	 * 意见反馈
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<BaseResponse> feedBack(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().feedBack(map));
 	}
 
 	/**

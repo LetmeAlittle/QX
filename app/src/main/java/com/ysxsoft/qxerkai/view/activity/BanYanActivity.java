@@ -224,7 +224,7 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
 //				intent.putExtra("story", convert(pageType));//android转换ios 自定义通知
 //				startActivity(intent);
 
-				NimUIKit.startP2PSessionWithJiaoSe(BanYanActivity.this, new ArrayList<String>(), isLeft?"1":"0",item.getId()+"", convert(pageType), item.getNick_name(),item.getMember_avatar());//跳转至角色扮演 携带对方id 对方名字
+				NimUIKit.startP2PSessionWithJiaoSe(BanYanActivity.this, new ArrayList<String>(), isLeft?"1":"0",item.getId()+"", convert(pageType), item.getNick_name(),item.getIcon());//跳转至角色扮演 携带对方id 对方名字
 				WYUtils.notifyToUserBanYan( BanYanActivity.this,item.getId()+"",isLeft?"0":"1",convert(pageType));//通知用户
 			}
 		};

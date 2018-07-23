@@ -3,6 +3,7 @@ package com.ysxsoft.qxerkai.net;
 
 import com.ttt.qx.qxcall.function.find.model.entity.DynamicResponse;
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
+import com.ysxsoft.qxerkai.net.response.CheckVersionResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
 import com.ysxsoft.qxerkai.net.response.GetGuShiResponse;
@@ -31,6 +32,7 @@ import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangPublishResponse;
 import com.ysxsoft.qxerkai.net.response.SearchListResponse;
 import com.ysxsoft.qxerkai.net.response.TwoPageTuiJianResponse;
+import com.ysxsoft.qxerkai.net.response.UpdatePwdResponse;
 import com.ysxsoft.qxerkai.net.response.UserXiaoFeiNum;
 
 import java.util.Map;
@@ -51,8 +53,11 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_ADD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_DETAIL;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIKE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.CHECK_VERSION;
 import static com.ttt.qx.qxcall.constant.CommonConstant.DAN_MU;
 import static com.ttt.qx.qxcall.constant.CommonConstant.DEL_ICON;
+import static com.ttt.qx.qxcall.constant.CommonConstant.FEED_BACK;
+import static com.ttt.qx.qxcall.constant.CommonConstant.GET_CODE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.GET_JIAO_ACCEPT_CHECK;
 import static com.ttt.qx.qxcall.constant.CommonConstant.GET_JIAO_LISTENNING;
 import static com.ttt.qx.qxcall.constant.CommonConstant.GET_JIAO_SE_PPID;
@@ -85,6 +90,8 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_wentiliebiao;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_START;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_TAG;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TWO_PAGE_USER_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.UPDATE_PHONE;
+import static com.ttt.qx.qxcall.constant.CommonConstant.UPDATE_PWD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.UPLOAD_ICONS;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_GUARDS_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_MY_LIWU;
@@ -536,4 +543,44 @@ public interface RetrofitApi {
 	@FormUrlEncoded
 	@POST(GET_JIAO_LISTENNING)
 	Observable<GetJiaoSeListenningResponse> jiaoSeListenning(@FieldMap Map<String, String> map);
+
+	/**
+	 * 获取短信验证码
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(GET_CODE)
+	Observable<BaseResponse> getCode(@FieldMap Map<String, String> map);
+
+	/**
+	 * 修改手机号
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(UPDATE_PHONE)
+	Observable<BaseResponse> updatePhone(@FieldMap Map<String, String> map);
+
+	/**
+	 * 修改密码
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(UPDATE_PWD)
+	Observable<UpdatePwdResponse> updatePwd(@FieldMap Map<String, String> map);
+
+	/**
+	 * 意见反馈
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(FEED_BACK)
+	Observable<BaseResponse> feedBack(@FieldMap Map<String, String> map);
 }

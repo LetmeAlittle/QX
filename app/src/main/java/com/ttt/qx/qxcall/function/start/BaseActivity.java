@@ -15,6 +15,7 @@ import com.ttt.qx.qxcall.constant.CommonConstant;
 import com.ttt.qx.qxcall.utils.AppActivityManager;
 import com.umeng.analytics.MobclickAgent;
 import com.ysxsoft.qxerkai.utils.SystemUtils;
+import com.ysxsoft.qxerkai.view.activity.NLoginActivity;
 import com.ysxsoft.qxerkai.view.layoutback.ParallaxActivityBase;
 
 /**
@@ -38,6 +39,7 @@ public class BaseActivity extends ParallaxActivityBase {
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 //        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
 //                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        AppActivityManager.getInstance().addActivity(this);
     }
 
     public void initStatusBar(){
@@ -69,4 +71,9 @@ public class BaseActivity extends ParallaxActivityBase {
         MobclickAgent.onPause(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppActivityManager.getInstance().killActivity(this);
+    }
 }

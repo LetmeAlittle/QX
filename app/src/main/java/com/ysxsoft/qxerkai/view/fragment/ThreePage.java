@@ -11,7 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.function.home.model.HomeModel;
+import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
 import com.ttt.qx.qxcall.pager.BasePager;
+import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.view.activity.BanYanActivity;
 import com.ysxsoft.qxerkai.view.activity.NTopBangActivity;
 import com.ysxsoft.qxerkai.view.activity.NZhuanShuPiPeiActivity;
@@ -22,6 +25,7 @@ import com.ysxsoft.qxerkai.view.widget.ResizableImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscriber;
 
 /**
  * Created by zhaozhipeng on 18/5/3.
@@ -133,4 +137,25 @@ public class ThreePage extends BasePager {
         ctx.startActivity(intent);
     }
 
+
+    private void getUserInfo(){
+        String authorization = "Bearer " + DBUtils.getUserToken();
+        HomeModel.getHomeModel().getUserInfo(new Subscriber<UserDetailInfo>() {
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(UserDetailInfo userDetailInfo) {
+                if (userDetailInfo.getStatus_code() == 200) {
+
+                }
+            }
+        }, DBUtils.getUserId(), authorization);
+    }
 }
