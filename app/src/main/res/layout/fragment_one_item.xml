@@ -42,11 +42,13 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/iv_jibie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:visibility="gone"
                 android:layout_marginTop="2dp"
                 android:src="@mipmap/lev_qingtong"/>
 

@@ -2,7 +2,7 @@ package com.ysxsoft.qxerkai.net.response;
 
 import java.util.List;
 
-public class HomeItemList extends BaseResponse{
+public class HomeItemList extends BaseResponse {
 
     private List<DataBeanX> data;
 
@@ -290,6 +290,20 @@ public class HomeItemList extends BaseResponse{
                 private String background_pic;
                 private String wents;
                 private List<MemberTagBean> member_tag;
+                private int jb;
+
+                public int getJb() {
+                    try {
+                        return jb;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return 0;
+                    }
+                }
+
+                public void setJb(int jb) {
+                    this.jb = jb;
+                }
 
                 public int getId() {
                     return id;

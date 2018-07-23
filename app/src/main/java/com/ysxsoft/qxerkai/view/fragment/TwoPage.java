@@ -19,7 +19,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
+import com.ttt.qx.qxcall.QXCallApplication;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.database.UserDao;
+import com.ttt.qx.qxcall.dbbean.UserBean;
 import com.ttt.qx.qxcall.function.home.model.HomeModel;
 import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
 import com.ttt.qx.qxcall.function.listen.model.StealListenModel;
@@ -27,6 +30,7 @@ import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 import com.ttt.qx.qxcall.function.voice.AVChatActivity;
 import com.ttt.qx.qxcall.function.voice.AVChatProfile;
 import com.ttt.qx.qxcall.pager.BasePager;
+import com.ttt.qx.qxcall.utils.IntentUtil;
 import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
 import com.ysxsoft.qxerkai.net.RetrofitTools;
@@ -45,6 +49,7 @@ import com.ysxsoft.qxerkai.view.activity.LiaoHanQuActivity;
 import com.ysxsoft.qxerkai.view.activity.LiaoMeiQuActivity;
 import com.ysxsoft.qxerkai.view.activity.NFaTieActivity;
 import com.ysxsoft.qxerkai.view.activity.NHuaLiaoActivity;
+import com.ysxsoft.qxerkai.view.activity.NLoginActivity;
 import com.ysxsoft.qxerkai.view.activity.NQingQuDetailActivity;
 import com.ysxsoft.qxerkai.view.activity.NQingQuListActivity;
 import com.ysxsoft.qxerkai.view.activity.NZhiLiaoActivity;
@@ -502,34 +507,37 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
 			ImageView ivView = helper.getView(R.id.iv_image);
 			Glide.with(mContext).load(item.getMember_avatar()).into(ivView);
 			ImageView ivCall = helper.getView(R.id.iv_call);
-			ivCall.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
+            ivCall.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!QXCallApplication.login) {//如果是没有登录直接跳转至登陆页
+                        IntentUtil.jumpIntent(ctx, NLoginActivity.class);
+                        return;
+                    }
+                    UserDao userDao = new UserDao();
+                    UserBean userBean = userDao.queryFirstData();
+                    StealListenModel.getStealListenModel().isAllowTalk(new Subscriber<StandardResponse>() {
+                        @Override
+                        public void onCompleted() {
+                        }
 
-					StealListenModel.getStealListenModel().isAllowTalk(new Subscriber<StandardResponse>() {
-						@Override
-						public void onCompleted() {
-						}
+                        @Override
+                        public void onError(Throwable e) {
+                        }
 
-						@Override
-						public void onError(Throwable e) {
-						}
-
-						@Override
-						public void onNext(StandardResponse standardResponse) {
-							if (standardResponse.getStatus_code() == 200) {
-								//调起拨打界面。
-								AVChatProfile.getInstance().setAVChatting(true);
-								AVChatActivity.launch(getApplication(), item.getId()+"", AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
-							} else {
-								ToastUtils.showToast(activity, standardResponse.getMessage(), 0);
-							}
-						}
-					}, String.valueOf(item.getId()), "Bearer " + DBUtils.getUserToken());
-//                    }, String.valueOf("10195"),  "Bearer "+DBUtils.getUserToken());
-//                    }, String.valueOf("10195"),  "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTE2LjYyLjIxNy4xODMvYXBpL3VzZXIvbG9naW4iLCJpYXQiOjE1MzA3Nzk5NjIsIm5iZiI6MTUzMDc3OTk2MiwianRpIjoiWUx6V2x0MVNUdUZBaTZlVCIsInN1YiI6MTAxOTUsInBydiI6ImFmZDBmZDliZGQ5YWM3MmZmMzk4MzQxZjFkNjI4NDBjYmY0YzcxNjcifQ.TUr5VrjwTtGu74_unrDiiaSatHC42ILiYeK059A76B8");
-				}
-			});
+                        @Override
+                        public void onNext(StandardResponse standardResponse) {
+                            if (standardResponse.getStatus_code() == 200) {
+                                //调起拨打界面。
+                                AVChatProfile.getInstance().setAVChatting(true);
+                                AVChatActivity.launch(ctx, item.getWy_acid(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+                            } else {
+                                ToastUtils.showToast(ctx, standardResponse.getMessage(), 0);
+                            }
+                        }
+                    }, String.valueOf(item.getId()), "Bearer " + userBean.getToken());
+                }
+            });
 			TextView name = helper.getView(R.id.tv_name);
 			name.setText(item.getNick_name());
 			TextView age = helper.getView(R.id.tv_age);
@@ -547,6 +555,32 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
 			}
 			TextView price = helper.getView(R.id.tv_price);
 			price.setText(item.getMember_price() + "砰砰豆/分钟");
+            ImageView ivJiBie = helper.getView(R.id.iv_jibie);
+            switch (item.getJb()) {
+                case 0:
+                    ivJiBie.setVisibility(View.GONE);
+                    break;
+                case 1:
+                    ivJiBie.setVisibility(View.VISIBLE);
+                    ivJiBie.setImageResource(R.mipmap.lev_qingtong);
+                    break;
+                case 2:
+                    ivJiBie.setVisibility(View.VISIBLE);
+                    ivJiBie.setImageResource(R.mipmap.lev_baiyin);
+                    break;
+                case 3:
+                    ivJiBie.setVisibility(View.VISIBLE);
+                    ivJiBie.setImageResource(R.mipmap.lev_huangjin);
+                    break;
+                case 4:
+                    ivJiBie.setVisibility(View.VISIBLE);
+                    ivJiBie.setImageResource(R.mipmap.lev_bojin);
+                    break;
+                case 5:
+                    ivJiBie.setVisibility(View.VISIBLE);
+                    ivJiBie.setImageResource(R.mipmap.lev_zhuansi);
+                    break;
+            }
 		}
 	}
 

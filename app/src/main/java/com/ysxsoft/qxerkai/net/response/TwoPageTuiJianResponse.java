@@ -262,6 +262,15 @@ public class TwoPageTuiJianResponse extends BaseResponse {
             private Object background_pic;
             private Object wents;
             private List<MemberTagBean> member_tag;
+            private int jb;
+
+            public int getJb() {
+                return jb;
+            }
+
+            public void setJb(int jb) {
+                this.jb = jb;
+            }
 
             public int getId() {
                 return id;

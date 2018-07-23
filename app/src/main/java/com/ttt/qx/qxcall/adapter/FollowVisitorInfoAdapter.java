@@ -92,7 +92,7 @@ public class FollowVisitorInfoAdapter extends RecyclerView.Adapter<FollowVisitor
 //                    Intent intent = new Intent(context, UserMainActivity.class);
                     Intent intent = new Intent(context, NZhiLiaoActivity.class);
                     intent.putExtra("id", bean.getMember_id());//用户id
-                    intent.putExtra("accid", bean.getMember_id());
+                    intent.putExtra("accid", ""+bean.getMember_id());
                     context.startActivity(intent);
                 }
             });

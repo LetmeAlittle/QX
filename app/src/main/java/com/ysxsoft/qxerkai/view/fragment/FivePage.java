@@ -50,6 +50,7 @@ import com.ysxsoft.qxerkai.view.activity.NPengYouQuanMyActivity;
 import com.ysxsoft.qxerkai.view.activity.NPersonCenterActivity;
 import com.ysxsoft.qxerkai.view.activity.NSettingActivity;
 import com.ysxsoft.qxerkai.view.activity.NShouHuBangActivity;
+import com.ysxsoft.qxerkai.view.activity.ShouFeiBiaoZhunActivity;
 import com.ysxsoft.qxerkai.view.activity.VipCenterActivity;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 import com.ysxsoft.qxerkai.view.widget.ObservableScrollView;
@@ -141,6 +142,8 @@ public class FivePage extends BasePager implements View.OnClickListener {
     LinearLayout llTitlebarBg;
     @BindView(R.id.online_status_switch_btn)
     SwitchButton onlineStatusSwitchBtn;
+    @BindView(R.id.tv_dogs)
+    TextView tvDogs;
 
     private View rootView;
     private String authorization;
@@ -315,7 +318,7 @@ public class FivePage extends BasePager implements View.OnClickListener {
                     if (userDetailInfoData.getMember_sex().equals("1")) {
                         ivSex.setBackgroundResource(R.mipmap.fragment_five_sex_nan);
                         if (userDetailInfoData.getLevel() == 0) {
-                            llShoufeibiaozhun.setVisibility(View.GONE);
+                            llShoufeibiaozhun.setVisibility(View.VISIBLE);
                         } else {
                             llShoufeibiaozhun.setVisibility(View.VISIBLE);
                         }
@@ -333,6 +336,7 @@ public class FivePage extends BasePager implements View.OnClickListener {
                     tvGuanzhu.setText(String.valueOf(userDetailInfoData.getFlow_num()));
                     tvDianzan.setText(String.valueOf(userDetailInfoData.getZan_num()));
                     tvFangke.setText(String.valueOf(userDetailInfoData.getVisitor_num()));
+                    tvDogs.setText(userDetailInfoData.getDog());
                     if (!login) {
                         login = true;
                         //同时登录网易云
@@ -492,7 +496,7 @@ public class FivePage extends BasePager implements View.OnClickListener {
                 break;
             //收费标准
             case R.id.ll_shoufeibiaozhun:
-                IntentUtil.jumpIntent(ctx, SetCallPriceActivity.class);
+                IntentUtil.jumpIntent(ctx, ShouFeiBiaoZhunActivity.class);
                 break;
             //我的邀请
             case R.id.ll_wodeyaoqing:
