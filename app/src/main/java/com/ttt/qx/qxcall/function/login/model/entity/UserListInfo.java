@@ -171,6 +171,15 @@ public class UserListInfo implements Serializable{
             private int visitor_num;
             private int listen_state;
             private List<MemberTagBean> member_tag;
+            private int jb;
+
+            public int getJb() {
+                return jb;
+            }
+
+            public void setJb(int jb) {
+                this.jb = jb;
+            }
 
             public int getId() {
                 return id;

@@ -34,7 +34,7 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginTop="20dp"
-                        android:src="@mipmap/circle_logo"/>
+                        android:src="@mipmap/newlogo"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -254,7 +254,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="right">
+                            android:gravity="center">
 
                             <ImageView
                                 android:id="@+id/iv_activity_login_qq"
@@ -284,6 +284,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:visibility="gone"
                             android:gravity="left">
 
                             <ImageView

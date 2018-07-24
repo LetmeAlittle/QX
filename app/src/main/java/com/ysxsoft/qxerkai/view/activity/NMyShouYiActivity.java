@@ -2,6 +2,7 @@ package com.ysxsoft.qxerkai.view.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,13 +17,17 @@ import com.ttt.qx.qxcall.function.base.subscribe.ProgressSubscribe;
 import com.ttt.qx.qxcall.function.home.model.HomeModel;
 import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
 import com.ttt.qx.qxcall.function.login.view.MentionActivity;
-import com.ttt.qx.qxcall.function.login.view.PayDetailActivity;
 import com.ttt.qx.qxcall.utils.IntentUtil;
 import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +56,12 @@ public class NMyShouYiActivity extends NBaseActivity {
     TextView tvKetixian;
     @BindView(R.id.ll_tixian)
     LinearLayout llTixian;
+    @BindView(R.id.webView)
+    WebView webView;
+    private UserBean userBean;
+    private String authorization;
+    private double amount = 0;
+    private DecimalFormat mformat = new DecimalFormat("0.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +73,7 @@ public class NMyShouYiActivity extends NBaseActivity {
         initStatusBar2(statusBar2);
         initTitleBar();
         initView();
-        initData();
+        parseRule("2");
     }
 
     private void initTitleBar() {
@@ -98,10 +109,10 @@ public class NMyShouYiActivity extends NBaseActivity {
                                 //首先判断用户是否 已经进行了实名认证
                                 //判断当前可提现的额度 如果小于 指定值 0 不可提现
                                 if (amount >= 100) {
-                                    IntentUtil.jumpIntent(NMyShouYiActivity.this, MentionActivity.class);
+                                    IntentUtil.jumpIntent(NMyShouYiActivity.this, NTiXianActivity.class);
                                 } else {
                                     onToast("可提现额度为" +
-                                            CommonConstant.REN_MIN_COIN_SING + mformat.format(amount)+ "不满足提现要求");
+                                            CommonConstant.REN_MIN_COIN_SING + mformat.format(amount) + "不满足提现要求");
                                 }
                             } else {
                                 onToast("请您首先进行身份认证！");
@@ -113,12 +124,14 @@ public class NMyShouYiActivity extends NBaseActivity {
                 }, NMyShouYiActivity.this), "", authorization);
             }
         });
+        webView.setBackgroundColor(0);
     }
 
-    private UserBean userBean;
-    private String authorization;
-    private double amount = 0;
-    private DecimalFormat mformat = new DecimalFormat("0.00");
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
+    }
 
     private void initData() {
         UserDao userDao = new UserDao();
@@ -141,6 +154,32 @@ public class NMyShouYiActivity extends NBaseActivity {
     public void onToast(String message) {
         //消息弹出
         ToastUtils.showToast(this, message, Toast.LENGTH_SHORT);
+    }
+
+    /**
+     * @param aid
+     */
+    private void parseRule(String aid) {
+        Map<String, String> map = new HashMap<>();
+        map.put("aid", aid);
+
+        RetrofitTools.getRule(map)
+                .subscribe(new ResponseSubscriber<RuleResponse>() {
+                    @Override
+                    public void onSuccess(RuleResponse ruleResponse, int code, String msg) {
+                        if (code == 200) {
+                            StringBuilder stringBuilder = new StringBuilder();
+                            stringBuilder.append(ruleResponse.getData());
+                            webView.loadData(stringBuilder.toString(), "text/html;charset=UTF-8", null);
+                        } else {
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+
+                    }
+                });
     }
 
 }

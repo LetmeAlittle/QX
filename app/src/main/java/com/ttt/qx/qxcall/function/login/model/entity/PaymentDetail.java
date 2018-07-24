@@ -177,7 +177,7 @@ public class PaymentDetail {
 
             private int id;
             private String create_at;
-            private int amount;
+            private String amount;
             private String log_desc;
 
             public int getId() {
@@ -196,11 +196,11 @@ public class PaymentDetail {
                 this.create_at = create_at;
             }
 
-            public int getAmount() {
+            public String getAmount() {
                 return amount;
             }
 
-            public void setAmount(int amount) {
+            public void setAmount(String amount) {
                 this.amount = amount;
             }
 

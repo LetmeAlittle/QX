@@ -139,4 +139,5 @@ public class CommonConstant {
     public static final String UPLOAD_ICONS = "api/upicon";//往相册上传图片
     public static final String DEL_ICON = "api/delicon";//删除相册里的图片
     public static final String MEMBER_LIST = "api/memberList";//个人资料身份列表
+    public static final String UPDATE_USER_CATE = "api/setUsersCate";//更改用户身份
 }

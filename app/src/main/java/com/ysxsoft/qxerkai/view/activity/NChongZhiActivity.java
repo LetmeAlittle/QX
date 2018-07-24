@@ -113,7 +113,7 @@ public class NChongZhiActivity extends NBaseActivity {
 
     private int currItem=0;
     private int currPay=0;
-    private String amount = "10";
+    private String amount = "30";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,12 +171,12 @@ public class NChongZhiActivity extends NBaseActivity {
             case R.id.ll_chongzhi_item_6:
                 int tag=Integer.valueOf(view.getTag().toString());
                 switch (tag){
-                    case 0:amount="10";break;
-                    case 1:amount="20";break;
-                    case 2:amount="30";break;
-                    case 3:amount="100";break;
-                    case 4:amount="200";break;
-                    case 5:amount="300";break;
+                    case 0:amount="30";break;
+                    case 1:amount="50";break;
+                    case 2:amount="100";break;
+                    case 3:amount="200";break;
+                    case 4:amount="500";break;
+                    case 5:amount="1000";break;
                 }
                 if(currItem==tag){
                     return;

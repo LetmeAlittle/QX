@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="@color/_2A273C"
               android:orientation="vertical"
     >
 
@@ -10,11 +9,11 @@
         android:id="@+id/rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/_2A273C"
-        android:paddingBottom="@dimen/_60px"
+        android:background="@color/colorBackground"
+        android:paddingBottom="@dimen/_40px"
         android:paddingLeft="@dimen/_45px"
         android:paddingRight="@dimen/_45px"
-        android:paddingTop="@dimen/_60px"
+        android:paddingTop="@dimen/_40px"
         >
 
         <TextView

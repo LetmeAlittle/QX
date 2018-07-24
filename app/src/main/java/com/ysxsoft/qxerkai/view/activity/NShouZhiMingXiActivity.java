@@ -88,13 +88,13 @@ public class NShouZhiMingXiActivity extends NBaseActivity  implements BaseQuickA
         MineModel.getMineModel().payDetail(new ProgressSubscribe<>(new SubScribeOnNextListener<PaymentDetail>() {
             @Override
             public void onNext(PaymentDetail paymentDetail) {
+                adapter.loadMoreComplete();
                 if (paymentDetail.getStatus_code() == 200) {
                     PaymentDetail.DataBeanX data = paymentDetail.getData();
                     List<PaymentDetail.DataBeanX.DataBean> dataBeanList = data.getData();
                     if (dataBeanList == null) {
                         dataBeanList = new ArrayList<PaymentDetail.DataBeanX.DataBean>();
                     }
-                    pageIndex = data.getCurrent_page();
                     pageTotal = data.getLast_page();
                     if(pageIndex==1){
                         adapter.setNewData(dataBeanList);
@@ -103,7 +103,7 @@ public class NShouZhiMingXiActivity extends NBaseActivity  implements BaseQuickA
                     }
                 }
             }
-        }, NShouZhiMingXiActivity.this), "1", authorization);
+        }, NShouZhiMingXiActivity.this), ""+pageIndex, authorization);
     }
 
     @Override

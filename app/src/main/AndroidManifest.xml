@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ttt.qx.qxcall">
+<manifest package="com.ttt.qx.qxcall"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 权限声明 -->
     <!-- 访问网络状态 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <!-- 控制呼吸灯，振动器等，用于新消息提醒 -->
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <!-- 外置存储存取权限 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!-- 多媒体相关 -->
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <!-- 如果需要实时音视频通话模块，下面的权限也是必须的。否则，可以不加 -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="com.huawei.android.launcher.LauncherProvider" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="com.huawei.android.launcher.LauncherProvider"/>
     <!-- 允许程序使用PowerManager WakeLocks以防止处理器休眠或者屏幕锁屏 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -172,6 +172,7 @@
         <service
             android:name=".function.voice.floatw.PiPeiFloatViewService"
             android:enabled="true"
+            android:exported="true"/>
             android:exported="true" />
         <service
             android:name=".function.voice.floatw.TouTingFloatViewService"
@@ -186,13 +187,13 @@
             android:exported="false"
             android:process=":core">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
 
         <!-- 网易云通信进程间通信 Receiver -->
-        <receiver android:name="com.netease.nimlib.service.ResponseReceiver" />
+        <receiver android:name="com.netease.nimlib.service.ResponseReceiver"/>
 
         <!-- &lt;!&ndash; 安卓保活配置 &ndash;&gt; -->
         <!-- <service -->
@@ -209,7 +210,7 @@
 
         <meta-data
             android:name="com.netease.cosine.target"
-            android:value="" />
+            android:value=""/>
         <meta-data
             android:name="com.netease.cosine.target.receiver"
             android:value="com.netease.nimlib.service.NimReceiver" />
@@ -228,129 +229,129 @@
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name="com.alipay.sdk.app.H5AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <!-- 支付宝配置 end -->
 
         <activity
             android:name=".function.login.view.UserInfoActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.ReportActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.IdentifyAuthActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.AboutQxcallActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.FeedBackActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.MemberCenterActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.listen.view.StealListenDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.SetUserTagActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.MyServerActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.MineBlacksActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.SetUserSkilActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.RechargeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.PayDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.SetUserInfoActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.message.view.SystemNotifyActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.alipay.OpenOrderPayActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.MyVIPActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.EarnBookActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.SetCallPriceActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.MentionActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.MentionRecordActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.MyProfitActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.InvitedFriendsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.LoginTransferActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.SettingActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.UserMainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.UserMainEditActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.login.view.VIPBuyActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.find.view.PostDeatailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.home.view.IDSearchActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.home.view.FollowActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.home.view.FansActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.home.view.VisitorActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.voice.AVChatActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.find.view.PublishDynamicsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".function.register.view.UserBaseInfoActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <!-- UIKit库相关配置start -->
         <meta-data
             android:name="com.netease.nim.uikit.glide.NIMGlideModule"
-            android:value="GlideModule" />
+            android:value="GlideModule"/>
 
         <!-- 会话窗口 -->
         <!--
@@ -362,13 +363,13 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name="com.netease.nim.uikit.session.activity.TeamMessageActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <!-- 群聊 -->
         <activity
@@ -376,49 +377,49 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name="com.netease.nim.uikit.team.activity.AdvancedTeamInfoActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name="com.netease.nim.uikit.team.activity.AdvancedTeamMemberActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name="com.netease.nim.uikit.team.activity.AdvancedTeamAnnounceActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name="com.netease.nim.uikit.team.activity.AdvancedTeamMemberInfoActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name="com.netease.nim.uikit.team.activity.AdvancedTeamNicknameActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name="com.netease.nim.uikit.team.activity.AdvancedTeamCreateAnnounceActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name="com.netease.nim.uikit.team.activity.TeamPropertySettingActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <!-- 联系人选择器 -->
         <activity
@@ -427,44 +428,44 @@
             android:label="@string/contact_selector"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <!-- @ 选择器 -->
         <activity
             android:name="com.netease.nim.uikit.ait.selector.AitContactSelectorActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <!-- 照片选择 -->
         <activity
             android:name="com.netease.nim.uikit.common.media.picker.activity.PickImageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name="com.netease.nim.uikit.common.media.picker.activity.CropImageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name="com.netease.nim.uikit.common.media.picker.activity.PickerAlbumActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name="com.netease.nim.uikit.common.media.picker.activity.PickerAlbumPreviewActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name="com.netease.nim.uikit.common.media.picker.activity.PreviewImageFromLocalActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name="com.netease.nim.uikit.common.media.picker.activity.PreviewImageFromCameraActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/input_panel_take"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <!-- 视频 -->
         <activity
@@ -472,18 +473,18 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name="com.netease.nim.uikit.session.activity.WatchVideoActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/video_play"
-            android:theme="@style/DarkTheme" />
+            android:theme="@style/DarkTheme"/>
 
         <!-- 查看大图 -->
         <activity
             android:name="com.netease.nim.uikit.session.activity.WatchMessagePictureActivity"
             android:configChanges="keyboardHidden"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -505,7 +506,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
+                android:resource="@xml/provider_paths"/>
         </provider>
 
         <!-- 启动页面    zhaozhipeng -->
@@ -514,137 +515,215 @@
             android:screenOrientation="portrait"
             android:theme="@style/SplshTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <!-- 登录  zhaozhipeng -->
         <activity
             android:name="com.ysxsoft.qxerkai.view.activity.NLoginActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask"
-            android:theme="@style/SplshTheme"></activity>
+            android:theme="@style/SplshTheme"/>
         <!-- 注册  zhaozhipeng -->
         <activity
             android:name="com.ysxsoft.qxerkai.view.activity.NRegisterActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SplshTheme"></activity>
+            android:theme="@style/SplshTheme"/>
         <!-- 完善资料    zhaozhipeng -->
         <activity
             android:name="com.ysxsoft.qxerkai.view.activity.NRegisterUserEditActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SplshTheme"></activity>
+            android:theme="@style/SplshTheme"/>
         <!-- 首页  加载更多 -->
         <activity
             android:name="com.ysxsoft.qxerkai.view.activity.NOneFragmentMoreActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <!-- 首页  跑话题 -->
         <activity
             android:name="com.ysxsoft.qxerkai.view.activity.NPaoHaTiActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <!-- 首页  一件匹配 -->
         <activity
             android:name="com.ysxsoft.qxerkai.view.activity.NYiJianPiPeiActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/PiPeiTheme"></activity>
+            android:theme="@style/PiPeiTheme"/>
         <!-- 朋友圈 -->
         <activity
             android:name="com.ysxsoft.qxerkai.view.activity.NPengYouQuanActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <!-- 用户资料主页 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NZhiLiaoActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NZhiLiaoActivity"
+            android:screenOrientation="portrait"/>
         <!-- 撒狗粮 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.SaGouLiangActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.SaGouLiangActivity"
+            android:screenOrientation="portrait"/>
         <!-- 偷听列表 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NTouTingActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NTouTingActivity"
+            android:screenOrientation="portrait"/>
         <!-- 朋友圈详情 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.PengYouQuanDetailActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.PengYouQuanDetailActivity"
+            android:screenOrientation="portrait"/>
         <!-- 礼物榜 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.LiWuBangActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.LiWuBangActivity"
+            android:screenOrientation="portrait"/>
         <!-- 我的页面礼物榜 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NMyLiWuBangActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NMyLiWuBangActivity"
+            android:screenOrientation="portrait"/>
         <!-- Top榜 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NTopBangActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NTopBangActivity"
+            android:screenOrientation="portrait"/>
         <!-- 撩人区 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NLiaoRenQuActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NLiaoRenQuActivity"
+            android:screenOrientation="portrait"/>
         <!-- 守护榜 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NShouHuBangActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NShouHuBangActivity"
+            android:screenOrientation="portrait"/>
         <!-- 个人资料 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NPersonCenterActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NPersonCenterActivity"
+            android:screenOrientation="portrait"/>
         <!-- 设置页面 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NSettingActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NSettingActivity"
+            android:screenOrientation="portrait"/>
         <!-- 撩汉区 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.LiaoHanQuActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.LiaoHanQuActivity"
+            android:screenOrientation="portrait"/>
         <!-- 撩妹区 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.LiaoMeiQuActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.LiaoMeiQuActivity"
+            android:screenOrientation="portrait"/>
         <!-- 相册 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NXiangCheActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NXiangCheActivity"
+            android:screenOrientation="portrait"/>
         <!-- 购买VIP -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NGouMaiVipActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NGouMaiVipActivity"
+            android:screenOrientation="portrait"/>
         <!-- VIP中心 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.VipCenterActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.VipCenterActivity"
+            android:screenOrientation="portrait"/>
         <!-- 我的收益 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NMyShouYiActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NMyShouYiActivity"
+            android:screenOrientation="portrait"/>
         <!-- 收支明细 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NShouZhiMingXiActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NShouZhiMingXiActivity"
+            android:screenOrientation="portrait"/>
         <!-- 粉丝列表 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NFansListActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NFansListActivity"
+            android:screenOrientation="portrait"/>
         <!-- 我的邀请 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NMyYaoQingActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NMyYaoQingActivity"
+            android:screenOrientation="portrait"/>
         <!-- 充值 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NChongZhiActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NChongZhiActivity"
+            android:screenOrientation="portrait"/>
         <!-- 专属匹配 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NZhuanShuPiPeiActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NZhuanShuPiPeiActivity"
+            android:screenOrientation="portrait"/>
         <!-- 选择守护 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.XuanZheShouHuActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.XuanZheShouHuActivity"
+            android:screenOrientation="portrait"/>
         <!-- 角色扮演 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.BanYanActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.BanYanActivity"
+            android:screenOrientation="portrait"/>
         <!-- 语音聊天页面 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NHuaLiaoActivity"    android:launchMode="singleInstance"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NHuaLiaoActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"/>
         <!-- 语音聊天偷听页面 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NHuaLiaoTouTingActivity"   android:launchMode="singleInstance"  android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NHuaLiaoTouTingActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"/>
         <!-- 小情趣发布 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NFaTieActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NFaTieActivity"
+            android:screenOrientation="portrait"/>
         <!-- 朋友圈发布 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NPengYouQuanFaBuActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NPengYouQuanFaBuActivity"
+            android:screenOrientation="portrait"/>
         <!-- 意见反馈 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NFeedBackActivity"   android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NFeedBackActivity"
+            android:screenOrientation="portrait"/>
         <!-- 小情趣，查看更多 -->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NQingQuListActivity"   android:screenOrientation="portrait"></activity>
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NTiXianActivity"   android:screenOrientation="portrait"></activity>
-        <!-- 网页基类-->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.BaseWebViewActivity"   android:screenOrientation="portrait"></activity>
-        <!--发布撒狗粮-->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.PublishSGLActivity"   android:screenOrientation="portrait"></activity>
-        <!--小情趣详情-->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NQingQuDetailActivity"   android:screenOrientation="portrait"></activity>
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NKaiTongShouHuActivity"   android:screenOrientation="portrait">
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NQingQuListActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NTiXianActivity"
+            android:screenOrientation="portrait"/>
+        <!-- 网页基类 -->
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.BaseWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <!-- 发布撒狗粮 -->
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.PublishSGLActivity"
+            android:screenOrientation="portrait"/>
+        <!-- 小情趣详情 -->
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NQingQuDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NKaiTongShouHuActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <!--查看相册-->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NXiangCheChaKanActivity"   android:screenOrientation="portrait"/>
-        <!--用户协议-->
-        <activity android:name="com.ysxsoft.qxerkai.view.activity.NUserProtocolActivity"   android:screenOrientation="portrait"/>
-        <!--守护 搜索页-->
+        <!-- 查看相册 -->
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NXiangCheChaKanActivity"
+            android:screenOrientation="portrait"/>
+        <!-- 用户协议 -->
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.NUserProtocolActivity"
+            android:screenOrientation="portrait"/>
+        <!-- 守护 搜索页 -->
         <activity
             android:name="com.ysxsoft.qxerkai.view.activity.NShouHuSearchActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            />
-        <!--角色扮演 搜索页-->
+            android:windowSoftInputMode="adjustPan"/>
+        <!-- 角色扮演 搜索页 -->
         <activity
             android:name="com.ysxsoft.qxerkai.view.activity.NBanYanSearchActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"/>
+
         <!-- 一键匹配来电页面 -->
         <activity
             android:name="com.ysxsoft.qxerkai.view.activity.PiPeiCallActivity"
-            android:screenOrientation="portrait"></activity>
-        <!-- 我的  我的朋友圈-->
+            android:screenOrientation="portrait"/>
+
+        <!-- 我的  我的朋友圈 -->
         <activity
             android:name="com.ysxsoft.qxerkai.view.activity.NPengYouQuanMyActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name="com.ysxsoft.qxerkai.view.activity.ShouFeiBiaoZhunActivity">
+        </activity>
+
         <!--账户安全-->
         <activity
             android:name="com.ysxsoft.qxerkai.view.activity.NAccountSafeActivity"

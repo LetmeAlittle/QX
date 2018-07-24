@@ -157,6 +157,9 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
         ButterKnife.bind(this);
         id = getIntent().getIntExtra("id", -1);
         accid = getIntent().getStringExtra("accid");
+        if (accid == null) {
+            accid = "" + getIntent().getIntExtra("accid", -1);
+        }
         initStatusBar();
         initStatusBar(statusBar);
         initTitleBar();
@@ -197,6 +200,61 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
         } else {
             tvBianji.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * 初始化数据
+     */
+    private void initData() {
+        UserDao userDao = new UserDao();
+        UserBean userBean = userDao.queryFirstData();
+        if (userBean != null) {
+            Authorization = "Bearer " + userBean.getToken();
+        }
+        if (Integer.valueOf(id) == userBean.getUserId() || userBean.getUserId().equals(id)) {//如果当前点击条目就是登录用户自己 登录NimUIKit 同时缓存账户id
+//            guanzhu_name_tv.setVisibility(View.GONE);
+//            more_rl.setVisibility(View.INVISIBLE);
+            NimUIKit.doLogin(new LoginInfo(userBean.getWy_acid(), userBean.getWy_token()), new RequestCallback<LoginInfo>() {
+                @Override
+                public void onSuccess(LoginInfo param) {
+                    //登录成功
+                    String account = param.getAccount();
+                }
+
+                @Override
+                public void onFailed(int code) {
+                    //登录失败
+                }
+
+                @Override
+                public void onException(Throwable exception) {
+                    //登录异常
+                }
+
+            });
+            DemoCache.setAccount(String.valueOf(accid));
+        } else {
+//            guanzhu_name_tv.setVisibility(View.VISIBLE);
+        }
+        setUserInfo();
+    }
+
+    /**
+     * 设置用户信息
+     */
+    private void setUserInfo() {
+        //根据id 获取当前用户信息
+        HomeModel.getHomeModel().getUserInfo(new ProgressSubscribe<>(new SubScribeOnNextListener<UserDetailInfo>() {
+            @Override
+            public void onNext(UserDetailInfo info) {
+                if (info.getStatus_code() == 200) {
+                    mInfoData = info.getData();
+                    initViewData();
+                } else {
+                    ToastUtils.showToast(NZhiLiaoActivity.this, info.getMessage(), 0);
+                }
+            }
+        }, this), String.valueOf(id), Authorization);
     }
 
     private void initViewData() {
@@ -360,21 +418,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                 }
             });
         }
-    }
-
-    private void openImgLookBig(ArrayList<String> photosStr, int position) {
-        if (photosStr.size() <= position) {
-            return;
-        }
-        File downloadDir = new File(Environment.getExternalStorageDirectory(), "QX");
-        BGAPhotoPreviewActivity.IntentBuilder photoPreviewIntentBuilder = new BGAPhotoPreviewActivity.IntentBuilder(this)
-                .saveImgDir(downloadDir); // 保存图片的目录，如果传 null，则没有保存图片功能
-        photoPreviewIntentBuilder
-                .previewPhotos(photosStr).currentPosition(position); // 当前预览图片的索引
-        startActivity(photoPreviewIntentBuilder.build());
-    }
-
-    @Override
+    }    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_bianji:
@@ -550,61 +594,6 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
         }
     }
 
-    /**
-     * 初始化数据
-     */
-    private void initData() {
-        UserDao userDao = new UserDao();
-        UserBean userBean = userDao.queryFirstData();
-        if (userBean != null) {
-            Authorization = "Bearer " + userBean.getToken();
-        }
-        if (Integer.valueOf(id) == userBean.getUserId() || userBean.getUserId().equals(id)) {//如果当前点击条目就是登录用户自己 登录NimUIKit 同时缓存账户id
-//            guanzhu_name_tv.setVisibility(View.GONE);
-//            more_rl.setVisibility(View.INVISIBLE);
-            NimUIKit.doLogin(new LoginInfo(userBean.getWy_acid(), userBean.getWy_token()), new RequestCallback<LoginInfo>() {
-                @Override
-                public void onSuccess(LoginInfo param) {
-                    //登录成功
-                    String account = param.getAccount();
-                }
-
-                @Override
-                public void onFailed(int code) {
-                    //登录失败
-                }
-
-                @Override
-                public void onException(Throwable exception) {
-                    //登录异常
-                }
-
-            });
-            DemoCache.setAccount(String.valueOf(accid));
-        } else {
-//            guanzhu_name_tv.setVisibility(View.VISIBLE);
-        }
-        setUserInfo();
-    }
-
-    /**
-     * 设置用户信息
-     */
-    private void setUserInfo() {
-        //根据id 获取当前用户信息
-        HomeModel.getHomeModel().getUserInfo(new ProgressSubscribe<>(new SubScribeOnNextListener<UserDetailInfo>() {
-            @Override
-            public void onNext(UserDetailInfo info) {
-                if (info.getStatus_code() == 200) {
-                    mInfoData = info.getData();
-                    initViewData();
-                } else {
-                    ToastUtils.showToast(NZhiLiaoActivity.this, info.getMessage(), 0);
-                }
-            }
-        }, this), String.valueOf(id), Authorization);
-    }
-
     private void initMediaPlayer() {
         if (mSoundFile != null && !mSoundFile.equals("")) {
             try {
@@ -633,5 +622,19 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
             sounds_ll.setVisibility(View.GONE);
         }
     }
+
+    private void openImgLookBig(ArrayList<String> photosStr, int position) {
+        if (photosStr.size() <= position) {
+            return;
+        }
+        File downloadDir = new File(Environment.getExternalStorageDirectory(), "QX");
+        BGAPhotoPreviewActivity.IntentBuilder photoPreviewIntentBuilder = new BGAPhotoPreviewActivity.IntentBuilder(this)
+                .saveImgDir(downloadDir); // 保存图片的目录，如果传 null，则没有保存图片功能
+        photoPreviewIntentBuilder
+                .previewPhotos(photosStr).currentPosition(position); // 当前预览图片的索引
+        startActivity(photoPreviewIntentBuilder.build());
+    }
+
+
 
 }

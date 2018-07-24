@@ -16,17 +16,23 @@ import android.support.v7.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import com.ttt.qx.qxcall.QXCallApplication;
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.database.UserDao;
 import com.ttt.qx.qxcall.dbbean.UserBean;
 import com.ttt.qx.qxcall.function.home.model.HomeModel;
+import com.ttt.qx.qxcall.function.listen.model.StealListenModel;
 import com.ttt.qx.qxcall.function.login.model.entity.UserListInfo;
+import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
+import com.ttt.qx.qxcall.function.voice.AVChatActivity;
+import com.ttt.qx.qxcall.function.voice.AVChatProfile;
 import com.ttt.qx.qxcall.utils.CustomAlertDialogUtil;
 import com.ttt.qx.qxcall.utils.IntentUtil;
 import com.ysxsoft.qxerkai.utils.DimenUtils;
 import com.ysxsoft.qxerkai.utils.LogUtils;
 import com.ysxsoft.qxerkai.utils.SystemUtils;
+import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.fragment.OnePage;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
@@ -140,7 +146,32 @@ public class NOneFragmentMoreActivity extends NBaseActivity implements BaseQuick
             ivCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    ctx.startActivity(new Intent(ctx, NHuaLiaoActivity.class));
+                    if (!QXCallApplication.login) {//如果是没有登录直接跳转至登陆页
+                        IntentUtil.jumpIntent(NOneFragmentMoreActivity.this, NLoginActivity.class);
+                        return;
+                    }
+                    UserDao userDao = new UserDao();
+                    UserBean userBean = userDao.queryFirstData();
+                    StealListenModel.getStealListenModel().isAllowTalk(new Subscriber<StandardResponse>() {
+                        @Override
+                        public void onCompleted() {
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                        }
+
+                        @Override
+                        public void onNext(StandardResponse standardResponse) {
+                            if (standardResponse.getStatus_code() == 200) {
+                                //调起拨打界面。
+                                AVChatProfile.getInstance().setAVChatting(true);
+                                AVChatActivity.launch(NOneFragmentMoreActivity.this, item.getWy_acid(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+                            } else {
+                                ToastUtils.showToast(NOneFragmentMoreActivity.this, standardResponse.getMessage(), 0);
+                            }
+                        }
+                    }, String.valueOf(item.getId()), "Bearer " + userBean.getToken());
                 }
             });
             TextView name = helper.getView(R.id.tv_name);
@@ -156,7 +187,32 @@ public class NOneFragmentMoreActivity extends NBaseActivity implements BaseQuick
             }
             TextView price = helper.getView(R.id.tv_price);
             price.setText(item.getMember_price() + "砰砰豆/分钟");
-
+            ImageView ivJiBie = helper.getView(R.id.iv_jibie);
+            switch (item.getJb()) {
+                case 0:
+                    ivJiBie.setVisibility(View.GONE);
+                    break;
+                case 1:
+                    ivJiBie.setVisibility(View.VISIBLE);
+                    ivJiBie.setImageResource(R.mipmap.lev_qingtong);
+                    break;
+                case 2:
+                    ivJiBie.setVisibility(View.VISIBLE);
+                    ivJiBie.setImageResource(R.mipmap.lev_baiyin);
+                    break;
+                case 3:
+                    ivJiBie.setVisibility(View.VISIBLE);
+                    ivJiBie.setImageResource(R.mipmap.lev_huangjin);
+                    break;
+                case 4:
+                    ivJiBie.setVisibility(View.VISIBLE);
+                    ivJiBie.setImageResource(R.mipmap.lev_bojin);
+                    break;
+                case 5:
+                    ivJiBie.setVisibility(View.VISIBLE);
+                    ivJiBie.setImageResource(R.mipmap.lev_zhuansi);
+                    break;
+            }
         }
     }
 

@@ -578,6 +578,36 @@ public class RetrofitTools {
 		return subscribe(RetrofitTools.getManager().jiaoSeListenning(map));
 	}
 
+    /**
+     * 更改用户身份
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<BaseResponse> updateUserCate(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().updateUserCate(map));
+    }
+
+    /**
+     * OkHttp过滤器
+     */
+    private static class LogInterceptor implements Interceptor {
+        @Override
+        public okhttp3.Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            LogUtils.e("RequestTool-->  request:" + request.toString());
+            okhttp3.Response response = chain.proceed(request);
+            okhttp3.MediaType mediaType = response.body().contentType();
+            String content = response.body().string();
+            LogUtils.e("RequestTool-->  response body:" + content);
+            if (response.body() != null) {
+                ResponseBody body = ResponseBody.create(mediaType, content);
+                return response.newBuilder().body(body).build();
+            } else {
+                return response;
+            }
+        }
+    }
 	/**
 	 * 获取短信验证码
 	 *
@@ -625,29 +655,5 @@ public class RetrofitTools {
 	 */
 	public static Observable<BaseResponse> feedBack(Map<String, String> map) {
 		return subscribe(RetrofitTools.getManager().feedBack(map));
-	}
-
-	/**
-	 * OkHttp过滤器
-	 */
-	private static class LogInterceptor implements Interceptor {
-		@Override
-		public okhttp3.Response intercept(Chain chain) throws IOException {
-			Request request = chain.request();
-			LogUtils.e("RequestTool-->  request:" + request.toString());
-
-			Request.Builder builder=request.newBuilder().addHeader("Authorization", "Bearer "+DBUtils.getUserToken());//token认证
-
-			okhttp3.Response response = chain.proceed(builder.build());
-			okhttp3.MediaType mediaType = response.body().contentType();
-			String content = response.body().string();
-			LogUtils.e("RequestTool-->  response body:" + content);
-			if (response.body() != null) {
-				ResponseBody body = ResponseBody.create(mediaType, content);
-				return response.newBuilder().body(body).build();
-			} else {
-				return response;
-			}
-		}
 	}
 }

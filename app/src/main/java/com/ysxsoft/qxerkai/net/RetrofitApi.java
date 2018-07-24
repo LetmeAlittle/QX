@@ -93,6 +93,7 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_wentiliebiao;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_START;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_TAG;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TWO_PAGE_USER_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.UPDATE_USER_CATE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.UPDATE_PHONE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.UPDATE_PWD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.UPLOAD_ICONS;
@@ -415,7 +416,6 @@ public interface RetrofitApi {
 	 *
 	 * @return
 	 */
-	@FormUrlEncoded
 	@POST(MEMBER_LIST)
 	Observable<MemberListResponse> getMemberList();
 
@@ -594,6 +594,16 @@ public interface RetrofitApi {
 	@FormUrlEncoded
 	@POST(FEED_BACK)
 	Observable<BaseResponse> feedBack(@FieldMap Map<String, String> map);
+
+    /**
+     * 更改用户身份
+     *
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(UPDATE_USER_CATE)
+    Observable<BaseResponse> updateUserCate(@FieldMap Map<String, String> map);
 
 	/**
 	 * 下载文件

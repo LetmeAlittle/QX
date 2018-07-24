@@ -14,22 +14,31 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.adapter.VIPBuyListAdapter;
 import com.ttt.qx.qxcall.database.UserDao;
 import com.ttt.qx.qxcall.eventbus.PaySuccess;
 import com.ttt.qx.qxcall.function.alipay.PayResult;
 import com.ttt.qx.qxcall.function.base.interfacee.SubScribeOnNextListener;
 import com.ttt.qx.qxcall.function.base.subscribe.ProgressSubscribe;
+import com.ttt.qx.qxcall.function.login.model.LoginModel;
 import com.ttt.qx.qxcall.function.login.model.MineModel;
 import com.ttt.qx.qxcall.function.login.model.entity.GetPayInfoResponse;
+import com.ttt.qx.qxcall.function.login.model.entity.VIPBuyList;
 import com.ttt.qx.qxcall.function.login.view.VIPBuyActivity;
 import com.ttt.qx.qxcall.function.wxpay.WXPay;
 import com.ttt.qx.qxcall.function.wxpay.WXPayData;
+import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.RuleResponse;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -40,6 +49,8 @@ import static com.ttt.qx.qxcall.QXCallApplication.onToast;
 
 public class NGouMaiVipActivity extends NBaseActivity {
 
+    private static final int SDK_PAY_FLAG = 1;
+    private static final int SDK_AUTH_FLAG = 2;
     @BindView(R.id.status_bar)
     View statusBar;
     @BindView(R.id.iv_public_titlebar_left_1)
@@ -70,11 +81,37 @@ public class NGouMaiVipActivity extends NBaseActivity {
     ImageView ivZhifubao;
     @BindView(R.id.iv_weixin)
     ImageView ivWeixin;
-
     private ArrayList<LinearLayout> llVipItems = new ArrayList<>();
     private int currItem = 0;
     private int currPay = 0;
-
+    private String authorization;
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @SuppressWarnings("unused")
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SDK_PAY_FLAG: {
+                    @SuppressWarnings("unchecked")
+                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                    /**
+                     对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                     */
+                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                    String resultStatus = payResult.getResultStatus();
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                        Toast.makeText(NGouMaiVipActivity.this, "购买vip成功,可以到会员中心查看！", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                        Toast.makeText(NGouMaiVipActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                }
+            }
+        }
+    };
+    List<VIPBuyList.DataBean> data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +136,12 @@ public class NGouMaiVipActivity extends NBaseActivity {
         tvPublicTitlebarCenter.setText("购买VIP");
         tvPublicTitlebarRight.setVisibility(View.VISIBLE);
         tvPublicTitlebarRight.setText("VIP特权");
+        llPublicTitlebarRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                parseRule("6");
+            }
+        });
     }
 
     private void initView() {
@@ -115,7 +158,35 @@ public class NGouMaiVipActivity extends NBaseActivity {
     }
 
     private void initData() {
+        getVipInfo();
+    }
 
+    /**
+     * 网页 1关于我们  5使用说明
+     *
+     * @param aid
+     */
+    private void parseRule(String aid) {
+        Map<String, String> map = new HashMap<>();
+        map.put("aid", aid);
+
+        RetrofitTools.getRule(map)
+                .subscribe(new ResponseSubscriber<RuleResponse>() {
+                    @Override
+                    public void onSuccess(RuleResponse ruleResponse, int code, String msg) {
+                        if (code == 200) {
+//                            ToastUtil.showToast(SaGouLiangActivity.this, msg);
+                            BaseWebViewActivity.startWithContent(NGouMaiVipActivity.this, ruleResponse.getData(), "VIP特权");
+                        } else {
+                            ToastUtil.showToast(NGouMaiVipActivity.this, msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+
+                    }
+                });
     }
 
     @OnClick({R.id.ll_vip_item1, R.id.ll_vip_item2, R.id.ll_vip_item3, R.id.ll_vip_item4, R.id.ll_vip_item5, R.id.ll_vip_item6})
@@ -145,8 +216,10 @@ public class NGouMaiVipActivity extends NBaseActivity {
         }
     }
 
-    private String authorization;
     public void onPay(View view) {
+        if(data.size()==0){
+            return;
+        }
         if (currPay == 0) {
             MineModel.getMineModel().getVipPayOrderInfo(new ProgressSubscribe<>(new SubScribeOnNextListener<GetPayInfoResponse>() {
                 @Override
@@ -160,7 +233,7 @@ public class NGouMaiVipActivity extends NBaseActivity {
                         onToast("获取订单信息失败！");
                     }
                 }
-            }, NGouMaiVipActivity.this), "alipay", String.valueOf(""), authorization);
+            }, NGouMaiVipActivity.this), "alipay", String.valueOf(data.get(currItem).getId()), authorization);
         } else {
             MineModel.getMineModel().getVipWXPayOrderInfo(new ProgressSubscribe<>(new SubScribeOnNextListener<WXPayData>() {
                 @Override
@@ -178,7 +251,7 @@ public class NGouMaiVipActivity extends NBaseActivity {
                         onToast("获取订单信息失败！");
                     }
                 }
-            }, NGouMaiVipActivity.this), "wxpay", String.valueOf(""), authorization);
+            }, NGouMaiVipActivity.this), "wxpay", String.valueOf(data.get(currItem).getId()), authorization);
         }
     }
 
@@ -204,39 +277,24 @@ public class NGouMaiVipActivity extends NBaseActivity {
         payThread.start();
     }
 
-    private static final int SDK_PAY_FLAG = 1;
-    private static final int SDK_AUTH_FLAG = 2;
-    @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
-        @SuppressWarnings("unused")
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case SDK_PAY_FLAG: {
-                    @SuppressWarnings("unchecked")
-                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
-                    /**
-                     对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
-                     */
-                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
-                    String resultStatus = payResult.getResultStatus();
-                    // 判断resultStatus 为9000则代表支付成功
-                    if (TextUtils.equals(resultStatus, "9000")) {
-                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-                        Toast.makeText(NGouMaiVipActivity.this, "购买vip成功,可以到会员中心查看！", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-                        Toast.makeText(NGouMaiVipActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-                }
-            }
-        }
-    };
-
     @Subscribe
     public void onEventPaySuccess(PaySuccess paySuccess) {
         Toast.makeText(this, "购买vip成功,可以到会员中心查看！", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * 获取VIP价格列表
+     */
+    private void getVipInfo() {
+        LoginModel.getLoginModel().buyVipList(new ProgressSubscribe<>(new SubScribeOnNextListener<VIPBuyList>() {
+            @Override
+            public void onNext(VIPBuyList vipBuyList) {
+                data = vipBuyList.getData();
+                if (data == null) {
+                    data = new ArrayList<VIPBuyList.DataBean>();
+                }
+            }
+        }, this));
+    }
 
 }

@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,20 +16,27 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
 import com.ttt.qx.qxcall.QXCallApplication;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.constant.CommonConstant;
 import com.ttt.qx.qxcall.database.UserDao;
 import com.ttt.qx.qxcall.dbbean.UserBean;
 import com.ttt.qx.qxcall.dialog.TipDialog;
@@ -42,16 +51,25 @@ import com.ttt.qx.qxcall.function.base.subscribe.ProgressSubscribe;
 import com.ttt.qx.qxcall.function.home.model.HomeModel;
 import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
 import com.ttt.qx.qxcall.function.login.model.MineModel;
+import com.ttt.qx.qxcall.function.login.record.AudioRecorder;
+import com.ttt.qx.qxcall.function.login.record.RecordButton;
 import com.ttt.qx.qxcall.function.login.view.IdentifyAuthActivity;
 import com.ttt.qx.qxcall.function.login.view.LoginTransferActivity;
 import com.ttt.qx.qxcall.function.login.view.SetUserInfoActivity;
+import com.ttt.qx.qxcall.function.login.view.SetUserTagActivity;
 import com.ttt.qx.qxcall.function.register.model.RegisterModel;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 import com.ttt.qx.qxcall.function.register.model.entity.UploadImgResponse;
 import com.ttt.qx.qxcall.utils.CustomAlertDialogUtil;
 import com.ttt.qx.qxcall.utils.ImageUtil;
 import com.ttt.qx.qxcall.utils.IntentUtil;
+import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ttt.qx.qxcall.utils.UriUtil;
+import com.ttt.qx.qxcall.widget.FlowLayout;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.BaseResponse;
+import com.ysxsoft.qxerkai.net.response.MemberListResponse;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
@@ -60,11 +78,21 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import pub.devrel.easypermissions.EasyPermissions;
 import rx.Subscriber;
 
@@ -82,7 +110,7 @@ import static com.ttt.qx.qxcall.function.login.view.SetUserInfoActivity.NICK_NAM
  * @author zhaozhipeng
  */
 public class NPersonCenterActivity extends NBaseActivity {
-
+    private static final int UPLOAD_SUCCESS = 10;
     //用户修改头像操作
     public final String HEAD = "head";
     private final int BASE_SUCCESS = 0;
@@ -120,6 +148,30 @@ public class NPersonCenterActivity extends NBaseActivity {
     TextView tvShenfen;
     @BindView(R.id.ll_shenfen)
     LinearLayout llShenfen;
+    @BindView(R.id.paly_status_iv)
+    ImageView palyStatusIv;
+    @BindView(R.id.audio_time_tv)
+    TextView audioTimeTv;
+    @BindView(R.id.sounds_ll)
+    LinearLayout soundsLl;
+    @BindView(R.id.flow_tag_layout)
+    FlowLayout flowTagLayout;
+    @BindView(R.id.audio_record_iv)
+    ImageView audioRecordIv;
+    @BindView(R.id.btn_record)
+    RecordButton btn_record;
+    @BindView(R.id.close_tv)
+    TextView closeTv;
+    @BindView(R.id.record_rl)
+    RelativeLayout recordRl;
+    @BindView(R.id.ll_yuyin)
+    LinearLayout llYuyin;
+
+    private String mrecordTime;
+    private Dialog mUploadingDialog;
+    private String mSoundFile;
+    private MediaPlayer mPlayer = new MediaPlayer();
+
     private Integer id;
     private UserBean mUserBean;
     private String Authorization;
@@ -180,6 +232,33 @@ public class NPersonCenterActivity extends NBaseActivity {
     //当前跳转标记
     private String type = "";
     private boolean verifyStatus = false;
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case UPLOAD_SUCCESS:
+                    modifyed = true;
+                    /**
+                     * 文件上传成功 关闭对话框
+                     */
+                    if (mUploadingDialog != null && mUploadingDialog.isShowing()) {
+                        mUploadingDialog.dismiss();
+                    }
+                    String sound = (String) msg.obj;
+                    //调用设置接口
+                    MineModel.getMineModel().setMemberSound(new ProgressSubscribe<>(new SubScribeOnNextListener<StandardResponse>() {
+                        @Override
+                        public void onNext(StandardResponse response) throws IOException {
+                            if (response.getStatus_code() == 200) {
+                                initData();
+                            }
+                        }
+                    }, NPersonCenterActivity.this), sound, Authorization);
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,22 +271,39 @@ public class NPersonCenterActivity extends NBaseActivity {
         initStatusBar();
         initStatusBar(statusBar);
         initTitleBar();
-        initData();
-    }
-
-    private void initTitleBar() {
-        ivPublicTitlebarLeft1.setVisibility(View.VISIBLE);
-        ivPublicTitlebarLeft1.setImageResource(R.mipmap.back_left_white);
-        llPublicTitlebarLeft.setOnClickListener(new View.OnClickListener() {
+        btn_record.setAudioRecord(new AudioRecorder());
+        btn_record.setRecordListener(new RecordButton.RecordListener() {
             @Override
-            public void onClick(View view) {
-                if (modifyed) {
-                    EventBus.getDefault().post(new UserInfoModifyed());
-                }
-                finish();
+            public void recordEnd(String filePath, String recordTime) {
+                File file = new File(filePath);
+                mrecordTime = recordTime;
+                uploadRecordFile(file);
+            }
+
+            @Override
+            public void limitTime(String filePath, String recordTime) {
+                mrecordTime = recordTime;
+                TipDialog.showCenterTipDialog(NPersonCenterActivity.this, "录音已达到最大时长30s，您确定发送吗？"
+                        , new TipDialog.OnComponentClickListener() {
+                            @Override
+                            public void onCancle() {
+
+                            }
+
+                            @Override
+                            public void onConfirm() {
+                                File file = new File(filePath);
+                                uploadRecordFile(file);
+                            }
+                        }, false);
             }
         });
-        tvPublicTitlebarCenter.setText("个人中心");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
     }
 
     private void initData() {
@@ -255,10 +351,122 @@ public class NPersonCenterActivity extends NBaseActivity {
             tvRenzheng.setText("未认证");
         }
         tvAddress.setText(mInfoData.getMember_province() + mInfoData.getMember_city());
+        //标签处理
+        List<UserDetailInfo.DataBean.MemberTagBean> member_tag = mInfoData.getMember_tag();
+        if (member_tag.size() > 0) {
+            flowTagLayout.setVisibility(View.VISIBLE);
+        }
+        flowTagLayout.removeAllViews();
+        for (UserDetailInfo.DataBean.MemberTagBean memberTagBean : member_tag) {
+            FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.leftMargin = 25;
+            layoutParams.topMargin = 10;
+            layoutParams.bottomMargin = 10;
+            TextView textView = new TextView(this);
+            textView.setTextColor(Color.parseColor("#ffffff"));
+            textView.setBackgroundResource(R.drawable.activity_biaoqian_bg);
+            GradientDrawable myGrad = (GradientDrawable) textView.getBackground();
+            myGrad.setColor(Color.parseColor(memberTagBean.getColor()));
+            textView.setTextSize(10);
+            textView.getPaint().setFakeBoldText(true);
+            textView.setText(memberTagBean.getText());
+            textView.setPadding(10, 2, 10, 2);
+            textView.setLayoutParams(layoutParams);
+            flowTagLayout.addView(textView);
+        }
+        mSoundFile = mInfoData.getSound_file();
+        initMediaPlayer();
+        tvShenfen.setText(mInfoData.getMember_cate_name());
+    }
+
+    private void initMediaPlayer() {
+        if (mSoundFile != null && !mSoundFile.equals("")) {
+            try {
+                mPlayer = new MediaPlayer();
+                mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer player) {
+                        palyStatusIv.setImageResource(R.mipmap.activity_zhiliao_bofang);
+                        mPlayer.release();
+                        mPlayer = null;
+                    }
+                });
+                mPlayer.setDataSource(NPersonCenterActivity.this, Uri.parse(mSoundFile));
+                mPlayer.prepareAsync();
+                mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mediaPlayer) {
+                        audioTimeTv.setText(String.valueOf(mPlayer.getDuration() / 1000) + "''");
+                    }
+                });
+                soundsLl.setVisibility(View.VISIBLE);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            soundsLl.setVisibility(View.GONE);
+        }
+    }
+
+    private void initTitleBar() {
+        ivPublicTitlebarLeft1.setVisibility(View.VISIBLE);
+        ivPublicTitlebarLeft1.setImageResource(R.mipmap.back_left_white);
+        llPublicTitlebarLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (modifyed) {
+                    EventBus.getDefault().post(new UserInfoModifyed());
+                }
+                finish();
+            }
+        });
+        tvPublicTitlebarCenter.setText("个人中心");
+    }
+
+    private void uploadRecordFile(final File file) {
+        llYuyin.setVisibility(View.GONE);
+        //录音成功
+        OkHttpClient okHttpClient = new OkHttpClient();
+        if (mUploadingDialog == null) {
+            mUploadingDialog = CustomAlertDialogUtil.createLoadingDialog(this, "上传中...", true);
+        }
+        if (!mUploadingDialog.isShowing()) {
+            mUploadingDialog.show();
+        }
+        new Thread() {
+            @Override
+            public void run() {
+                MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+                builder.addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
+                MultipartBody multipartBody = builder.build();
+                Request request = new Request.Builder().url(CommonConstant.COMMON_BASE_URL + "api/file_upload")
+                        .addHeader("Authorization", Authorization)
+                        .post(multipartBody)
+                        .build();
+                okHttpClient.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.i("error", e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String result = response.body().string();
+                        Gson gson = new Gson();
+                        StandardResponse standardResponse = gson.fromJson(result, StandardResponse.class);
+                        Message message = Message.obtain();
+                        message.obj = standardResponse.getData().getPath();
+                        message.what = UPLOAD_SUCCESS;
+                        mHandler.sendMessage(message);
+                    }
+                });
+            }
+        }.start();
     }
 
     @OnClick({R.id.ll_xiangche, R.id.ll_headimg, R.id.ll_gerenjiesao, R.id.ll_nickname, R.id.ll_age, R.id.ll_address,
-            R.id.ll_sex, R.id.ll_realname})
+            R.id.ll_sex, R.id.ll_realname, R.id.ll_shenfen, R.id.ll_shengyin, R.id.ll_biaoqian, R.id.ll_yuyin,
+            R.id.sounds_ll, R.id.close_tv})
     public void onclick(View view) {
         switch (view.getId()) {
             case R.id.ll_xiangche:
@@ -317,6 +525,94 @@ public class NPersonCenterActivity extends NBaseActivity {
                     }
                 } else {
                     IntentUtil.jumpIntent(NPersonCenterActivity.this, LoginTransferActivity.class);
+                }
+                break;
+//                修改我的身份
+            case R.id.ll_shenfen:
+                RetrofitTools.getMemberList().subscribe(new ResponseSubscriber<MemberListResponse>() {
+                    @Override
+                    public void onSuccess(MemberListResponse memberListResponse, int code, String msg) {
+                        String[] items = new String[memberListResponse.getData().size()];
+                        for (int i = 0; i < memberListResponse.getData().size(); i++) {
+                            items[i] = memberListResponse.getData().get(i).getName();
+                        }
+                        new MaterialDialog.Builder(NPersonCenterActivity.this)
+                                .title("设置身份")
+                                .titleGravity(GravityEnum.CENTER)
+                                .items(items)
+                                .itemsCallback(new MaterialDialog.ListCallback() {//选中监听，同时dialog消失
+                                    @Override
+                                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                                        multipleStatusView.showLoading();
+                                        HashMap<String, String> hashMap = new HashMap<>();
+                                        hashMap.put("user_id", "" + mUserBean.getUserId());
+                                        hashMap.put("cate_id", memberListResponse.getData().get(position).getId());
+                                        RetrofitTools
+                                                .updateUserCate(hashMap)
+                                                .subscribe(new ResponseSubscriber<BaseResponse>() {
+                                                    @Override
+                                                    public void onSuccess(BaseResponse baseResponse, int code, String msg) {
+                                                        multipleStatusView.hideLoading();
+                                                        initData();
+                                                    }
+
+                                                    @Override
+                                                    public void onFailed(Throwable e) {
+                                                        multipleStatusView.hideLoading();
+                                                        ToastUtils.showToast(NPersonCenterActivity.this, e.getMessage(), 0);
+                                                    }
+                                                });
+                                    }
+                                })
+                                .show();
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+                        ToastUtils.showToast(NPersonCenterActivity.this, e.getMessage(), 0);
+                    }
+                });
+                break;
+//                录入我的声音
+            case R.id.ll_shengyin:
+                llYuyin.setVisibility(View.VISIBLE);
+                break;
+//                设置我的标签
+            case R.id.ll_biaoqian:
+                startActivity(new Intent(this, SetUserTagActivity.class));
+                break;
+            case R.id.ll_yuyin:
+                llYuyin.setVisibility(View.GONE);
+                break;
+            case R.id.close_tv:
+                llYuyin.setVisibility(View.GONE);
+                break;
+            case R.id.sounds_ll:
+                palyStatusIv.setImageResource(R.mipmap.audio_playing_iv);
+                if (mPlayer != null) {
+                    mPlayer.start();
+                } else {
+                    mPlayer = new MediaPlayer();
+                    mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer player) {
+                            palyStatusIv.setImageResource(R.mipmap.activity_zhiliao_bofang);
+                            mPlayer.release();
+                            mPlayer = null;
+                        }
+                    });
+                    try {
+                        mPlayer.setDataSource(NPersonCenterActivity.this, Uri.parse(mSoundFile));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    mPlayer.prepareAsync();
+                    mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mediaPlayer) {
+                            mPlayer.start();
+                        }
+                    });
                 }
                 break;
         }

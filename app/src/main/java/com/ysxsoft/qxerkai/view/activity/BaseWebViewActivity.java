@@ -79,9 +79,7 @@ public class BaseWebViewActivity extends NBaseActivity {
             webView.loadUrl(url);
         } else {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("<html><body>");
             stringBuilder.append(content);
-            stringBuilder.append("</body></html>");
             webView.loadData(stringBuilder.toString(),"text/html;charset=UTF-8", null);
         }
     }

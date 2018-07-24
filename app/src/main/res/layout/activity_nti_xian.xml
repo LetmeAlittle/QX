@@ -82,10 +82,12 @@
                         android:textColor="@color/loginUsernameColor"
                         android:textSize="@dimen/middle_size"/>
 
-                    <TextView
+                    <EditText
+                        android:id="@+id/et_zhifubao"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:background="@null"
                         android:gravity="center"
                         android:hint="请输入支付宝账号"
                         android:textColor="@color/white"
@@ -117,10 +119,12 @@
                         android:textColor="@color/loginUsernameColor"
                         android:textSize="@dimen/middle_size"/>
 
-                    <TextView
+                    <EditText
+                        android:id="@+id/et_xingming"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:background="@null"
                         android:gravity="center"
                         android:hint="请输入真实姓名"
                         android:textColor="@color/white"
@@ -161,10 +165,12 @@
                         android:textSize="30sp"
                         android:textStyle="bold"/>
 
-                    <TextView
+                    <EditText
+                        android:id="@+id/et_money"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:background="@null"
                         android:gravity="center"
                         android:hint="0.00"
                         android:textColor="@color/white"
@@ -190,13 +196,15 @@
                     android:padding="12dp">
 
                     <TextView
+                        android:id="@+id/tv_ketijine"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="当前可提现金额为：3212"
+                        android:text="当前可提现金额为："
                         android:textColor="@color/loginUsernameColor"
                         android:textSize="@dimen/small_size"/>
 
                     <TextView
+                        android:id="@+id/tv_quanbutixian"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
@@ -214,6 +222,21 @@
                     android:layout_marginRight="20dp"
                     android:background="@color/_666666"
                     />
+
+                <TextView
+                    android:id="@+id/tv_tixian_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginRight="60dp"
+                    android:layout_marginTop="50dp"
+                    android:background="@drawable/activity_register_button_click"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="提  现"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/lager_size"/>
 
             </LinearLayout>
         </com.ysxsoft.qxerkai.view.widget.MultipleStatusView>
