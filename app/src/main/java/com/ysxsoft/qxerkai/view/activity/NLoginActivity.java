@@ -1,7 +1,9 @@
 package com.ysxsoft.qxerkai.view.activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.constant.CommonConstant;
 import com.ttt.qx.qxcall.eventbus.FinishLogin;
 import com.ttt.qx.qxcall.eventbus.InputPhone;
 import com.ttt.qx.qxcall.eventbus.LoginSuccess;
@@ -91,11 +94,14 @@ public class NLoginActivity extends NBaseActivity implements View.OnClickListene
     private int LOGING_TYPE = QQ;
     private Dialog mDialog;
     private static final int BASE_CODE_SUCCESS = 0;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nlogin);
+        sp =getSharedPreferences(CommonConstant.APP_SP_CONFIG, Context.MODE_PRIVATE);
+
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
         setBackEnable(false);
@@ -202,6 +208,11 @@ public class NLoginActivity extends NBaseActivity implements View.OnClickListene
                     @Override
                     public void onNext(LoginedResponse loginedResponse) {
                         if (loginedResponse.getStatus_code() == 200) {
+                            SharedPreferences.Editor editor=sp.edit();
+                            editor.putBoolean("isPlatform",false);//不是平台
+                            editor.putString("phone",etActivityLoginUsername.getText().toString());//保存手机号
+                            editor.commit();
+
                             //通知 MinePager 用户已经登录成功
                             LoginSuccess loginSuccess = new LoginSuccess();
                             loginSuccess.token = loginedResponse.getData().getToken();
@@ -297,6 +308,9 @@ public class NLoginActivity extends NBaseActivity implements View.OnClickListene
 
                     @Override
                     public void onNext(ThreeLoginResponse threeLoginResponse) {
+                        SharedPreferences.Editor editor=sp.edit();
+                        editor.putBoolean("isPlatform",true);
+                        editor.commit();
                         loginedHandle(threeLoginResponse, name, gender, iconurl);
                     }
                 }, openId);
@@ -315,6 +329,9 @@ public class NLoginActivity extends NBaseActivity implements View.OnClickListene
 
                     @Override
                     public void onNext(ThreeLoginResponse threeLoginResponse) {
+                        SharedPreferences.Editor editor=sp.edit();
+                        editor.putBoolean("isPlatform",true);
+                        editor.commit();
                         loginedHandle(threeLoginResponse, name, gender, iconurl);
                     }
                 }, accessToken, openId);

@@ -1,6 +1,7 @@
 package com.ysxsoft.qxerkai.view.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,9 +49,9 @@ public class NFeedBackActivity extends NBaseActivity {
 	@BindView(R.id.ll_public_titlebar)
 	LinearLayout llPublicTitlebar;
 	@BindView(R.id.content)
-	EditText content;
+	TextInputEditText content;
 	@BindView(R.id.phone)
-	EditText phone;
+	TextInputEditText phone;
 	@BindView(R.id.submit)
 	TextView submit;
 

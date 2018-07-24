@@ -5,6 +5,7 @@ import android.support.annotation.RestrictTo;
 import com.ttt.qx.qxcall.function.find.model.entity.DynamicResponse;
 import com.umeng.socialize.media.Base;
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
+import com.ysxsoft.qxerkai.net.response.CheckVersionResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetCardListResponse;
 import com.ysxsoft.qxerkai.net.response.GetGuShiResponse;
@@ -32,6 +33,7 @@ import com.ysxsoft.qxerkai.net.response.SearchListResponse;
 import com.ysxsoft.qxerkai.net.response.TwoPageTuiJianResponse;
 import com.ysxsoft.qxerkai.net.response.UpdatePwdResponse;
 import com.ysxsoft.qxerkai.net.response.UserXiaoFeiNum;
+import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.LogUtils;
 
 import java.io.File;
@@ -634,6 +636,15 @@ public class RetrofitTools {
 	 */
 	public static Observable<UpdatePwdResponse> updatePwd(Map<String, String> map) {
 		return subscribe(RetrofitTools.getManager().updatePwd(map));
+	}
+
+	/**
+	 * 检查更新
+	 *
+	 * @return
+	 */
+	public static Observable<CheckVersionResponse> checkVersion(Map<String,String> map) {
+		return subscribe(RetrofitTools.getManager().checkVersion(map));
 	}
 
 	/**

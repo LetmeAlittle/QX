@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,8 @@ import com.ttt.qx.qxcall.function.home.model.HomeModel;
 import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
 import com.ttt.qx.qxcall.function.voice.AVChatProfile;
 import com.ttt.qx.qxcall.function.voice.floatw.FloatViewService;
+import com.ttt.qx.qxcall.function.voice.floatw.PiPeiFloatViewService;
+import com.ttt.qx.qxcall.function.voice.floatw.TouTingFloatViewService;
 import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
 import com.ysxsoft.qxerkai.net.RetrofitTools;
@@ -113,6 +116,7 @@ public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStat
 	private int qzUserAccid;//房主id
 	private int fUserAccid;//接收人id
 	private LocalBroadcastManager localBroadcastManager;
+	private boolean serviceStart=false;
 
 	public final static int UPDATE_CODE=0x02;
 	private int s;
@@ -196,12 +200,21 @@ public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStat
 		llPublicTitlebarRight.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				QXCallApplication.baseTime = System.currentTimeMillis();
-				Intent intent = new Intent(NHuaLiaoTouTingActivity.this, FloatViewService.class);
-				startService(intent);
-				moveTaskToBack(true);
+				up();
 			}
 		});
+	}
+
+	/**
+	 * 后台服务挂起
+	 */
+	private void up() {
+		serviceStart=true;
+		QXCallApplication.pipeiTime = SystemClock.elapsedRealtime() - s * 1000;
+		Intent intent = new Intent(NHuaLiaoTouTingActivity.this, TouTingFloatViewService.class);
+		startService(intent);
+		//不销毁 activity
+		moveTaskToBack(true);
 	}
 
 	private void initView() {
@@ -238,6 +251,11 @@ public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStat
 	protected void onDestroy() {
 		super.onDestroy();
 		register(false);
+		if (serviceStart) {
+			stopService(new Intent(NHuaLiaoTouTingActivity.this, TouTingFloatViewService.class));
+			serviceStart = false;
+		}
+
 		AVChatProfile.getInstance().setAVChatting(false);
 		leave();
 	}
@@ -644,7 +662,7 @@ public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStat
 			public void onNext(UserDetailInfo userDetailInfo) {
 				if (userDetailInfo.getStatus_code() == 200) {
 //					price.setText("抛一次话题收取"+StringUtils.convert(""+userDetailInfo.getData().getPaohuati())+"砰砰豆");
-					js=userDetailInfo.getData().getJs();
+					js=userDetailInfo.getData().getJss();
 				}
 			}
 		}, "", authorization);
