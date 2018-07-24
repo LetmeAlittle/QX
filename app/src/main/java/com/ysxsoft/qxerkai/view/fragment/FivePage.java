@@ -31,13 +31,19 @@ import com.ttt.qx.qxcall.function.home.view.FollowActivity;
 import com.ttt.qx.qxcall.function.home.view.VisitorActivity;
 import com.ttt.qx.qxcall.function.login.model.LoginModel;
 import com.ttt.qx.qxcall.function.login.model.MineModel;
+import com.ttt.qx.qxcall.function.login.model.entity.UserShareInfo;
 import com.ttt.qx.qxcall.function.login.view.LoginTransferActivity;
 import com.ttt.qx.qxcall.function.login.view.MineBlacksActivity;
-import com.ttt.qx.qxcall.function.login.view.SetCallPriceActivity;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 import com.ttt.qx.qxcall.function.voice.DemoCache;
 import com.ttt.qx.qxcall.pager.BasePager;
 import com.ttt.qx.qxcall.utils.IntentUtil;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.SnsPlatform;
+import com.umeng.socialize.utils.ShareBoardlistener;
 import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.activity.NChongZhiActivity;
@@ -45,7 +51,6 @@ import com.ysxsoft.qxerkai.view.activity.NGouMaiVipActivity;
 import com.ysxsoft.qxerkai.view.activity.NLiaoRenQuActivity;
 import com.ysxsoft.qxerkai.view.activity.NMyLiWuBangActivity;
 import com.ysxsoft.qxerkai.view.activity.NMyShouYiActivity;
-import com.ysxsoft.qxerkai.view.activity.NMyYaoQingActivity;
 import com.ysxsoft.qxerkai.view.activity.NPengYouQuanMyActivity;
 import com.ysxsoft.qxerkai.view.activity.NPersonCenterActivity;
 import com.ysxsoft.qxerkai.view.activity.NSettingActivity;
@@ -57,6 +62,8 @@ import com.ysxsoft.qxerkai.view.widget.ObservableScrollView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -144,10 +151,31 @@ public class FivePage extends BasePager implements View.OnClickListener {
     SwitchButton onlineStatusSwitchBtn;
     @BindView(R.id.tv_dogs)
     TextView tvDogs;
-
+    UserDetailInfo.DataBean userDetailInfoData;
     private View rootView;
     private String authorization;
     private boolean firstEnter = true;
+    /**
+     * 弹出分享面板
+     */
+    private UserShareInfo.DataBean shareInfoData = null;
+    private ShareBoardlistener shareBoardlistener = new ShareBoardlistener() {
+
+        @Override
+        public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+            //邀请分享
+            UMWeb web = new UMWeb(shareInfoData.getUrl());
+//            Bitmap bitmap = BitmapFactory.decodeResource(InvitedFriendsActivity.this.getResources(), R.mipmap.app_right_icon);
+            UMImage umImage = new UMImage(ctx, shareInfoData.getImg());
+            web.setTitle(shareInfoData.getTitle());//标题
+            web.setThumb(umImage);  //缩略图
+            web.setDescription(shareInfoData.getDescription());//描述
+            new ShareAction(activity)
+                    .withMedia(web)
+                    .setPlatform(share_media)
+                    .share();
+        }
+    };
 
     public FivePage(Context ctx) {
         super(ctx);
@@ -280,8 +308,6 @@ public class FivePage extends BasePager implements View.OnClickListener {
         EventBus.getDefault().post(new NotifyRecentContactRefresh());
     }
 
-    UserDetailInfo.DataBean userDetailInfoData;
-
     /**
      * 根据当前用户token 获取用户详细信息
      *
@@ -413,25 +439,10 @@ public class FivePage extends BasePager implements View.OnClickListener {
                 .into(civHead);
     }
 
-    @Subscribe
-    public void onEventExitLogin(ExitLogin exitLogin) {
-        UserDao userDao = new UserDao();
-        //首先清空数据库表
-        userDao.deleteAll();
-        login = false;
-        onToast("退出成功！");
-        //切换到首页
-        SetSelectItem setSelectItem = new SetSelectItem();
-        setSelectItem.selectPosition = CommonConstant.SELECT_HOME;//上次选择就是首页
-        EventBus.getDefault().post(setSelectItem);
-    }
-
     public void onToast(String message) {
         //消息弹出
         ToastUtils.showToast(ctx, message, Toast.LENGTH_SHORT);
-    }
-
-    @Override
+    }    @Override
     public void onClick(View view) {
         UserDao userDao = new UserDao();
         UserBean userBean = userDao.queryFirstData();
@@ -501,7 +512,8 @@ public class FivePage extends BasePager implements View.OnClickListener {
             //我的邀请
             case R.id.ll_wodeyaoqing:
 //                IntentUtil.jumpIntent(ctx, InvitedFriendsActivity.class);
-                IntentUtil.jumpIntent(ctx, NMyYaoQingActivity.class);
+//                IntentUtil.jumpIntent(ctx, NMyYaoQingActivity.class);
+                showShareBoard();
                 break;
             //黑名单
             case R.id.ll_heimingdan:
@@ -536,9 +548,48 @@ public class FivePage extends BasePager implements View.OnClickListener {
     }
 
     @Subscribe
+    public void onEventExitLogin(ExitLogin exitLogin) {
+        UserDao userDao = new UserDao();
+        //首先清空数据库表
+        userDao.deleteAll();
+        login = false;
+        onToast("退出成功！");
+        //切换到首页
+        SetSelectItem setSelectItem = new SetSelectItem();
+        setSelectItem.selectPosition = CommonConstant.SELECT_HOME;//上次选择就是首页
+        EventBus.getDefault().post(setSelectItem);
+    }
+
+    @Subscribe
     public void onEventUserInfoModifyed(UserInfoModifyed userInfoModifyed) {
         //重新获取用户详细信息 刷新视图
         initData();
     }
+
+    private void showShareBoard() {
+        if (shareInfoData == null) {
+            LoginModel.getLoginModel().getShareInfo(new ProgressSubscribe<>(new SubScribeOnNextListener<UserShareInfo>() {
+                @Override
+                public void onNext(UserShareInfo userShareInfo) throws IOException {
+                    if (userShareInfo.getStatus_code() == 200) {
+                        shareInfoData = userShareInfo.getData();
+                        showBorad();
+                    } else {
+                        onToast(userShareInfo.getMessage());
+                    }
+                }
+            }, activity), String.valueOf(userDetailInfoData.getId()));
+        } else {
+            showBorad();
+        }
+    }
+
+    private void showBorad() {
+        ShareAction shareAction = new ShareAction(activity);
+        shareAction.setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE);
+        shareAction.setShareboardclickCallback(shareBoardlistener);
+        shareAction.open();
+    }
+
 
 }

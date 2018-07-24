@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/_2A273C"
+    android:background="@color/colorBackground"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
@@ -192,7 +192,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30px"
                 android:layout_marginTop="@dimen/_45px"
-                android:background="@color/_3b3850" />
+                android:background="@color/colorBackground" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -234,6 +234,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:text="备注说明：\n1.提现金额不小于100元.\n2.每笔提现需要收取提现金额5%作为手续费.\n3.提现需要先提交身份认证,身份信息需与支付宝账号实名信息一致.\n4.每月1号-5号打款,请您注意查收,如有问题请联系我们,客服QQ:2627765937."
                     android:textColor="@color/_95939E"
                     android:textSize="@dimen/_35px" />

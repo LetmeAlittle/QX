@@ -413,7 +413,6 @@ public interface RetrofitApi {
 	 *
 	 * @return
 	 */
-	@FormUrlEncoded
 	@POST(MEMBER_LIST)
 	Observable<MemberListResponse> getMemberList();
 

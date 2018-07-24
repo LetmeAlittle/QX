@@ -22,6 +22,7 @@ import com.ttt.qx.qxcall.function.base.interfacee.SubScribeOnNextListener;
 import com.ttt.qx.qxcall.function.base.subscribe.ProgressSubscribe;
 import com.ttt.qx.qxcall.function.home.model.HomeModel;
 import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
+import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
 import com.ysxsoft.qxerkai.net.RetrofitTools;
 import com.ysxsoft.qxerkai.net.response.BaseResponse;
@@ -82,6 +83,10 @@ public class NXiangCheActivity extends NBaseActivity {
     }
 
     public void onAddIcons(View view) {
+        if(adapter.getData().size()>=9){
+            ToastUtils.showToast(this,"图片最多上传9张",0);
+            return;
+        }
         choicePhotoWrapper();
     }
 

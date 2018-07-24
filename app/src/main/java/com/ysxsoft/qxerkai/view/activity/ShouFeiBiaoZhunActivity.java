@@ -7,6 +7,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.database.UserDao;
+import com.ttt.qx.qxcall.dbbean.UserBean;
+import com.ttt.qx.qxcall.function.base.interfacee.SubScribeOnNextListener;
+import com.ttt.qx.qxcall.function.base.subscribe.ProgressSubscribe;
+import com.ttt.qx.qxcall.function.home.model.HomeModel;
+import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
+import com.ttt.qx.qxcall.function.login.view.SetCallPriceActivity;
+import com.ttt.qx.qxcall.utils.IntentUtil;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
 import butterknife.BindView;
@@ -24,6 +32,8 @@ public class ShouFeiBiaoZhunActivity extends NBaseActivity {
     TextView tvPublicTitlebarCenter;
     @BindView(R.id.multipleStatusView)
     MultipleStatusView multipleStatusView;
+    @BindView(R.id.tv_biaozhun)
+    TextView tvBiaozhun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +59,40 @@ public class ShouFeiBiaoZhunActivity extends NBaseActivity {
     }
 
     private void initView() {
-
+        tvBiaozhun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IntentUtil.jumpIntent(ShouFeiBiaoZhunActivity.this, SetCallPriceActivity.class);
+            }
+        });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
+    }
+
+    /**
+     * 初始化数据
+     */
+    private void initData() {
+        //首先获取 应用配置的通话价格数组
+        String[] prices = getResources().getStringArray(R.array.audio_call_price);
+        //查询当前用户所设置的价格
+        UserDao userDao = new UserDao();
+        UserBean userBean = userDao.queryFirstData();
+        String Authorization = "Bearer " + userBean.getToken();
+        HomeModel.getHomeModel().getUserInfo(new ProgressSubscribe<>(new SubScribeOnNextListener<UserDetailInfo>() {
+            @Override
+            public void onNext(UserDetailInfo userDetailInfo) {
+                if (userDetailInfo.getStatus_code() == 200) {
+                    UserDetailInfo.DataBean userDetailInfoData = userDetailInfo.getData();
+                    String currentSelPrice = String.valueOf(userDetailInfoData.getMember_price());
+                    tvBiaozhun.setText(currentSelPrice+ "砰砰豆/分钟");
+                }
+            }
+        }, this), "",Authorization);
+    }
+
 }

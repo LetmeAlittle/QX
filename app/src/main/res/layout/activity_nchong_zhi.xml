@@ -104,7 +104,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawablePadding="10dp"
-                                android:text="100砰砰豆"
+                                android:text="300砰砰豆"
                                 android:textColor="@color/colorAccent"
                                 android:textSize="@dimen/middle_size"/>
 
@@ -112,7 +112,7 @@
                                 android:id="@+id/tv_chongzhi_item_money_1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="¥10"
+                                android:text="¥30"
                                 android:textColor="@color/colorAccent"
                                 android:textSize="@dimen/middle_size"
                                 />
@@ -140,7 +140,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawablePadding="10dp"
-                                android:text="200砰砰豆"
+                                android:text="500砰砰豆"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/middle_size"/>
 
@@ -149,7 +149,7 @@
                                 android:id="@+id/tv_chongzhi_item_money_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="¥20"
+                                android:text="¥50"
                                 android:textColor="@color/loginUsernameColor"
                                 android:textSize="@dimen/middle_size"
                                 />
@@ -177,7 +177,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawablePadding="10dp"
-                                android:text="300砰砰豆"
+                                android:text="1000砰砰豆"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/middle_size"/>
 
@@ -186,7 +186,7 @@
                                 android:id="@+id/tv_chongzhi_item_money_3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="¥30"
+                                android:text="¥100"
                                 android:textColor="@color/loginUsernameColor"
                                 android:textSize="@dimen/middle_size"
                                 />
@@ -217,7 +217,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawablePadding="10dp"
-                                android:text="1000砰砰豆"
+                                android:text="2000砰砰豆"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/middle_size"/>
 
@@ -226,7 +226,7 @@
                                 android:id="@+id/tv_chongzhi_item_money_4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="¥100"
+                                android:text="¥200"
                                 android:textColor="@color/loginUsernameColor"
                                 android:textSize="@dimen/middle_size"
                                 />
@@ -254,7 +254,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawablePadding="10dp"
-                                android:text="2000砰砰豆"
+                                android:text="5000砰砰豆"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/middle_size"/>
 
@@ -263,7 +263,7 @@
                                 android:id="@+id/tv_chongzhi_item_money_5"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="¥200"
+                                android:text="¥500"
                                 android:textColor="@color/loginUsernameColor"
                                 android:textSize="@dimen/middle_size"
                                 />
@@ -291,7 +291,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawablePadding="10dp"
-                                android:text="其他金额"
+                                android:text="10000砰砰豆"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/middle_size"/>
 
@@ -299,10 +299,9 @@
                                 android:id="@+id/tv_chongzhi_item_money_6"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="¥10"
+                                android:text="¥1000"
                                 android:textColor="@color/loginUsernameColor"
                                 android:textSize="@dimen/middle_size"
-                                android:visibility="gone"
                                 />
                         </LinearLayout>
                     </LinearLayout>
