@@ -18,6 +18,7 @@ import com.ttt.qx.qxcall.QXCallApplication;
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.utils.CustomActivityManager;
 import com.ysxsoft.qxerkai.view.activity.NHuaLiaoActivity;
+import com.ysxsoft.qxerkai.view.activity.NHuaLiaoTouTingActivity;
 
 /**
  *
@@ -138,7 +139,7 @@ public class TouTingFloatViewService extends Service implements View.OnTouchList
 					}
 					Activity topActivity = CustomActivityManager.getInstance().getTopActivity();
 					Intent localIntent = new Intent();
-					localIntent.setClass(topActivity, NHuaLiaoActivity.class);
+					localIntent.setClass(topActivity, NHuaLiaoTouTingActivity.class);
 //					localIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					localIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					topActivity.startActivity(localIntent);
