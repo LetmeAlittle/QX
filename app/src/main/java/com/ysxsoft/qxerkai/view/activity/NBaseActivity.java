@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import com.ttt.qx.qxcall.utils.AppActivityManager;
 import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.ysxsoft.qxerkai.utils.SystemUtils;
@@ -18,6 +19,7 @@ public abstract class NBaseActivity extends ParallaxActivityBase {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppActivityManager.getInstance().addActivity(this);
     }
 
     @Override
@@ -90,4 +92,9 @@ public abstract class NBaseActivity extends ParallaxActivityBase {
         ToastUtil.showToast(this, msg);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppActivityManager.getInstance().killActivity(this);
+    }
 }
