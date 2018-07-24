@@ -216,4 +216,8 @@ public class DownloadUtils {
 					}
 				});
 	}
+
+	private void showDialog(){
+
+	}
 }

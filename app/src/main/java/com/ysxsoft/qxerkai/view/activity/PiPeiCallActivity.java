@@ -153,9 +153,9 @@ public class PiPeiCallActivity extends AppCompatActivity {
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		closeAudio();
 		unregister();
+		super.onDestroy();
 	}
 
 	private void closeAudio() {
@@ -274,5 +274,12 @@ public class PiPeiCallActivity extends AppCompatActivity {
 				ToastUtil.showToast(PiPeiCallActivity.this, "加入失败！");
 			}
 		});
+	}
+
+	@Override
+	public void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
+		closeAudio();
+		unregister();
 	}
 }

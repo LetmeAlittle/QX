@@ -542,7 +542,7 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
 			name.setText(item.getNick_name());
 			TextView age = helper.getView(R.id.tv_age);
 			if (item.getMember_age() == null || "".equals(item.getMember_age())) {
-				age.setText("0岁");
+				age.setText("未知");
 			} else {
 				age.setText(item.getMember_age() + "岁");
 			}
