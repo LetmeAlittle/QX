@@ -74,6 +74,7 @@ public class CommonConstant {
 
 	public static final String BASE_PATH = Environment.getExternalStorageDirectory() + "/ttt/pp/";
 	public static final String PHOTO_URL = BASE_PATH + "images";
+	public static final String APK_PATH = BASE_PATH + "apk";
 
 	public static final String SA_GOU_LIANG_LIST = "api/friend/dogList";                   			//撒狗粮列表  type[1讲故事 2发图片]   page
 	public static final String SA_GOU_LIANG_LIKE = "api/friend/dogLike";                   			//撒狗粮点赞  user_id  sid

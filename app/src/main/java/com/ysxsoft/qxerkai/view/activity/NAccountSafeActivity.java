@@ -1,5 +1,7 @@
 package com.ysxsoft.qxerkai.view.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -7,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.netease.nim.uikit.common.util.string.StringUtil;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.constant.CommonConstant;
 import com.ttt.qx.qxcall.function.home.model.HomeModel;
 import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
 import com.ysxsoft.qxerkai.utils.DBUtils;
@@ -73,6 +77,14 @@ public class NAccountSafeActivity extends NBaseActivity {
 		tvPublicTitlebarCenter.setText("账户安全");
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		SharedPreferences sp = getSharedPreferences(CommonConstant.APP_SP_CONFIG, Context.MODE_PRIVATE);
+		String p=sp.getString("phone","");
+		phone.setText(p);
+	}
+
 	@OnClick({R.id.ll_update_phone, R.id.ll_update_pwd})
 	public void onViewClicked(View view) {
 		switch (view.getId()) {
@@ -85,16 +97,10 @@ public class NAccountSafeActivity extends NBaseActivity {
 		}
 	}
 
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
-
 	/**
 	 * 获取账号手机号
 	 */
-	private void getUserInfo(){
+	private void getUserInfo() {
 		String authorization = "Bearer " + DBUtils.getUserToken();
 		HomeModel.getHomeModel().getUserInfo(new Subscriber<UserDetailInfo>() {
 			@Override

@@ -159,6 +159,7 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:2.0.1'
     //版本升级库
 //    compile 'com.allenliu.versionchecklib:library:2.0.5'
+//    compile "com.github.yjfnypeu:UpdatePlugin:3.0.3"
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
 }

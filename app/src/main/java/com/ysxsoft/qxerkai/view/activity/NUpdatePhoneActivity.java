@@ -2,6 +2,7 @@ package com.ysxsoft.qxerkai.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.constant.CommonConstant;
 import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
 import com.ysxsoft.qxerkai.net.RetrofitTools;
@@ -101,7 +103,49 @@ public class NUpdatePhoneActivity extends NBaseActivity {
 		updatePhone();
 	}
 
+	/**
+	 * 修改手机号
+	 */
+	private void updatePhone() {
+		if ("".equals(phone.getText().toString())) {
+			ToastUtils.showToast(this, "请输入手机号", 1);
+			return;
+		}
+		if ("".equals(code.getText().toString())) {
+			ToastUtils.showToast(this, "请输入验证码", 1);
+			return;
+		}
+		Map<String, String> map = new HashMap<>();
+		map.put("user_id", DBUtils.getUserId());
+		map.put("phone", phone.getText().toString());
+		map.put("code", code.getText().toString());
+		RetrofitTools.updatePhone(map)
+				.subscribe(new ResponseSubscriber<BaseResponse>() {
+					@Override
+					public void onSuccess(BaseResponse ruleResponse, int code, String msg) {
+						if (code == 200) {
+							SharedPreferences sp = getSharedPreferences(CommonConstant.APP_SP_CONFIG, Context.MODE_PRIVATE);
+							SharedPreferences.Editor editor = sp.edit();
+							editor.putString("phone", phone.getText().toString());//保存手机号
+							editor.commit();
+							finish();
+						} else {
+							ToastUtil.showToast(NUpdatePhoneActivity.this, msg);
+						}
+					}
+
+					@Override
+					public void onFailed(Throwable e) {
+
+					}
+				});
+	}
+
 	public void onGetCode(View view) {
+		if ("".equals(phone.getText().toString())) {
+			ToastUtils.showToast(this, "请输入手机号", 1);
+			return;
+		}
 		if (!isRunning) {
 			utils.initDelayTime(60);
 			utils.initStepTime(1);
@@ -144,40 +188,6 @@ public class NUpdatePhoneActivity extends NBaseActivity {
 
 					@Override
 					public void onFailed(Throwable e) {
-					}
-				});
-	}
-
-	/**
-	 * 修改手机号
-	 */
-	private void updatePhone() {
-		if ("".equals(phone.getText().toString())) {
-			ToastUtils.showToast(this, "请输入手机号", 1);
-			return;
-		}
-		if ("".equals(code.getText().toString())) {
-			ToastUtils.showToast(this, "请输入验证码", 1);
-			return;
-		}
-		Map<String, String> map = new HashMap<>();
-		map.put("user_id", DBUtils.getUserId());
-		map.put("phone", phone.getText().toString());
-		map.put("code", code.getText().toString());
-		RetrofitTools.updatePhone(map)
-				.subscribe(new ResponseSubscriber<BaseResponse>() {
-					@Override
-					public void onSuccess(BaseResponse ruleResponse, int code, String msg) {
-						if (code == 200) {
-							finish();
-						} else {
-							ToastUtil.showToast(NUpdatePhoneActivity.this, msg);
-						}
-					}
-
-					@Override
-					public void onFailed(Throwable e) {
-
 					}
 				});
 	}
