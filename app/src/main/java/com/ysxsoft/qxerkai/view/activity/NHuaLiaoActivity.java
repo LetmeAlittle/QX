@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.netease.nimlib.sdk.avchat.AVChatCallback;
 import com.netease.nimlib.sdk.avchat.AVChatManager;
 import com.netease.nimlib.sdk.avchat.AVChatStateObserver;
@@ -215,10 +219,10 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 //		AVChatManager.getInstance().muteRemoteAudio("" + DBUtils.getUserId(), false);
 
 		//语音是否开启
-		if(AVChatManager.getInstance().isLocalAudioMuted()){
-			Log.e("tag","静音!");
-		}else{
-			Log.e("tag","非静音!");
+		if (AVChatManager.getInstance().isLocalAudioMuted()) {
+			Log.e("tag", "静音!");
+		} else {
+			Log.e("tag", "非静音!");
 		}
 
 		initStatusBar();
@@ -540,34 +544,6 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 		super.onPause();
 	}
 
-	private String parseTime(int s) {
-		String str = StringUtils.getM(s) + ":" + StringUtils.getS(s);
-		return str;
-	}
-
-	/**
-	 * 每分钟扣钱
-	 */
-	private void buy() {
-		LogUtils.e("每分钟扣钱 房间名：" + roomName);
-		Map<String, String> map = new HashMap<>();
-		map.put("tid", roomName);//房间id
-		RetrofitTools.piPeiBuy(map).subscribe(new ResponseSubscriber<BaseResponse>() {
-			@Override
-			public void onSuccess(BaseResponse baseResponse, int code, String msg) {
-				if (code == 200) {
-					Log.e("tag", "每分钟扣钱成功！");
-					getDetail();
-				} else {
-				}
-			}
-
-			@Override
-			public void onFailed(Throwable e) {
-			}
-		});
-	}
-
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -618,6 +594,34 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 		});
 	}
 
+	private String parseTime(int s) {
+		String str = StringUtils.getM(s) + ":" + StringUtils.getS(s);
+		return str;
+	}
+
+	/**
+	 * 每分钟扣钱
+	 */
+	private void buy() {
+		LogUtils.e("每分钟扣钱 房间名：" + roomName);
+		Map<String, String> map = new HashMap<>();
+		map.put("tid", roomName);//房间id
+		RetrofitTools.piPeiBuy(map).subscribe(new ResponseSubscriber<BaseResponse>() {
+			@Override
+			public void onSuccess(BaseResponse baseResponse, int code, String msg) {
+				if (code == 200) {
+					Log.e("tag", "每分钟扣钱成功！");
+					getDetail();
+				} else {
+				}
+			}
+
+			@Override
+			public void onFailed(Throwable e) {
+			}
+		});
+	}
+
 	@OnClick({R.id.luyin, R.id.lock, R.id.otherAudio, R.id.myAudio, R.id.sendDanMu, R.id.sendLiWu})
 	public void onViewClicked(View view) {
 		switch (view.getId()) {
@@ -654,7 +658,26 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 				}
 				break;
 			case R.id.sendDanMu://发弹幕
-				sendText();
+				new MaterialDialog.Builder(NHuaLiaoActivity.this)
+						.title("发送弹幕")
+						.inputType(InputType.TYPE_CLASS_TEXT)//可以输入的类型-电话号码
+						//前2个一个是hint一个是预输入的文字
+						.input("请输入弹幕", "", new MaterialDialog.InputCallback() {
+							@Override
+							public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+							}
+						})
+						.onPositive(new MaterialDialog.SingleButtonCallback() {
+							@Override
+							public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+								String tempNick = dialog.getInputEditText().getText().toString();
+								if (tempNick.isEmpty()) {
+									ToastUtils.showToast(NHuaLiaoActivity.this, "弹幕不能为空", 0);
+									return;
+								}
+								sendText(tempNick);
+							}
+						}).show();
 				break;
 			case R.id.sendLiWu://送礼物
 				if (isAdmin) {//房主送给接听用户
@@ -688,30 +711,6 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 					public void onFailed(Throwable e) {
 					}
 				});
-	}
-
-	/**
-	 * 发弹幕
-	 */
-	private void sendText() {
-		Map<String, String> s = new HashMap<>();
-		s.put("user_id", DBUtils.getUserId());
-		s.put("tid", roomName);
-		s.put("title", "弹幕测试");
-		RetrofitTools.fadanmu(s).subscribe(new ResponseSubscriber<BaseResponse>() {
-			@Override
-			public void onSuccess(BaseResponse baseResponse, int code, String msg) {
-				if (code == 200) {
-					ToastUtils.showToast(NHuaLiaoActivity.this, "发布成功", 1);
-				} else {
-					ToastUtils.showToast(NHuaLiaoActivity.this, baseResponse.getMessage(), 1);
-				}
-			}
-
-			@Override
-			public void onFailed(Throwable e) {
-			}
-		});
 	}
 
 	/**
@@ -749,6 +748,30 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 				}
 			}
 		}, NHuaLiaoActivity.this));
+	}
+
+	/**
+	 * 发弹幕
+	 */
+	private void sendText(String text) {
+		Map<String, String> s = new HashMap<>();
+		s.put("user_id", DBUtils.getUserId());
+		s.put("tid", roomName);
+		s.put("title", text);
+		RetrofitTools.fadanmu(s).subscribe(new ResponseSubscriber<BaseResponse>() {
+			@Override
+			public void onSuccess(BaseResponse baseResponse, int code, String msg) {
+				if (code == 200) {
+					ToastUtils.showToast(NHuaLiaoActivity.this, "发布成功", 1);
+				} else {
+					ToastUtils.showToast(NHuaLiaoActivity.this, baseResponse.getMessage(), 1);
+				}
+			}
+
+			@Override
+			public void onFailed(Throwable e) {
+			}
+		});
 	}
 
 	///////////////////////////////////////////////////////////////////////////

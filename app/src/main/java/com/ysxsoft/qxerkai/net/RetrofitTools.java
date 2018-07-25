@@ -596,7 +596,8 @@ public class RetrofitTools {
         public okhttp3.Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
             LogUtils.e("RequestTool-->  request:" + request.toString());
-            okhttp3.Response response = chain.proceed(request);
+			Request.Builder builder=request.newBuilder().addHeader("Authorization", "Bearer "+DBUtils.getUserToken());//token认证
+			okhttp3.Response response = chain.proceed(builder.build());
             okhttp3.MediaType mediaType = response.body().contentType();
             String content = response.body().string();
             LogUtils.e("RequestTool-->  response body:" + content);

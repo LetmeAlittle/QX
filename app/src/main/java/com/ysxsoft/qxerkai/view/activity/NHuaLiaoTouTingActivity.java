@@ -8,13 +8,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.netease.nimlib.sdk.avchat.AVChatCallback;
 import com.netease.nimlib.sdk.avchat.AVChatManager;
@@ -321,7 +325,26 @@ public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStat
 				AVChatManager.getInstance().setSpeaker(speakerMode = !speakerMode);
 				break;
 			case R.id.sendDanMu://发送弹幕
-				sendText();
+				new MaterialDialog.Builder(NHuaLiaoTouTingActivity.this)
+						.title("发送弹幕")
+						.inputType(InputType.TYPE_CLASS_TEXT)//可以输入的类型-电话号码
+						//前2个一个是hint一个是预输入的文字
+						.input("请输入弹幕", "", new MaterialDialog.InputCallback() {
+							@Override
+							public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+							}
+						})
+						.onPositive(new MaterialDialog.SingleButtonCallback() {
+							@Override
+							public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+								String tempNick = dialog.getInputEditText().getText().toString();
+								if (tempNick.isEmpty()) {
+									ToastUtils.showToast(NHuaLiaoTouTingActivity.this, "弹幕不能为空", 0);
+									return;
+								}
+								sendText(tempNick);
+							}
+						}).show();
 				break;
 		}
 	}
@@ -362,11 +385,11 @@ public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStat
 	/**
 	 * 发弹幕
 	 */
-	private void sendText() {
+	private void sendText(String text) {
 		Map<String, String> s = new HashMap<>();
 		s.put("user_id", DBUtils.getUserId());
 		s.put("tid", roomName);
-		s.put("title", "呵呵呵呵");//TODO:need更换
+		s.put("title", text);//TODO:need更换
 		RetrofitTools.fadanmu(s).subscribe(new ResponseSubscriber<BaseResponse>() {
 			@Override
 			public void onSuccess(BaseResponse baseResponse, int code, String msg) {

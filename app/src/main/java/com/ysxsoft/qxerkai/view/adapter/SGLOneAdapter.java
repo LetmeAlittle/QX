@@ -21,6 +21,7 @@ import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
 import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.StringUtils;
+import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.activity.NPersonCenterActivity;
 import com.ysxsoft.qxerkai.view.activity.NZhiLiaoActivity;
 
@@ -138,6 +139,7 @@ public class SGLOneAdapter extends BaseQuickAdapter<SaGouLiangListResponse.DataB
                     @Override
                     public void onSuccess(SaGouLiangLikeResponse saGouLiangLikeResponse, int code, String msg) {
                         if (code == 200) {
+                            ToastUtils.showToast(mContext,"赠送成功！",1);
                             refresh();
                         } else {
                             ToastUtil.showToast(mContext, msg);
