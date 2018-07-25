@@ -152,6 +152,8 @@ public class FivePage extends BasePager implements View.OnClickListener {
     @BindView(R.id.tv_dogs)
     TextView tvDogs;
     UserDetailInfo.DataBean userDetailInfoData;
+    @BindView(R.id.tv_shouhunum)
+    TextView tvShouhunum;
     private View rootView;
     private String authorization;
     private boolean firstEnter = true;
@@ -363,6 +365,7 @@ public class FivePage extends BasePager implements View.OnClickListener {
                     tvDianzan.setText(String.valueOf(userDetailInfoData.getZan_num()));
                     tvFangke.setText(String.valueOf(userDetailInfoData.getVisitor_num()));
                     tvDogs.setText(userDetailInfoData.getDog());
+                    tvShouhunum.setText(userDetailInfoData.getGuard());
                     if (!login) {
                         login = true;
                         //同时登录网易云
@@ -442,7 +445,9 @@ public class FivePage extends BasePager implements View.OnClickListener {
     public void onToast(String message) {
         //消息弹出
         ToastUtils.showToast(ctx, message, Toast.LENGTH_SHORT);
-    }    @Override
+    }
+
+    @Override
     public void onClick(View view) {
         UserDao userDao = new UserDao();
         UserBean userBean = userDao.queryFirstData();

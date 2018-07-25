@@ -154,7 +154,7 @@ public class SetUserInfoActivity extends BaseActivity {
                 }, "0010-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
                 customDatePicker.showSpecificTime(false); // 不显示时和分
                 customDatePicker.setIsLoop(false); // 不允许循环滚动
-                title_tv.setText("修改生日");
+                title_tv.setText("修改年龄");
                 content_et.setHint("点击选择生日");
                 content_et.setFocusable(false);
                 content_et.setOnClickListener(new View.OnClickListener() {

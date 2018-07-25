@@ -317,6 +317,7 @@ public class NRegisterUserEditActivity extends NBaseActivity implements EasyPerm
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 30;
         Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+//        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
         if (bitmap != null) {
             if (loadingDialog == null) {
                 loadingDialog = CustomAlertDialogUtil.createLoadingDialog(this, "头像上传中...", true);

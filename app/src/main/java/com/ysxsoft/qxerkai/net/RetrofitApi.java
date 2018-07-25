@@ -31,6 +31,7 @@ import com.ysxsoft.qxerkai.net.response.SaGouLiangLikeResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangListResponse;
 import com.ysxsoft.qxerkai.net.response.SaGouLiangPublishResponse;
 import com.ysxsoft.qxerkai.net.response.SearchListResponse;
+import com.ysxsoft.qxerkai.net.response.ShouFeiResponse;
 import com.ysxsoft.qxerkai.net.response.TwoPageTuiJianResponse;
 import com.ysxsoft.qxerkai.net.response.UpdatePwdResponse;
 import com.ysxsoft.qxerkai.net.response.UserXiaoFeiNum;
@@ -61,6 +62,7 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.DAN_MU;
 import static com.ttt.qx.qxcall.constant.CommonConstant.DEL_ICON;
 import static com.ttt.qx.qxcall.constant.CommonConstant.FEED_BACK;
 import static com.ttt.qx.qxcall.constant.CommonConstant.GET_CODE;
+import static com.ttt.qx.qxcall.constant.CommonConstant.GET_DOUZI_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.GET_JIAO_ACCEPT_CHECK;
 import static com.ttt.qx.qxcall.constant.CommonConstant.GET_JIAO_LISTENNING;
 import static com.ttt.qx.qxcall.constant.CommonConstant.GET_JIAO_SE_PPID;
@@ -93,6 +95,7 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_wentiliebiao;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_START;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_TAG;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TWO_PAGE_USER_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.UPDATE_DOUZI;
 import static com.ttt.qx.qxcall.constant.CommonConstant.UPDATE_USER_CATE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.UPDATE_PHONE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.UPDATE_PWD;
@@ -613,4 +616,22 @@ public interface RetrofitApi {
 	@Streaming
 	@GET
 	Call<ResponseBody> downloadFile(@Url String fileUrl);
+
+    /**
+     * 设置用户通话砰砰豆
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(UPDATE_DOUZI)
+    Observable<GetGuShiResponse> updateDou(@FieldMap Map<String,String> map);
+
+    /**
+     * 查询可设置的砰砰豆
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(GET_DOUZI_LIST)
+    Observable<ShouFeiResponse> getShouFeiList(@FieldMap Map<String,String> map);
 }

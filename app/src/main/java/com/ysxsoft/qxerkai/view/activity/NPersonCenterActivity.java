@@ -496,8 +496,8 @@ public class NPersonCenterActivity extends NBaseActivity {
                 break;
             case R.id.ll_age:
                 modifyed = true;
-                type = SetUserInfoActivity.AGE;
-                startSetUserInfo(SetUserInfoActivity.AGE, mInfoData.getMember_age());
+                type = SetUserInfoActivity.BIRTHDAY;
+                startSetUserInfo(SetUserInfoActivity.BIRTHDAY, mInfoData.getMember_age());
                 break;
             case R.id.ll_address:
                 modifyed = true;
@@ -819,9 +819,10 @@ public class NPersonCenterActivity extends NBaseActivity {
     private void upload(File file) {
         if (file != null && file.exists()) {
             //压缩图片 压缩判断
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 30;
-            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+//            BitmapFactory.Options options = new BitmapFactory.Options();
+//            options.inSampleSize = 30;
+//            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
             if (bitmap != null) {
                 if (loadingDialog == null) {
                     loadingDialog = CustomAlertDialogUtil.createLoadingDialog(this, "加载中...", true);

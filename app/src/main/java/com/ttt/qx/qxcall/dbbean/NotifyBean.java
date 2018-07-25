@@ -19,7 +19,7 @@ public class NotifyBean {
     @Column(name = "msgType")
     private String msgType;
     @Column(name = "title")
-    private String title="确幸礼物通知";
+    private String title="砰砰通知";
 
     public Integer getId() {
         return id;

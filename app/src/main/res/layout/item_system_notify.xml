@@ -33,7 +33,7 @@
                     android:id="@+id/notify_type_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="礼物通知"
+                    android:text="砰砰通知"
                     android:textColor="@color/_ffffff"
                     android:textSize="@dimen/_38px" />
 
