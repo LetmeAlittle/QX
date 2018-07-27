@@ -60,7 +60,7 @@ public class PiPeiCallActivity extends AppCompatActivity {
 	private String userId;//发起人id
 	private String teamId;//群组id
 	private String type;//类型 1系统匹配2专属匹配3角色扮演
-	private String role, story, userId2, teamName,userIcon;
+	private String role, story, userId2, teamName, userIcon;
 
 	private ArrayList<String> members = new ArrayList<>();
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -90,7 +90,7 @@ public class PiPeiCallActivity extends AppCompatActivity {
 	 * @param teamId
 	 * @param members
 	 */
-	public static void start(Context context, List<String> members, String role, String teamId, String story, String teamName,String userIcon) {
+	public static void start(Context context, List<String> members, String role, String teamId, String story, String teamName, String userIcon) {
 		Intent intent = new Intent(context, PiPeiCallActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.putExtra("role", role);//0代表左边  1代表右边
@@ -99,7 +99,21 @@ public class PiPeiCallActivity extends AppCompatActivity {
 		intent.putExtra("teamName", teamName);//发起人名称
 		intent.putStringArrayListExtra("members", (ArrayList<String>) members);//类型
 
-		intent.putExtra("userIcon",userIcon);//发起人用户头像
+		intent.putExtra("userIcon", userIcon);//发起人用户头像
+		context.startActivity(intent);
+	}
+
+
+	/**
+	 * 抛话题  邀请接受
+	 *
+	 * @param context
+	 */
+	public static void huati(Context context,String account,String icon,String nickName,String title,int isVip,int num){
+		Intent intent = new Intent(context, PiPeiCallActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra("isHuaTi",true);
+		NimUIKit.startP2PSessionWithTitle(context, account, icon, nickName, title, isVip,num);
 		context.startActivity(intent);
 	}
 
@@ -137,10 +151,10 @@ public class PiPeiCallActivity extends AppCompatActivity {
 		teamName = getIntent().getStringExtra("teamName");//发起人名称
 		userIcon = getIntent().getStringExtra("userIcon");//发起人头像
 
-		if(story==null){
+		if (story == null) {
 			content.setText("正在呼叫你");
 			name.setText(StringUtils.convert(callerName));
-		}else{
+		} else {
 			content.setText("邀请你进行角色扮演");
 			name.setText(StringUtils.convert(teamName));
 		}
@@ -170,9 +184,9 @@ public class PiPeiCallActivity extends AppCompatActivity {
 	public void onViewClicked(View view) {
 		switch (view.getId()) {
 			case R.id.accept:
-				if(story==null){
+				if (story == null) {
 					check();//先判断房间能不能加   一键匹配 专属匹配
-				}else{
+				} else {
 					check2();//角色扮演
 				}
 				break;
@@ -217,30 +231,34 @@ public class PiPeiCallActivity extends AppCompatActivity {
 	 * 检测房间能不能加入
 	 */
 	private void check2() {
-		Map<String, String> map = new HashMap<>();
-		map.put("user_id", DBUtils.getUserId());//用户的id
-		map.put("f_user_id", teamId);//发起人用户id
-		RetrofitTools.acceptJiaoSeCheck(map).subscribe(new ResponseSubscriber<BaseResponse>() {
-			@Override
-			public void onSuccess(BaseResponse baseResponse, int code, String msg) {
-				if (code == 200) {
-					Log.e("tag","检测房间");
-					//跳转至多人聊天
-					NimUIKit.startP2PSessionWithJiaoSe(PiPeiCallActivity.this, members, role,teamId, story, teamName,userIcon);//携带对方id 对方名字
-					finish();
-				} else {
-					//该房间已经有人存在   不能加入
-					ToastUtils.showToast(PiPeiCallActivity.this, "接受邀请失败！角色扮演已被别人接听！", 0);
-					finish();
+		if (members != null && members.size() == 1) {//当列表的人数量为1时  直接跳转至聊天页面
+			//跳转至多人聊天
+			NimUIKit.startP2PSessionWithJiaoSe(PiPeiCallActivity.this, members, role, teamId, story, teamName, userIcon);//携带对方id 对方名字
+			finish();
+		} else {//当列表的人数量多时  为系统匹配
+			Map<String, String> map = new HashMap<>();
+			map.put("user_id", DBUtils.getUserId());//用户的id
+			map.put("f_user_id", teamId);//发起人用户id
+			RetrofitTools.acceptJiaoSeCheck(map).subscribe(new ResponseSubscriber<BaseResponse>() {
+				@Override
+				public void onSuccess(BaseResponse baseResponse, int code, String msg) {
+					if (code == 200) {
+						//跳转至多人聊天
+						NimUIKit.startP2PSessionWithJiaoSe(PiPeiCallActivity.this, members, role, teamId, story, teamName, userIcon);//携带对方id 对方名字
+						finish();
+					} else {
+						//该房间已经有人存在   不能加入
+						ToastUtils.showToast(PiPeiCallActivity.this, "接受邀请失败！角色扮演已被别人接听！", 0);
+						finish();
+					}
 				}
-			}
 
-			@Override
-			public void onFailed(Throwable e) {
-			}
-		});
+				@Override
+				public void onFailed(Throwable e) {
+				}
+			});
+		}
 	}
-
 
 	/**
 	 * 添加至多人聊天室

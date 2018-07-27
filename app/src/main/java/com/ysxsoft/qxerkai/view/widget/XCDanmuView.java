@@ -41,6 +41,7 @@ import com.ysxsoft.qxerkai.utils.LogUtils;
 import com.ysxsoft.qxerkai.utils.SystemUtils;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.utils.ZPUtils;
+import com.ysxsoft.qxerkai.view.activity.NPersonCenterActivity;
 import com.ysxsoft.qxerkai.view.activity.NZhiLiaoActivity;
 
 import org.w3c.dom.Text;
@@ -286,7 +287,7 @@ public class XCDanmuView extends RelativeLayout {
         return dm.heightPixels;
     }
 
-
+    private int gid;
     /**
      * 抢话题/继续话题
      */
@@ -294,6 +295,7 @@ public class XCDanmuView extends RelativeLayout {
         if (data == null) {
             return;
         }
+         gid=data.getGid();
         Map<String, String> map = new HashMap<>();
         map.put("user_id", DBUtils.getUserId());
         map.put("gid", data.getGid() + "");//价格
@@ -302,6 +304,7 @@ public class XCDanmuView extends RelativeLayout {
                     @Override
                     public void onSuccess(BaseResponse baseResponse, int code, String msg) {
                         if (code == 200) {
+                            notifyUser(gid);//通知用户
                             NimUIKit.startP2PSessionWithTitle(mContext, "" + tag, data.getIcon(), data.getNick_name(), data.getTitle(), data.getIs_vip(), data.getNum());
                         } else {
                             ToastUtil.showToast(mContext, msg);
@@ -310,6 +313,28 @@ public class XCDanmuView extends RelativeLayout {
 
                     @Override
                     public void onFailed(Throwable e) {
+                    }
+                });
+    }
+
+    /**
+     * 通知用户
+     * @param gid
+     */
+    private void notifyUser(int gid){
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("gid",""+gid);
+        RetrofitTools
+                .notifyUser(hashMap)
+                .subscribe(new ResponseSubscriber<BaseResponse>() {
+                    @Override
+                    public void onSuccess(BaseResponse baseResponse, int code, String msg) {
+                        LogUtils.e("onSuccess");
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+                        LogUtils.e("onFailed");
                     }
                 });
     }

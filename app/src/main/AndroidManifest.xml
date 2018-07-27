@@ -717,6 +717,10 @@
             android:name="com.ysxsoft.qxerkai.view.activity.PiPeiCallActivity"
             android:screenOrientation="portrait"/>
 
+        <!-- 抛话题来电页面 -->
+        <activity
+            android:name="com.ysxsoft.qxerkai.view.activity.PaoHuaTiCallActivity"
+            android:screenOrientation="portrait"/>
         <!-- 我的  我的朋友圈 -->
         <activity
             android:name="com.ysxsoft.qxerkai.view.activity.NPengYouQuanMyActivity"

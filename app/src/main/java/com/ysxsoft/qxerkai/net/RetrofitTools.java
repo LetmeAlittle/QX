@@ -657,6 +657,16 @@ public class RetrofitTools {
         return subscribe(RetrofitTools.getManager().getShouFeiList(map));
     }
 
+	/**
+	 * 点击抛话题通知对方
+	 *
+	 * @param map
+	 * @return
+	 */
+	public static Observable<BaseResponse> notifyUser(Map<String, String> map) {
+		return subscribe(RetrofitTools.getManager().notifyUser(map));
+	}
+
     /**
      * OkHttp过滤器
      */

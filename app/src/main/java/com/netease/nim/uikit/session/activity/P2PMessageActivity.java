@@ -75,6 +75,36 @@ public class P2PMessageActivity extends BaseMessageActivity {
         context.startActivity(intent);
     }
 
+    /**
+     * 收到通知监听  跳转至话题2
+     * @param type  是否是管理员
+     * @param context
+     * @param contactId
+     * @param icon
+     * @param name
+     * @param title
+     * @param isVip
+     * @param num
+     * @param customization
+     * @param anchor
+     */
+    public static void startByHuaAccept(Context context,int type,String contactId,String icon,String name,String title,int isVip,int num, SessionCustomization customization, IMMessage anchor) {
+        Intent intent = new Intent();
+        intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
+        intent.putExtra(Extras.EXTRA_CUSTOMIZATION, customization);
+        intent.putExtra("icon",icon);
+        intent.putExtra("name",name);
+        intent.putExtra("title",title);
+        intent.putExtra("isVip",isVip);
+        intent.putExtra("num",num);
+
+        if (anchor != null) {
+            intent.putExtra(Extras.EXTRA_ANCHOR, anchor);
+        }
+        intent.setClass(context, P2PMessageActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
 
     /**
      * 角色扮演进去

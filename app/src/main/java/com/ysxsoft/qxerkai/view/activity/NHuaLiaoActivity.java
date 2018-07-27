@@ -59,6 +59,7 @@ import com.ysxsoft.qxerkai.utils.StringUtils;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.utils.WYUtils;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
+import com.ysxsoft.qxerkai.view.widget.PiPeiLuYinDialog;
 import com.ysxsoft.qxerkai.view.widget.PiPeiSuoDialog;
 import com.ysxsoft.qxerkai.view.widget.PiPeiTipsDialog;
 
@@ -215,15 +216,9 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 		AVChatProfile.getInstance().setAVChatting(true);
 		ButterKnife.bind(this);
 		parseIntent();
-//		AVChatManager.getInstance().setSpeaker(true);
-//		AVChatManager.getInstance().muteRemoteAudio("" + DBUtils.getUserId(), false);
 
-		//语音是否开启
-		if (AVChatManager.getInstance().isLocalAudioMuted()) {
-			Log.e("tag", "静音!");
-		} else {
-			Log.e("tag", "非静音!");
-		}
+		AVChatManager.getInstance().setSpeaker(!AVChatManager.getInstance().speakerEnabled());//默认开启扩音
+		AVChatManager.getInstance().muteLocalAudio(false);//本地不静音
 
 		initStatusBar();
 		initStatusBar(statusBar);
@@ -305,8 +300,6 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 	// 网络请求
 	///////////////////////////////////////////////////////////////////////////
 	private void initData() {
-		getUserInfo(true);//获取自己的 初始化价格
-		getUserInfo(false);//获取对方是否关注
 		getNotify();
 		getDetail();
 		handler.sendEmptyMessageDelayed(UPDATE_CODE, 1000);
@@ -458,7 +451,7 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 					}
 				});
 	}
-
+	private boolean isFirst=true;
 	/**
 	 * 获取偷听详情  刷新页面
 	 */
@@ -535,6 +528,12 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 				tvPublicTitlebarCenter.setText(fUserBean.getNick_name());
 			} else {
 				tvPublicTitlebarCenter.setText(userBean.getNick_name());
+			}
+
+			if(isFirst){
+				isFirst=false;
+				getUserInfo(true);//获取自己的 初始化价格
+				getUserInfo(false);//获取对方是否关注
 			}
 		}
 	}
@@ -626,6 +625,8 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 	public void onViewClicked(View view) {
 		switch (view.getId()) {
 			case R.id.luyin://录音
+//				PiPeiLuYinDialog dialog=new PiPeiLuYinDialog(this,R.style.dialogHuaTiStyle);
+//				dialog.init(0);
 				break;
 			case R.id.lock://上锁
 				if (currentSuo == 2) {
@@ -643,18 +644,40 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 				});
 				break;
 			case R.id.otherAudio://他的声音   扩音
+				boolean enable=!AVChatManager.getInstance().speakerEnabled();
+				if(enable){
+					AVChatManager.getInstance().setSpeaker(enable); // 设置扬声器关闭
+					Drawable drawable = this.getResources().getDrawable(R.mipmap.activity_hualiao_tashengyin);
+					drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+					otherAudio.setCompoundDrawables(null,drawable,null,null);
+				}else{
+					AVChatManager.getInstance().setSpeaker(enable); // 设置扬声器开启
+					Drawable drawable = this.getResources().getDrawable(R.mipmap.icon_close_audio);
+					drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+					otherAudio.setCompoundDrawables(null,drawable,null,null);
+				}
 //				AVChatManager.getInstance().setSpeaker(speakerMode = !speakerMode);
-				AVChatManager.getInstance().setSpeaker(!AVChatManager.getInstance().speakerEnabled()); // 设置扬声器是否开启
+//				AVChatManager.getInstance().setSpeaker(!AVChatManager.getInstance().speakerEnabled()); // 设置扬声器是否开启
 				break;
 			case R.id.myAudio://我的声音   静音
-				if (!AVChatManager.getInstance().isRemoteAudioMuted("" + fUserAccid)) { // isMute是否处于静音状态
-					// 关闭音频
-					Log.e("tag", "关闭音频"); //不解码
-					AVChatManager.getInstance().muteRemoteAudio("" + fUserAccid, true); //关闭远端流 不听对方的声音
-				} else {
-					//打开音频
-					Log.e("tag", " 打开音频");
-					AVChatManager.getInstance().muteRemoteAudio("" + fUserAccid, false);
+//				if (!AVChatManager.getInstance().isRemoteAudioMuted("" + fUserAccid)) { // isMute是否处于静音状态
+//					// 关闭音频
+////					AVChatManager.getInstance().muteRemoteAudio("" + fUserAccid, true); //关闭远端流 不听对方的声音
+////					AVChatManager.getInstance().muteLocalAudio(true);
+//					Drawable drawable = this.getResources().getDrawable(R.mipmap.icon_close_mai);
+//					drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+//					myAudio.setCompoundDrawables(null,drawable,null,null);
+//				} else {
+//					//打开音频
+//					AVChatManager.getInstance().muteRemoteAudio("" + fUserAccid, false);
+//					Drawable drawable = this.getResources().getDrawable(R.mipmap.activity_hualiao_woshengyin);
+//					drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+//					myAudio.setCompoundDrawables(null,drawable,null,null);
+//				}
+				if(AVChatManager.getInstance().isLocalAudioMuted()){//判断本地是否静音
+					AVChatManager.getInstance().muteLocalAudio(false);//取消静音
+				}else{
+					AVChatManager.getInstance().muteLocalAudio(true);//开启静音
 				}
 				break;
 			case R.id.sendDanMu://发弹幕

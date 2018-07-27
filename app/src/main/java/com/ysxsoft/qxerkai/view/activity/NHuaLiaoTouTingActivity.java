@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -187,6 +188,7 @@ public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStat
 		register();
 		register(true);
 		initData();
+		AVChatManager.getInstance().muteLocalAudio(true);
 	}
 
 	private void initTitleBar() {
@@ -322,7 +324,23 @@ public class NHuaLiaoTouTingActivity extends NBaseActivity implements AVChatStat
 			case R.id.luyin://录音
 				break;
 			case R.id.taAudio://扩音  他的声音
-				AVChatManager.getInstance().setSpeaker(speakerMode = !speakerMode);
+				boolean enable=!speakerMode;
+				if(enable){
+					speakerMode=enable;
+					AVChatManager.getInstance().setSpeaker(enable); // 设置扬声器开启
+
+					Drawable drawable = this.getResources().getDrawable(R.mipmap.icon_close_audio);
+					drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+					taAudio.setCompoundDrawables(null,drawable,null,null);
+				}else{
+					speakerMode=enable;
+					AVChatManager.getInstance().setSpeaker(enable); // 设置扬声器关闭
+
+					Drawable drawable = this.getResources().getDrawable(R.mipmap.activity_hualiao_tashengyin);
+					drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+					taAudio.setCompoundDrawables(null,drawable,null,null);
+				}
+//				AVChatManager.getInstance().setSpeaker(speakerMode = !speakerMode);
 				break;
 			case R.id.sendDanMu://发送弹幕
 				new MaterialDialog.Builder(NHuaLiaoTouTingActivity.this)

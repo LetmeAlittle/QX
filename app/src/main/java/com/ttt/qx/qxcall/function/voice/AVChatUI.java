@@ -3,6 +3,7 @@ package com.ttt.qx.qxcall.function.voice;
 import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -41,6 +42,7 @@ import com.ttt.qx.qxcall.function.home.model.HomeModel;
 import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
 import com.ttt.qx.qxcall.function.listen.model.StealListenModel;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
+import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse3;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -123,7 +125,6 @@ public class AVChatUI implements AVChatUIListener {
         }
         configFromPreference(PreferenceManager.getDefaultSharedPreferences(context));
         updateAVChatOptionalConfig();
-        //
     }
 
     //Config from Preference
@@ -386,11 +387,17 @@ public class AVChatUI implements AVChatUIListener {
     private Timer mTimer;
     private Timer mIncomingTimer;
 
-    class MyTimerTask extends TimerTask {
+	/**
+	 * 扣费器
+	 */
+	class MyTimerTask extends TimerTask {
 
         @Override
         public void run() {
-            StealListenModel.getStealListenModel().callDeduction(new Subscriber<StandardResponse>() {
+            /**
+             * 每分钟扣费
+             */
+            StealListenModel.getStealListenModel().callDeduction2(new Subscriber<StandardResponse3>() {
                 @Override
                 public void onCompleted() {
                 }
@@ -400,10 +407,11 @@ public class AVChatUI implements AVChatUIListener {
                 }
 
                 @Override
-                public void onNext(StandardResponse response) {
+                public void onNext(StandardResponse3 response) {
+                    Log.e("tag","每分钟扣费");
                     if (response.getStatus_code() == 200) {
-                        StandardResponse.DataBean data = response.getData();
-                        Message messag = Message.obtain();
+                        StandardResponse3.DataBean data = response.getData();
+                        Message messag = handler.obtainMessage();
                         messag.what = SUCCESS;
                         messag.obj = data;
                         handler.sendMessage(messag);
@@ -412,7 +420,6 @@ public class AVChatUI implements AVChatUIListener {
             }, receiverId, mAuthorization);
         }
     }
-
 
     class MyIncomingTimerTask extends TimerTask {
 
@@ -429,9 +436,10 @@ public class AVChatUI implements AVChatUIListener {
 
                 @Override
                 public void onNext(UserDetailInfo userDetailInfo) {
+                    Log.e("tag","每分钟获取信息");
                     if (userDetailInfo.getStatus_code() == 200) {
                         UserDetailInfo.DataBean data = userDetailInfo.getData();
-                        Message messag = Message.obtain();
+                        Message messag = handler.obtainMessage();
                         messag.what = INCOMING_SUCCESS;
                         messag.obj = String.valueOf(data.getMember_account());
                         handler.sendMessage(messag);
@@ -446,11 +454,11 @@ public class AVChatUI implements AVChatUIListener {
     private static final int SET_GOLD_NUM = 1;
     private Handler handler = new Handler() {
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
+        public void dispatchMessage(Message msg) {
+            super.dispatchMessage(msg);
             switch (msg.what) {
                 case SUCCESS:
-                    StandardResponse.DataBean data = (StandardResponse.DataBean) msg.obj;
+                    StandardResponse3.DataBean data = (StandardResponse3.DataBean) msg.obj;
                     if (data.getIs_allow() == 1) {//不处理
                         //设置当前剩余金币数
                         if (avChatAudio != null) {
@@ -526,6 +534,7 @@ public class AVChatUI implements AVChatUIListener {
                         mTimer.cancel();
                     }
                     if (mIncomingTimer != null) {
+                    	Log.e("tag","mIncomingTimer 取消");
                         mIncomingTimer.cancel();
                     }
                 }
@@ -533,7 +542,6 @@ public class AVChatUI implements AVChatUIListener {
                 @Override
                 public void onFailed(int code) {
                     LogUtil.d(TAG, "hangup onFailed->" + code);
-
                 }
 
                 @Override
@@ -560,7 +568,7 @@ public class AVChatUI implements AVChatUIListener {
             mTimer.cancel();
         }
         if (mIncomingTimer != null) {//挂断取消
-            mIncomingTimer.cancel();
+			mIncomingTimer.cancel();
         }
         if (avChatAudio != null) {
             avChatAudio.closeSession(exitCode);
@@ -708,7 +716,8 @@ public class AVChatUI implements AVChatUIListener {
                 canSwitchCamera = true;
                 //接听成功 正在进行通话
                 mIncomingTimer = new Timer();
-                mIncomingTimer.schedule(new MyIncomingTimerTask(), 2000, 1000 * 60);
+                mIncomingTimer.schedule(new MyIncomingTimerTask(), 1000, 1000 * 60);
+//                mIncomingTimer.schedule(new MyIncomingTimerTask(), 1000);//获取个人信息
             }
 
             @Override
@@ -1154,7 +1163,7 @@ public class AVChatUI implements AVChatUIListener {
 
     }
 
-    //关闭视频和语音发送. 
+    //关闭视频和语音发送.
     public void pauseVideo() {
 
         if (!AVChatManager.getInstance().isLocalVideoMuted()) {

@@ -75,6 +75,7 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.JIE_SUO;
 import static com.ttt.qx.qxcall.constant.CommonConstant.MEMBER_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.MY_CARD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.NOTICE_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.NOTIFY_USER;
 import static com.ttt.qx.qxcall.constant.CommonConstant.PI_PEI;
 import static com.ttt.qx.qxcall.constant.CommonConstant.PI_PEI_BUY;
 import static com.ttt.qx.qxcall.constant.CommonConstant.PI_PEI_SUO;
@@ -634,4 +635,14 @@ public interface RetrofitApi {
     @FormUrlEncoded
     @POST(GET_DOUZI_LIST)
     Observable<ShouFeiResponse> getShouFeiList(@FieldMap Map<String,String> map);
+
+	/**
+	 * 发送通知
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(NOTIFY_USER)
+	Observable<BaseResponse> notifyUser(@FieldMap Map<String, String> map);
 }

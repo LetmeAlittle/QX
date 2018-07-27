@@ -247,6 +247,7 @@ public class SGLTwoFragment extends BaseFragment implements BaseQuickAdapter.Req
                     @Override
                     public void onSuccess(SaGouLiangLikeResponse saGouLiangLikeResponse, int code, String msg) {
                         if (code == 200) {
+                            ToastUtils.showToast(getActivity(),"赠送成功！",1);
                             refresh();
                         } else {
                             ToastUtil.showToast(getActivity(), msg);

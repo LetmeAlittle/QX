@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.session.activity.P2PMessageActivity;
@@ -77,10 +78,12 @@ import com.ttt.qx.qxcall.utils.crash.CrashListener;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
+import com.ysxsoft.qxerkai.net.response.PaoHuaTiResponse;
 import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.LogUtils;
 import com.ysxsoft.qxerkai.utils.WYUtils;
 import com.ysxsoft.qxerkai.view.activity.NHuaLiaoActivity;
+import com.ysxsoft.qxerkai.view.activity.PaoHuaTiCallActivity;
 import com.ysxsoft.qxerkai.view.activity.PiPeiCallActivity;
 
 import org.json.JSONArray;
@@ -94,6 +97,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -407,7 +411,13 @@ public class QXCallApplication extends MultiDexApplication {
 									public void onSend(String gift_id) {
 									}
 								});
-							} else {//其他系统通知（充值成功、系统消息推送等）1
+							}else if (jsonObject.getInt("msg_type") == 13) {//抛话题
+								Type type=new TypeToken<PaoHuaTiResponse>(){}.getType();
+								PaoHuaTiResponse paoHuaTiResponse=new Gson().fromJson(content,type);
+//								PaoHuaTiCallActivity.start();
+//								{"time":"2018-07-27 18:29","gift_info":{"git_num":1},"msg":"Sincerly 进入你的话题【999999999999999999999999999】","member_info":{"nick_name":"Sincerly","icon":"http:\/\/116.62.217.183\/storage\/avatar\/2018\/07\/24\/avatar_1532415615_10195.png","sex":1,"num":7,"title":"999999999999999999999999999","is_vip":0,"gid":102,"user_id":10195,"member_id":10208},"msg_type":13,"member_id":10195}
+//								PaoHuaTiCallActivity.start();
+							}else {//其他系统通知（充值成功、系统消息推送等）1
 								notifyBean.setContent(jsonObject.getString("msg"));
 								notifyBean.setMsgType(String.valueOf(jsonObject.getInt("msg_type")));
 								notifyBean.setCreatTime(jsonObject.getString("time"));
@@ -420,6 +430,7 @@ public class QXCallApplication extends MultiDexApplication {
 								case "3":
 									LogUtils.e("收到匹配通知" + jsonObject.toString());
 									WYUtils.TeamJson teamJson = WYUtils.parseCustom(jsonObject);
+									String type= jsonObject.optString("callType");
 									//type: 1系统匹配2专属匹配3角色扮演
 									if (DBUtils.getUserId() != null && DBUtils.getUserId().equals(teamJson.getUserId())) {
 										LogUtils.e("收到自己通知");

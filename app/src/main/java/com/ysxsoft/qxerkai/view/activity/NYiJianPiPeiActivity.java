@@ -125,7 +125,7 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 							avatar=list.getMember_avatar();
 							name=list.getNick_name();
 						}
-						Log.e("tag","name:"+name+"avatar:"+avatar);
+//						Log.e("tag","name:"+name+"avatar:"+avatar);
 						NimUIKit.startP2PSessionWithJiaoSe(NYiJianPiPeiActivity.this, members, "0".equals(role)?"1":"0",""+fuid, story, name,avatar);//携带对方id 对方名字
 						handler.removeCallbacksAndMessages(null);
 						finish();
@@ -361,7 +361,7 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 		}
 
 //		WYUtils.notifyUserById("10164", teamJson);
-		WYUtils.notifyUserById("10196", teamJson);
+//		WYUtils.notifyUserById("10196", teamJson);
 	}
 
 	@Override

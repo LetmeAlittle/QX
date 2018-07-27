@@ -12,6 +12,7 @@ import com.ttt.qx.qxcall.function.listen.model.entity.StealDetailResponse;
 import com.ttt.qx.qxcall.function.listen.model.entity.StealListenList;
 import com.ttt.qx.qxcall.function.register.model.entity.ResponseStatus;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
+import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse3;
 
 import retrofit2.Retrofit;
 import rx.Observable;
@@ -117,6 +118,17 @@ public class StealListenModel implements BaseModel {
     }
 
     /**
+     * 通话扣费第二个
+     *
+     * @param subscriber
+     * @param member_id
+     */
+    public void callDeduction2(Subscriber<StandardResponse3> subscriber, String member_id, String Authorization) {
+        Observable<StandardResponse3> observable = stealListenServiceApi.callDeduction2(member_id, Authorization);
+        onToSubscribe9(observable, subscriber);
+    }
+
+    /**
      * 通话允许判断
      *
      * @param subscriber
@@ -211,6 +223,19 @@ public class StealListenModel implements BaseModel {
      * @param subscriber 观察者对象
      */
     private void onToSubscribe8(Observable<StandardResponse> observable, Subscriber<StandardResponse> subscriber) {
+        subscription = observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 将线程切换为一个统一方法
+     *
+     * @param observable 被观察者对象
+     * @param subscriber 观察者对象
+     */
+    private void onToSubscribe9(Observable<StandardResponse3> observable, Subscriber<StandardResponse3> subscriber) {
         subscription = observable.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

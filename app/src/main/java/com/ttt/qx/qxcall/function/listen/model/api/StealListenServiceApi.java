@@ -6,6 +6,7 @@ import com.ttt.qx.qxcall.function.listen.model.entity.RandomStealListen;
 import com.ttt.qx.qxcall.function.listen.model.entity.StealDetailResponse;
 import com.ttt.qx.qxcall.function.listen.model.entity.StealListenList;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
+import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse3;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -72,6 +73,17 @@ public interface StealListenServiceApi {
     @FormUrlEncoded
     @POST("api/user/talk")
     Observable<StandardResponse> callDeduction(@Field("member_id") String member_id
+            , @Header("Authorization") String Authorization);
+
+
+    /**
+     * 通话扣费2
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/user/talk")
+    Observable<StandardResponse3> callDeduction2(@Field("member_id") String member_id
             , @Header("Authorization") String Authorization);
 
     /**

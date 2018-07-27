@@ -2,6 +2,7 @@ package com.ttt.qx.qxcall.function.voice;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -106,7 +107,7 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener {
                 setRefuseReceive(false);
                 outGoing = true;
                 break;
-            case INCOMING_AUDIO_CALLING://免费通话请求
+            case INCOMING_AUDIO_CALLING://免费通话请求   来自好友实时刷新
                 outGoing = false;
                 setSwitchVideo(false);
                 showProfile();//对方的详细信息
