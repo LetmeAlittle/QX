@@ -323,7 +323,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
                 textView.setBackgroundResource(R.drawable.activity_biaoqian_bg);
                 GradientDrawable myGrad = (GradientDrawable) textView.getBackground();
                 myGrad.setColor(Color.parseColor(memberTagBean.getColor()));
-                textView.setTextSize(DimenUtils.dp2px(NZhiLiaoActivity.this,tagSize));
+                textView.setTextSize(tagSize);
                 textView.getPaint().setFakeBoldText(true);
                 textView.setText(memberTagBean.getText());
                 textView.setPadding(10, 2, 10, 2);
