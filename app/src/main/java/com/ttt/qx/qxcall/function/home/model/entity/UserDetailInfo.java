@@ -76,10 +76,10 @@ public class UserDetailInfo {
         private String nick_name;
         private String member_avatar;
         private int level;
-        private double member_account;
+        private String member_account;
         private String member_sex;
         private String member_age;
-        private int member_price;
+        private String member_price;
         private int fans_num;
         private int flow_num;
         private int is_fans;
@@ -297,10 +297,13 @@ public class UserDetailInfo {
         }
 
         public double getMember_account() {
-            return member_account;
+            if(member_account==null||member_account.isEmpty()){
+                return 0.00;
+            }
+            return Double.valueOf(member_account);
         }
 
-        public void setMember_account(double member_account) {
+        public void setMember_account(String member_account) {
             this.member_account = member_account;
         }
 
@@ -324,10 +327,13 @@ public class UserDetailInfo {
         }
 
         public int getMember_price() {
-            return member_price;
+            if(member_price==null||member_price.isEmpty()){
+                return 0;
+            }
+            return Integer.valueOf(member_price);
         }
 
-        public void setMember_price(int member_price) {
+        public void setMember_price(String member_price) {
             this.member_price = member_price;
         }
 

@@ -45,6 +45,7 @@ import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 import com.ysxsoft.qxerkai.utils.DBUtils;
+import com.ysxsoft.qxerkai.utils.LogUtils;
 import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.activity.NChongZhiActivity;
 import com.ysxsoft.qxerkai.view.activity.NGouMaiVipActivity;
@@ -324,8 +325,8 @@ public class FivePage extends BasePager implements View.OnClickListener {
 
             @Override
             public void onError(Throwable e) {
-                System.out.println("e = " + e);
-                Toast.makeText(ctx, "获取用户信息失败", Toast.LENGTH_LONG).show();
+                LogUtils.e(e.getMessage());
+//                Toast.makeText(ctx, "获取用户信息失败5", Toast.LENGTH_LONG).show();
             }
 
             @Override

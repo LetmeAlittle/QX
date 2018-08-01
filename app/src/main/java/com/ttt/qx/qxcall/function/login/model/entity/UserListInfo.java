@@ -156,7 +156,7 @@ public class UserListInfo implements Serializable{
             private double member_account;
             private String member_sex;
             private String member_age;
-            private int member_price;
+            private String member_price;
             private int is_fans;
             private int fans_num;
             private int zan_num;
@@ -244,10 +244,13 @@ public class UserListInfo implements Serializable{
             }
 
             public int getMember_price() {
-                return member_price;
+                if(member_price==null||member_price.isEmpty()){
+                    return 0;
+                }
+                return Integer.valueOf(member_price);
             }
 
-            public void setMember_price(int member_price) {
+            public void setMember_price(String member_price) {
                 this.member_price = member_price;
             }
 

@@ -244,7 +244,7 @@ public class HomeItemList extends BaseResponse {
                 private String wx_openid;
                 private String qq_openid;
                 private int level;
-                private int member_price;
+                private String member_price;
                 private String member_account;
                 private int member_fronze;
                 private int vip_start_time;
@@ -389,10 +389,13 @@ public class HomeItemList extends BaseResponse {
                 }
 
                 public int getMember_price() {
-                    return member_price;
+                    if(member_price==null||member_price.isEmpty()){
+                        return 0;
+                    }
+                    return Integer.valueOf(member_price);
                 }
 
-                public void setMember_price(int member_price) {
+                public void setMember_price(String member_price) {
                     this.member_price = member_price;
                 }
 
