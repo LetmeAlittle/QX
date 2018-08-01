@@ -1,7 +1,9 @@
 package com.netease.nim.uikit.session.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import com.alibaba.fastjson.JSON;
@@ -35,6 +37,16 @@ import java.util.Set;
 public class P2PMessageActivity extends BaseMessageActivity {
 
     private boolean isResume = false;
+    private boolean isNotifyed=false;
+
+    private BroadcastReceiver receiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if("com.need.exit.p2p".equals(intent.getAction())){
+                P2PMessageActivity.this.finish();
+            }
+        }
+    };
 
     public static void start(Context context, String contactId, SessionCustomization customization, IMMessage anchor) {
         Intent intent = new Intent();
@@ -56,7 +68,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
      * @param customization
      * @param anchor
      */
-    public static void startByHuaTi(Context context,String contactId,String icon,String name,String title,int isVip,int num, SessionCustomization customization, IMMessage anchor) {
+    public static void startByHuaTi(Context context,String contactId,String icon,String name,String title,int isVip,int num,int gid,int callType, SessionCustomization customization, IMMessage anchor) {
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
         intent.putExtra(Extras.EXTRA_CUSTOMIZATION, customization);
@@ -65,6 +77,9 @@ public class P2PMessageActivity extends BaseMessageActivity {
         intent.putExtra("title",title);
         intent.putExtra("isVip",isVip);
         intent.putExtra("num",num);
+        intent.putExtra("gid",gid);//群组id
+        intent.putExtra("callType",callType);// 0默认  1抛话题  2角色扮演  为了区分扣费
+        intent.putExtra("isAdmin",false);//是否是发起方
 
         if (anchor != null) {
             intent.putExtra(Extras.EXTRA_ANCHOR, anchor);
@@ -76,8 +91,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
     }
 
     /**
-     * 收到通知监听  跳转至话题2
-     * @param type  是否是管理员
+     * 收到通知监听  跳转至聊天页面
      * @param context
      * @param contactId
      * @param icon
@@ -87,8 +101,9 @@ public class P2PMessageActivity extends BaseMessageActivity {
      * @param num
      * @param customization
      * @param anchor
+     * @param callType   0默认  1抛话题  2角色扮演
      */
-    public static void startByHuaAccept(Context context,int type,String contactId,String icon,String name,String title,int isVip,int num, SessionCustomization customization, IMMessage anchor) {
+    public static void startByHuaAccept(Context context,String contactId,String icon,String name,String title,int isVip,int num,int gid,int callType, SessionCustomization customization, IMMessage anchor) {
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
         intent.putExtra(Extras.EXTRA_CUSTOMIZATION, customization);
@@ -97,7 +112,9 @@ public class P2PMessageActivity extends BaseMessageActivity {
         intent.putExtra("title",title);
         intent.putExtra("isVip",isVip);
         intent.putExtra("num",num);
-
+        intent.putExtra("gid",gid);//群组id
+        intent.putExtra("callType",callType);// 0默认扣费  1抛话题扣费  2角色扮演扣费  为了区分扣费
+        intent.putExtra("isAdmin",true);//是否是抛话题人/发起人
         if (anchor != null) {
             intent.putExtra(Extras.EXTRA_ANCHOR, anchor);
         }
@@ -113,9 +130,9 @@ public class P2PMessageActivity extends BaseMessageActivity {
      * @param role 0左边  1右边
      * @param teamId 发起者id
      * @param story 故事类型
-     * @param teamName 发起者名称
+     * @param callType   0默认  1抛话题  2角色扮演
      */
-    public static void startByJiaose(Context context,List<String> members,String role,String teamId,String story,String teamName,String userIcon, SessionCustomization customization, IMMessage anchor) {
+    public static void startByJiaose(Context context,List<String> members,String role,String teamId,String story,String teamName,String userIcon,int callType, SessionCustomization customization, IMMessage anchor) {
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, teamId);
         intent.putExtra(Extras.EXTRA_CUSTOMIZATION, customization);
@@ -126,6 +143,39 @@ public class P2PMessageActivity extends BaseMessageActivity {
         intent.putExtra("story",story);
         intent.putExtra("teamName",teamName);
         intent.putExtra("userIcon",userIcon);//对方头像
+        intent.putExtra("callType",callType);//0默认  1抛话题  2角色扮演
+        intent.putExtra("isAdmin",false);//是否是抛话题人/发起人
+        if (anchor != null) {
+            intent.putExtra(Extras.EXTRA_ANCHOR, anchor);
+        }
+        intent.setClass(context, P2PMessageActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 角色接受扮演 接受进去
+     * @param context
+     * @param members 成员列表
+     * @param role 0左边  1右边
+     * @param teamId 发起者id
+     * @param story 故事类型
+     * @param callType   0默认  1抛话题  2角色扮演
+     */
+    public static void startByJiaoseAccept(Context context,List<String> members,String role,String teamId,String story,String teamName,String userIcon,String ppid,int callType, SessionCustomization customization, IMMessage anchor) {
+        Intent intent = new Intent();
+        intent.putExtra(Extras.EXTRA_ACCOUNT, teamId);
+        intent.putExtra(Extras.EXTRA_CUSTOMIZATION, customization);
+        //角色扮演的  通知  id = 5 ;  members = 匹配的成员数租 ;  teamId = 发起者的id ;  role = (0或者1 — 0是代表扮演左边  1是代表扮演右边) ;  story = 故事类型(0:教师VS学生 1:亲王VS宠妃 2:护士VS病人 3:大叔VS萝莉 4:空姐VS乘客 5:老板VS秘书)  ;  teamName = 发起者的昵称
+        intent.putStringArrayListExtra("members", (ArrayList<String>) members);
+        intent.putExtra("teamId",teamId);//发起者的id
+        intent.putExtra("role",role);
+        intent.putExtra("story",story);
+        intent.putExtra("teamName",teamName);
+        intent.putExtra("userIcon",userIcon);//对方头像
+        intent.putExtra("callType",callType);//0默认  1抛话题  2角色扮演
+        intent.putExtra("isAdmin",true);//是否是抛话题人/发起人
+        intent.putExtra("ppid",ppid);//房间id
         if (anchor != null) {
             intent.putExtra(Extras.EXTRA_ANCHOR, anchor);
         }
@@ -138,6 +188,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        register();
         // 单聊特例话数据，包括个人信息，
         requestBuddyInfo();
         displayOnlineState();
@@ -145,9 +196,15 @@ public class P2PMessageActivity extends BaseMessageActivity {
         registerOnlineStateChangeListener(true);
     }
 
+    private void register(){
+        this.registerReceiver(receiver,new IntentFilter("com.need.exit.p2p"));
+    }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(receiver);
         registerObservers(false);
         registerOnlineStateChangeListener(false);
     }

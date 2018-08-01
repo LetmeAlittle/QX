@@ -14,7 +14,7 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="18sp"
             android:padding="@dimen/dp_4"

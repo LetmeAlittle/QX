@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ import com.ttt.qx.qxcall.eventbus.ReCeiveGiftAVChatActivity;
 import com.ttt.qx.qxcall.function.message.entity.GiftSendNotify;
 import com.ttt.qx.qxcall.function.voice.floatw.FloatViewService;
 import com.ttt.qx.qxcall.receiver.PhoneCallStateObserver;
+import com.ysxsoft.qxerkai.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -55,6 +57,10 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
     private static final String TAG = "AVChatActivity";
     private static final String KEY_IN_CALLING = "KEY_IN_CALLING";
     private static final String KEY_ACCOUNT = "KEY_ACCOUNT";
+    private static final String KEY_ACTION_TYPE = "CALL_TYPE";//新增 通话类型 Sincerly   0默认  1抛话题  2角色扮演
+    private static final String KEY_ACTION_GID = "CALL_GID";//新增 抛话题Gid Sincerly
+    private static final String KEY_ACTION_PPID = "CALL_PPID";//新增 一键匹配PPid  Sincerly
+    private static final String KEY_ACTION_IS_ADMIN = "IS_ADMIN";//新增 判断是否是发起用户
     private static final String KEY_CALL_TYPE = "KEY_CALL_TYPE";
     private static final String KEY_SOURCE = "source";
     private static final String KEY_CALL_CONFIG = "KEY_CALL_CONFIG";
@@ -96,6 +102,12 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
     private boolean hangUp = true;
     private boolean notification = false;
 
+    private int type;//0默认   1抛话题  2角色扮演
+    private boolean isAdmin;//是否是发起人
+    private int gid;//话题id
+    private String ppid;//角色扮演话题id
+    private Context context;
+
     //拨打启动
     public static void launch(Context context, String account, int callType, int source) {
         needFinish = false;
@@ -106,6 +118,25 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
         intent.putExtra(KEY_ACCOUNT, account);
         intent.putExtra(KEY_IN_CALLING, false);
         intent.putExtra(KEY_CALL_TYPE, callType);
+        intent.putExtra(KEY_SOURCE, source);
+
+        context.startActivity(intent);
+    }
+
+    //抛话题 通知跳转 携带类型
+    public static void launch(Context context,int type,int gid,String ppid, String account, int callType,boolean isAdmin, int source) {
+        needFinish = false;
+        QXCallApplication.accid = account;
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setClass(context, AVChatActivity.class);
+        intent.putExtra(KEY_ACTION_TYPE, type);
+        intent.putExtra(KEY_ACTION_GID, gid);
+        intent.putExtra(KEY_ACTION_PPID, ppid);
+        intent.putExtra(KEY_ACCOUNT, account);
+        intent.putExtra(KEY_IN_CALLING, false);
+        intent.putExtra(KEY_CALL_TYPE, callType);
+        intent.putExtra(KEY_ACTION_IS_ADMIN, isAdmin);
         intent.putExtra(KEY_SOURCE, source);
         context.startActivity(intent);
     }
@@ -135,6 +166,11 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
             finish();
             return;
         }
+        type=getIntent().getIntExtra(KEY_ACTION_TYPE, 0);//打电话类型
+        gid=getIntent().getIntExtra(KEY_ACTION_GID, 0);//抛话题id
+        ppid=getIntent().getStringExtra(KEY_ACTION_PPID);//ppid test
+        isAdmin=getIntent().getBooleanExtra(KEY_ACTION_IS_ADMIN, false);//是否是发起方
+
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
@@ -147,6 +183,10 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
 //        com.ttt.qx.qxcall.utils.ImageUtil.blur(ImageUtil.getBitmap(getResources().getDrawable(R.mipmap.chat_bg_iv)),view);
         mIsInComingCall = getIntent().getBooleanExtra(KEY_IN_CALLING, false);
         avChatUI = new AVChatUI(this, root, this);
+        avChatUI.setCallType(type);
+        avChatUI.setIsAdmin(isAdmin);//是否是发起方
+        avChatUI.setGid(gid);//新加参数   gid
+        avChatUI.setPPid(ppid);//新加参数 ppid 角色房间id
         if (!avChatUI.init(this)) {
             this.finish();
             return;
@@ -377,6 +417,12 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
             AVChatSoundPlayer.instance().stop();
             stopSoundPlayer();
             avChatUI.closeSessions(AVChatExitCode.PEER_BUSY);
+
+            if(type!=0&&type!=-1){//普通通话 不关闭页面
+                Intent intent=new Intent();
+                intent.setAction("com.need.exit.p2p");
+                sendBroadcast(intent);
+            }
         }
     };
 
@@ -408,8 +454,13 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
                 }
                 stopSoundPlayer();
                 stopPackUpService();
-            }
 
+                if(type!=0&&type!=-1){//普通通话 不关闭页面
+                    Intent intent=new Intent();
+                    intent.setAction("com.need.exit.p2p");
+                    sendBroadcast(intent);
+                }
+            }
         }
     };
 

@@ -107,15 +107,19 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener {
                 setRefuseReceive(false);
                 outGoing = true;
                 break;
-            case INCOMING_AUDIO_CALLING://免费通话请求   来自好友实时刷新
-                outGoing = false;
+            case INCOMING_AUDIO_CALLING://免费通话请求   来自好友实时刷新资料
+                if(manager.isAdmin()){//发起方收费  接收方免费  //0正常  1抛话题  2角色扮演  Sincerly
+                    outGoing = true;
+                }else{//只走刷新用户信息接口
+                    outGoing = false;
+                }
                 setSwitchVideo(false);
                 showProfile();//对方的详细信息
                 showNotify(R.string.avchat_audio_call_request);
                 setMuteSpeakerHangupControl(false);
                 setRefuseReceive(true);
 //                receiveTV.setText(R.string.avchat_pickup);
-                break;
+            break;
             case AUDIO:
                 //接通扣费
                 if (outGoing) {

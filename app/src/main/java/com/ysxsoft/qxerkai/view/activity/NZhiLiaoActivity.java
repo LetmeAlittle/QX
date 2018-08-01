@@ -246,7 +246,7 @@ public class NZhiLiaoActivity extends NBaseActivity implements View.OnClickListe
      */
     private void setUserInfo() {
         //根据id 获取当前用户信息
-        HomeModel.getHomeModel().getUserInfo(new ProgressSubscribe<>(new SubScribeOnNextListener<UserDetailInfo>() {
+        HomeModel.getHomeModel().getZhiLiaoInfo(new ProgressSubscribe<>(new SubScribeOnNextListener<UserDetailInfo>() {
             @Override
             public void onNext(UserDetailInfo info) {
                 if (info.getStatus_code() == 200) {

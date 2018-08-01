@@ -668,6 +668,36 @@ public class RetrofitTools {
 	}
 
     /**
+     * 角色扮演每分钟扣费
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<BaseResponse> jiaoSeStart(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().jiaoSeStart(map));
+    }
+
+    /**
+     * 删除小情趣
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<BaseResponse> deleteQingQu(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().deleteQingQu(map));
+    }
+
+    /**
+     * 删除朋友圈
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<BaseResponse> deletePengYouQuan(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().deletePengYouQuan(map));
+    }
+
+    /**
      * OkHttp过滤器
      */
     private static class LogInterceptor implements Interceptor {

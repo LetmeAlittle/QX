@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Chronometer;
 import android.widget.Toast;
 
+import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.common.ui.dialog.DialogMaker;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nimlib.sdk.ResponseCode;
@@ -43,9 +44,16 @@ import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
 import com.ttt.qx.qxcall.function.listen.model.StealListenModel;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
 import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse3;
+import com.ttt.qx.qxcall.utils.ToastUtil;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.BaseResponse;
+import com.ysxsoft.qxerkai.utils.DBUtils;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -76,6 +84,11 @@ public class AVChatUI implements AVChatUIListener {
     private CallStateEnum callingState = CallStateEnum.INVALID;
 
     private long timeBase = 0;
+    private int callType;//0正常  1抛话题  2角色扮演  Sincerly
+
+	public boolean isAdmin=false;//是否是发起方
+    private int gid;//话题id
+    private String ppid;//角色扮演id
 
     // view
     private View root;
@@ -107,13 +120,36 @@ public class AVChatUI implements AVChatUIListener {
         mTimer.schedule(new MyTimerTask(), 0, 1000 * 60);
     }
 
+    public void setCallType(int callType){
+        this.callType=callType;
+    }
+
+    public void setIsAdmin(boolean isAdmin){
+        this.isAdmin=isAdmin;
+    }
+
+    public boolean isAdmin(){
+    	return isAdmin;
+    }
+    public void setGid(int gid){
+        this.gid=gid;
+    }
+
+    public void setPPid(String ppid){
+        this.ppid=ppid;
+    }
+
     public interface AVChatListener {
         void uiExit();
 
         void onPackUp();
     }
 
-    public AVChatUI(Context context, View root, AVChatListener listener) {
+	public int getCallType() {
+		return callType;
+	}
+
+	public AVChatUI(Context context, View root, AVChatListener listener) {
         this.context = context;
         this.root = root;
         this.aVChatListener = listener;
@@ -394,32 +430,105 @@ public class AVChatUI implements AVChatUIListener {
 
         @Override
         public void run() {
-            /**
-             * 每分钟扣费
-             */
-            StealListenModel.getStealListenModel().callDeduction2(new Subscriber<StandardResponse3>() {
-                @Override
-                public void onCompleted() {
-                }
+        	switch (callType){
+				case 0://正常通话 扣费
+					/**
+					 * 每分钟扣费
+					 */
+					StealListenModel.getStealListenModel().callDeduction2(new Subscriber<StandardResponse3>() {
+						@Override
+						public void onCompleted() {
+						}
 
-                @Override
-                public void onError(Throwable e) {
-                }
+						@Override
+						public void onError(Throwable e) {
+						}
 
-                @Override
-                public void onNext(StandardResponse3 response) {
-                    Log.e("tag","每分钟扣费");
-                    if (response.getStatus_code() == 200) {
-                        StandardResponse3.DataBean data = response.getData();
-                        Message messag = handler.obtainMessage();
-                        messag.what = SUCCESS;
-                        messag.obj = data;
-                        handler.sendMessage(messag);
-                    }
-                }
-            }, receiverId, mAuthorization);
+						@Override
+						public void onNext(StandardResponse3 response) {
+							Log.e("tag","每分钟扣费");
+							if (response.getStatus_code() == 200) {
+								StandardResponse3.DataBean data = response.getData();
+								Message messag = handler.obtainMessage();
+								messag.what = SUCCESS;
+								messag.obj = data;
+								handler.sendMessage(messag);
+							}
+						}
+					}, receiverId, mAuthorization);
+					break;
+				case 1://抛话题扣费
+					if(isAdmin){//发起方扣费
+						Map<String, String> map = new HashMap<>();
+						map.put("user_id", DBUtils.getUserId());
+						map.put("gid", gid+"");
+						RetrofitTools.startHuaTi(map)
+								.subscribe(new ResponseSubscriber<BaseResponse>() {
+									@Override
+									public void onSuccess(BaseResponse baseResponse, int code, String msg) {
+										if (code == 200) {
+											Log.e("tag","抛话题通话扣费成功");
+											getUserInfo();
+										}
+									}
+
+									@Override
+									public void onFailed(Throwable e) {
+										Log.e("tag","抛话题通话扣费失败");
+									}
+								});
+					}
+					break;
+				case 2://角色扮演扣费
+					if(isAdmin) {//发起方扣费
+						Map<String, String> map2 = new HashMap<>();
+						map2.put("ppid", ppid);
+						RetrofitTools.jiaoSeStart(map2)
+								.subscribe(new ResponseSubscriber<BaseResponse>() {
+									@Override
+									public void onSuccess(BaseResponse baseResponse, int code, String msg) {
+										if (code == 200) {
+											Log.e("tag", "角色扮演通话扣费成功");
+											getUserInfo();
+										}
+									}
+
+									@Override
+									public void onFailed(Throwable e) {
+										Log.e("tag", "角色扮演通话扣费失败");
+									}
+								});
+					}
+					break;
+			}
         }
     }
+
+	/**
+	 * 刷新余额
+	 */
+	private void getUserInfo(){
+		HomeModel.getHomeModel().getUserInfo(new Subscriber<UserDetailInfo>() {
+			@Override
+			public void onCompleted() {
+			}
+
+			@Override
+			public void onError(Throwable e) {
+			}
+
+			@Override
+			public void onNext(UserDetailInfo userDetailInfo) {
+				if (userDetailInfo.getStatus_code() == 200) {
+					UserDetailInfo.DataBean data = userDetailInfo.getData();
+					Message messag = handler.obtainMessage();
+					messag.what = INCOMING_SUCCESS;
+					messag.obj = String.valueOf(data.getMember_account());
+					handler.sendMessage(messag);
+				}
+			}
+		}, "", mAuthorization);
+	}
 
     class MyIncomingTimerTask extends TimerTask {
 
@@ -765,7 +874,10 @@ public class AVChatUI implements AVChatUIListener {
         } else {
             hangUp(AVChatExitCode.CANCEL);
         }
+//		isHangUp=true;//是否挂断
     }
+
+    private boolean isHangUp=false;
 
     /**
      * 拒绝操作，根据当前状态来选择合适的操作

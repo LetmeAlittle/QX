@@ -30,8 +30,8 @@ android {
         applicationId "com.ttt.qx.qxcall"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 25
-        versionName "1.1"
+        versionCode 26
+        versionName "1.2"
         testInstrumentationRunner "android.support.test2.runner.AndroidJUnitRunner"
         multiDexEnabled true/*为了扩大dex文件的数量*/
         // 默认是umeng的渠道

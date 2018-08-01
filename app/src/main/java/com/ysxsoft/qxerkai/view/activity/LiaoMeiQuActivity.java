@@ -2,6 +2,7 @@ package com.ysxsoft.qxerkai.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -215,6 +218,74 @@ public class LiaoMeiQuActivity extends NBaseActivity implements BaseQuickAdapter
                 likeImage.setImageResource(R.mipmap.fragment_two_dianzan);
             }
             likeImage.setOnClickListener(new OnLikeClickListener(item.getTid(), helper.getAdapterPosition()));
+            //删除
+            TextView delete = helper.getView(R.id.delete);
+            if(item.getUser_id()== DBUtils.getIntUserId()){
+                delete.setVisibility(View.VISIBLE);
+            }else{
+                delete.setVisibility(View.GONE);
+            }
+            delete.setOnClickListener(new OnDeleteClick(item.getTid(),helper.getAdapterPosition()));
+        }
+
+
+        private class OnDeleteClick implements View.OnClickListener{
+            private int cid;
+            private int p;
+            public OnDeleteClick(int cid,int p) {
+                this.cid = cid;
+                this.p=p;
+            }
+
+            @Override
+            public void onClick(View v) {
+                clickPosition=p-1;
+                new MaterialDialog.Builder(mContext)
+                        .title("温馨提示")
+                        .content("是否删除该动态")
+                        .positiveText("确定")
+                        .negativeText("取消")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                delete(cid);
+                            }
+                        })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        }
+
+        private void delete(int cid){
+            Map<String, String> map2 = new HashMap<>();
+            map2.put("cid", ""+cid);
+            RetrofitTools.deleteQingQu(map2)
+                    .subscribe(new ResponseSubscriber<BaseResponse>() {
+                        @Override
+                        public void onSuccess(BaseResponse baseResponse, int code, String msg) {
+                            if (code == 200) {
+                                refreshAdapter();
+                                ObserverMap.notify("MainActivity");
+                            }
+                        }
+
+                        @Override
+                        public void onFailed(Throwable e) {
+                            Log.e("tag", "删除朋友圈失败");
+                        }
+                    });
+        }
+
+        private void refreshAdapter(){
+            if(mData.size()>clickPosition&&clickPosition!=-1){
+                mData.remove(clickPosition);
+                notifyDataSetChanged();
+            }
         }
 
         /**

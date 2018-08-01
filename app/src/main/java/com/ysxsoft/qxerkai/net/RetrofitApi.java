@@ -60,6 +60,8 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.CARD_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.CHECK_VERSION;
 import static com.ttt.qx.qxcall.constant.CommonConstant.DAN_MU;
 import static com.ttt.qx.qxcall.constant.CommonConstant.DEL_ICON;
+import static com.ttt.qx.qxcall.constant.CommonConstant.DEL_PENG_YOU_QUAN;
+import static com.ttt.qx.qxcall.constant.CommonConstant.DEL_XIAO_QING_QU;
 import static com.ttt.qx.qxcall.constant.CommonConstant.FEED_BACK;
 import static com.ttt.qx.qxcall.constant.CommonConstant.GET_CODE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.GET_DOUZI_LIST;
@@ -71,6 +73,7 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_ADD;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HUA_TI_START;
 import static com.ttt.qx.qxcall.constant.CommonConstant.HOME_ITEM_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.JIAO_SE_START;
 import static com.ttt.qx.qxcall.constant.CommonConstant.JIE_SUO;
 import static com.ttt.qx.qxcall.constant.CommonConstant.MEMBER_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.MY_CARD;
@@ -645,4 +648,34 @@ public interface RetrofitApi {
 	@FormUrlEncoded
 	@POST(NOTIFY_USER)
 	Observable<BaseResponse> notifyUser(@FieldMap Map<String, String> map);
+
+	/**
+	 * 发送通知
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(JIAO_SE_START)
+	Observable<BaseResponse> jiaoSeStart(@FieldMap Map<String, String> map);
+
+	/**
+	 * 删除小情趣
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(DEL_XIAO_QING_QU)
+	Observable<BaseResponse> deleteQingQu(@FieldMap Map<String, String> map);
+
+	/**
+	 * 删除朋友圈
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(DEL_PENG_YOU_QUAN)
+	Observable<BaseResponse> deletePengYouQuan(@FieldMap Map<String, String> map);
 }

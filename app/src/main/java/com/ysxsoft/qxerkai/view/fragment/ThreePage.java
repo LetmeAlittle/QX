@@ -9,12 +9,18 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.ttt.qx.qxcall.QXCallApplication;
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.database.UserDao;
 import com.ttt.qx.qxcall.dbbean.UserBean;
 import com.ttt.qx.qxcall.function.home.model.HomeModel;
 import com.ttt.qx.qxcall.function.home.model.entity.UserDetailInfo;
+import com.ttt.qx.qxcall.function.login.model.LoginModel;
+import com.ttt.qx.qxcall.function.register.model.entity.StandardResponse;
+import com.ttt.qx.qxcall.function.voice.DemoCache;
 import com.ttt.qx.qxcall.pager.BasePager;
 import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.view.activity.BanYanActivity;
@@ -28,6 +34,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscriber;
+
+import static com.ttt.qx.qxcall.QXCallApplication.getApplication;
+import static com.ttt.qx.qxcall.QXCallApplication.login;
+import static com.ttt.qx.qxcall.QXCallApplication.onToast;
 
 /**
  * Created by zhaozhipeng on 18/5/3.
@@ -59,6 +69,7 @@ public class ThreePage extends BasePager {
     LinearLayout llPublicTitlebarLeft;
 
     private View rootView;
+    UserDetailInfo.DataBean userDetailInfoData;
 
     public ThreePage(Context ctx) {
         super(ctx);
@@ -76,6 +87,7 @@ public class ThreePage extends BasePager {
                 ctx.startActivity(new Intent(ctx, NZhuanShuPiPeiActivity.class));
             }
         });
+        getUserInfo("");
         getUserInfo();//获取个人信息
         return rootView;
     }
@@ -95,13 +107,21 @@ public class ThreePage extends BasePager {
         llPublicTitlebarLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserDao userDao = new UserDao();
-                UserBean userBean = userDao.queryFirstData();
-                ctx.startActivity(new Intent(ctx, NShouHuBangActivity.class)
-                        .putExtra("uid", "" + userBean.getId())
-                        .putExtra("nickname", userBean.getNick_name())
-                        .putExtra("avatar", userBean.getMember_avatar())
-                        .putExtra("type", "1"));
+
+//                UserDao userDao = new UserDao();
+//                UserBean userBean = userDao.queryFirstData();
+//                ctx.startActivity(new Intent(ctx, NShouHuBangActivity.class)
+//                        .putExtra("uid", "" + userBean.getId())
+//                        .putExtra("nickname", userBean.getNick_name())
+//                        .putExtra("avatar", userBean.getMember_avatar())
+//                        .putExtra("type", "1"));
+                if (userDetailInfoData != null) {
+                    ctx.startActivity(new Intent(ctx, NShouHuBangActivity.class)
+                            .putExtra("uid", "" + userDetailInfoData.getId())
+                            .putExtra("nickname", userDetailInfoData.getNick_name())
+                            .putExtra("avatar", userDetailInfoData.getMember_avatar())
+                            .putExtra("type", "1"));
+                }
             }
         });
     }
@@ -188,4 +208,30 @@ public class ThreePage extends BasePager {
             }
         }, DBUtils.getUserId(), authorization);
     }
+
+    private void getUserInfo(String id) {
+            HomeModel.getHomeModel().getUserInfo(new Subscriber<UserDetailInfo>() {
+                @Override
+                public void onCompleted() {
+                    System.out.println("");
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    System.out.println("e = " + e);
+                    Toast.makeText(ctx, "获取用户信息失败3", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onNext(UserDetailInfo userDetailInfo) {
+                    if (userDetailInfo.getStatus_code() == 200) {
+                        //获取用户详细信息成功之后 首先赋值给视图控件 然后将必要信息保存到数据中
+                        userDetailInfoData = userDetailInfo.getData();
+                    } else {
+                        onToast(userDetailInfo.getMessage());
+                    }
+
+                }
+            }, "", "Bearer " + DBUtils.getUserToken());
+        }
 }

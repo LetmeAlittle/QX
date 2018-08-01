@@ -27,65 +27,86 @@ import static com.ttt.qx.qxcall.QXCallApplication.onToast;
  */
 
 public class PhoneAction extends BaseAction {
-    public PhoneAction() {
-        super(R.drawable.nim_message_plus_phone_selector, R.string.input_panel_phone);
-    }
+	private int callType = 0;//0普通  1抛话题  2角色扮演
+	private int gid = 0;//抛话题id
+	private String ppid ="";//
+	private boolean isAdmin = false;//是否是发起人
 
-    @Override
-    public void onClick() {
-        Activity activity = getActivity();
-        UserDao userDao = new UserDao();
-        UserBean userBean = userDao.queryFirstData();
-        if (userBean != null) {
-            //获取当前用户账号 调用语音通话
-            String accid = getAccount();
-            String authorization = "Bearer " + userBean.getToken();
-            HomeModel.getHomeModel().isBackFans(new ProgressSubscribe<>(new SubScribeOnNextListener<StandardResponse>() {
-                @Override
-                public void onNext(StandardResponse standardResponse) {
-                    if (standardResponse.getStatus_code() == 200) {
-                        if (standardResponse.getData().getIs_black() == 0) {
+	public PhoneAction() {
+		super(R.drawable.nim_message_plus_phone_selector, R.string.input_panel_phone);
+	}
 
-                            StealListenModel.getStealListenModel().isAllowTalk(new Subscriber<StandardResponse>() {
-                                @Override
-                                public void onCompleted() {
-                                }
+	public void setCallType(int callType) {
+		this.callType = callType;
+	}
 
-                                @Override
-                                public void onError(Throwable e) {
-                                }
+	public void setPPid(String ppid) {
+		this.ppid = ppid;
+	}
 
-                                @Override
-                                public void onNext(StandardResponse standardResponse) {
-                                    if (standardResponse.getStatus_code() == 200) {
-                                        //调起拨打界面。
-                                        AVChatProfile.getInstance().setAVChatting(true);
-                                        AVChatActivity.launch(activity, accid, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
-                                    } else {
-                                        //费用不足 弹出是否充值对话框
-                                        TipDialog.showCenterTipDialog(activity, "当前剩余钻石不足,是否前去充值？", new TipDialog.OnComponentClickListener() {
-                                            @Override
-                                            public void onCancle() {
-                                                //用户取消操作
-                                            }
+	public void setGid(int gid) {
+		this.gid = gid;
+	}
 
-                                            @Override
-                                            public void onConfirm() {
-                                                //用户点击确定执行 相关逻辑
-                                                IntentUtil.jumpIntent(activity, RechargeActivity.class);
-                                            }
-                                        }, true);
-                                    }
-                                }
-                            }, accid, authorization);
-                        } else {
-                            onToast("您已被对方拉黑！");
-                        }
-                    }
-                }
-            }, activity), String.valueOf(accid), authorization);
-        } else {
-            IntentUtil.jumpIntent(activity, LoginTransferActivity.class);
-        }
-    }
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
+	@Override
+	public void onClick() {
+		Activity activity = getActivity();
+		UserDao userDao = new UserDao();
+		UserBean userBean = userDao.queryFirstData();
+		if (userBean != null) {
+			//获取当前用户账号 调用语音通话
+			String accid = getAccount();
+			String authorization = "Bearer " + userBean.getToken();
+			HomeModel.getHomeModel().isBackFans(new ProgressSubscribe<>(new SubScribeOnNextListener<StandardResponse>() {
+				@Override
+				public void onNext(StandardResponse standardResponse) {
+					if (standardResponse.getStatus_code() == 200) {
+						if (standardResponse.getData().getIs_black() == 0) {
+
+							StealListenModel.getStealListenModel().isAllowTalk(new Subscriber<StandardResponse>() {
+								@Override
+								public void onCompleted() {
+								}
+
+								@Override
+								public void onError(Throwable e) {
+								}
+
+								@Override
+								public void onNext(StandardResponse standardResponse) {
+									if (standardResponse.getStatus_code() == 200) {
+										//调起拨打界面。
+										AVChatProfile.getInstance().setAVChatting(true);
+										AVChatActivity.launch(activity, callType, gid,ppid, accid, AVChatType.AUDIO.getValue(), isAdmin, AVChatActivity.FROM_INTERNAL);
+									} else {
+										//费用不足 弹出是否充值对话框
+										TipDialog.showCenterTipDialog(activity, "当前剩余钻石不足,是否前去充值？", new TipDialog.OnComponentClickListener() {
+											@Override
+											public void onCancle() {
+												//用户取消操作
+											}
+
+											@Override
+											public void onConfirm() {
+												//用户点击确定执行 相关逻辑
+												IntentUtil.jumpIntent(activity, RechargeActivity.class);
+											}
+										}, true);
+									}
+								}
+							}, accid, authorization);
+						} else {
+							onToast("您已被对方拉黑！");
+						}
+					}
+				}
+			}, activity), String.valueOf(accid), authorization);
+		} else {
+			IntentUtil.jumpIntent(activity, LoginTransferActivity.class);
+		}
+	}
 }

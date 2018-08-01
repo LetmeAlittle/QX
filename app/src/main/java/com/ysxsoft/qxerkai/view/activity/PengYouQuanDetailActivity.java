@@ -1,5 +1,6 @@
 package com.ysxsoft.qxerkai.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -91,7 +92,8 @@ public class PengYouQuanDetailActivity extends NBaseActivity implements BaseQuic
     private String id = "";
     private UserDao mUserDao;
     private String mAuthorization;
-    private String userId;
+    private String userId;//朋友id
+    private int fuid;//朋友id
 
     private BGANinePhotoLayout ninePhotoLayout;
 
@@ -108,6 +110,12 @@ public class PengYouQuanDetailActivity extends NBaseActivity implements BaseQuic
                             .skipMemoryCache(true)
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .into((ImageView) ivTou);
+                    ivTou.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(PengYouQuanDetailActivity.this, NZhiLiaoActivity.class).putExtra("id", id).putExtra("accid", id+""));//查看好友资料
+                        }
+                    });
                     tvNick.setText(data.getNick_name());
                     tvTime.setText(data.getCreate_at());
                     tvContent.setText(data.getContent());
@@ -228,6 +236,7 @@ public class PengYouQuanDetailActivity extends NBaseActivity implements BaseQuic
         swipeTarget.setAdapter(adapter);
 
         id = getIntent().getStringExtra("quan_id");
+        fuid=getIntent().getIntExtra("id",-1);
         //首先获取 当前评论id
         mUserDao = new UserDao();
         mUserBean = mUserDao.queryFirstData();
@@ -238,7 +247,6 @@ public class PengYouQuanDetailActivity extends NBaseActivity implements BaseQuic
 
     private void initHeadView(View headView) {
         ninePhotoLayout = (BGANinePhotoLayout) headView.findViewById(R.id.snpl_moment_add_photos);
-
     }
 
     private void initData() {

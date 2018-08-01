@@ -7,18 +7,14 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.common.util.log.LogUtil;
-import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.avchat.AVChatCallback;
@@ -53,8 +49,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,7 +72,7 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 	private Team team;//创建之后的群组
 	private String type = "1";
 	private boolean isSystem = false;//是否是系统匹配
-	private String role, story,avatar;//是左/右  故事类型
+	private String role, story, avatar;//是左/右  故事类型
 	private int ppid;
 	private Handler handler = new Handler() {
 		@Override
@@ -86,7 +80,6 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 			super.dispatchMessage(msg);
 			switch (msg.what) {
 				case U_TIME_CODE://修改时间
-
 					if (t != 59) {
 						if (t % 2 == 0 && isSystem) {//系统匹配2s请求一次  且是系统匹配
 							listenning();
@@ -114,19 +107,17 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 			@Override
 			public void onSuccess(GetJiaoSeListenningResponse getJiaoSeListenningResponse, int code, String msg) {
 				if (code == 200) {
-					int flag = getJiaoSeListenningResponse.getData().getFlag();
-					int fuid=getJiaoSeListenningResponse.getData().getFuid();
-
-					if (flag == 1) { //flag  状态 0未被接听 1 被接听
-						GetJiaoSeListenningResponse.DataBean.ListBean list=  getJiaoSeListenningResponse.getData().getList();
-						String avatar="";
-						String name="";
-						if(list!=null){
-							avatar=list.getMember_avatar();
-							name=list.getNick_name();
+					String flag = getJiaoSeListenningResponse.getData().getFlag();
+					String fuid = getJiaoSeListenningResponse.getData().getFuid();
+					if ("1".equals(flag)) { //flag  状态 0未被接听 1 被接听
+						GetJiaoSeListenningResponse.DataBean.ListBean list = getJiaoSeListenningResponse.getData().getList();
+						String avatar = "";
+						String name = "";
+						if (list != null) {
+							avatar = list.getMember_avatar();
+							name = list.getNick_name();
 						}
-//						Log.e("tag","name:"+name+"avatar:"+avatar);
-						NimUIKit.startP2PSessionWithJiaoSe(NYiJianPiPeiActivity.this, members, "0".equals(role)?"1":"0",""+fuid, story, name,avatar);//携带对方id 对方名字
+						NimUIKit.startP2PSessionWithJiaoSeAccept(NYiJianPiPeiActivity.this, members, "0".equals(role) ? "1" : "0", "" + fuid, story, name, avatar, "" + ppid, 2);//携带对方id 对方名字
 						handler.removeCallbacksAndMessages(null);
 						finish();
 					} else {
@@ -150,7 +141,7 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 		ButterKnife.bind(this);
 		if (!isSystem) {//不是角色扮演(系统匹配) 注册多人房间监听
 			register(true);
-		}else{//角色扮演获取ppid
+		} else {//角色扮演获取ppid
 			getPPid();
 		}
 		initStatusBar();
@@ -165,10 +156,36 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 		role = getIntent().getStringExtra("role");
 		story = getIntent().getStringExtra("story");
 		avatar = getIntent().getStringExtra("avatar");
+		type = getIntent().getStringExtra("type");//1一键匹配 2专属匹配
 	}
 
 	private void register(boolean register) {
 		AVChatManager.getInstance().observeAVChatState(this, register);
+	}
+
+	/**
+	 * 角色扮演获取ppid
+	 */
+	private void getPPid() {
+		Map<String, String> map = new HashMap<>();
+		map.put("user_id", DBUtils.getUserId());
+		RetrofitTools.getJiaoSePPid(map).subscribe(new ResponseSubscriber<GetJiaoSePPidResponse>() {
+			@Override
+			public void onSuccess(GetJiaoSePPidResponse getJiaoSePPidResponse, int code, String msg) {
+				if (code == 200) {
+					if (getJiaoSePPidResponse.getData() == null) {
+						return;
+					}
+					ppid = getJiaoSePPidResponse.getData().getPpid();
+				} else {
+					ToastUtils.showToast(NYiJianPiPeiActivity.this, msg, 1);
+				}
+			}
+
+			@Override
+			public void onFailed(Throwable e) {
+			}
+		});
 	}
 
 	public void initStatusBar() {
@@ -216,7 +233,7 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 							}
 							if (isSystem) {//系统匹配（角色扮演）
 //								members.add("10196");//TODO：need更换
-								WYUtils.notifyToAllUserBanYan(NYiJianPiPeiActivity.this, members, role, story);
+								WYUtils.notifyToAllUserBanYan(NYiJianPiPeiActivity.this, members, role, story, "" + ppid);
 							} else {//一键匹配 专属匹配
 								createRoom();//创建聊天室
 							}
@@ -224,31 +241,6 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 					}
 				} else {
 					ToastUtils.showToast(NYiJianPiPeiActivity.this, msg, 0);
-				}
-			}
-
-			@Override
-			public void onFailed(Throwable e) {
-			}
-		});
-	}
-
-	/**
-	 * 角色扮演获取ppid
-	 */
-	private void getPPid() {
-		Map<String, String> map = new HashMap<>();
-		map.put("user_id", DBUtils.getUserId());
-		RetrofitTools.getJiaoSePPid(map).subscribe(new ResponseSubscriber<GetJiaoSePPidResponse>() {
-			@Override
-			public void onSuccess(GetJiaoSePPidResponse getJiaoSePPidResponse, int code, String msg) {
-				if (code == 200) {
-					if (getJiaoSePPidResponse.getData() == null) {
-						return;
-					}
-					ppid = getJiaoSePPidResponse.getData().getPpid();
-				} else {
-					ToastUtils.showToast(NYiJianPiPeiActivity.this, msg, 1);
 				}
 			}
 
@@ -352,6 +344,8 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 		teamJson.setCallerName(DBUtils.getUserNickName());
 		teamJson.setUserId(DBUtils.getUserId());
 
+		teamJson.setCallType(type);
+
 		int size = members.size();
 		for (int i = 0; i < size; i++) {
 			String targetId = members.get(i);
@@ -369,7 +363,7 @@ public class NYiJianPiPeiActivity extends AppCompatActivity implements AVChatSta
 		super.onDestroy();
 		if (!isSystem) {//不是角色扮演
 			register(false);
-		}else{
+		} else {
 			handler.removeCallbacksAndMessages(null);
 		}
 	}
