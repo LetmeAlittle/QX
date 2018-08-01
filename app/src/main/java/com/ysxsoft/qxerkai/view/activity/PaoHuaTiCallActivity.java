@@ -8,10 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.session.activity.P2PMessageActivity;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.ttt.qx.qxcall.R;
 import com.ttt.qx.qxcall.function.voice.AVChatSoundPlayer;
+import com.ysxsoft.qxerkai.net.response.PaoHuaTiResponse;
+import com.ysxsoft.qxerkai.utils.StringUtils;
+import com.ysxsoft.qxerkai.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,19 +36,18 @@ public class PaoHuaTiCallActivity extends AppCompatActivity {
 	@BindView(R.id.refuse)
 	ImageView refuse;
 
-	public static void start(Context context, List<String> members, String role, String teamId, String story, String teamName, String userIcon,int type) {
-		//
+	private PaoHuaTiResponse response;//通知传过来的参数
 
+	/**
+	 * 发起人
+	 * @param context
+	 * @param response
+	 */
+
+	public static void start(Context context, PaoHuaTiResponse response) {
 		Intent intent = new Intent(context, PaoHuaTiCallActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.putExtra("role", role);//0代表左边  1代表右边
-		intent.putExtra("teamId", teamId);//发起人id
-		intent.putExtra("story", story);////故事类型 0:教师VS学生 1:亲王VS宠妃 2:护士VS病人 3:大叔VS萝莉 4:空姐VS乘客 5:老板VS秘书
-		intent.putExtra("teamName", teamName);//发起人名称
-		intent.putStringArrayListExtra("members", (ArrayList<String>) members);//类型
-
-		intent.putExtra("userIcon", userIcon);//发起人用户头像
-		intent.putExtra("type",type);
+		intent.putExtra("bean", response);
 		context.startActivity(intent);
 	}
 
@@ -63,14 +68,12 @@ public class PaoHuaTiCallActivity extends AppCompatActivity {
 	}
 
 	private void parseIntent() {
-//		//角色扮演
-//		role = getIntent().getStringExtra("role");//0代表左边  1代表右边
-//		story = getIntent().getStringExtra("story");//故事类型 0:教师VS学生 1:亲王VS宠妃 2:护士VS病人 3:大叔VS萝莉 4:空姐VS乘客 5:老板VS秘书
-//		userId2 = getIntent().getStringExtra("teamId");//发起人id
-//		teamName = getIntent().getStringExtra("teamName");//发起人名称
-//		userIcon = getIntent().getStringExtra("userIcon");//发起人头像
-		content.setText("邀请你进行话题探讨");
-//		name.setText(StringUtils.convert(teamName));
+		response = (PaoHuaTiResponse) getIntent().getSerializableExtra("bean");
+		if(response==null){
+			content.setText("");
+			return;
+		}
+		content.setText(StringUtils.convert(response.getMsg()));
 	}
 
 	@Override
@@ -83,10 +86,35 @@ public class PaoHuaTiCallActivity extends AppCompatActivity {
 	public void onViewClicked(View view) {
 		switch (view.getId()) {
 			case R.id.accept://接受
-//				P2PMessageActivity.startByHuaTi2();
+//				Context context,String contactId,String icon,String name,String title,int isVip,int num, SessionCustomization customization, IMMessage anchor
+				if (response == null) {
+					ToastUtils.showToast(this, "话题发布方信息缺失！", 1);
+					finish();
+					return;
+				}
+				PaoHuaTiResponse.MemberInfoBean memberInfoBean = response.getMember_info();
+				if (memberInfoBean == null) {
+					return;
+				}
+				int contactId =memberInfoBean.getMember_id();//发起人id
+				String icon = memberInfoBean.getIcon();//头像
+				String name = memberInfoBean.getNick_name();
+				String title = memberInfoBean.getTitle();
+				int isVip = memberInfoBean.getIs_vip();
+				int num = memberInfoBean.getNum();
+				NimUIKit.startP2PSessionWithHuaTi(PaoHuaTiCallActivity.this, "" + contactId, icon, name, title, isVip, num, memberInfoBean.getGid(), 1);//抛话题 callType传1  为了区分扣费接口
+				finish();
 				break;
 			case R.id.refuse://拒绝
+				ToastUtils.showToast(this, "已拒绝！", 1);
+				finish();
 				break;
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		AVChatSoundPlayer.instance().stop();
 	}
 }

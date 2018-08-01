@@ -305,7 +305,7 @@ public class XCDanmuView extends RelativeLayout {
                     public void onSuccess(BaseResponse baseResponse, int code, String msg) {
                         if (code == 200) {
                             notifyUser(gid);//通知用户
-                            NimUIKit.startP2PSessionWithTitle(mContext, "" + tag, data.getIcon(), data.getNick_name(), data.getTitle(), data.getIs_vip(), data.getNum());
+                            NimUIKit.startP2PSessionWithTitle(mContext, "" + tag, data.getIcon(), data.getNick_name(), data.getTitle(), data.getIs_vip(),data.getNum(),gid,1);//callType传1
                         } else {
                             ToastUtil.showToast(mContext, msg);
                         }

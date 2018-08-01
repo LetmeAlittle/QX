@@ -143,10 +143,14 @@ public class NKaiTongShouHuActivity extends NBaseActivity {
                     @Override
                     public void onSuccess(BaseResponse baseResponse, int code, String msg) {
                         multipleStatusView.hideLoading();
-                        llMoney.setVisibility(View.INVISIBLE);
-                        tvQuerenshouhu.setVisibility(View.GONE);
-                        tvShouhuchenggong.setVisibility(View.VISIBLE);
-                        tvTime.setClickable(false);
+                        if(code==200){
+                            llMoney.setVisibility(View.INVISIBLE);
+                            tvQuerenshouhu.setVisibility(View.GONE);
+                            tvShouhuchenggong.setVisibility(View.VISIBLE);
+                            tvTime.setClickable(false);
+                        }else if(code==400){
+                            ToastUtils.showToast(NKaiTongShouHuActivity.this,msg,1);
+                        }
                     }
 
                     @Override

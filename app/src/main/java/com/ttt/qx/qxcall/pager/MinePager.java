@@ -369,7 +369,7 @@ public class MinePager extends BasePager {
             @Override
             public void onError(Throwable e) {
                 System.out.println("e = " + e);
-                Toast.makeText(ctx, "获取用户信息失败" , Toast.LENGTH_LONG).show();
+                Toast.makeText(ctx, "获取用户信息失败1" , Toast.LENGTH_LONG).show();
             }
 
             @Override

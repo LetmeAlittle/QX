@@ -254,7 +254,7 @@ public class NPengYouQuanActivity extends NBaseActivity implements BaseQuickAdap
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 startActivity(new Intent(NPengYouQuanActivity.this, PengYouQuanDetailActivity.class)
-                        .putExtra("quan_id", list.get(position).getId() + ""));
+                        .putExtra("quan_id", list.get(position).getId() + "").putExtra("id",list.get(position).getMember_id()));
             }
         });
 

@@ -676,8 +676,15 @@ public class NHuaLiaoActivity extends NBaseActivity implements AVChatStateObserv
 //				}
 				if(AVChatManager.getInstance().isLocalAudioMuted()){//判断本地是否静音
 					AVChatManager.getInstance().muteLocalAudio(false);//取消静音
+
+					Drawable drawable = this.getResources().getDrawable(R.mipmap.icon_close_mai);
+					drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+					myAudio.setCompoundDrawables(null,drawable,null,null);
 				}else{
 					AVChatManager.getInstance().muteLocalAudio(true);//开启静音
+										Drawable drawable = this.getResources().getDrawable(R.mipmap.activity_hualiao_woshengyin);
+					drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+					myAudio.setCompoundDrawables(null,drawable,null,null);
 				}
 				break;
 			case R.id.sendDanMu://发弹幕

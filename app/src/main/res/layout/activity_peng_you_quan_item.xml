@@ -99,6 +99,20 @@
                     />
 
                 <TextView
+                    android:id="@+id/delete"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:drawablePadding="2dp"
+                    android:gravity="center_vertical"
+                    android:text="删除"
+                    android:paddingLeft="@dimen/dp_4"
+                    android:paddingRight="@dimen/dp_4"
+                    android:textColor="@color/btn_blue"
+                    android:textSize="@dimen/normal_size"/>
+
+                <TextView
                     android:id="@+id/tv_zan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

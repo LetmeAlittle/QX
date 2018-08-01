@@ -114,6 +114,9 @@ public class CommonConstant {
 	public static final String CHECK_VERSION = "api/getversions";               				//检测更新 type
 	public static final String FEED_BACK = "api/comment";               						//意见反馈 mobile content
 	public static final String NOTIFY_USER = "api/sendtongzhi";               				//抛话题发送通知 gid
+	public static final String JIAO_SE_START = "api/friend/jioaoseStart";               	//角色扮演扣费接口
+	public static final String DEL_XIAO_QING_QU = "api/friend/delxiaoqingx";              //删除小情趣
+	public static final String DEL_PENG_YOU_QUAN = "api/friend/delmycile";                //删除朋友圈
 
     //朋友圈
     public static final String FRIEND_Q_LIST = "/api/friend/list";// 朋友圈

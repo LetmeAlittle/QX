@@ -57,6 +57,7 @@ import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.DimenUtils;
 import com.ysxsoft.qxerkai.utils.GlideCircleTransform;
 import com.ysxsoft.qxerkai.utils.StringUtils;
+import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.view.activity.NHuaLiaoTouTingActivity;
 
 import java.util.ArrayList;
@@ -92,6 +93,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     private ImageView ivPhone;
     private TextView close;
     private LinearLayout banYanLayout;
+//    private boolean isNotifyed;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -213,7 +215,17 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         ivPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                phoneAction.onClick();
+                if(!isAdmin&&callType==1) {//接收方 抛话题
+                    ToastUtils.showToast(getActivity(),"请等待对方呼叫",1);
+                }else if(!isAdmin&&callType==2){//接收方  角色扮演
+                    ToastUtils.showToast(getActivity(),"请等待对方呼叫",1);
+                }else {
+                    phoneAction.setGid(gid);
+                    phoneAction.setAdmin(isAdmin);
+                    phoneAction.setCallType(callType);
+                    phoneAction.setPPid(ppid);
+                    phoneAction.onClick();
+                }
             }
         });
     }
@@ -398,6 +410,9 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     ///////////////////////////////////////////////////////////////////////////
     // Sincerly  2018.07.13 15:39:00  新增抛话题
     ///////////////////////////////////////////////////////////////////////////
+    private int callType=0;//0 正常 1抛话题通话  2角色扮演通话
+    private int gid;//话题id
+    private boolean isAdmin;//是否是发起方  用来控制每分钟扣费
     private void parseTitle() {
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -405,6 +420,9 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             String title = bundle.getString("title");//话题标题
             int num = bundle.getInt("num");//话题价格
             String icon = bundle.getString("icon");
+            callType=bundle.getInt("callType");
+            gid=bundle.getInt("gid");
+            isAdmin=bundle.getBoolean("isAdmin",false);//是否是发起方  用来控制扣费
             FrameLayout parent = findView(R.id.fl_bg);
             LinearLayout msgLayout=findView(R.id.msgLayout);//动态设置布局  布局下移
 
@@ -429,11 +447,13 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             t.setText(StringUtils.convert(title));
             p.setText(StringUtils.convert(num + "") + "砰砰豆/分钟");
         }
+//        isNotifyed=bundle.getBoolean("isNotifyed",false);
     }
 
     ///////////////////////////////////////////////////////////////////////////
     //  Sincerly  2018.07.20 18:02:00  新增角色
     ///////////////////////////////////////////////////////////////////////////
+    private String ppid;
     private void parseJiaose(){
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -448,6 +468,8 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             String story=bundle.getString("story");
             String teamName=bundle.getString("teamName");
             List<String> members=bundle.getStringArrayList("members");
+             ppid=bundle.getString("ppid");
+            isAdmin=bundle.getBoolean("isAdmin",false);
             String userIcon=bundle.getString("userIcon");//发起人头像  数据源带过来的
 
             if(story!=null){//角色扮演

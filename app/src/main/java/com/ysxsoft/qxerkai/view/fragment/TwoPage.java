@@ -3,9 +3,11 @@ package com.ysxsoft.qxerkai.view.fragment;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnticipateOvershootInterpolator;
@@ -14,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -53,6 +57,7 @@ import com.ysxsoft.qxerkai.view.activity.NLoginActivity;
 import com.ysxsoft.qxerkai.view.activity.NQingQuDetailActivity;
 import com.ysxsoft.qxerkai.view.activity.NQingQuListActivity;
 import com.ysxsoft.qxerkai.view.activity.NZhiLiaoActivity;
+import com.ysxsoft.qxerkai.view.adapter.PengYouQuanAdapter;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 import com.ysxsoft.qxerkai.view.widget.ResizableImageView;
 
@@ -451,7 +456,7 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
 	 * 小情趣适配器
 	 */
 	private class QuanZiAdapter extends BaseQuickAdapter<GetCardListResponse.DataBeanX.ListBean.DataBean, BaseViewHolder> {
-
+		private int selectedItem=-1;
 		public QuanZiAdapter(int layoutResId) {
 			super(layoutResId);
 		}
@@ -472,8 +477,74 @@ public class TwoPage extends BasePager implements View.OnClickListener, Observer
 				likeImage.setImageResource(R.mipmap.fragment_two_dianzan);
 			}
 			likeImage.setOnClickListener(new OnLikeClickListener(item.getTid(), helper.getAdapterPosition()));
+
+			//删除
+			TextView delete = helper.getView(R.id.delete);
+			if(item.getUser_id()== DBUtils.getIntUserId()){
+				delete.setVisibility(View.VISIBLE);
+			}else{
+				delete.setVisibility(View.GONE);
+			}
+			delete.setOnClickListener(new OnDeleteClick(item.getTid(),helper.getAdapterPosition()));
 		}
 
+		private class OnDeleteClick implements View.OnClickListener{
+			private int cid;
+			private int p;
+			public OnDeleteClick(int cid,int position) {
+				this.cid = cid;
+				this.p=position;
+			}
+
+			@Override
+			public void onClick(View v) {
+				selectedItem=p;
+				new MaterialDialog.Builder(mContext)
+						.title("温馨提示")
+						.content("是否删除该动态")
+						.positiveText("确定")
+						.negativeText("取消")
+						.onPositive(new MaterialDialog.SingleButtonCallback() {
+							@Override
+							public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+								delete(cid);
+							}
+						})
+						.onNegative(new MaterialDialog.SingleButtonCallback() {
+							@Override
+							public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+								dialog.dismiss();
+							}
+						})
+						.show();
+			}
+		}
+
+		private void delete(int cid){
+			Map<String, String> map2 = new HashMap<>();
+			map2.put("cid", ""+cid);
+			RetrofitTools.deleteQingQu(map2)
+					.subscribe(new ResponseSubscriber<BaseResponse>() {
+						@Override
+						public void onSuccess(BaseResponse baseResponse, int code, String msg) {
+							if (code == 200) {
+								refreshAdapter();
+							}
+						}
+
+						@Override
+						public void onFailed(Throwable e) {
+							Log.e("tag", "删除朋友圈失败");
+						}
+					});
+		}
+
+		private void refreshAdapter(){
+			if(mData.size()>selectedItem&&selectedItem!=-1){
+				mData.remove((selectedItem));
+				notifyDataSetChanged();
+			}
+		}
 		/**
 		 * 点赞
 		 */

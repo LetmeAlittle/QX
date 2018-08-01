@@ -1,9 +1,12 @@
 package com.ysxsoft.qxerkai.view.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,19 +25,24 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.netease.nim.uikit.NimUIKit;
 import com.ttt.qx.qxcall.R;
+import com.ttt.qx.qxcall.utils.CustomAlertDialogUtil;
 import com.ttt.qx.qxcall.utils.ToastUtil;
 import com.ysxsoft.qxerkai.net.ResponseSubscriber;
 import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.GetJiaoSeListenningResponse;
+import com.ysxsoft.qxerkai.net.response.GetJiaoSePPidResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
 import com.ysxsoft.qxerkai.net.response.SearchListResponse;
 import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.utils.LogUtils;
+import com.ysxsoft.qxerkai.utils.ToastUtils;
 import com.ysxsoft.qxerkai.utils.WYUtils;
 import com.ysxsoft.qxerkai.view.widget.MultipleStatusView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,6 +84,17 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
 	private HashMap<String, String> map = new HashMap<>();
 	private double latitude = 34.801765;
 	private double longitude = 113.611325;
+	private boolean isLeft = true;
+	public static final int U_TIME_CODE=0x01;
+	/**
+	 * 延时器
+	 */
+	private int delayTime = 1000;//1s
+	private int totalTime = 60;//60s
+	private int t;
+	private int ppid;
+	private String clickId;
+
 	//声明定位回调监听器
 	public AMapLocationListener mLocationListener = new AMapLocationListener() {
 		@Override
@@ -98,7 +117,31 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
 			}
 		}
 	};
-	private boolean isLeft = true;
+
+	private Handler handler = new Handler() {
+		@Override
+		public void dispatchMessage(Message msg) {
+			super.dispatchMessage(msg);
+			switch (msg.what) {
+				case U_TIME_CODE://修改时间
+					if (t != 60) {
+						if (t % 2 == 0) {//系统匹配2s请求一次  且是系统匹配
+							listenning();
+						}
+						t++;
+						handler.sendEmptyMessageDelayed(U_TIME_CODE, delayTime);
+					} else {//超过60s未匹配到 关闭页面
+						ToastUtils.showToast(BanYanActivity.this,"对方暂未接听",1);
+						handler.removeCallbacksAndMessages(null);
+						if(mDialog!=null){
+							mDialog.dismiss();
+						}
+						finish();
+					}
+					break;
+			}
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -216,18 +259,96 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
 			public void onClick(HaoYouListResponse.DataBeanX.DataBean item) {
 				//TODO  角色扮演  选择
 //				showToast(item.getNick_name());
-
-//				Intent intent = new Intent(BanYanActivity.this, NYiJianPiPeiActivity.class);
+//				Intent intent = new Intent(BanYanActivity.this, BanYanActivity.class);
 //				intent.putExtra("isSystem", true);
 //				intent.putExtra("role", isLeft ? "0" : "1");
 //				intent.putExtra("avatar",item.getMember_avatar());
 //				intent.putExtra("story", convert(pageType));//android转换ios 自定义通知
 //				startActivity(intent);
 
-				NimUIKit.startP2PSessionWithJiaoSe(BanYanActivity.this, new ArrayList<String>(), isLeft?"1":"0",item.getId()+"", convert(pageType), item.getNick_name(),item.getIcon());//跳转至角色扮演 携带对方id 对方名字
-				WYUtils.notifyToUserBanYan( BanYanActivity.this,item.getId()+"",isLeft?"0":"1",convert(pageType));//通知用户
+//				NimUIKit.startP2PSessionWithJiaoSe(BanYanActivity.this, new ArrayList<String>(), isLeft?"1":"0",item.getId()+"", convert(pageType), item.getNick_name(),item.getIcon(),-1);//跳转至角色扮演 携带对方id 对方名字
+				clickId=""+item.getId();
+				showDialog();
+				t=0;
+				getPPid();//创建房间
 			}
 		};
+	}
+
+	/**
+	 * 角色扮演 轮询查询是否已经接听
+	 */
+	private ArrayList<String> members = new ArrayList<>();//成员ID
+	private void listenning() {
+		Map<String, String> map = new HashMap<>();
+		map.put("ppid", "" + ppid);
+		RetrofitTools.jiaoSeListenning(map).subscribe(new ResponseSubscriber<GetJiaoSeListenningResponse>() {
+			@Override
+			public void onSuccess(GetJiaoSeListenningResponse getJiaoSeListenningResponse, int code, String msg) {
+				if (code == 200) {
+					String flag = getJiaoSeListenningResponse.getData().getFlag();
+					String fuid=getJiaoSeListenningResponse.getData().getFuid();
+
+					if ("1".equals(flag)) { //flag  状态 0未被接听 1 被接听
+						GetJiaoSeListenningResponse.DataBean.ListBean list=  getJiaoSeListenningResponse.getData().getList();
+						String avatar="";
+						String name="";
+						if(list!=null){
+							avatar=list.getMember_avatar();
+							name=list.getNick_name();
+						}
+//						NimUIKit.startP2PSessionWithJiaoSe(BanYanActivity.this, members, "0".equals(role)?"1":"0",""+fuid, story, name,avatar,-1);//携带对方id 对方名字
+						NimUIKit.startP2PSessionWithJiaoSeAccept(BanYanActivity.this, new ArrayList<String>(), isLeft?"1":"0",fuid+"", convert(pageType), name,avatar,""+ppid,2);//跳转至角色扮演 携带对方id 对方名字
+//						WYUtils.notifyToUserBanYan( BanYanActivity.this,fuid+"",isLeft?"0":"1",convert(pageType),""+ppid);//通知用户
+						handler.removeCallbacksAndMessages(null);
+						finish();
+					} else {
+					}
+				} else {
+					ToastUtils.showToast(BanYanActivity.this, msg, 1);
+				}
+			}
+
+			@Override
+			public void onFailed(Throwable e) {
+			}
+		});
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		handler.removeCallbacksAndMessages(null);
+		if(mDialog!=null){
+			mDialog.dismiss();
+		}
+	}
+
+	/**
+	 * 角色扮演获取ppid
+	 */
+	private void getPPid() {
+		Map<String, String> map = new HashMap<>();
+		map.put("user_id", DBUtils.getUserId());
+		RetrofitTools.getJiaoSePPid(map).subscribe(new ResponseSubscriber<GetJiaoSePPidResponse>() {
+			@Override
+			public void onSuccess(GetJiaoSePPidResponse getJiaoSePPidResponse, int code, String msg) {
+				if (code == 200) {
+					if (getJiaoSePPidResponse.getData() == null) {
+						return;
+					}
+					ppid = getJiaoSePPidResponse.getData().getPpid();
+					WYUtils.notifyToUserBanYan( BanYanActivity.this,clickId+"",isLeft?"0":"1",convert(pageType),ppid+"");//通知单个用户
+					handler.obtainMessage(U_TIME_CODE).sendToTarget();//开始轮询
+				} else {
+					ToastUtils.showToast(BanYanActivity.this, msg, 1);
+				}
+			}
+
+			@Override
+			public void onFailed(Throwable e) {
+			}
+		});
 	}
 
 	private void initMap() {
@@ -431,5 +552,24 @@ public class BanYanActivity extends NBaseActivity implements BaseQuickAdapter.Re
 					.into((ImageView) helper.getView(R.id.iv_touxiang));
 			helper.setText(R.id.tv_nickname, item.getNick_name());
 		}
+	}
+	Dialog mDialog;
+	private void showDialog() {
+		if (mDialog == null) {
+			mDialog = CustomAlertDialogUtil.createLoadingDialog(this, "等待对方接受...", false);
+		}
+		if (mDialog.isShowing()) {
+			return;
+		}
+		if (!mDialog.isShowing()) {
+			mDialog.show();
+		}
+
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				mDialog.dismiss();
+			}
+		}, 3000);
 	}
 }

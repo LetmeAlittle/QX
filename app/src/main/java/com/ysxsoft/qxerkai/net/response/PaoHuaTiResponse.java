@@ -1,6 +1,8 @@
 package com.ysxsoft.qxerkai.net.response;
 
-public class PaoHuaTiResponse{
+import java.io.Serializable;
+
+public class PaoHuaTiResponse implements Serializable{
 	/**
 	 * time : 2018-07-27 18:29
 	 * gift_info : {"git_num":1}
@@ -65,7 +67,7 @@ public class PaoHuaTiResponse{
 		this.member_id = member_id;
 	}
 
-	public static class GiftInfoBean {
+	public static class GiftInfoBean implements Serializable {
 		/**
 		 * git_num : 1
 		 */
@@ -81,7 +83,7 @@ public class PaoHuaTiResponse{
 		}
 	}
 
-	public static class MemberInfoBean {
+	public static class MemberInfoBean implements Serializable{
 		/**
 		 * nick_name : Sincerly
 		 * icon : http://116.62.217.183/storage/avatar/2018/07/24/avatar_1532415615_10195.png

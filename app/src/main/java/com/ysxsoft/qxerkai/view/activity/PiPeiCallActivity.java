@@ -59,6 +59,7 @@ public class PiPeiCallActivity extends AppCompatActivity {
 	private String callerName;//发起人名称
 	private String userId;//发起人id
 	private String teamId;//群组id
+	private String ppid;//ppid
 	private String type;//类型 1系统匹配2专属匹配3角色扮演
 	private String role, story, userId2, teamName, userIcon;
 
@@ -71,7 +72,8 @@ public class PiPeiCallActivity extends AppCompatActivity {
 		}
 	};
 
-	public static void start(Context context, String callerName, String roomName, String userId, String type, String teamId, List<String> members) {
+	//1 (一键匹配)  2(专属匹配)
+	public static void start(Context context, String callerName, String roomName, String userId, String type, String teamId, List<String> members,String callType) {
 		Intent intent = new Intent(context, PiPeiCallActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.putExtra("callerName", callerName);
@@ -79,6 +81,7 @@ public class PiPeiCallActivity extends AppCompatActivity {
 		intent.putExtra("userId", userId);//房主用户Id
 		intent.putExtra("type", type);//类型
 		intent.putExtra("teamId", teamId);//类型   1系统匹配2专属匹配3角色扮演
+		intent.putExtra("callType",callType);
 		intent.putStringArrayListExtra("members", (ArrayList<String>) members);//类型
 		context.startActivity(intent);
 	}
@@ -90,7 +93,7 @@ public class PiPeiCallActivity extends AppCompatActivity {
 	 * @param teamId
 	 * @param members
 	 */
-	public static void start(Context context, List<String> members, String role, String teamId, String story, String teamName, String userIcon) {
+	public static void start(Context context, List<String> members, String role, String teamId, String story, String teamName, String userIcon,String ppid) {
 		Intent intent = new Intent(context, PiPeiCallActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.putExtra("role", role);//0代表左边  1代表右边
@@ -100,20 +103,7 @@ public class PiPeiCallActivity extends AppCompatActivity {
 		intent.putStringArrayListExtra("members", (ArrayList<String>) members);//类型
 
 		intent.putExtra("userIcon", userIcon);//发起人用户头像
-		context.startActivity(intent);
-	}
-
-
-	/**
-	 * 抛话题  邀请接受
-	 *
-	 * @param context
-	 */
-	public static void huati(Context context,String account,String icon,String nickName,String title,int isVip,int num){
-		Intent intent = new Intent(context, PiPeiCallActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.putExtra("isHuaTi",true);
-		NimUIKit.startP2PSessionWithTitle(context, account, icon, nickName, title, isVip,num);
+		intent.putExtra("ppid", ppid);//ppid
 		context.startActivity(intent);
 	}
 
@@ -141,7 +131,7 @@ public class PiPeiCallActivity extends AppCompatActivity {
 		callerName = getIntent().getStringExtra("callerName");
 		userId = getIntent().getStringExtra("userId");
 		teamId = getIntent().getStringExtra("teamId");
-		type = getIntent().getStringExtra("type");
+		type = getIntent().getStringExtra("callType");
 		members = getIntent().getStringArrayListExtra("members");
 
 		//角色扮演
@@ -150,6 +140,7 @@ public class PiPeiCallActivity extends AppCompatActivity {
 		userId2 = getIntent().getStringExtra("teamId");//发起人id
 		teamName = getIntent().getStringExtra("teamName");//发起人名称
 		userIcon = getIntent().getStringExtra("userIcon");//发起人头像
+		ppid = getIntent().getStringExtra("ppid");//发起人头像
 
 		if (story == null) {
 			content.setText("正在呼叫你");
@@ -231,33 +222,39 @@ public class PiPeiCallActivity extends AppCompatActivity {
 	 * 检测房间能不能加入
 	 */
 	private void check2() {
-		if (members != null && members.size() == 1) {//当列表的人数量为1时  直接跳转至聊天页面
-			//跳转至多人聊天
-			NimUIKit.startP2PSessionWithJiaoSe(PiPeiCallActivity.this, members, role, teamId, story, teamName, userIcon);//携带对方id 对方名字
-			finish();
-		} else {//当列表的人数量多时  为系统匹配
-			Map<String, String> map = new HashMap<>();
-			map.put("user_id", DBUtils.getUserId());//用户的id
-			map.put("f_user_id", teamId);//发起人用户id
-			RetrofitTools.acceptJiaoSeCheck(map).subscribe(new ResponseSubscriber<BaseResponse>() {
-				@Override
-				public void onSuccess(BaseResponse baseResponse, int code, String msg) {
-					if (code == 200) {
-						//跳转至多人聊天
-						NimUIKit.startP2PSessionWithJiaoSe(PiPeiCallActivity.this, members, role, teamId, story, teamName, userIcon);//携带对方id 对方名字
-						finish();
-					} else {
-						//该房间已经有人存在   不能加入
-						ToastUtils.showToast(PiPeiCallActivity.this, "接受邀请失败！角色扮演已被别人接听！", 0);
-						finish();
-					}
-				}
+		kouFei(ppid);
+	}
 
-				@Override
-				public void onFailed(Throwable e) {
+	/**
+	 * 系统匹配/角色扮演扣费
+	 */
+	private void kouFei(String ppid){
+//		if (members != null && members.size() == 1) {//当列表的人数量为1时  直接跳转至聊天页面
+//			//跳转至多人聊天
+//			NimUIKit.startP2PSessionWithJiaoSe(PiPeiCallActivity.this, members, role, teamId, story, teamName, userIcon,2);//携带对方id 对方名字
+//			finish();
+//		} else {//当列表的人数量多时  为系统匹配
+		Map<String, String> map = new HashMap<>();
+		map.put("f_user_id", teamId);//用户的id
+		map.put("user_id",DBUtils.getUserId());//发起人用户id
+		RetrofitTools.acceptJiaoSeCheck(map).subscribe(new ResponseSubscriber<BaseResponse>() {
+			@Override
+			public void onSuccess(BaseResponse baseResponse, int code, String msg) {
+				if (code == 200) {
+					//跳转至多人聊天
+					NimUIKit.startP2PSessionWithJiaoSe(PiPeiCallActivity.this, members, role, teamId, story, teamName, userIcon,2);//携带对方id 对方名字
+					finish();
+				} else {
+					//该房间已经有人存在   不能加入
+					ToastUtils.showToast(PiPeiCallActivity.this, "接受邀请失败！角色扮演已被别人接听！", 0);
+					finish();
 				}
-			});
-		}
+			}
+
+			@Override
+			public void onFailed(Throwable e) {
+			}
+		});
 	}
 
 	/**

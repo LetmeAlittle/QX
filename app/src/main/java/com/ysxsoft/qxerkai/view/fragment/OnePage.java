@@ -181,7 +181,10 @@ public class OnePage extends BasePager implements View.OnClickListener {
                     IntentUtil.jumpIntent(ctx, NLoginActivity.class);
                     return;
                 }
-                ctx.startActivity(new Intent(ctx, NYiJianPiPeiActivity.class));
+                Intent intent=new Intent(ctx,NYiJianPiPeiActivity.class);
+                intent.putExtra("type","1");
+                ctx.startActivity(intent);
+//                ctx.startActivity(new Intent(ctx, NYiJianPiPeiActivity.class));
                 activity.overridePendingTransition(0, 0);
             }
         });

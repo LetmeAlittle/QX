@@ -29,59 +29,59 @@ public class GetJiaoSeListenningResponse  extends BaseResponse{
 		 * list : {"id":10148,"member_name":"15713823323","member_age":"18","member_province":"上海","member_city":"上海市","member_sex":1,"member_state":0,"wx_openid":"","qq_openid":"","level":0,"member_price":3,"member_account":"39747.600000000006","member_fronze":1000,"vip_start_time":0,"vip_end_time":0,"flow_num":5,"fans_num":2,"zan_num":3,"member_signature":"","member_img_1":"","member_img_2":"","member_img_3":"","member_img_4":"","birthday":"2000-01-01","member_tag":"[1,3,4,5,6,7]","qq_bind":0,"wx_bind":0,"mobile_bind":0,"member_mobile":"","nick_name":"魔鬼","created_at":"2018-05-02 12:29:57","updated_at":"2018-07-02 15:00:55","password":"$2y$10$c6JrNXgKXKnaKSU0pHZQJ.f6D5DEGBqKcjYnV08f4V4It1QO9NNk2","remember_token":"","wy_acid":"10148","wy_token":"4aa100f21fa6b3529c3db71d344f87c3","member_avatar":"/storage/avatar/2018/06/02/avatar_1527910701_10148.jpg","member_area":"","listen_state":1,"visitor_num":14,"is_online":1,"receive":0,"member_cate_id":49,"member_sound":"http://116.62.217.183/storage/sound/2018/06/05/VIolfUsBMiNvZUpIxpdnaPuSJiohoSywUTqhewAl.","member_is_true":0,"member_true_sex":1,"member_true_name":"贾名","member_id_num":"410726199904264586","member_id_front":"http://116.62.217.183/storage/image/20180530/15276430507116.jpg","member_id_back":"http://116.62.217.183/storage/image/20180530/15276430765379.jpg","is_vip":0,"member_info_is_post":1,"talk_time":21,"order_sort":0,"lat":"34.797306","lng":"113.598829","background_pic":null,"icon":"http://116.62.217.183/storage/avatar/2018/06/02/avatar_1527910701_10148.jpg"}
 		 */
 
-		private int id;
-		private int uid;
-		private int fuid;
-		private int addtime;
-		private int flag;
-		private int jitime;
+		private String id;
+		private String uid;
+		private String fuid;
+		private String addtime;
+		private String flag;
+		private String jitime;
 		private ListBean list;
 
-		public int getId() {
+		public String getId() {
 			return id;
 		}
 
-		public void setId(int id) {
+		public void setId(String id) {
 			this.id = id;
 		}
 
-		public int getUid() {
+		public String getUid() {
 			return uid;
 		}
 
-		public void setUid(int uid) {
+		public void setUid(String uid) {
 			this.uid = uid;
 		}
 
-		public int getFuid() {
+		public String getFuid() {
 			return fuid;
 		}
 
-		public void setFuid(int fuid) {
+		public void setFuid(String fuid) {
 			this.fuid = fuid;
 		}
 
-		public int getAddtime() {
+		public String getAddtime() {
 			return addtime;
 		}
 
-		public void setAddtime(int addtime) {
+		public void setAddtime(String addtime) {
 			this.addtime = addtime;
 		}
 
-		public int getFlag() {
+		public String getFlag() {
 			return flag;
 		}
 
-		public void setFlag(int flag) {
+		public void setFlag(String flag) {
 			this.flag = flag;
 		}
 
-		public int getJitime() {
+		public String getJitime() {
 			return jitime;
 		}
 
-		public void setJitime(int jitime) {
+		public void setJitime(String jitime) {
 			this.jitime = jitime;
 		}
 
@@ -155,24 +155,24 @@ public class GetJiaoSeListenningResponse  extends BaseResponse{
 			 * icon : http://116.62.217.183/storage/avatar/2018/06/02/avatar_1527910701_10148.jpg
 			 */
 
-			private int id;
+			private String id;
 			private String member_name;
 			private String member_age;
 			private String member_province;
 			private String member_city;
-			private int member_sex;
-			private int member_state;
+			private String member_sex;
+			private String member_state;
 			private String wx_openid;
 			private String qq_openid;
-			private int level;
-			private int member_price;
+			private String level;
+			private String member_price;
 			private String member_account;
-			private int member_fronze;
-			private int vip_start_time;
-			private int vip_end_time;
-			private int flow_num;
-			private int fans_num;
-			private int zan_num;
+			private String member_fronze;
+			private String vip_start_time;
+			private String vip_end_time;
+			private String flow_num;
+			private String fans_num;
+			private String zan_num;
 			private String member_signature;
 			private String member_img_1;
 			private String member_img_2;
@@ -180,9 +180,9 @@ public class GetJiaoSeListenningResponse  extends BaseResponse{
 			private String member_img_4;
 			private String birthday;
 			private List<MemberTagBean> member_tag;
-			private int qq_bind;
-			private int wx_bind;
-			private int mobile_bind;
+			private String qq_bind;
+			private String wx_bind;
+			private String mobile_bind;
 			private String member_mobile;
 			private String nick_name;
 			private String created_at;
@@ -193,32 +193,32 @@ public class GetJiaoSeListenningResponse  extends BaseResponse{
 			private String wy_token;
 			private String member_avatar;
 			private String member_area;
-			private int listen_state;
-			private int visitor_num;
-			private int is_online;
-			private int receive;
-			private int member_cate_id;
+			private String listen_state;
+			private String visitor_num;
+			private String is_online;
+			private String receive;
+			private String member_cate_id;
 			private String member_sound;
-			private int member_is_true;
-			private int member_true_sex;
+			private String member_is_true;
+			private String member_true_sex;
 			private String member_true_name;
 			private String member_id_num;
 			private String member_id_front;
 			private String member_id_back;
-			private int is_vip;
-			private int member_info_is_post;
-			private int talk_time;
-			private int order_sort;
+			private String is_vip;
+			private String member_info_is_post;
+			private String talk_time;
+			private String order_sort;
 			private String lat;
 			private String lng;
 			private Object background_pic;
 			private String icon;
 
-			public int getId() {
+			public String getId() {
 				return id;
 			}
 
-			public void setId(int id) {
+			public void setId(String id) {
 				this.id = id;
 			}
 
@@ -254,19 +254,19 @@ public class GetJiaoSeListenningResponse  extends BaseResponse{
 				this.member_city = member_city;
 			}
 
-			public int getMember_sex() {
+			public String getMember_sex() {
 				return member_sex;
 			}
 
-			public void setMember_sex(int member_sex) {
+			public void setMember_sex(String member_sex) {
 				this.member_sex = member_sex;
 			}
 
-			public int getMember_state() {
+			public String getMember_state() {
 				return member_state;
 			}
 
-			public void setMember_state(int member_state) {
+			public void setMember_state(String member_state) {
 				this.member_state = member_state;
 			}
 
@@ -286,19 +286,19 @@ public class GetJiaoSeListenningResponse  extends BaseResponse{
 				this.qq_openid = qq_openid;
 			}
 
-			public int getLevel() {
+			public String getLevel() {
 				return level;
 			}
 
-			public void setLevel(int level) {
+			public void setLevel(String level) {
 				this.level = level;
 			}
 
-			public int getMember_price() {
+			public String getMember_price() {
 				return member_price;
 			}
 
-			public void setMember_price(int member_price) {
+			public void setMember_price(String member_price) {
 				this.member_price = member_price;
 			}
 
@@ -310,51 +310,51 @@ public class GetJiaoSeListenningResponse  extends BaseResponse{
 				this.member_account = member_account;
 			}
 
-			public int getMember_fronze() {
+			public String getMember_fronze() {
 				return member_fronze;
 			}
 
-			public void setMember_fronze(int member_fronze) {
+			public void setMember_fronze(String member_fronze) {
 				this.member_fronze = member_fronze;
 			}
 
-			public int getVip_start_time() {
+			public String getVip_start_time() {
 				return vip_start_time;
 			}
 
-			public void setVip_start_time(int vip_start_time) {
+			public void setVip_start_time(String vip_start_time) {
 				this.vip_start_time = vip_start_time;
 			}
 
-			public int getVip_end_time() {
+			public String getVip_end_time() {
 				return vip_end_time;
 			}
 
-			public void setVip_end_time(int vip_end_time) {
+			public void setVip_end_time(String vip_end_time) {
 				this.vip_end_time = vip_end_time;
 			}
 
-			public int getFlow_num() {
+			public String getFlow_num() {
 				return flow_num;
 			}
 
-			public void setFlow_num(int flow_num) {
+			public void setFlow_num(String flow_num) {
 				this.flow_num = flow_num;
 			}
 
-			public int getFans_num() {
+			public String getFans_num() {
 				return fans_num;
 			}
 
-			public void setFans_num(int fans_num) {
+			public void setFans_num(String fans_num) {
 				this.fans_num = fans_num;
 			}
 
-			public int getZan_num() {
+			public String getZan_num() {
 				return zan_num;
 			}
 
-			public void setZan_num(int zan_num) {
+			public void setZan_num(String zan_num) {
 				this.zan_num = zan_num;
 			}
 
@@ -414,27 +414,27 @@ public class GetJiaoSeListenningResponse  extends BaseResponse{
 				this.member_tag = member_tag;
 			}
 
-			public int getQq_bind() {
+			public String getQq_bind() {
 				return qq_bind;
 			}
 
-			public void setQq_bind(int qq_bind) {
+			public void setQq_bind(String qq_bind) {
 				this.qq_bind = qq_bind;
 			}
 
-			public int getWx_bind() {
+			public String getWx_bind() {
 				return wx_bind;
 			}
 
-			public void setWx_bind(int wx_bind) {
+			public void setWx_bind(String wx_bind) {
 				this.wx_bind = wx_bind;
 			}
 
-			public int getMobile_bind() {
+			public String getMobile_bind() {
 				return mobile_bind;
 			}
 
-			public void setMobile_bind(int mobile_bind) {
+			public void setMobile_bind(String mobile_bind) {
 				this.mobile_bind = mobile_bind;
 			}
 
@@ -518,43 +518,43 @@ public class GetJiaoSeListenningResponse  extends BaseResponse{
 				this.member_area = member_area;
 			}
 
-			public int getListen_state() {
+			public String getListen_state() {
 				return listen_state;
 			}
 
-			public void setListen_state(int listen_state) {
+			public void setListen_state(String listen_state) {
 				this.listen_state = listen_state;
 			}
 
-			public int getVisitor_num() {
+			public String getVisitor_num() {
 				return visitor_num;
 			}
 
-			public void setVisitor_num(int visitor_num) {
+			public void setVisitor_num(String visitor_num) {
 				this.visitor_num = visitor_num;
 			}
 
-			public int getIs_online() {
+			public String getIs_online() {
 				return is_online;
 			}
 
-			public void setIs_online(int is_online) {
+			public void setIs_online(String is_online) {
 				this.is_online = is_online;
 			}
 
-			public int getReceive() {
+			public String getReceive() {
 				return receive;
 			}
 
-			public void setReceive(int receive) {
+			public void setReceive(String receive) {
 				this.receive = receive;
 			}
 
-			public int getMember_cate_id() {
+			public String getMember_cate_id() {
 				return member_cate_id;
 			}
 
-			public void setMember_cate_id(int member_cate_id) {
+			public void setMember_cate_id(String member_cate_id) {
 				this.member_cate_id = member_cate_id;
 			}
 
@@ -566,19 +566,19 @@ public class GetJiaoSeListenningResponse  extends BaseResponse{
 				this.member_sound = member_sound;
 			}
 
-			public int getMember_is_true() {
+			public String getMember_is_true() {
 				return member_is_true;
 			}
 
-			public void setMember_is_true(int member_is_true) {
+			public void setMember_is_true(String member_is_true) {
 				this.member_is_true = member_is_true;
 			}
 
-			public int getMember_true_sex() {
+			public String getMember_true_sex() {
 				return member_true_sex;
 			}
 
-			public void setMember_true_sex(int member_true_sex) {
+			public void setMember_true_sex(String member_true_sex) {
 				this.member_true_sex = member_true_sex;
 			}
 
@@ -614,35 +614,35 @@ public class GetJiaoSeListenningResponse  extends BaseResponse{
 				this.member_id_back = member_id_back;
 			}
 
-			public int getIs_vip() {
+			public String getIs_vip() {
 				return is_vip;
 			}
 
-			public void setIs_vip(int is_vip) {
+			public void setIs_vip(String is_vip) {
 				this.is_vip = is_vip;
 			}
 
-			public int getMember_info_is_post() {
+			public String getMember_info_is_post() {
 				return member_info_is_post;
 			}
 
-			public void setMember_info_is_post(int member_info_is_post) {
+			public void setMember_info_is_post(String member_info_is_post) {
 				this.member_info_is_post = member_info_is_post;
 			}
 
-			public int getTalk_time() {
+			public String getTalk_time() {
 				return talk_time;
 			}
 
-			public void setTalk_time(int talk_time) {
+			public void setTalk_time(String talk_time) {
 				this.talk_time = talk_time;
 			}
 
-			public int getOrder_sort() {
+			public String getOrder_sort() {
 				return order_sort;
 			}
 
-			public void setOrder_sort(int order_sort) {
+			public void setOrder_sort(String order_sort) {
 				this.order_sort = order_sort;
 			}
 
@@ -687,15 +687,15 @@ public class GetJiaoSeListenningResponse  extends BaseResponse{
 		 * color : #f59c9e
 		 */
 
-		private int id;
+		private String id;
 		private String text;
 		private String color;
 
-		public int getId() {
+		public String getId() {
 			return id;
 		}
 
-		public void setId(int id) {
+		public void setId(String id) {
 			this.id = id;
 		}
 

@@ -199,8 +199,17 @@ public final class NimUIKit {
      * @param context
      * @param account
      */
-    public static void startP2PSessionWithTitle(Context context, String account, String icon, String name, String title,int isVip,int num) {
-        P2PMessageActivity.startByHuaTi(context, account, icon, name, title,isVip,num, commonP2PSessionCustomization, null);
+    public static void startP2PSessionWithTitle(Context context, String account, String icon, String name, String title,int isVip,int num,int gid,int callType) {
+        P2PMessageActivity.startByHuaTi(context, account, icon, name, title,isVip,num,gid,callType, commonP2PSessionCustomization, null);
+    }
+
+    /**
+     * 带话题过去至聊天消息  接收方收到通知跳转
+     *
+     * @param context
+     */
+    public static void startP2PSessionWithHuaTi(Context context, String account, String icon, String name, String title,int isVip,int num,int gid,int callType) {
+        P2PMessageActivity.startByHuaAccept(context, account, icon, name, title,isVip,num,gid,callType, commonP2PSessionCustomization, null);
     }
 
     /**
@@ -208,8 +217,17 @@ public final class NimUIKit {
      *
      * @param context
      */
-    public static void startP2PSessionWithJiaoSe(Context context,List<String> members,String role, String teamId, String story, String teamName,String userIcon) {
-        P2PMessageActivity.startByJiaose(context, members,role,teamId, story, teamName,userIcon, commonP2PSessionCustomization, null);
+    public static void startP2PSessionWithJiaoSe(Context context,List<String> members,String role, String teamId, String story, String teamName,String userIcon,int callType) {
+        P2PMessageActivity.startByJiaose(context, members,role,teamId, story, teamName,userIcon,callType, commonP2PSessionCustomization, null);
+    }
+
+    /**
+     * 角色扮演过去  接受
+     *
+     * @param context
+     */
+    public static void startP2PSessionWithJiaoSeAccept(Context context,List<String> members,String role, String teamId, String story, String teamName,String userIcon,String ppid,int callType) {
+        P2PMessageActivity.startByJiaoseAccept(context, members,role,teamId, story, teamName,userIcon,ppid,callType, commonP2PSessionCustomization, null);
     }
 
     /**

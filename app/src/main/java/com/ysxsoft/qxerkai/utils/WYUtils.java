@@ -89,6 +89,7 @@ public class WYUtils {
 			teamJson.setTeamId(jsonObject.optString("teamId"));//群组id
 			teamJson.setId(jsonObject.optString("id"));//固定值
 			teamJson.setUserId(jsonObject.optString("userId"));//固定值
+			teamJson.setCallType(jsonObject.optString("callType"));//固定值
 		}
 		return teamJson;
 	}
@@ -117,6 +118,7 @@ public class WYUtils {
 		pushPayload.put("id", "3");
 		pushPayload.put("userId", teamJson.getUserId());//发起人id
 		pushPayload.put("members", teamJson.getMembers());
+		pushPayload.put("callType",teamJson.getCallType());
 		notification.setContent(new Gson().toJson(pushPayload));
 		NIMClient.getService(MsgService.class).sendCustomNotification(notification);
 	}
@@ -146,7 +148,7 @@ public class WYUtils {
 		NIMClient.getService(MsgService.class).sendCustomNotification(notification);
 	}
 
-	public static void notifyToAllUserBanYan(Context context, List<String> members, String role, String story) {
+	public static void notifyToAllUserBanYan(Context context, List<String> members, String role, String story,String ppid) {
 		if (members == null) {
 			ToastUtils.showToast(context, "未匹配到小伙伴！", 1);
 			return;
@@ -167,6 +169,7 @@ public class WYUtils {
 			pushPayload.put("role", role);
 			pushPayload.put("story", story);
 			pushPayload.put("teamName", DBUtils.getUserNickName());
+			pushPayload.put("ppid", ppid);
 			notification.setContent(new Gson().toJson(pushPayload));
 			NIMClient.getService(MsgService.class).sendCustomNotification(notification);
 		}
@@ -179,7 +182,7 @@ public class WYUtils {
 	 * @param role
 	 * @param story
 	 */
-	public static void notifyToUserBanYan(Context context, String targetId, String role, String story) {
+	public static void notifyToUserBanYan(Context context, String targetId, String role, String story,String ppid) {
 		if (targetId == null) {
 			ToastUtils.showToast(context, "未找到小伙伴！", 1);
 			return;
@@ -198,6 +201,7 @@ public class WYUtils {
 		pushPayload.put("role", role);
 		pushPayload.put("story", story);
 		pushPayload.put("teamName", DBUtils.getUserNickName());
+		pushPayload.put("ppid", ppid);
 		notification.setContent(new Gson().toJson(pushPayload));
 		NIMClient.getService(MsgService.class).sendCustomNotification(notification);
 	}
@@ -281,6 +285,15 @@ public class WYUtils {
 		private String callerName;//呼叫人名字
 		private String id;
 		private String userId;
+		private String callType;//1 (一键匹配)  2(专属匹配)
+
+		public String getCallType() {
+			return callType == null ? "" : callType;
+		}
+
+		public void setCallType(String callType) {
+			this.callType = callType;
+		}
 
 		public TeamJson() {
 		}

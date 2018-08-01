@@ -414,9 +414,8 @@ public class QXCallApplication extends MultiDexApplication {
 							}else if (jsonObject.getInt("msg_type") == 13) {//抛话题
 								Type type=new TypeToken<PaoHuaTiResponse>(){}.getType();
 								PaoHuaTiResponse paoHuaTiResponse=new Gson().fromJson(content,type);
-//								PaoHuaTiCallActivity.start();
+								PaoHuaTiCallActivity.start(context,paoHuaTiResponse);
 //								{"time":"2018-07-27 18:29","gift_info":{"git_num":1},"msg":"Sincerly 进入你的话题【999999999999999999999999999】","member_info":{"nick_name":"Sincerly","icon":"http:\/\/116.62.217.183\/storage\/avatar\/2018\/07\/24\/avatar_1532415615_10195.png","sex":1,"num":7,"title":"999999999999999999999999999","is_vip":0,"gid":102,"user_id":10195,"member_id":10208},"msg_type":13,"member_id":10195}
-//								PaoHuaTiCallActivity.start();
 							}else {//其他系统通知（充值成功、系统消息推送等）1
 								notifyBean.setContent(jsonObject.getString("msg"));
 								notifyBean.setMsgType(String.valueOf(jsonObject.getInt("msg_type")));
@@ -430,14 +429,13 @@ public class QXCallApplication extends MultiDexApplication {
 								case "3":
 									LogUtils.e("收到匹配通知" + jsonObject.toString());
 									WYUtils.TeamJson teamJson = WYUtils.parseCustom(jsonObject);
-									String type= jsonObject.optString("callType");
 									//type: 1系统匹配2专属匹配3角色扮演
 									if (DBUtils.getUserId() != null && DBUtils.getUserId().equals(teamJson.getUserId())) {
 										LogUtils.e("收到自己通知");
 										return;
 									}
 									LogUtils.e("通知解析后:" + new Gson().toJson(teamJson));
-									PiPeiCallActivity.start(getApplicationContext(), teamJson.getCallerName(), teamJson.getRoomName(), teamJson.getUserId(), "1", teamJson.getTeamId(), teamJson.getMembers());
+									PiPeiCallActivity.start(getApplicationContext(), teamJson.getCallerName(), teamJson.getRoomName(), teamJson.getUserId(), teamJson.getCallType(), teamJson.getTeamId(), teamJson.getMembers(),teamJson.getCallType());
 									break;
 								case "4"://群主解散房间通知/房间成员退出通知
 									LogUtils.e("群主解散房间通知/房间成员退出通知");
@@ -453,8 +451,9 @@ public class QXCallApplication extends MultiDexApplication {
 										String role=jsonObject.optString("role");//0代表左边  1代表右边
 										String story=jsonObject.optString("story");//故事类型 0:教师VS学生 1:亲王VS宠妃 2:护士VS病人 3:大叔VS萝莉 4:空姐VS乘客 5:老板VS秘书
 										String teamName=jsonObject.optString("teamName");//teamName 发起者的昵称
-										LogUtils.e("收到扮演通知"+"teamId:"+teamId+" role:"+role+" story:"+story+" teamName:"+teamName);
+										String ppid=jsonObject.optString("ppid");//ppid
 
+										LogUtils.e("收到扮演通知"+"teamId:"+teamId+" role:"+role+" story:"+story+" teamName:"+teamName+"ppid:"+ppid);
 										List<String> members = new ArrayList<>();
 										JSONArray jsonArray = jsonObject.optJSONArray("members");
 										if (jsonArray != null) {
@@ -464,7 +463,7 @@ public class QXCallApplication extends MultiDexApplication {
 											}
 										}
 										if(canRequest){
-											getUserInfo(teamId,context,members,role,teamId,story,teamName);
+											getUserInfo(teamId,context,members,role,teamId,story,teamName,ppid);
 										}
 //										NimUIKit.startP2PSessionWithJiaoSe(getApplicationContext(),members,role,teamId,story,teamName);
 									} catch (JSONException e) {
@@ -857,7 +856,7 @@ public class QXCallApplication extends MultiDexApplication {
 	 * 获取用户信息
 	 * @param userId
 	 */
-	private void getUserInfo(String userId,Context context, List<String> members, String role, String teamId, String story, String teamName){
+	private void getUserInfo(String userId,Context context, List<String> members, String role, String teamId, String story, String teamName,String ppid){
 		canRequest=false;
 		String authorization = "Bearer " + DBUtils.getUserToken();
 		HomeModel.getHomeModel().getUserInfo(new Subscriber<UserDetailInfo>() {
@@ -880,7 +879,7 @@ public class QXCallApplication extends MultiDexApplication {
 				LogUtils.e("角色匹配通知获取用户头像onNext");
 				if (userDetailInfo.getStatus_code() == 200) {
 					String avatar=userDetailInfo.getData().getMember_avatar();//发起人用户头像
-					PiPeiCallActivity.start(context, members, role,teamId,story, teamName,avatar);
+					PiPeiCallActivity.start(context, members, role,teamId,story, teamName,avatar,ppid);
 				}
 			}
 		}, String.valueOf(userId), authorization);
