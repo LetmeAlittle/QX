@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,94 +81,94 @@ import static com.ttt.qx.qxcall.QXCallApplication.login;
 
 public class FivePage extends BasePager implements View.OnClickListener {
 
-    @BindView(R.id.multipleStatusView)
-    MultipleStatusView multipleStatusView;
-    @BindView(R.id.status_bar2)
-    View statusBar2;
-    @BindView(R.id.status_bar)
-    View statusBar;
-    @BindView(R.id.tv_public_titlebar_right)
-    TextView tvPublicTitlebarRight;
-    @BindView(R.id.tv_public_titlebar_center)
-    TextView tvPublicTitlebarCenter;
-    @BindView(R.id.status_bar3)
-    View statusBar3;
-    @BindView(R.id.ll_public_titlebar_right)
-    LinearLayout llPublicTitlebarRight;
-    @BindView(R.id.civ_head)
-    CircleImageView civHead;
-    @BindView(R.id.tv_nickname)
-    TextView tvNickname;
-    @BindView(R.id.iv_vip)
-    ImageView ivVip;
-    @BindView(R.id.tv_currId)
-    TextView tvCurrId;
-    @BindView(R.id.iv_sex)
-    ImageView ivSex;
-    @BindView(R.id.ll_pengyouquan)
-    LinearLayout llPengyouquan;
-    @BindView(R.id.ll_wodeshouyi)
-    LinearLayout llWodeshouyi;
-    @BindView(R.id.ll_chongzhi)
-    LinearLayout llChongzhi;
-    @BindView(R.id.ll_goumaivip)
-    LinearLayout llGoumaivip;
-    @BindView(R.id.ll_huiyuanzhongxin)
-    LinearLayout llHuiyuanzhongxin;
-    @BindView(R.id.ll_gouliangqu)
-    LinearLayout llGouliangqu;
-    @BindView(R.id.ll_liaorenqu)
-    LinearLayout llLiaorenqu;
-    @BindView(R.id.ll_liwubang)
-    LinearLayout llLiwubang;
-    @BindView(R.id.ll_shoufeibiaozhun)
-    LinearLayout llShoufeibiaozhun;
-    @BindView(R.id.ll_wodeyaoqing)
-    LinearLayout llWodeyaoqing;
-    @BindView(R.id.ll_heimingdan)
-    LinearLayout llHeimingdan;
-    @BindView(R.id.ll_shouhu)
-    LinearLayout llShouhu;
-    @BindView(R.id.tv_fenshi)
-    TextView tvFenshi;
-    @BindView(R.id.tv_guanzhu)
-    TextView tvGuanzhu;
-    @BindView(R.id.tv_dianzan)
-    TextView tvDianzan;
-    @BindView(R.id.tv_fangke)
-    TextView tvFangke;
-    @BindView(R.id.ll_fenshi)
-    LinearLayout llFenshi;
-    @BindView(R.id.ll_guanzhu)
-    LinearLayout llGuanzhu;
-    @BindView(R.id.ll_dianzan)
-    LinearLayout llDianzan;
-    @BindView(R.id.ll_fangke)
-    LinearLayout llFangke;
-    @BindView(R.id.sv_scrollview)
-    ObservableScrollView svScrollView;
-    @BindView(R.id.ll_titlebar_bg)
-    LinearLayout llTitlebarBg;
-    @BindView(R.id.online_status_switch_btn)
-    SwitchButton onlineStatusSwitchBtn;
-    @BindView(R.id.tv_dogs)
-    TextView tvDogs;
-    UserDetailInfo.DataBean userDetailInfoData;
-    @BindView(R.id.tv_shouhunum)
-    TextView tvShouhunum;
-    private View rootView;
-    private String authorization;
-    private boolean firstEnter = true;
-    /**
-     * 弹出分享面板
-     */
-    private UserShareInfo.DataBean shareInfoData = null;
-    private ShareBoardlistener shareBoardlistener = new ShareBoardlistener() {
+	@BindView(R.id.multipleStatusView)
+	MultipleStatusView multipleStatusView;
+	@BindView(R.id.status_bar2)
+	View statusBar2;
+	@BindView(R.id.status_bar)
+	View statusBar;
+	@BindView(R.id.tv_public_titlebar_right)
+	TextView tvPublicTitlebarRight;
+	@BindView(R.id.tv_public_titlebar_center)
+	TextView tvPublicTitlebarCenter;
+	@BindView(R.id.status_bar3)
+	View statusBar3;
+	@BindView(R.id.ll_public_titlebar_right)
+	LinearLayout llPublicTitlebarRight;
+	@BindView(R.id.civ_head)
+	CircleImageView civHead;
+	@BindView(R.id.tv_nickname)
+	TextView tvNickname;
+	@BindView(R.id.iv_vip)
+	ImageView ivVip;
+	@BindView(R.id.tv_currId)
+	TextView tvCurrId;
+	@BindView(R.id.iv_sex)
+	ImageView ivSex;
+	@BindView(R.id.ll_pengyouquan)
+	LinearLayout llPengyouquan;
+	@BindView(R.id.ll_wodeshouyi)
+	LinearLayout llWodeshouyi;
+	@BindView(R.id.ll_chongzhi)
+	LinearLayout llChongzhi;
+	@BindView(R.id.ll_goumaivip)
+	LinearLayout llGoumaivip;
+	@BindView(R.id.ll_huiyuanzhongxin)
+	LinearLayout llHuiyuanzhongxin;
+	@BindView(R.id.ll_gouliangqu)
+	LinearLayout llGouliangqu;
+	@BindView(R.id.ll_liaorenqu)
+	LinearLayout llLiaorenqu;
+	@BindView(R.id.ll_liwubang)
+	LinearLayout llLiwubang;
+	@BindView(R.id.ll_shoufeibiaozhun)
+	LinearLayout llShoufeibiaozhun;
+	@BindView(R.id.ll_wodeyaoqing)
+	LinearLayout llWodeyaoqing;
+	@BindView(R.id.ll_heimingdan)
+	LinearLayout llHeimingdan;
+	@BindView(R.id.ll_shouhu)
+	LinearLayout llShouhu;
+	@BindView(R.id.tv_fenshi)
+	TextView tvFenshi;
+	@BindView(R.id.tv_guanzhu)
+	TextView tvGuanzhu;
+	@BindView(R.id.tv_dianzan)
+	TextView tvDianzan;
+	@BindView(R.id.tv_fangke)
+	TextView tvFangke;
+	@BindView(R.id.ll_fenshi)
+	LinearLayout llFenshi;
+	@BindView(R.id.ll_guanzhu)
+	LinearLayout llGuanzhu;
+	@BindView(R.id.ll_dianzan)
+	LinearLayout llDianzan;
+	@BindView(R.id.ll_fangke)
+	LinearLayout llFangke;
+	@BindView(R.id.sv_scrollview)
+	ObservableScrollView svScrollView;
+	@BindView(R.id.ll_titlebar_bg)
+	LinearLayout llTitlebarBg;
+	@BindView(R.id.online_status_switch_btn)
+	SwitchButton onlineStatusSwitchBtn;
+	@BindView(R.id.tv_dogs)
+	TextView tvDogs;
+	UserDetailInfo.DataBean userDetailInfoData;
+	@BindView(R.id.tv_shouhunum)
+	TextView tvShouhunum;
+	private View rootView;
+	private String authorization;
+	private boolean firstEnter = true;
+	/**
+	 * 弹出分享面板
+	 */
+	private UserShareInfo.DataBean shareInfoData = null;
+	private ShareBoardlistener shareBoardlistener = new ShareBoardlistener() {
 
-        @Override
-        public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
-            //邀请分享
-            UMWeb web = new UMWeb(shareInfoData.getUrl());
+		@Override
+		public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+			//邀请分享
+			UMWeb web = new UMWeb(shareInfoData.getUrl());
 //            Bitmap bitmap = BitmapFactory.decodeResource(InvitedFriendsActivity.this.getResources(), R.mipmap.app_right_icon);
             UMImage umImage = new UMImage(ctx, shareInfoData.getImg());
             web.setTitle(shareInfoData.getTitle());//标题

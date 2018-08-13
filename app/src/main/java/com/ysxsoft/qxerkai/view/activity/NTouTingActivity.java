@@ -73,9 +73,9 @@ public class NTouTingActivity extends NBaseActivity {
 
     private void initView() {
         lineViews.add(viewTopline1);
-        lineViews.add(viewTopline2);
+//        lineViews.add(viewTopline2);
         fragments.add(new TouTingOneFragment());
-        fragments.add(new TouTingTwoFragment());
+//        fragments.add(new TouTingTwoFragment());
         vpActivityTouTing.setOffscreenPageLimit(fragments.size());
         vpActivityTouTing.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
         vpActivityTouTing.setOnPageChangeListener(new PageChangeListener());

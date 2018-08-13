@@ -280,7 +280,7 @@ public class NLoginActivity extends NBaseActivity implements View.OnClickListene
 //            Toast.makeText(NLoginActivity.this, "授权取消" , Toast.LENGTH_LONG).show();
         }
     };
-
+    private String n="",g="";
     /**
      * 微信三方登录
      *
@@ -293,6 +293,8 @@ public class NLoginActivity extends NBaseActivity implements View.OnClickListene
         String iconurl = data.get("iconurl").toString();
         String name = data.get("name").toString();
         String gender = data.get("gender").toString();
+        n=name;
+        g=gender;
         switch (LOGING_TYPE) {
             case QQ:
                 LoginModel.getLoginModel().qqLogin(new Subscriber<ThreeLoginResponse>() {
@@ -432,6 +434,11 @@ public class NLoginActivity extends NBaseActivity implements View.OnClickListene
                                 LoginSuccess loginSuccess = new LoginSuccess();
                                 loginSuccess.token = token;
                                 EventBus.getDefault().post(loginSuccess);
+//                                startActivity(new Intent(NLoginActivity.this,NRegisterUserEditActivity.class)
+//                                        .putExtra("token",token)
+//                                        .putExtra("phone",n)
+//                                        .putExtra("g",g)
+//                                        .putExtra("pwd",""));
                                 onFinish();
                             } else {
                                 closeDialog();
@@ -442,7 +449,9 @@ public class NLoginActivity extends NBaseActivity implements View.OnClickListene
                     break;
             }
         }
-    }; @Override
+    };
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // TODO: 2017/7/31 QQ与新浪不需要添加Activity，但需要在使用QQ分享或者授权的Activity中，添加：

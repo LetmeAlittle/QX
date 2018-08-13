@@ -379,6 +379,9 @@ public class NRegisterActivity extends NBaseActivity implements View.OnClickList
 
             @Override
             public void onNext(UserInfoSave userInfoSave) {
+                n=name;
+                g=gender;
+                i=iconurl;
                 if (userInfoSave.getStatus_code() == 200) {
                     new Thread() {
                         @Override
@@ -398,6 +401,8 @@ public class NRegisterActivity extends NBaseActivity implements View.OnClickList
             }
         }, name, gender.equals("男") ? "1" : "2", "", authorization);
     }
+
+    private String n,g,i;
 
     Handler handler = new Handler() {
         @Override
@@ -420,10 +425,15 @@ public class NRegisterActivity extends NBaseActivity implements View.OnClickList
                         public void onNext(UploadImgResponse uploadImgResponse) {
                             if (uploadImgResponse.getStatus_code() == 200) {
                                 closeDialog();
-                                LoginSuccess loginSuccess = new LoginSuccess();
-                                loginSuccess.token = token;
-                                EventBus.getDefault().post(loginSuccess);
-                                EventBus.getDefault().post(new FinishLogin());
+//                                LoginSuccess loginSuccess = new LoginSuccess();
+//                                loginSuccess.token = token;
+//                                EventBus.getDefault().post(loginSuccess);
+//                                EventBus.getDefault().post(new FinishLogin());
+
+                                startActivity(new Intent(NRegisterActivity.this,NRegisterUserEditActivity.class)
+                                        .putExtra("token",token)
+                                        .putExtra("phone",n)
+                                        .putExtra("pwd",""));
                                 finish();
                             } else {
                                 closeDialog();

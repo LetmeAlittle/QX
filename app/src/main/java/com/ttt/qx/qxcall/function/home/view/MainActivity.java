@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +38,10 @@ import com.ttt.qx.qxcall.utils.crash.CrashHandler;
 import com.ttt.qx.qxcall.utils.crash.CrashListener;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMShareAPI;
+import com.ysxsoft.qxerkai.net.ResponseSubscriber;
+import com.ysxsoft.qxerkai.net.RetrofitTools;
+import com.ysxsoft.qxerkai.net.response.BaseResponse;
+import com.ysxsoft.qxerkai.utils.DBUtils;
 import com.ysxsoft.qxerkai.view.activity.NLoginActivity;
 import com.ysxsoft.qxerkai.view.fragment.FivePage;
 import com.ysxsoft.qxerkai.view.fragment.OnePage;
@@ -206,9 +211,29 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                     group.getChildAt(selectedPostion).startAnimation(animation);
                     break;
             }
+            updateTime();
             setSelection();
         }
         codeSetting = false;
+    }
+
+    private void updateTime(){
+        Map<String, String> map = new HashMap<>();
+        map.put("user_id", DBUtils.getUserId());
+        RetrofitTools.updateTime(map)
+                .subscribe(new ResponseSubscriber<BaseResponse>() {
+                    @Override
+                    public void onSuccess(BaseResponse baseResponse, int code, String msg) {
+                        if (code == 200) {
+                        } else {
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Throwable e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     /**

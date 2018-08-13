@@ -263,7 +263,8 @@ public class NQingQuListActivity extends NBaseActivity implements BaseQuickAdapt
                         public void onSuccess(BaseResponse baseResponse, int code, String msg) {
                             if (code == 200) {
                                 refreshAdapter();
-                                ObserverMap.notify("MainActivity");
+//                                ObserverMap.notify("MainActivity");
+                                ObserverMap.notifyAllPage();
                             }
                         }
 

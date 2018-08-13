@@ -19,6 +19,7 @@ import com.ysxsoft.qxerkai.net.response.GetPiPeiListResponse;
 import com.ysxsoft.qxerkai.net.response.GetTouTingDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetTouTingListResponse;
 import com.ysxsoft.qxerkai.net.response.GetQuestionRespose;
+import com.ysxsoft.qxerkai.net.response.GouLiangTop;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
 import com.ysxsoft.qxerkai.net.response.MemberListResponse;
@@ -86,8 +87,10 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.PI_PEI_YI_JIAN;
 import static com.ttt.qx.qxcall.constant.CommonConstant.PUSH_COMMENT;
 import static com.ttt.qx.qxcall.constant.CommonConstant.RULE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_COMMIT;
+import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_DELETE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIKE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_LIST;
+import static com.ttt.qx.qxcall.constant.CommonConstant.SA_GOU_LIANG_TOP;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_fjs;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_guanzhur;
 import static com.ttt.qx.qxcall.constant.CommonConstant.SRDZ_search;
@@ -100,6 +103,7 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_START;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TOU_TING_TAG;
 import static com.ttt.qx.qxcall.constant.CommonConstant.TWO_PAGE_USER_LIST;
 import static com.ttt.qx.qxcall.constant.CommonConstant.UPDATE_DOUZI;
+import static com.ttt.qx.qxcall.constant.CommonConstant.UPDATE_TIME;
 import static com.ttt.qx.qxcall.constant.CommonConstant.UPDATE_USER_CATE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.UPDATE_PHONE;
 import static com.ttt.qx.qxcall.constant.CommonConstant.UPDATE_PWD;
@@ -110,6 +114,26 @@ import static com.ttt.qx.qxcall.constant.CommonConstant.USER_SHOUHU;
 import static com.ttt.qx.qxcall.constant.CommonConstant.USER_XIAO_FEI_NUM;
 
 public interface RetrofitApi {
+
+	/**
+	 * 撒狗粮列表
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(SA_GOU_LIANG_TOP)
+	Observable<GouLiangTop> saGouLiangTop(@FieldMap Map<String, String> map);
+
+	/**
+	 * 撒狗粮Top列表
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(UPDATE_TIME)
+	Observable<BaseResponse> updateTime(@FieldMap Map<String, String> map);
 
 	/**
 	 * 撒狗粮列表
@@ -130,6 +154,16 @@ public interface RetrofitApi {
 	@FormUrlEncoded
 	@POST(SA_GOU_LIANG_LIKE)
 	Observable<SaGouLiangLikeResponse> likeSaGouLiang(@FieldMap Map<String, String> map);
+
+	/**
+	 * 撒狗粮删除
+	 *
+	 * @param map
+	 * @return
+	 */
+	@FormUrlEncoded
+	@POST(SA_GOU_LIANG_DELETE)
+	Observable<BaseResponse> deleteSaGouLiang(@FieldMap Map<String, String> map);
 
 	/**
 	 * 关于我们/我的收益规则/萨狗粮规则/萨狗粮奖品/使用说明/vip特权

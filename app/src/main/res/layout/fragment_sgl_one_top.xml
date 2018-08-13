@@ -34,19 +34,31 @@
             android:scaleType="center"
             android:src="@mipmap/fragment_sgl_zhaopian_shangchuan"/>
 
-        <TextView
-            android:id="@+id/tv_likeNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_gravity="right|bottom"
             android:layout_marginRight="30dp"
             android:layout_marginBottom="15dp"
-            android:drawableLeft="@mipmap/gl_gutou_bai"
-            android:drawablePadding="5dp"
-            android:gravity="center"
-            android:text="12"
-            android:textColor="@color/white"
-            android:textSize="@dimen/normal_size"/>
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:text="狗粮数最多用户，一起围观打call啦！"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_likeNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/gl_gutou_bai"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="12"
+                android:textColor="@color/white"
+                android:textSize="@dimen/normal_size"/>
+        </LinearLayout>
     </FrameLayout>
 
 </LinearLayout>

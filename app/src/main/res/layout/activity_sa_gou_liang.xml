@@ -41,9 +41,10 @@
                     android:paddingTop="10dp">
 
                     <TextView
+                        android:id="@+id/top"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="获奖列表"
+                        android:text="狗粮TOP榜"
                         android:textColor="@color/white"
                         android:textSize="@dimen/middle_size"/>
 

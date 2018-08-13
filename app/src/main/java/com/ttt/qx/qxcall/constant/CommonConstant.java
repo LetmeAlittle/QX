@@ -76,8 +76,11 @@ public class CommonConstant {
     public static final String PHOTO_URL = BASE_PATH + "images";
     public static final String APK_PATH = BASE_PATH + "apk";
 
+	public static final String UPDATE_TIME = "api/uptime";                   					//更改时间
+	public static final String SA_GOU_LIANG_TOP = "/api/dogrank";                   			//撒狗粮top榜
 	public static final String SA_GOU_LIANG_LIST = "api/friend/dogList";                   //撒狗粮列表  type[1讲故事 2发图片]   page
 	public static final String SA_GOU_LIANG_LIKE = "api/friend/dogLike";                  	//撒狗粮点赞  user_id  sid
+	public static final String SA_GOU_LIANG_DELETE = "api/friend/dogdel";                  	//删除  cid
 	public static final String SA_GOU_LIANG_COMMIT = "api/friend/publishDog";             	//发布撒狗粮  user_id  type[1讲故事 2发图片]  content[type为1必填]   file[type为2必填]
 	public static final String RULE = "/api/lucres";                                          	//网页规则    aid [1关于我们/2我的收益规则3/萨狗粮规则4/萨狗粮奖品5使用说明/6vip特权]
 	public static final String CARD_LIST = "api/friend/cardList";                           	//帖子列表  user_id  page   type [1老司机开车 2闺蜜私房话 3两性研究所 4剧本专区 5撩妹区 6撩汉区]

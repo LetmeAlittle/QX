@@ -1,5 +1,6 @@
 package com.ysxsoft.qxerkai.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -46,7 +47,8 @@ public class SaGouLiangActivity extends NBaseActivity {
     @BindView(R.id.tv_public_titlebar_center)
     TextView tvPublicTitlebarCenter;
     @BindView(R.id.prizeDescription)
-    TextView prizeDescription;
+    TextView prizeDescription;  @BindView(R.id.top)
+    TextView top;
     @BindView(R.id.multipleStatusView)
     MultipleStatusView multipleStatusView;
     @BindView(R.id.vp_activity_sagouliang)
@@ -107,6 +109,13 @@ public class SaGouLiangActivity extends NBaseActivity {
             @Override
             public void onClick(View v) {
                 parseRule("4");
+            }
+        });
+        top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(SaGouLiangActivity.this,NSaGouLiangTopActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -175,7 +184,12 @@ public class SaGouLiangActivity extends NBaseActivity {
                     public void onSuccess(RuleResponse ruleResponse, int code, String msg) {
                         if (code == 200) {
 //                            ToastUtil.showToast(SaGouLiangActivity.this, msg);
-                            BaseWebViewActivity.startWithContent(SaGouLiangActivity.this, ruleResponse.getData(),parseTitle(aid));
+
+                            String data=ruleResponse.getData();
+                            String d=data.replace("src=","style=\"width:100%\" src=");
+//                            data=<p><img src="http://www.qxcall.com//Public/upload/20180801/1533113918446889.png" title="1533113918446889.png" alt="image.png"/></p><p><br/></p><p><br/></p>
+
+                            BaseWebViewActivity.startWithContent(SaGouLiangActivity.this, d,parseTitle(aid));
                         }else{
                             ToastUtil.showToast(SaGouLiangActivity.this, msg);
                         }
@@ -183,7 +197,7 @@ public class SaGouLiangActivity extends NBaseActivity {
 
                     @Override
                     public void onFailed(Throwable e) {
-
+                        //e
                     }
                 });
     }

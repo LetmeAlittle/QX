@@ -83,8 +83,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text="删除"
+                    android:textColor="@color/btn_blue"
                     android:textSize="@dimen/normal_size"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                   />
 
                 <View
                     android:layout_width="wrap_content"
@@ -95,6 +97,7 @@
                     android:id="@+id/likeLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
 
                     <ImageView
                         android:id="@+id/goutou"

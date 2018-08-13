@@ -113,7 +113,9 @@ public class PengYouQuanDetailActivity extends NBaseActivity implements BaseQuic
                     ivTou.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startActivity(new Intent(PengYouQuanDetailActivity.this, NZhiLiaoActivity.class).putExtra("id", id).putExtra("accid", id+""));//查看好友资料
+                            fuid=getIntent().getIntExtra("id",-1);
+
+                            startActivity(new Intent(PengYouQuanDetailActivity.this, NZhiLiaoActivity.class).putExtra("id", fuid).putExtra("accid", fuid+""));//查看好友资料
                         }
                     });
                     tvNick.setText(data.getNick_name());

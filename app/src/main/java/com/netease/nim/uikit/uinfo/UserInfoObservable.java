@@ -10,7 +10,6 @@ import java.util.List;
  * 用户资料变动观察者。
  */
 public class UserInfoObservable {
-
     private List<UserInfoObserver> observers = new ArrayList<>();
     private Handler uiHandler;
 

@@ -93,7 +93,7 @@ public class ShouFeiBiaoZhunActivity extends NBaseActivity {
 
                     @Override
                     public void onFailed(Throwable e) {
-                        ToastUtils.showToast(ShouFeiBiaoZhunActivity.this, e.getMessage(), 0);
+//                        ToastUtils.showToast(ShouFeiBiaoZhunActivity.this, e.getMessage(), 0);
                     }
                 });
 //                IntentUtil.jumpIntent(ShouFeiBiaoZhunActivity.this, SetCallPriceActivity.class);

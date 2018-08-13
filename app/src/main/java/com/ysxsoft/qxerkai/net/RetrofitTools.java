@@ -20,6 +20,7 @@ import com.ysxsoft.qxerkai.net.response.GetPiPeiListResponse;
 import com.ysxsoft.qxerkai.net.response.GetTouTingDetailResponse;
 import com.ysxsoft.qxerkai.net.response.GetTouTingListResponse;
 import com.ysxsoft.qxerkai.net.response.GetQuestionRespose;
+import com.ysxsoft.qxerkai.net.response.GouLiangTop;
 import com.ysxsoft.qxerkai.net.response.GuardsListResponse;
 import com.ysxsoft.qxerkai.net.response.HaoYouListResponse;
 import com.ysxsoft.qxerkai.net.response.HomeItemList;
@@ -113,6 +114,27 @@ public class RetrofitTools {
     }
 
     /**
+     * 撒狗粮列表
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<BaseResponse> updateTime(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().updateTime(map));
+    }
+
+    /**
+     * 撒狗粮列表顶部
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<GouLiangTop> gouLiangTopList(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().saGouLiangTop(map));
+    }
+
+
+    /**
      * 撒狗粮点赞
      *
      * @param map
@@ -120,6 +142,16 @@ public class RetrofitTools {
      */
     public static Observable<SaGouLiangLikeResponse> likeSaGouLiang(Map<String, String> map) {
         return subscribe(RetrofitTools.getManager().likeSaGouLiang(map));
+    }
+
+    /**
+     * 撒狗粮点赞
+     *
+     * @param map
+     * @return
+     */
+    public static Observable<BaseResponse> deleteSaGouLiang(Map<String, String> map) {
+        return subscribe(RetrofitTools.getManager().deleteSaGouLiang(map));
     }
 
     /**

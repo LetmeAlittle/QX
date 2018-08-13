@@ -37,7 +37,7 @@ public interface HomeServiceApi {
 	 * @return
 	 */
 	@FormUrlEncoded
-	@POST("user/home")
+	@POST("api/user/home")
 	Observable<UserDetailInfo> getZhiLiao(@Field("id") String id, @Header("Authorization") String Authorization);
 
 	/**

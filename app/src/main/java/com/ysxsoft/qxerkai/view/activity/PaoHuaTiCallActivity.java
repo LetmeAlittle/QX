@@ -115,6 +115,5 @@ public class PaoHuaTiCallActivity extends AppCompatActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		AVChatSoundPlayer.instance().stop();
 	}
 }
